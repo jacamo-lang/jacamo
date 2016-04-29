@@ -1,0 +1,36 @@
+#!/bin/bash
+
+CURDIR=`pwd`
+JACAMO_HOME=`dirname $0`
+cd "$JACAMO_HOME/.."
+JACAMO_HOME=`pwd`
+cd $CURDIR
+
+OS=`uname`
+
+if [ -z $JDK_HOME ] ; then
+    if [ -n $JAVA_HOME ] ; then
+	JDK_HOME=$JAVA_HOME
+    fi
+fi
+
+if [ -z $JDK_HOME ] ; then
+	if [ $OS == Darwin ] ; then
+		JDK_HOME=/usr
+	fi
+fi
+
+# check JDK_HOME
+if [ ! -f $JDK_HOME/bin/javac ] ; then
+   echo JDK_HOME is not properly set!
+fi
+
+export PATH="$JDK_HOME/bin":$PATH
+
+DPAR=""
+if [ $OS == Darwin ] ; then
+	DPAR="-Dapple.laf.useScreenMenuBar=true"
+fi
+
+# run jacamo application
+java -classpath $JACAMO_HOME/lib/jacamo.jar:$JACAMO_HOME/lib/jason.jar jacamo.infra.RunJaCaMoProject $1

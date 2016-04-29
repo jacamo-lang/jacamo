@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="*.asl" kind="src" path="src/asl"/>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="lib" path="../../lib/c4jason.jar"/>
+	<classpathentry kind="lib" path="../../lib/cartago.jar"/>
+	<classpathentry kind="lib" path="../../lib/jacamo.jar"/>
+	<classpathentry kind="lib" path="../../lib/jason.jar"/>
+	<classpathentry kind="lib" path="../../lib/moise.jar"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

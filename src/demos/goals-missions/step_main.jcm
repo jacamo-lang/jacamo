@@ -1,0 +1,45 @@
+/* 
+
+    JaCaMo Project File 
+    
+    This file defines the initial state of the MAS (initial agents, environment, organisation, ....)
+    
+    (see below the documentation about what can be defined in this file)
+
+*/
+mas step_main {
+
+    agent org_agent {
+    	join: server
+    }
+    
+    workspace server {
+    	artifact msg_console: easss.step.GUIConsole
+    	artifact calculator : easss.step.Calculator	
+		artifact lock       : easss.step.Lock
+	    artifact barrier    : easss.step.Barrier
+    }
+    
+    organisation org : org-spec.xml {
+    	group easssGr :easssGr {
+    		responsible-for: easssSch
+    		debug
+    		
+			players: org_agent computer
+    	}
+    	scheme easssSch : easssSch {
+    		debug
+    	}
+    }
+    
+    // java class path
+    class-path:  lib
+   
+    // agent source path
+    asl-path: src/agt
+              src/agt/inc
+
+  
+    platform: cartago("infrastructure")
+    
+}

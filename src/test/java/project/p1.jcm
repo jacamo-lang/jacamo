@@ -1,0 +1,90 @@
+mas test_1 {
+
+  agent bob {
+    beliefs:     product("banana","this is a condition",15000)
+                 rft(gui)
+    goals:       start
+                 go(home)    
+    instances:   3
+    node:        n1  
+
+    focus:   w1.mycounter
+    join:    o1
+    roles:   role1 in o1.myfirstgroup, role2 in o1.myfirstgroup
+  }
+
+  agent alice : bob.asl {
+  	join: w1
+	focus: acounter
+    roles: role3 in g4
+    verbose: 0
+    debug: mindinspector(file(cycle,xml,log))
+  }
+  
+  agent marcos : bob.asl
+  agent carlos : bob.asl
+
+  agent olivier {
+        join: w5
+        focus: acounter @ somenodeid
+  }
+  
+  workspace w1 {
+    artifact c1: cartago.tools.Clock() {
+    }
+    artifact mycounter: test.Counter("a counter", 10)
+
+    node: n1
+  }
+  workspace w2 {
+    artifact acounter: test.Counter("another counter", 100) 
+    node: n3
+  }
+  
+  workspace w5 {
+    artifact rcounter: test.Counter("remote counter", 100) {
+        focused-by: marcos
+    }
+    artifact counter_for_all: test.Counter("universal counter", 100) {
+        focused-by: *
+    }
+  }
+  
+  organisation o1 : o1-test.xml {
+    node: n2
+    
+    group myfirstgroup : papergr {
+        responsible-for: s1
+	    debug
+    } 
+    
+    group mysecondgroup : papergr {
+        owner: bob
+        group g2: at {
+            group g4: t2 {
+               owner: alice
+            }
+        }
+        group g3: at {
+        }
+    }
+    
+    scheme s1 : attack {
+        debug
+    }
+    
+    scheme s2 : attack {
+        somepar: 45
+    }
+    
+  }
+
+  class-path:  bin/classes, ../../../bin/classes   // comment
+  asl-path:    ../../../src/templates
+                    
+  platform:  cartago("infrastructure")
+
+  //node n1@10.1.1.10:19 // used to define remote nodes
+  //node n2@10.1.1.10:20
+  node n10 running @ 10.1.1.17:30
+}

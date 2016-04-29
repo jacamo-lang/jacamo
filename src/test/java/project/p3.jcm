@@ -1,0 +1,36 @@
+mas auctionCent {
+
+   agent b : /t/files/x.asl {
+      instances: 5
+      ag-class: mypkg.MyAgent
+      ag-bb-class: my.bb
+      ag-arch: mypkg.Arch2
+               mypkg.Arch1
+      goals:  start
+              go(home)
+      beliefs: product("banana","this is a condition",15000)
+               rft(gui)
+      join: ww2 @ node1
+            anotherw @ node2
+      focus: ww2.c1
+             kk.c2 @ node45
+             yy.c3
+      osfile: "a/x.xml"         // app domain argument 
+      events: discard         // app domain argument 
+      blabla: 3         // app domain argument 
+      osarg: "the course"         // app domain argument
+   }
+
+   agent alice {
+   }
+
+   agent jorge
+
+   class-path: a
+               /opt/x.jar
+               ../lib/opt/x.jar
+   asl-path:   ./a2, /opt/x2.jar
+               ./src/agt
+   platform:     cartago(infrastructure)
+                 jade()
+}

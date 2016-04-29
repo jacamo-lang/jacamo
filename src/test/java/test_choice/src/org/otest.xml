@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
+
+<organisational-specification 
+    id="o"
+    os-version="0.8"
+  
+    xmlns='http://moise.sourceforge.net/os'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:schemaLocation='http://moise.sourceforge.net/os
+                        http://moise.sourceforge.net/xml/os.xsd' >
+    
+<structural-specification>
+
+<role-definitions>
+    <role id="role0" />
+    <role id="role1" />
+    <role id="role2" />
+</role-definitions>
+
+<group-specification id="g">
+    <roles>
+        <role id="role0" min="0" max="1"/>
+        <role id="role1" min="0" max="1"/>
+        <role id="role2" min="0" max="1"/>
+    </roles>
+ 
+    <formation-constraints>
+       <compatibility from="role1" to="role2" />
+    </formation-constraints>
+</group-specification>
+</structural-specification>
+
+<functional-specification>
+    <scheme id="s">
+        <goal id="goal1">
+            <plan operator="sequence">
+                <goal id="goal2"    ttf="20 minutes" ds="description goal2"/>
+                <goal id="goal3">
+                	<plan operator="choice">
+                		<goal id="g4" min="1"/>
+                		<goal id="g5" min="1"/>
+                		<goal id="g6" min="1"/>
+                	</plan>
+               	</goal>
+                <goal id="gend" >
+                	<depends-on goal="g5" />
+               	</goal>
+            </plan>
+        </goal>
+
+        <mission id="mission0" min="1" max="1">
+            <goal id="goal2"/>
+            <goal id="gend"/>
+        </mission>
+        <mission id="mission1" min="1" max="1">
+            <goal id="goal3"/>
+            <goal id="g5"/>
+            <goal id="g4"/>
+        </mission>
+        <mission id="mission2" min="1" max="1">
+            <goal id="g5"/>
+        </mission>
+    </scheme>
+</functional-specification>
+
+<normative-specification>
+    <norm id="norm1" type="obligation" role="role1" mission="mission1"/>
+    <norm id="norm2" type="obligation" role="role2" mission="mission2"/>
+    <norm id="norm3" type="obligation" role="role0" mission="mission0"/>
+</normative-specification>
+
+</organisational-specification>

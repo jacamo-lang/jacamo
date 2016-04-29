@@ -1,0 +1,16 @@
+// Interaction protocol for project <PROJECT_NAME>
+
+protocol <PROTOCOL_NAME> {
+	description: "Hello world protocol";
+	goals: "goal1";
+	participants:
+		player1 agent "role1" min 1 max 1;
+		player2 agent "role2" min 1 max 1;
+
+	states:
+		no1 initial;
+		no2 final;
+
+	transitions:
+		no1 - no2 # player1 -- message[tell] "hello_world" -> player2;
+}

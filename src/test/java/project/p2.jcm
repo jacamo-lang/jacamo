@@ -1,0 +1,7 @@
+mas tt uses p1,p3 { // another deployment for p1.jcm
+
+   node n3 @ x.bb.com.it
+   
+   platform:  cartago("infrastructure")
+              centralised(pool,4)
+}

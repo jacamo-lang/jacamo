@@ -1,0 +1,34 @@
+/* 
+
+	Test moise plans with choice operator
+
+*/
+
+mas test_choice {
+	agent maiquel {
+		debug: mindinspector(gui(2000,html,history))
+		roles: role0 in g1
+	}
+	
+	agent bob {
+		roles: role1 in g1
+	}
+	
+	agent alice {
+		roles: role2 in g1
+	}
+
+	organisation o1 : otest.xml {
+		group g1 : g {
+			responsible-for: s1
+		}
+		scheme s1 : s {
+			debug
+		}
+	}
+
+    // agent source path
+    asl-path: src/agt
+              src/agt/inc
+
+}

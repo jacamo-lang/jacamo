@@ -1,0 +1,28 @@
+/* 
+
+    JaCaMo Project File 
+
+    Demo with remote workspaces    
+
+    host h1 will run the workspace
+    host h2 will run the agent    
+
+    this project runs the agent on host h2
+        
+    (replace 10.0.1.17 by the host IP where h1.jcm is running)
+*/
+
+
+mas demo_distribution_2 {
+
+       agent bob {
+            focus: rw1.table @ n1
+       }
+
+       asl-path: src/agt, src/agt/inc
+       
+       platform: cartago()
+
+       node n1 running @ 134.157.244.212 // "running" implies that the node n1 will not be launched, but is already running 
+}
+

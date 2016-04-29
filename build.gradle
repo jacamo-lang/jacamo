@@ -1,0 +1,124 @@
+/* 
+   JaCaMo Gradle build file
+
+   https://github.com/jomifred/jacamo
+   
+*/
+
+plugins {
+  id "ca.coglinc.javacc" version "2.3.1"
+  // see https://github.com/johnmartel/javaccPlugin
+}
+
+defaultTasks 'jar'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+version '0.6-SNAPSHOT'
+group   'org.jacamo'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+    
+    maven {
+        url "http://jacamo.sourceforge.net/maven2"
+    }
+    
+    flatDir {
+	   dirs 'lib'
+    }
+}
+
+
+dependencies {
+    compile group: 'net.sf.jason', name: 'jason', version: '2.0.beta'
+    compile group: 'org.jacamo', name: 'npl' , version: '0.2-SNAPSHOT'
+    compile group: 'org.jacamo', name: 'moise' , version: '0.9-SNAPSHOT'
+    compile name: 'cartago'
+    compile name: 'c4jason'
+
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+jar {
+    baseName 'jacamo'
+}
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            
+            artifactId 'jacamo'
+        }
+    }
+}
+
+compileJavacc {
+    inputDirectory = file('src/main/javacc')
+    outputDirectory = file(project.buildDir.absolutePath + '/generated/javacc/jacamo/project/parser')
+}
+
+
+jjdoc {
+    outputDirectory = file(project.projectDir.absolutePath + '/doc')
+    //arguments = [text: 'true']
+}
+
+// transfer local maven artifact to our maven2 repository at sourceforge
+task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) << {
+    def wdir = System.getProperty("user.home")+'/.m2/repository/org/jacamo/jacamo'
+    def tdir = 'jomifred,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/maven2/org/jacamo/jacamo'
+    exec {
+        commandLine 'scp', '-r', project.version, tdir
+        workingDir wdir
+    }
+    exec {
+        commandLine 'cp', 'maven-metadata-local.xml', 'maven-metadata.xml'
+        workingDir wdir
+    }
+    exec {
+        commandLine 'scp', 'maven-metadata.xml', tdir
+        workingDir wdir
+    }
+}
+
+// Builds the distribution, documentation and a new release
+task release(dependsOn: [ 'build', 'jjdoc', 'javadoc', 'zipRel']) << {
+} 
+
+// copy files used to build a release
+task copyRel << {
+    copy {
+        from '.'      
+        into 'build/jacamo-'+project.version 
+        include '*.md'
+    }
+    copy {
+        from 'build/libs'
+        from configurations.runtime
+        //from 'lib'  
+        into 'build/jacamo-'+project.version+'/lib' 
+        include '**/*.jar'
+    }
+    copy {
+        from 'doc'      
+        into 'build/jacamo-'+project.version+'/doc' 
+    }
+    copy {
+        from 'examples'      
+        into 'build/jacamo-'+project.version+'/examples' 
+    }
+}
+
+// creates a zip file for a relase
+task zipRel(type: Zip, dependsOn: copyRel) << {
+    from 'build/jacamo-'+project.version
+    baseName 'jacamo'
+}

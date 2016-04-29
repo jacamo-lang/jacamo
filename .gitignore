@@ -1,3 +1,9 @@
+bin
+build
+
+*.log
+.stop___MAS
+
 *.class
 
 # Mobile Tools for Java (J2ME)

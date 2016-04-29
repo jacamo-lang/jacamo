@@ -1,0 +1,610 @@
+options {
+  STATIC=false;
+  UNICODE_INPUT=true;
+}
+
+PARSER_BEGIN(JaCaMoProjectParser)
+
+package jacamo.project.parser;
+
+import java.util.*;
+import java.io.*;
+import jacamo.project.*;
+import jason.mas2j.*;
+import jason.asSyntax.*;
+import jason.asSemantics.*;
+import jason.jeditplugin.*;
+import jason.asSyntax.ArithExpr.ArithmeticOp;
+import jason.asSyntax.LogExpr.LogicalOp;
+import jason.asSyntax.RelExpr.RelationalOp;
+
+public class JaCaMoProjectParser {
+
+
+    JaCaMoProject project = null;
+
+    // Methods from Jason ASL parser
+    
+    private String getSourceRef(SourceInfo s) {
+        if (s == null)
+            return "[]";
+        else
+            return "["+s.getSrcFile()+":"+s.getBeginSrcLine()+"]";
+    }
+    private String getSourceRef(DefaultTerm t) {
+        return getSourceRef( t.getSrcInfo());
+    }
+    private String getSourceRef(Object t) {
+        if (t instanceof DefaultTerm)
+            return getSourceRef((DefaultTerm)t);
+        else if (t instanceof SourceInfo)
+            return getSourceRef((SourceInfo)t);
+        else
+            return "[]";
+    }
+    private Term changeToAtom(Object o) {
+        Term u = (Term)o;
+        if (u == Literal.LTrue)
+            return u;
+        if (u == Literal.LFalse)
+            return u;
+        if (u.isAtom())
+           return new Atom((Literal)u);
+        return u; 
+    }
+    
+}
+
+PARSER_END(JaCaMoProjectParser)
+
+SKIP : {
+ " "
+|  "\t"
+//|  "\n"
+//|  "\r"
+|  <"//" (~["\n","\r"])* >
+|  <"/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">
+}
+
+TOKEN : {
+  <VAR : (<UP_LETTER> (<CHAR>)*) >
+}
+
+TOKEN : {
+
+// Predefined
+   <MAS:         "mas">
+|  <AGENT:       "agent">
+|  <INSTANCES:   "instances">
+|  <AGARCH:      "ag-arch">
+|  <AGCLASS:     "ag-class">
+|  <AGBBCLASS:   "ag-bb-class">
+|  <BELIEF:      "beliefs">
+|  <GOAL:        "goals">
+|  <NODE:        "node">
+|  <FOCUS:       "focus">
+|  <JOIN:        "join">
+|  <ROLES:       "roles">
+|  <IN:          "in">
+
+|  <USES:        "uses">
+|  <CLASSPATH:   "class-path">
+|  <ASLPATH:     "asl-path">
+|  <PLATFORM:    "platform">
+|  <DEBUG:       "debug">
+|  <RUNNING:     "running">
+
+
+|  <WORKSPACE:   "workspace">
+|  <ARTIFACT:    "artifact">
+|  <FOCUSED:     "focused-by"> 
+|  <AGENTS:      "agents">
+
+|  <ORG:         "organisation">
+|  <GROUP:       "group">
+|  <RESPFOR:     "responsible-for">
+|  <SCHEME:      "scheme">
+|  <PLAYERS:     "players">
+
+| <TK_TRUE:   "true">
+| <TK_FALSE:  "false">
+| <TK_NOT:    "not">
+| <TK_NEG:    "~">
+| <TK_INTDIV: "div">
+| <TK_INTMOD: "mod">
+| <TK_BEGIN:  "begin" >
+| <TK_END:    "end" >
+
+|  <EOL:         ("\n" | "\r" | "\r\n") >
+
+|  <IP:     (<DIGIT>)+ "." (<DIGIT>)+ "." (<DIGIT>)+ "." (<DIGIT>)+ >
+
+// Numbers
+|  <INT:    ["0"-"9"] (["0"-"9"])* >
+|  <REAL:   (["0"-"9"])* "." (["0"-"9"])+ (["e","E"] (["+","-"])? (["0"-"9"])+)?
+          | (["0"-"9"])+ (["e","E"] (["+","-"])? (["0"-"9"])+) >
+
+// Strings
+|  <STRING: 
+      "\""
+      (   (~["\"","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )*
+      "\""
+  >
+
+|  <AST:      "*" >
+
+|  <DOT:      "." >
+|  <DOTDOT:   "." ".">
+
+// Identifiers
+|  <ATOM      : (<LC_LETTER> | "." <CHAR>) (<CHAR> | "." <CHAR>)*>
+|  <UNNAMEDVAR: ("_" (<CHAR>)*) >
+|  <CHAR      : (<LETTER> | <DIGIT> | "_")>
+|  <LETTER    : ( <LC_LETTER> | <UP_LETTER> )>
+|  <LC_LETTER : ["a"-"z"]>
+|  <UP_LETTER : ["A"-"Z"]>
+|  <DIGIT     : ["0"-"9"]>
+
+}
+
+
+
+/* Configuration Grammar */
+
+JaCaMoProject parse(String directory) :           { Token masId; File f = null; ClassParameters cp; String h; Token id; boolean r;}
+{
+  (<EOL>)*
+
+  <MAS>
+  masId = <ATOM>               { project = new JaCaMoProject();
+                                 project.setSocName(masId.image); 
+                                 project.setDirectory(directory);
+                                 project.initAgMap();
+                               }
+                                  
+  [ <USES> 
+    f = fileName()            { project.importProject(directory,f); }     
+    ("," f = fileName()       { project.importProject(directory,f); } 
+    )*     
+  ]
+                                                               
+  (<EOL>)* "{" (<EOL>)*
+  
+  (agent())*
+  
+  (workspace())*
+  
+  (organisation())*
+  
+  (  
+      (  
+           <CLASSPATH>      ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f.toString());} ) * 
+        |  <ASLPATH>        ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addSourcePath(f.toString());} ) *
+        |  <PLATFORM>       ":"                                                         { project.resetPlatform(); } 
+                                 (LOOKAHEAD(4) cp = classDef()             (<EOL>|",")+ { project.addPlatformParameters(cp);} ) *
+        |  <NODE> id = <ATOM> 
+                                 { r = false; }  [ <RUNNING> { r = true;}] 
+                                 { h = null; }   ["@" h = host() ]         (<EOL>|",")+ { project.addNodeHost(id.image,h,r); }
+      )
+  )*
+  
+  "}" (<EOL>)*
+  
+  <EOF>
+                            { project.parserFinished(); return project; }
+}
+
+
+
+void agent() :              { Token agType; Token agName; Token qty; Token opt; Token t; Object oval; 
+                              JaCaMoAgentParameters ag = new JaCaMoAgentParameters(project);
+                              ClassParameters arch;
+                              Literal l;
+                              List<String> instances = new ArrayList<String>();
+                              String h = null; String n = null;
+                            }
+{
+  <AGENT> agName = <ATOM>
+                            { ag.name = agName.image;
+                              ag.asSource = new File(agName.image+".asl"); 
+                            }
+  [ ":" ag.asSource = fileName() 
+  ]
+                          
+  [
+  "{"  (<EOL>)*         
+
+    (  
+      (    <INSTANCES>   ":"  (LOOKAHEAD(4) oval=<INT>        (<EOL>|",")+       { ag.setNbInstances( new Integer(oval.toString())); }
+                              | (opt=<ATOM>                   (<EOL>|",")+       { instances.add(opt.image); }  )* 
+                              )
+        |  <NODE>        ":"  opt=<ATOM>                      (<EOL>)+           { ag.setHost(opt.image); } 
+        |  <AGARCH>      ":"  (LOOKAHEAD(4) arch = classDef() (<EOL>|",")+       { ag.insertArchClass(arch); })*
+        |  <AGCLASS>     ":"  ag.agClass = classDef()         (<EOL>)+
+        |  <AGBBCLASS>   ":"  ag.bbClass = classDef()         (<EOL>)+
+        |  <BELIEF>      ":"  (LOOKAHEAD(4) l=literal()       (<EOL>|",")+       { ag.addInitBel(l); } )*
+        |  <GOAL>        ":"  (LOOKAHEAD(4) l=literal()       (<EOL>|",")+       { ag.addInitGoal(l); } )*
+        |  <FOCUS>       ":"  (LOOKAHEAD(4) oval=<ATOM>                          { n = null; }
+                                  [ "@" t = <ATOM>                               { n = t.image; }
+                                  ]                           (<EOL>|",")+       { ag.addFocus(oval.toString(), n); } )*
+        |  <JOIN>        ":"  (LOOKAHEAD(4) oval=<ATOM>                          { n = null; }
+                                  [ "@" t = <ATOM>                               { n = t.image; }
+                                  ]                           (<EOL>|",")+       { ag.addWorkspace(oval.toString(), n); } )*
+        |  <ROLES>       ":"  (LOOKAHEAD(4) opt=<ATOM> <IN> oval=<ATOM>          { n = null; }
+                                  [ "@" t = <ATOM>                               { n = t.image; }
+                                  ]                           (<EOL>|",")+       { if (n != null) ag.addFocus(oval.toString(), n);
+                                                                                   ag.addRole(oval.toString(), opt.toString()); 
+                                                                                 } 
+                              )*    
+        |  <DEBUG>       ":"  oval=literal() (<EOL>|",")+                        { ag.addOption("debug", oval.toString()); }     
+        |  opt=<ATOM>    ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) 
+                                                              (<EOL>)+           { ag.addOption(opt.image,oval.toString()); } 
+      )
+    )*  
+  "}"
+  ] (<EOL>)*
+                           { if (instances.isEmpty()) {
+                                project.addAgent(ag);
+                             } else {
+                                for (String i: instances) {
+                                    AgentParameters na = ag.copy();
+                                    na.name = i;
+                                    project.addAgent(na);
+                                }
+                             } 
+                           }
+}
+
+void workspace() :          { Token t; 
+                              JaCaMoWorkspaceParameters wks = new JaCaMoWorkspaceParameters(project);
+                            }
+{
+  <WORKSPACE> t = <ATOM>    { wks.setName(t.image); }
+  "{"  (<EOL>)*         
+    (  
+      artifact(wks)   
+    | <AGENTS> ":"  ( (t = <ATOM> | t = <AST>) (<EOL>|",")+  { project.addAgWorkspace(t.image,wks); } )*
+    | <NODE>   ":"  t=<ATOM>                   (<EOL>)+      { wks.setNode(t.image); } 
+    | <DEBUG>                                  (<EOL>)+      { wks.setDebug(true); }  
+    )*
+  "}" (<EOL>)*
+                            { project.addWorkspace(wks); }
+}
+
+void artifact(JaCaMoWorkspaceParameters wks) : 
+                            { Token t; Token a;
+                              ClassParameters cp;
+                            }
+{
+  <ARTIFACT>  t = <ATOM> ":"  cp = classDef() { wks.addArtifact(t.image,cp); }  
+  ["{"  (<EOL>)*
+       [ <FOCUSED> ":"  ( (a = <ATOM> | a = <AST>) (<EOL>|",")+  { project.addAgFocus(a.image,t.image,wks); } )* ]
+   "}" 
+  ]
+  (<EOL>)*
+                            { project.addWorkspace(wks); }
+}
+
+
+void organisation() :       { Token t;  Token opt; Object oval;
+                              JaCaMoGroupParameters g;
+                              JaCaMoOrgParameters org = new JaCaMoOrgParameters(project);
+                            }
+{
+  <ORG> t = <ATOM>         { org.setName(t.image);
+                             if (project.getOrg(org.getName()) != null) {
+                                throw new ParseException("Organisation with id "+org.getName()+" already exists in the project!");                              
+                             } 
+                             org.addParameter("source",t.image+".xml");
+                           }
+  [ ":" oval = fileName()  { org.addParameter("source",oval.toString()); }
+  ] 
+  
+  "{"  (<EOL>)*         
+    (  
+       (
+              g = group(org)     { org.addGroup(g); } 
+           |  scheme(org)
+           |  <AGENTS>      ":"  (LOOKAHEAD(4) (t = <ATOM>  | t = <AST>) (<EOL>|",")+  { project.addAgWorkspace(t.image,org); } )*
+           |  <NODE>        ":"  opt=<ATOM>                              (<EOL>)+      { org.setNode(opt.image); } 
+           |  opt=<ATOM>    ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { org.addParameter(opt.image,oval.toString()); }
+       ) 
+    )*  
+  "}" (<EOL>)*
+                            { project.addOrg(org); }
+}
+
+JaCaMoGroupParameters group(JaCaMoOrgParameters org) :
+                           { Token t; Token r; Token type; Token opt; Object oval;
+                             JaCaMoGroupParameters sg;
+                             JaCaMoGroupParameters g = new JaCaMoGroupParameters(project);
+                           } 
+{
+  <GROUP> t = <ATOM> ":" type = <ATOM>               { g.setName(t.image); g.setType(type.image); }
+  [
+  "{"  (<EOL>)*         
+    (  
+       (
+              sg = group(org)                        { g.addSubGroup(sg); }                   
+           |  <RESPFOR>     ":" t = <ATOM>  (<EOL>)+ { g.addParameter("responsible-for", t.image); }  
+           |  <DEBUG>                       (<EOL>)+ { g.setDebug(true); }  
+           |  opt=<ATOM>    ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { g.addParameter(opt.image,oval.toString()); }
+           |  <PLAYERS>     ":"  (LOOKAHEAD(4) t = <ATOM> r = <ATOM> (<EOL>|",")+     { project.addAgRole(t.image, org, g, r.image); } )*
+       ) 
+    )*  
+  "}"
+  ] (<EOL>)*
+                            { 
+                              return g;
+                            }
+}
+
+void scheme(JaCaMoOrgParameters org) :
+                           { Token t; Token type; Token opt; Object oval;
+                             JaCaMoSchemeParameters s = new JaCaMoSchemeParameters(project);
+                           } 
+{
+  <SCHEME> t = <ATOM> ":" type = <ATOM>      { s.setName(t.image); s.setType(type.image); }
+  [
+  "{"  (<EOL>)*         
+  (  
+           <DEBUG>                       (<EOL>)+ { s.setDebug(true); }  
+         | opt=<ATOM>    ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { s.addParameter(opt.image,oval.toString()); }
+  )*  
+  "}"
+  ] (<EOL>)*
+                            { org.addScheme(s); }
+}
+
+/*
+void deployment(String directory): 
+                             { File f = null; ClassParameters cp; Token qty; Token id; Token th; String h; Token t;Token opt; Object oval;
+                               List<String> nodes = new ArrayList<String>();
+                             }
+{
+  <MASDEPLOY> 
+  [
+  ( t=<AST>              { nodes.add(t.image); }
+  | (id = <ATOM>         { nodes.add(id.image); }
+       ( "," id = <ATOM> { nodes.add(id.image); } )*
+    )
+  )
+  ]               
+  [ ":" f = fileName() ]     { if (project == null && f == null) {
+                                  throw new ParseException("Deployment without main MAS project");
+                               }
+                               if (f != null) {
+                                   // load project
+                                   try {
+                                       if (! f.exists()) {
+                                            f = new File(directory+"/"+f.toString());
+                                       }
+                                       JaCaMoProjectParser parser = new JaCaMoProjectParser(new FileReader(f.getAbsolutePath()) );
+                                       project = parser.parse(directory);
+                                   } catch (FileNotFoundException e) {
+                                       throw new ParseException("File not found "+f.getAbsolutePath()+"\n"+e);
+                                   }
+                               }
+                               project.resetDeploymentNode();
+                               for (String n: nodes) {
+                                   project.addDeploymentNode(n);
+                               }
+                               if (nodes.isEmpty()) {
+                                   project.addDeploymentNode("*");
+                               }
+                             }
+                             
+                             
+  "{" (<EOL>)*
+
+    (  
+      (  
+           <CLASSPATH>      ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f.toString());} ) * 
+        |  <ASLPATH>        ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addSourcePath(f.toString());} ) *
+        |  <PLATFORM>       ":"                                                         { project.resetPlatform(); } 
+                                 (LOOKAHEAD(4) cp = classDef()             (<EOL>|",")+ { project.addPlatformParameters(cp);} ) *
+        |  <NODE> id = <ATOM>  { h = null; } ["@" h = host() ]             (<EOL>|",")+ { project.addNodeHost(id.image,h); }
+        //|  <DEBUG>          ":" (id = <ATOM> 
+        //   [ "{" (<EOL>)*
+        //         (opt=<ATOM> ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { project.addDebugParameter(id.image,opt.image,oval.toString()); })* 
+        //   "}" ]
+        //                                                                   (<EOL>|",")+ { project.addDebugFor(id.image); })*
+        //|  <AGINST>         ":"  (qty = <INT> id = <ATOM>  { h = null; } ["@" h = host() ] 
+        //                                                      (<EOL>|",")+ { project.addAgInstance(id.image,qty.image,h); } )*
+        //|  <WKSINST>        ":"  (id = <ATOM>  { h = null; } ["@" h = host() ] 
+        //                                                      (<EOL>|",")+ { project.addWksInstance(id.image,h); } )*                                                                          
+      )
+    )*
+      
+  "}" (<EOL>)*
+}
+*/
+
+String host() :             { Token t; String host; Token n1; Token n2;Token n3;Token n4;}
+{
+    ( t = <ATOM>            { host = t.image; }
+    | t = <STRING>          { host = t.image; }
+    | t = <IP>              { host = t.image; }
+    )
+    [ ":" t = <INT>      { host += ":"+t.image; } ]
+                            { return host; }
+}
+
+
+
+File fileName() :           { String path = ""; 
+                              Token i;
+                            }
+{
+  (
+    (
+       "/"                  { path += "/"; }
+     | "-"                  { path += "-"; }
+     | i = <DOT>            { path += i.image; }
+     | i = <DOTDOT>         { path += i.image; }
+     | i = <ATOM>           { path += i.image; }
+    )+
+  |    i = <STRING>         { path = i.image; }
+  )
+                            {  return new File( path ); }
+}
+
+
+ClassParameters classDef() :  { Token c; String s; ClassParameters cp = new ClassParameters(); }
+{
+   (c = <VAR> | c = <ATOM>)              { cp.setClassName(c.image); }
+   (
+     "." (c = <VAR> | c = <ATOM>)        { cp.setClassName(cp.getClassName() + "." + c.image); }
+   )*
+   [
+     "("
+	   [
+	     (s=parameter())                { cp.addParameter(s); }
+   	     ( 
+   	       "," (s=parameter())          { cp.addParameter(s); }
+   	     )*
+   	   ]
+     ")"
+   ]
+                           { return cp; }
+}
+
+String parameter() :       { Token c; String s; ClassParameters cp; }
+{
+      ( cp=classDef()      { return cp.toString(); }
+      | c=<INT>            { return c.image; }
+      | c=<REAL>           { return c.image; }
+      | c=<STRING>         { return c.image; }
+      | s=listParameters() { return s; }
+      ) 
+}
+
+
+String listParameters() :  { String s; List l = new ArrayList(); }
+{
+     "["
+	     (s=parameter())       { l.add(s); }
+   	     ( 
+   	       "," s=parameter()   { l.add(s); }
+   	     )*
+     "]"
+                               { return l.toString(); }
+}
+
+
+// from Jason
+
+/* Literal */
+Literal literal() :           
+                              { Pred F; Token k; boolean type = Literal.LPos; }
+{
+  ( ( [ <TK_NEG>              { type = Literal.LNeg; }
+      ]
+      (F=pred()               { 
+                                return new LiteralImpl(type,F);
+                              }
+       | F = var()            {
+                                VarTerm vt = (VarTerm)F;
+                                vt.setNegated(type);
+                                return vt;
+                              }
+       )               
+    )
+  | k=<TK_TRUE>               { return Literal.LTrue; } 
+  | k=<TK_FALSE>              { return Literal.LFalse; } 
+  )
+}
+
+/* Annotated Formulae */
+Pred pred() :         { Token K; Pred p; List l; ListTerm lt; Term b; }
+{
+  (
+   K=<ATOM>
+   |
+   K=<TK_BEGIN>
+   |
+   K=<TK_END>
+  )                    { p = new Pred(K.image);
+                         //p.setSrcInfo(new SourceInfo(asSource, K.beginLine));
+                       } 
+  
+  [
+    "(" l = terms() 
+    ")"                { p.setTerms(l); }
+  ]
+  [ 
+    lt = list()        { p.setAnnots(lt); }
+  ] 
+                       { return p; }
+}
+
+
+/* List of terms */
+List terms() :    { ArrayList listTerms = new ArrayList(); Term v; PlanBody o; }
+{
+  v=term()             { listTerms.add(v); } 
+  ( "," v=term()       { listTerms.add(v); }
+  )* 
+                       { listTerms.trimToSize(); 
+                         return listTerms; 
+                       }
+}
+
+
+Term term() :          { Object o=null; Token K; }
+{
+  ( o=list()           
+  | o=literal()    
+  | o=string()
+  | K = <INT>          { return ASSyntax.parseNumber(K.image);  }  
+  | K = <REAL>         { return ASSyntax.parseNumber(K.image);  }  
+  )
+                       { return changeToAtom(o); }
+}
+
+
+ListTermImpl list() :     { ListTermImpl lt = new ListTermImpl(); ListTerm last; Token K; Term f; }
+{
+  "["
+  [
+  f=term()        { last = lt.append(f); lt.setSrcInfo(f.getSrcInfo()); }
+  ( "," f=term()  { last = last.append(f); }
+  )*
+  [ "|"  ( K=<VAR>        { last.setNext(new VarTerm(K.image)); }
+         | K=<UNNAMEDVAR> { last.setNext(UnnamedVar.create(K.image)); }
+         | f=list()       { last = last.concat((ListTerm)f); }
+         )           
+  ]
+  ]
+  "]"                     { return lt; } 
+}
+
+
+VarTerm var():      { Token K; VarTerm v; ListTerm lt; }
+{
+ ( K = <VAR>        { v = new VarTerm(K.image); 
+                      //v.setSrcInfo(new SourceInfo(asSource, K.beginLine));
+                    }
+ | K = <UNNAMEDVAR> { v = UnnamedVar.create(K.image); }
+ )
+ [ 
+   lt = list()      { v.setAnnots(lt); }
+ ]
+                    { return v; }
+}
+
+StringTerm string():{ Token k; StringTermImpl s; }
+{
+  k = <STRING>      { s = new StringTermImpl(k.image.substring(1,k.image.length()-1).replaceAll("\\\\n", "\n")); 
+                      //s.setSrcInfo(new SourceInfo(asSource,k.beginLine)); 
+                      return s;
+                    } 
+}
+

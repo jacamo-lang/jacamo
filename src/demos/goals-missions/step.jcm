@@ -1,0 +1,42 @@
+/* 
+
+    JaCaMo Project File 
+    
+    This file defines the initial state of the MAS (initial agents, environment, organisation, ....)
+    
+    (see below the documentation about what can be defined in this file)
+
+*/
+
+mas step {
+
+    agent userc : org_agent.asl {
+    	focus: server.msg_console @ n1
+    	roles: computer in org.easssGr @ n1
+    	instances:   1   
+    }
+
+    agent usero : org_agent.asl {
+    	focus: server.msg_console @ n1
+    	roles: greeter in org.easssGr @ n1
+    	instances:   1 
+    }
+
+    agent userg : org_agent.asl {
+    	join: server @ n1
+    	roles: observer in org.easssGr @ n1
+    	instances:   1   
+    }
+
+    // java class path
+    class-path:  lib
+   
+    // agent source path
+    asl-path: src/agt
+              src/agt/inc
+ 
+    platform: cartago()
+    
+    node n1 running @ localhost  
+}
+

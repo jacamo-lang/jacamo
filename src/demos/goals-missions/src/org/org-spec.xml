@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
+
+<organisational-specification 
+
+    id="easss"
+    os-version="0.8"
+  
+    xmlns='http://moise.sourceforge.net/os'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:schemaLocation='http://moise.sourceforge.net/os
+                        http://moise.sourceforge.net/xml/os.xsd' >
+    
+    <structural-specification>
+
+        <role-definitions>
+            <role id="student"></role><role id="greeter">
+				<extends role="student" /></role>
+            <role id="observer">
+            	<extends role="student" />
+            </role>
+            <role id="computer">
+            	<extends role="student" />
+            </role>
+        </role-definitions>
+
+        <group-specification id="easssGr">
+            <roles>
+                <role id="greeter" min="1" max="5" />
+                <role id="observer" min="1" max="5" />
+                <role id="computer" min="1" max="5" />
+            </roles>
+            <links>
+                <link from="student" to="student" type="communication"
+                      scope="intra-group" bi-dir="false"/>
+            </links>
+
+            <formation-constraints>
+            </formation-constraints>
+        </group-specification>
+    </structural-specification>
+
+
+
+    <functional-specification>
+        <scheme id="easssSch" >
+
+            <goal id="easss" ttf="5 seconds" min="2">
+            	<plan operator="sequence">
+
+            		<goal id="observe" ds="Observe what is published"></goal>
+            		<goal id="greet_for_ever"
+            			ds="Greeting and Greeting">
+            		</goal>
+            		<goal id="compute" ds="Compute PI"></goal>
+
+            	</plan>
+            </goal>
+            <mission id="mEasss">
+            	<goal id="easss" />
+            </mission>
+
+            <mission id="mGreeting" min="1" max="5">
+                <goal id="greet_for_ever"/>
+                <goal id="easss" />
+            </mission>
+
+            <mission id="mCompute" min="1" max="5">
+                <goal id="compute"/>
+            </mission>
+
+            <mission id="mObserve" min="1" max="5">
+                <goal id="observe"/>
+            </mission>
+        </scheme>
+        
+    </functional-specification>
+
+    <normative-specification>
+        <norm id="n1" type="obligation" role="greeter"
+        	mission="mGreeting" time-constraint="1 day" /><norm id="n2" type="obligation" role="observer" mission="mObserve" time-constraint="1 day" /><norm id="n3" type="obligation" role="computer" mission="mCompute" time-constraint="1 day" /><norm
+        	type="obligation" role="observer" mission="mEasss" id="n4" ></norm>
+    	
+        
+
+    </normative-specification>
+</organisational-specification>
+
+

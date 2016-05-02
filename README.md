@@ -15,7 +15,7 @@ For JaCaMo developers:
 
 	git clone https://github.com/jomifred/jacamo.git
 	cd jacamo
-	gradle release
+	gradle jar
 	gradle eclipse
 	gradle config
 	

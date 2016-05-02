@@ -58,6 +58,11 @@ jar {
     }
 }
 
+clean {
+    delete 'bin'
+    delete 'doc'
+}
+
 jar.doFirst {
     Properties props = new Properties()
     props.put('version', '')

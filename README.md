@@ -15,9 +15,11 @@ For JaCaMo developers:
 
 	git clone https://github.com/jomifred/jacamo.git
 	cd jacamo
-	gradle jar
+	gradle release
 	gradle eclipse
 	gradle config
+	
+The config task prints out the command to set up the JACAMO_HOME variable.
 	
 Examples can be run using the jacamo script, for example:
 

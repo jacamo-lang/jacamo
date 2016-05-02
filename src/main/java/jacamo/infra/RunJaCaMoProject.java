@@ -11,7 +11,7 @@ import jason.infra.MASLauncherInfraTier;
  * Run a JaCaMo project
  * 
  * parameters: 
- *    <JaCaMo Project File> [Deployment File] [norun]
+ *    /JaCaMo Project File/ [Deployment File] [norun]
  * 
  * "notrun" means that only the ant script will be create and the system will not start running
  * 

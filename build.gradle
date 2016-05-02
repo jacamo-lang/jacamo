@@ -29,9 +29,9 @@ repositories {
         url "http://jacamo.sourceforge.net/maven2"
     }
     
-    flatDir {
+    /*flatDir {
 	   dirs 'lib'
-    }
+    }*/
 }
 
 
@@ -47,6 +47,19 @@ dependencies {
 
 jar {
     baseName 'jacamo'
+    manifest {
+        attributes 'Main-Class': 'jacamo.util.ConfigGUI'
+    }
+    from ( configurations.compile.collect { zipTree(it) } ) {
+        include 'jason/**/*Factory.class', 'jason/**/Config.class'
+    }
+}
+
+jar.doFirst {
+    Properties props = new Properties()
+    props.put('version', '')
+    props.put('release', project.version)
+    props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null) 
 }
 
 
@@ -99,6 +112,8 @@ task copyRel << {
         from '.'      
         into 'build/jacamo-'+project.version 
         include '*.md'
+        include 'LICENSE'
+        include 'scripts/**'
     }
     copy {
         from 'build/libs'
@@ -112,13 +127,21 @@ task copyRel << {
         into 'build/jacamo-'+project.version+'/doc' 
     }
     copy {
-        from 'examples'      
-        into 'build/jacamo-'+project.version+'/examples' 
+        from 'build/docs/javadoc'      
+        into 'build/jacamo-'+project.version+'/doc/api' 
+    }
+    copy {
+        from 'src/examples'      
+        into 'build/jacamo-'+project.version+'/src/examples' 
+    }
+    copy {
+        from 'src/demos'      
+        into 'build/jacamo-'+project.version+'/src/demos' 
     }
 }
 
-// creates a zip file for a relase
-task zipRel(type: Zip, dependsOn: copyRel) << {
+// creates a zip file for a release
+task zipRel(type: Zip, dependsOn: copyRel) {
     from 'build/jacamo-'+project.version
     baseName 'jacamo'
 }

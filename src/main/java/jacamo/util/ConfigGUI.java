@@ -181,7 +181,7 @@ public class ConfigGUI {
                 try {
                     JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
                     chooser.setDialogTitle("Select the "+jarfile+" file");
-                    chooser.setFileFilter(new JarFileFilter(jarfile, "The "+jarfile+" file"));
+                    chooser.setFileFilter(new JarFileFilter("The "+jarfile+" file"));
                     //chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                     if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                         String selJar = (new File(chooser.getSelectedFile().getPath())).getCanonicalPath();
@@ -230,13 +230,12 @@ public class ConfigGUI {
     }
 
     class JarFileFilter extends FileFilter {
-        String jar,ds;
-        public JarFileFilter(String jar, String ds) {
-            this.jar = jar;
+        String ds;
+        public JarFileFilter(String ds) {
             this.ds  = ds;
         }
         public boolean accept(File f) {
-            if (f.getName().endsWith(jar) || f.isDirectory()) {
+            if (f.getName().endsWith("jar") || f.isDirectory()) {
                 return true;
             } else {
                 return false;

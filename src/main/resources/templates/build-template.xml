@@ -16,12 +16,9 @@
     <property name="debug" value="<DEBUG>"/> <!-- use "-debug" to run in debug mode -->
     <property name="build.dir" value="${basedir}/bin/classes" />
 
-    <property name="jasonJar" value="<JASON-JAR>"/>
-
     <path id="project.classpath">
         <pathelement location="${basedir}"/>
         <pathelement location="${build.dir}"/>
-        <pathelement location="${jasonJar}"/>
 <PATH-LIB>
     </path>
 

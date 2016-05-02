@@ -83,7 +83,7 @@ public class Config extends jason.util.Config {
     /** returns the jacamo home (based on jacamo.jar) */
     public String getJaCaMoHome() {
         try {
-            return new File(getJasonJar()).getParentFile().getParent();
+            return new File(get(JACAMO_JAR).toString()).getParentFile().getParent();
         } catch (Exception e) {
             e.printStackTrace();
         }

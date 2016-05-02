@@ -3,6 +3,7 @@ build
 
 *.log
 .stop___MAS
+*~
 
 *.class
 

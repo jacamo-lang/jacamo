@@ -15,6 +15,6 @@ For JaCaMo developers:
 
 	git clone https://github.com/jomifred/jacamo.git
 	cd jacamo
-	gradle dist
+	gradle build
 	gradle eclipse
 

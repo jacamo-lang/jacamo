@@ -23,7 +23,7 @@ public class JaCaMoMASLauncherAnt extends CentralisedMASLauncherAnt {
         if (project.isJade()) {
             lib += "        <pathelement location=\""+Config.get().getJaCaMoHome()+"/lib/jade.jar\"/>\n";                        
         }*/
-        lib += "        <fileset dir=\""+Config.get().getJaCaMoHome()+"/lib\" >  <include name=\"*.jar\" /> </fileset>\n";
+        lib += "        <fileset dir=\""+Config.get().getJaCaMoHome()+"/libs\" > <include name=\"*.jar\" /> </fileset>\n";
         
         script = replace(script, "<PATH-LIB>", lib + "\n<PATH-LIB>");
                 

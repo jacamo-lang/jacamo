@@ -95,6 +95,30 @@ public class Config extends jason.util.Config {
     public void fix() {
         super.fix();
         put("version", getJaCaMoRunningVersion());
+        
+        if (get(ANT_LIB) == null || !checkAntLib(getAntLib())) {
+            try {
+                String jjar = getJaCaMoHome();
+                if (jjar != null) {
+                    String antlib = jjar + File.separator + "libs";
+                    if (checkAntLib(antlib)) {
+                        setAntLib(antlib);
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Error setting ant lib!");
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    @Override
+    public String getAntLib() {
+        String al = super.getAntLib();
+        if (al == null) {
+            return getJaCaMoHome()+"/libs";
+        }
+        return null;
     }
 
     @Override

@@ -36,12 +36,15 @@ repositories {
 
 
 dependencies {
-    compile group: 'net.sf.jason', name: 'jason', version: '2.0.beta'
-    compile group: 'org.jacamo', name: 'npl' , version: '0.2-SNAPSHOT'
-    compile group: 'org.jacamo', name: 'moise' , version: '0.9-SNAPSHOT'
-    compile group: 'org.jacamo', name: 'cartago' , version: '2.0.2'
-    compile group: 'org.jacamo', name: 'c4jason' , version: '2.0.2'
+    compile group: 'net.sf.jason', name: 'jason',    version: '2.0.beta', changing: true
+    compile group: 'org.jacamo',   name: 'npl' ,     version: '0.2-SNAPSHOT', changing: true
+    compile group: 'org.jacamo',   name: 'moise' ,   version: '0.9-SNAPSHOT', changing: true
+    compile group: 'org.jacamo',   name: 'cartago' , version: '2.0.2'
+    compile group: 'org.jacamo',   name: 'c4jason' , version: '2.0.2'
 
+    runtime group: 'net.sf.ingenias', name: 'jade', version: '4.3'
+    runtime group: 'org.apache.ant',  name: 'ant',  version: '1.9.7'
+    
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
@@ -60,6 +63,27 @@ jar.doFirst {
     props.put('version', '')
     props.put('release', project.version)
     props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null) 
+}
+
+task config (type: JavaExec, dependsOn: 'jar') {
+    main = 'jacamo.util.Config'
+    classpath sourceSets.main.runtimeClasspath
+    workingDir project.buildDir.absolutePath + '/libs' 
+}
+
+config.doFirst {
+    copy {
+        from configurations.runtime
+        into 'build/libs' 
+        include '**/*.jar'
+    }
+}
+
+config << {    
+    println '------'
+    println 'you can set the JaCaMo home directory with the following command:'
+    println '     export JACAMO_HOME='+project.buildDir.absolutePath 
+    println '-----'
 }
 
 
@@ -119,7 +143,7 @@ task copyRel << {
         from 'build/libs'
         from configurations.runtime
         //from 'lib'  
-        into 'build/jacamo-'+project.version+'/lib' 
+        into 'build/jacamo-'+project.version+'/libs' 
         include '**/*.jar'
     }
     copy {

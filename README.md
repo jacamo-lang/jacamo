@@ -15,6 +15,11 @@ For JaCaMo developers:
 
 	git clone https://github.com/jomifred/jacamo.git
 	cd jacamo
-	gradle release
+	gradle jar
 	gradle eclipse
+	gradle config
+	
+Examples can be run using the jacamo script, for example:
+
+	scripts/jacamo src/examples/house-building/house.jcm
 

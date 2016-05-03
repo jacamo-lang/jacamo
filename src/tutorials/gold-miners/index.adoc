@@ -1,5 +1,5 @@
 = Gold Miners
-Agent Programming Tutorial using JaCaMo <jomifred@gmail.com>
+Agent Programming Tutorial using JaCaMo
 September 2014
 :toc: right
 
@@ -8,39 +8,29 @@ image::./screens/gold-miners.png[align=center,width="70%"]
 
 == Introduction
 
-This programming exercise will illustrate some of the features of
-Jason, Agent Programming Language of JaCaMo, through the development and refinement of the Gold Miners
-implementation.
+This programming exercise will illustrate some of the features of Jason, Agent Programming Language of JaCaMo, through the development and refinement of the Gold Miners implementation.
 
-In each of the following items, we start with a general description
-and its objective, a description of the setting to test the exercise, followed by some brief explanation of the steps involved in achieving it and some hints on how to do it. Depending on your programming experience, you may decide to only read the introduction and objective to develop your own original solution, or also read the explanation and hints.
+In each of the following items, we start with a general description and its objective, a description of the setting to test the exercise, followed by some brief explanation of the steps involved in achieving it and some hints on how to do it. Depending on your programming experience, you may decide to only read the introduction and objective to develop your own original solution, or also read the explanation and hints.
 
-This tutorial was initially developed by _João Leite_
-(http://centria.di.fct.unl.pt/~jleite/wesaac14/) based on the Jason
-Gold Miners implementation (which is available together with Jason
-distribution).
+This tutorial was initially developed by _João Leite_ (http://centria.di.fct.unl.pt/~jleite/wesaac14/) based on the Jason
+Gold Miners implementation (which is available together with Jason distribution).
 
-The slides used at http://altissimo.cs.pub.ro[ALTISSIMO] are found
-http://jacamo.sourceforge.net/tutorial/gold-miners/aop-altissimo-14.pdf[here].
+The slides used at http://altissimo.cs.pub.ro[ALTISSIMO] are found http://jacamo.sourceforge.net/tutorial/gold-miners/aop-altissimo-14.pdf[here].
 
 == Part I
 
-To get started, you can install the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] and download the initial JaCaMo project from http://jacamo.sourceforge.net/tutorial/gold-miners/initial-gold-miners.zip[here]. Then, after unziping it into some directory, open Eclipse and import the downloaded project (File
--> Import -> JaCaMo Project -> Pick directory -> Select Project
-GoldMiners). You will have a screen like
+To get started, you can install the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] and download the initial JaCaMo project from http://jacamo.sourceforge.net/tutorial/gold-miners/initial-gold-miners.zip[here]. Then, after unziping it into some directory, open Eclipse and import the downloaded project (File -> Import -> JaCaMo Project -> Pick directory -> Select Project GoldMiners). You will have a screen like
 
 image::./screens/s2.png[]
 
 
 Take a few minutes to understand the application. Read the PDF files in the `doc` folder and the source code `miner.asl`.
 
-Run the application using environment id=1; 1 leader; 1 miner; 3
-dummies (the .jcm file already encodes this configuration). The screen will be like
+Run the application using environment id=1; 1 leader; 1 miner; 3 dummies (the .jcm file already encodes this configuration). The screen will be like
 
 image::./screens/s4.png[]
 
-You can also open a browser at http://localhost:3272 and inspect the
-mind of the agents.
+You can also open a browser at http://localhost:3272 and inspect the mind of the agents.
 
 image::./screens/s6.png[]
 

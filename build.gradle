@@ -77,6 +77,7 @@ task config (type: JavaExec, dependsOn: 'jar') {
 }
 
 config.doFirst {
+    delete System.getProperty("user.home")+'/.jacamo'
     copy {
         from configurations.runtime
         into 'build/libs' 
@@ -109,7 +110,7 @@ compileJavacc {
 
 
 jjdoc {
-    outputDirectory = file(project.projectDir.absolutePath + '/doc')
+    outputDirectory = file(docsDir) //project.projectDir.absolutePath + '/doc')
     //arguments = [text: 'true']
 }
 
@@ -138,26 +139,21 @@ task release(dependsOn: [ 'build', 'jjdoc', 'javadoc', 'zipRel']) << {
 // copy files used to build a release
 task copyRel << {
     copy {
-        from '.'      
-        into 'build/jacamo-'+project.version 
+        from '.'
+        into 'build/jacamo-'+project.version
         include '*.md'
         include 'LICENSE'
         include 'scripts/**'
     }
     copy {
-        from 'build/libs'
+        from libsDir
         from configurations.runtime
-        //from 'lib'  
-        into 'build/jacamo-'+project.version+'/libs' 
+        into 'build/jacamo-'+project.version+'/'+libsDirName
         include '**/*.jar'
     }
     copy {
-        from 'doc'      
+        from docsDir
         into 'build/jacamo-'+project.version+'/doc' 
-    }
-    copy {
-        from 'build/docs/javadoc'      
-        into 'build/jacamo-'+project.version+'/doc/api' 
     }
     copy {
         from 'src/examples'      

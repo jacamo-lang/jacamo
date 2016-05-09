@@ -1,0 +1,4 @@
++!start : message(X) 
+   <- for ( numMsg(_)[artifact_type(ArtId,"display.GUIConsole")] ) { 
+          printMsg(X)[artifact_id(ArtId)]
+      }.

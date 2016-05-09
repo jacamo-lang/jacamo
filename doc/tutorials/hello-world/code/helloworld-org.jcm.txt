@@ -1,0 +1,171 @@
+/* 
+
+    JaCaMo Project File 
+    
+    This file defines the initial state of the MAS (initial agents, environment, organisation, ....)
+    
+    (see below the documentation about what can be defined in this file)
+
+*/
+
+mas helloworld {
+
+    agent francois : hello.asl {
+    	beliefs: message("Bonjour")
+    	focus: france.gui
+    	focus: italy.gui
+    	focus: jacamo.gui
+    }
+    agent maria    : hello.asl {
+    	beliefs: message("Bom dia")
+    	focus: brazil.gui
+    	focus: jacamo.gui
+    }
+    agent giacomo  : hello.asl {
+    	beliefs: message("Buon giorno")
+    	focus: italy.gui
+    	focus: jacamo.gui
+    }
+    agent alice    : hello.asl {
+    	beliefs: message("Good morning")
+    	focus: usa.gui
+    	focus: jacamo.gui
+       	//roles: rs in hello_org.jacamo_team
+    }
+
+    /*agent bob    : hello2.asl {
+    	beliefs: country(it)
+    	focus: italy.gui
+    }*/
+    
+    workspace jacamo {
+    	artifact gui: display.GUIConsole("common") 
+    }	   
+
+    workspace france {
+    	artifact gui: display.GUIConsole("France") 
+    }
+    
+    workspace italy {
+    	artifact gui: display.GUIConsole("Italy") 
+    }
+    
+    workspace brazil {
+    	artifact gui: display.GUIConsole("Brazil") 
+    }
+ 
+    workspace usa {
+    	artifact gui: display.GUIConsole("USA") 
+    }
+    
+    organisation hello_org: o1.xml {       // the organisational entity is hello_org from spec o1.xml
+    	group jacamo_team: team {          // instance group (jacamo_team) from spec team
+    		responsible-for: hello_eng     // that will be responsible for the execution of scheme hello_sch (defined below) 
+    		players: francois rv,          // the roles of the agents in this group
+    		         maria    rl,
+    		         giacomo  rc,
+    		         alice    rs
+    		debug                          // starts the organisational inspector
+    	}
+    	scheme hello_eng: hello_sch {      // instance scheme (hello_eng) from spec hello_sch
+    		debug
+    	} 
+    }
+    
+ /* 
+   agent definition
+
+      <agent>     ::= agent <name> [ : <source> ] { <parameter>* }
+      <parameter> ::= <id> : <value> ( (, | EOL) <value> ) *
+       
+   e.g.
+      agent bob : participant.asl {                    // if source is omitted, bob.asl will be used
+         beliefs:     p("this is a condition",15000)   // initial beliefs
+                      friend(alice)
+         goals:       start, go(home)                  // initial goals
+         ag-class:    tt.MyAgClass                     // if omitted, Jason Agent default class will be used
+         ag-arch:     myp.myArch1
+                      mypkg.MyCustomAgArch             // CArtAgO arch is automatically included, if necessary, JADE arch is automatically included
+         ag-bb-class: my.Bb
+         verbose:     2                                // 0 means only agent output, 1 means agent+jason output, 2 means agent+jason+debug output
+         
+         myparameter: "this is an appl paramter"       // user application parameter, used for instance by user custom architectures
+         
+         node:        n1                               // the logical name of the place where the agent will run
+         instances:   5                                // 5 bobs (called bob1, bob2, ... bob5) will be created. 
+                                                       // You can also list the names of the agents. Default value is 1.
+         join:        w2                               // join the workspace w2
+         focus:       w1.a1 @ n1                       // focus on artifact a1 in workspace w1 running on node n1
+         roles:       r1 in g2, r2 in o1.g3            // adopt the role r1 in group g2 and role r2 in group g3 (in org o1)
+      }
+      
+      agent alice                                      // the source is alice.asl, one instance will be created at default node
+*/
+
+/*
+    environment definition
+    
+       <environment> ::= <workspace>*
+       <workspace>   ::= workspace <name> { <artifact>* <agents> <node> }
+       <artifact>    ::= artifact  <name> : <type> [ { focused-by: <agents> } ]
+       <agents>      ::= agents : <name> ( (, | EOL) <name> )* | "*"   // "*" means all agents
+       <node>        ::= node :   <name> EOL
+       
+    e.g.
+       workspace w1 {
+          artifact c1: mylib.Counter(10)               // creates an artifact named c1 as an instance of mylib.Counter initialised with (10) 
+          artifact bll: mylist.BlackList() 
+          node: n2                                     // this workspace will run on node n2
+       }
+*/
+
+/*
+    organisation entity definition
+    
+       <organisations> ::= <org>*
+       <org>           ::= organisation <name> [ : <source> ] { <parameter>* <agents> <node> <group>* <scheme>* }
+       <group>         ::= group  <name> : <type> [ { <parameter>* } ] 
+       <scheme>        ::= scheme <name> : <type> [ { <parameter>* } ] 
+       
+    e.g.
+       organisation o1 : os.xml {                      // os.xml is the file with the organisational specification, if omitted o1.xml is used
+          group g1: writepaper {                       // creates a group instance named g1 based on the group definition identified by writepaper (defined in the o1.xml file)
+             responsible-for: s1                       // the group will be responsible for the scheme s1
+             owner: alice
+             debug                                     // starts GUI for this group
+             
+             group sg2 : t1                            // groups sg2 will be a sub-group of g1          
+          }             
+          group g2 : writepaper                        // another group (without particular initialisation) 
+          
+          scheme s1 : wpscheme                         // instance of scheme identified by wpscheme (in o1.xml)  
+       }
+*/
+
+
+    // java class path
+    /* e.g.
+         class-path:  lib
+    */
+   
+    // agent source path
+    asl-path: src/agt
+              src/agt/inc
+
+    /* platform configuration
+       e.g.
+         platform: jade() 
+                   cartago("infrastructure")
+                   centralised(pool,4)
+    */
+   
+    
+    
+    /* node configuration
+       e.g.
+         node n3 running @ x.com.fr
+         
+       nodes not defined will be launched when this .jcm is run
+    */
+}
+

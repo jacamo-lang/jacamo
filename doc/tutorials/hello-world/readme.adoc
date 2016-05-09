@@ -396,7 +396,6 @@ image::./code/os-ss.png[width="70%", align=center]
 
 *2.* Based on this specification, the following code in the project file (`helloworld.jcm`) will create an organisation entity (i.e. agents within an organisation) where `francois` will play role `rv`, `maria` the role `rl`, `giacomo` the role `rc`, `alice` the role `rs` in the group `jacamo_team` which is of type `team`. This group is responsible for executing the social scheme `hello_eng` of type `hello_sch`.
 
-[source,jcm]
 -----
     organisation hello_org: o1.xml {       // the organisational entity is hello_org from spec o1.xml
     	group jacamo_team: team {          // instance group (jacamo_team) from spec team

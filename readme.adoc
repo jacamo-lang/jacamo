@@ -11,7 +11,7 @@ For JaCaMo users:
 - follow the http://jacamo.sourceforge.net/tutorial/hello-world[Hello World tutorial]
 - more documentation http://jacamo.sf.net[here]
 
-For JaCaMo developers:
+For JaCaMo developers on unix:
 
 	git clone https://github.com/jomifred/jacamo.git
 	cd jacamo

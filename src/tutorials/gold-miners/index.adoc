@@ -295,4 +295,4 @@ definition? Are the agents reactive, pro-active, social, autonomous?
 
 . Can a Jason agent handle its own intentions? Where in the source code of the miners it can be noticed?
 
-. How the /practical reasoning/ (deliberation, means-ends, ...) is implemented in Jason? And the /theoretical reasoning/?
+. How the _practical reasoning_ (deliberation, means-ends, ...) is implemented in Jason? And the _theoretical reasoning_?

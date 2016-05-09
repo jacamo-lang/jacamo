@@ -16,11 +16,14 @@ For JaCaMo developers on unix:
 	git clone https://github.com/jomifred/jacamo.git
 	cd jacamo
 	gradle jar
-	gradle eclipse
 	gradle config
 
 The config task prints out the command to set up the JACAMO_HOME variable.
 
-Examples can be run using the jacamo script, for example:
+Examples can be run using the jacamo shell script, for example:
 
 	scripts/jacamo src/examples/house-building/house.jcm
+
+If you plan to use eclipse to develop JaCaMo, run the following task to create an initial project:
+
+	gradle eclipse

@@ -1,5 +1,8 @@
 USER=jomifred
 
+asciidoctor readme.adoc
+cp readme.html index.html
+
 scp -r *.html $USER,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/hello-world
 
 #scp -r *.css $USER,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/hello-world

@@ -18,7 +18,7 @@ Part I (installation and new project)
 -------------------------------------
 
 To get started, you have to either install the latest
-http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or configure your  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based.html[shell command]. Follow the instructions until step 12. Then, follow the steps
+http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or configure your  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based.html[shell command]. In the eclipse plugin, follow the instructions until step 12. Then, follow the steps
 13 to 17 to create a new project for this tutorial. The project name
 should be `helloworld`, as proposed in step 14.
 

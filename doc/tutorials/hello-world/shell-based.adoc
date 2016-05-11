@@ -10,11 +10,11 @@ for unix users
 . Create a new project with
 +
 ----
-    new-jacamo-project ../somewhere/myproject
+    new-jacamo-project ../somewhere/helloworld
 ----
 Examples of agent, artifact and organization are placed in the `src` folder.
 
 
 . And run it with
 
-    jacamo ../somewhere/myproject.jcm
+    jacamo ../somewhere/helloworld.jcm

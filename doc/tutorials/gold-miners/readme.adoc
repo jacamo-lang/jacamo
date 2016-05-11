@@ -3,6 +3,8 @@ Agent Programming Tutorial using JaCaMo
 September 2014
 :toc: right
 
+:prewrap!:
+
 image::./screens/gold-miners.png[align=center,width="70%"]
 
 

@@ -3,6 +3,8 @@ Use of the JaCaMo Platform
 JaCaMo Team
 :toc: right
 
+:prewrap!:
+
 [[introduction]]
 Introduction
 ------------

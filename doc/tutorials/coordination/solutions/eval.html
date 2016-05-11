@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Comparison of the different solutions for coordination</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="Comparison of the different solutions for coordination"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2015-10-06T17:15+0200"/>
+<meta name="author" content="Jason Team"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">Comparison of the different solutions for coordination</h1>
+
+
+<p>
+Some comparison criteria:
+</p><ul>
+<li>what is the basic coordination mechanism?
+</li>
+<li>is the coordination inside or outside the agents? Inside =&gt; to change the protocol, the code of all agents need to be changed
+</li>
+<li>what does the agent need to know before to participate? (language, architecture)?
+</li>
+<li>how to find other agents?
+</li>
+<li>is the protocol explicitly described somewhere for the agents to "learn" the protocol?
+</li>
+<li>is it centralized?
+</li>
+<li>what is the performance?
+</li>
+</ul>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">oriented to</th><th scope="col" class="left">mechanism</th><th scope="col" class="left">coordination</th><th scope="col" class="left">requirements</th><th scope="col" class="left">acquaintances</th><th scope="col" class="left">explicit protocol</th><th scope="col" class="left">centralized</th><th scope="col" class="left">performance</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">agent</td><td class="left">ACL - simple</td><td class="left">inside</td><td class="left">ACL</td><td class="left">YP</td><td class="left">no</td><td class="left">no</td><td class="left"><i>2p + p<sup>2</sup></i> messages<sup><a class="footref" name="fnr-.1" href="#fn-.1">1</a></sup></td></tr>
+<tr><td class="left">environment</td><td class="left">action/perception - simpler</td><td class="left">mixed<sup><a class="footref" name="fnr-.2" href="#fn-.2">2</a></sup></td><td class="left">Cartago</td><td class="left">YP</td><td class="left">no</td><td class="left">no<sup><a class="footref" name="fnr-.3" href="#fn-.3">3</a></sup></td><td class="left"><i>2+p</i> actions + <i>p<sup>2</sup></i> perceptions</td></tr>
+<tr><td class="left">organization</td><td class="left">schemes - complex</td><td class="left">outside</td><td class="left">Moise</td><td class="left">by roles</td><td class="left">yes</td><td class="left">no<sup><a class="footref" name="fnr-.3.2" href="#fn-.3">3</a></sup></td><td class="left">idem env</td></tr>
+<tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left">+ org actions + org perception</td></tr>
+</tbody>
+</table>
+
+
+
+<p>
+Remark: the organization is better for open systems, however it costs something (complexity of the application and performance).
+</p>
+<p>
+ACL = Agent Communication Language
+YP  = Yellow pages
+</p>
+<p>
+p   = number of participants
+</p>
+
+
+<hr/>
+
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+<p class="footnote"><sup><a class="footnum" name="fn-.1" href="#fnr-.1">1</a></sup> <i>p</i> announce messages, <i>p</i> winner messages (so <i>2p</i>), <i>p</i> bids to all participants (so <i>p<sup>2</sup></i>)
+</p>
+
+
+<p class="footnote"><sup><a class="footnum" name="fn-.2" href="#fnr-.2">2</a></sup> the agents still need to know <b>when</b> to bid, but some rules of the protocol can be externalized in the artifact
+</p>
+
+
+<p class="footnote"><sup><a class="footnum" name="fn-.3" href="#fnr-.3">3</a></sup> several artifacts, one for each auction
+</p>
+
+
+
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2015-10-06T17:15+0200</p>
+<p class="author">Author: Jason Team</p>
+<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>

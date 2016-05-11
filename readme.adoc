@@ -6,7 +6,7 @@ This project aims to promote the MultiAgent Programming (MAP) approach by provid
 
 For JaCaMo users:
 
-- get a release at https://github.com/jomifred/jacamo/releases[GitHub]
+- get a release  https://sourceforge.net/projects/jacamo/files/version-0[here]  //https://github.com/jomifred/jacamo/releases[GitHub]
 - install the eclipse plugin as described http://jacamo.sourceforge.net/eclipseplugin/tutorial[here]
 - follow the http://jacamo.sourceforge.net/tutorial/hello-world[Hello World tutorial]
 - more documentation http://jacamo.sf.net[here]

@@ -1,7 +1,9 @@
-= Playing with Dimensions of Coordination within JaCaMo
+= Playing with Dimensions of Coordination
 JaCaMo Team
 :toc: right
 :source-highlighter: coderay
+:coderay-linenums-mode: inline
+:icons: font
 :prewrap!:
 
 
@@ -55,6 +57,7 @@ The following steps will implement this system.
 *1.* Create a new JaCaMo project called `auction_ag` with the following
 project file content:
 
+[source,jcm,linenums]
 .auction_ag.jcm
 -----------------------------------
 mas auction_ag {
@@ -73,6 +76,7 @@ mas auction_ag {
 
 *2.* The agent code for the participants is:
 
+[source,asl,linenums]
 .participant.asl
 --------------------------------------------------------------------------------
 +auction(service, D)[source(A)] <- .send(A,tell,bid(D, math.random * 100 + 10)).
@@ -92,6 +96,7 @@ has the format `bib( <service description>, <price>)`.
 
 *3.* The agent code for `bob` is
 
+[source,asl,linenums]
 .auctioneer.asl
 ----------------------------------------------------------------------------------------------------------------------------
 !start. // initial goal
@@ -110,7 +115,7 @@ has the format `bib( <service description>, <price>)`.
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }
 ----------------------------------------------------------------------------------------------------------------------------
-<1> L is a list of all bids, e.g.: `[b(77.7,alice), b(91.7,giacomo), ...]`
+<1> `L` is a list of all bids, e.g. `[b(77.7,alice), b(91.7,giacomo), ...]`
 <2> all 4 expected bids have been received, announce the winner
 
 This agent has an initial goal `start` that is achieved by broadcasting
@@ -129,8 +134,7 @@ Each belief addition produces an event like `+bid(<service>,<price>)`
 that is handled by the plan `pb1`. If the agent has already received 4
 bids for this service, the winner is announced. The internal actions
 `.findall`, `.length`, and `.min` are described in
-http://jason.sourceforge.net/api/jason/stdlib/package-summary.html#package.description[Jason
-API].
+http://jason.sourceforge.net/api/jason/stdlib/package-summary.html#package.description[Jason API].
 
 *4.* The execution of the application will look like the following
 screen:
@@ -140,11 +144,11 @@ image:./screens/r1.png[image]
 *5.* To launch two auctions concurrently, we can simply change the plan
 for the goal `start` to:
 
------------------------------------------------------------------------------------
+------
 +!start : true
    <- .broadcast(tell, auction(service, flight_ticket(paris,athens,"15/12/2015")));
       .broadcast(tell, auction(service, flight_ticket(athens,paris,"18/12/2015"))).
------------------------------------------------------------------------------------
+------
 
 Notice that plans in `bob` and participants are triggered by events
 (`+bid`, `+auction`) and executed _concurrently_. Participants can
@@ -310,9 +314,10 @@ public class AuctionArtifact extends Artifact {
 }
 ----------------------------------------------------------------------------------------------
 
-*2.* In the project file (`auction_env.jcm`), create a workspace with an
+*2.* In the project file, create a workspace with an
 instance of the above artifact and the same agents as before:
 
+.auction_env.jcm
 ------------------------------------------------------------
 mas auction_env {
 
@@ -572,6 +577,7 @@ its description.
 *2.* Rename the file `auction_env.jcm` to `auction_org.jcm` and edit it
 so that one instance of the `auctionGroup` is created:
 
+.auction_org.jcm
 -----------------------------------------
 mas auction_org {
 
@@ -613,6 +619,7 @@ mission `mAuctioneer` there.
 * Plans for the organisational goals `start` and `decide` have to be
 included. These plans are quite similar to the previous plans.
 
+.auctioneer.asl
 ---------------------------------------------------------------------------------------------------------------------
 !do_auction("a1","flight_ticket(paris,athens,date(15,12,2015))"). // initial goals
 !do_auction("a2","flight_ticket(athens,paris,18/12/2015)").
@@ -635,9 +642,9 @@ included. These plans are quite similar to the previous plans.
       .print("Start scheme ",Sch," for ",S);
       makeArtifact(AuctionId, "auction_env.AuctionArtifact", [], ArtId); // create the auction artifact
       focus(ArtId);
-      // .broadcast(achieve,focus(Id));         // (*1*) the org will signal the participants about their goals
+      // .broadcast(achieve,focus(Id));  // <1>
       start(S)[artifact_id(ArtId)];
-      //.at("now + 4 seconds", {+!decide(AuctionId)}); // (*2*) "decide" is now a goal in the scheme
+      //.at("now + 4 seconds", {+!decide(AuctionId)}); // <2>
       .
 
 +!decide[scheme(Sch)]
@@ -653,6 +660,8 @@ included. These plans are quite similar to the previous plans.
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }
 ---------------------------------------------------------------------------------------------------------------------
+<1> No need to broadcast the focus to the agents, the organisation will signal the participants about their goals.
+<2> We do not need create the goal `decide` anymore, it is now a goal in the organisational scheme.
 
 While the plan for the event `+winner(W)` is the same as in the
 environment oriented coordination (Part II), the plans for `+!start` and
@@ -725,6 +734,7 @@ Let's consider that some participants do not bid (even if they are
 obliged to do so). To simulate that, the program `participant.asl` can
 be changed to:
 
+.participant.asl
 ---------------------------------------------------------------------------------------------------
 +!bid[scheme(Sch)]
    <- ?goalState(Sch, auction(AuctionId,S),_,_,_); // retrieve auction id and focus on the artifact
@@ -760,12 +770,14 @@ the goal `bid` as satisfied anyway. The following plan will do that for
 Bob:
 
 -------
-+oblUnfulfilled( obligation(Ag,_,achieved(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // it is the case that a bid was not achieved
++oblUnfulfilled( obligation(Ag,_,achieved(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // <1>
    <- .print("Participant ",Ag," didn't bid on time! S/he will be placed in a blacklist");
        // TODO: implement a black list artifact
-       .concat("goalAchieved(",Ag,",",bid,")",Cmd);         // create an administrative command like "goalAchieved(alice,bid)", to be send to the scheme
+       .concat("goalAchieved(",Ag,",",bid,")",Cmd); // <2>
        admCommand(Cmd)[artifact_id(AId)].
 -------
+<1> it is the case that a bid was not achieved
+<2> creates an administrative command like "goalAchieved(alice,bid)", to be send to the scheme
 
 The code of the project for this part of the tutorial is available
 link:./code/auction_org.zip[here].

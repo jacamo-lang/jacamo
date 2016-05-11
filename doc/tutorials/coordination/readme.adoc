@@ -34,8 +34,7 @@ http://jason.sourceforge.net/mini-tutorial/hello-bdi/[BDI intro]. (The
 application developed in the hello world tutorial is used in some
 exercises of this tutorial.)
 
-Part I (message oriented coordination)
---------------------------------------
+== Part I (message oriented coordination)
 
 The coordination in a market place can follow different protocols, here
 we will consider a simple _auction protocol_ and its implementation
@@ -154,8 +153,7 @@ Notice that plans in `bob` and participants are triggered by events
 (`+bid`, `+auction`) and executed _concurrently_. Participants can
 produce bids concurrently. Bob can receive bids concurrently.
 
-Exercises
-~~~~~~~~~
+=== Exercises
 
 a) Bob waits for exactly 4 bids! It is far from a good design choice:
 (i) the number of participants may be unknown and (ii) some of them may
@@ -420,8 +418,7 @@ auction artifact. The following code will do that:
       !keep_focusing.             // continue with the goal
 ----------------------------------------------------------------------------------
 
-Exercises
-~~~~~~~~~
+=== Exercises
 
 a) What is the _main_ difference between the implementations of part I
 and II of this tutorial?
@@ -462,8 +459,7 @@ coordination required to properly print "hello world!" is implemented by
 means of the environment (without organisation, but keeping the
 `GUIConsole` artifact).
 
-Part III (organisation oriented coordination)
----------------------------------------------
+== Part III (organisation oriented coordination)
 
 In this part of the tutorial we use an organisation specification to
 coordinate the agents interacting all together in the environment using
@@ -782,8 +778,7 @@ Bob:
 The code of the project for this part of the tutorial is available
 link:./code/auction_org.zip[here].
 
-Exercises
-~~~~~~~~~
+=== Exercises
 
 a) Implement an agent that bids and then tries to achieve the goal
 `decide` -- violating thus the auction protocol. What happens?

@@ -1,0 +1,20 @@
+= Creating JaCaMo projects in the shell command
+for unix users
+
+. Download JaCaMo https://sourceforge.net/projects/jacamo/files/version-0[here] and unzip it.
+
+. Make sure you have `JACAMO_HOME` properly set (it should have the directories `libs` and `scripts` inside), then setup the `PATH`:
+
+    export PATH=$JACAMO_HOME/scripts:$PATH
+
+. Create a new project with
++
+----
+    new-jacamo-project ../somewhere/myproject
+----
+Examples of agent, artifact and organization are placed in the `src` folder.
+
+
+. And run it with
+
+    jacamo ../somewhere/myproject.jcm

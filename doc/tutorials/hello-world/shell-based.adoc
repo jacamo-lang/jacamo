@@ -10,7 +10,7 @@ for unix users
 . Create a new project with
 +
 ----
-    new-jacamo-project ../somewhere/helloworld
+new-jacamo-project ../somewhere/helloworld
 ----
 Examples of agent, artifact and organization are placed in the `src` folder.
 

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+if [ -z JACAMO_HOME ] ; then
+    CURDIR=`pwd`
+    JACAMO_HOME=`dirname $0`
+    cd "$JACAMO_HOME/.."
+    JACAMO_HOME=`pwd`
+    cd $CURDIR
+fi
+
+echo JaCaMo home is $JACAMO_HOME
+
+OS=`uname`
+
+if [ -z $JDK_HOME ] ; then
+    if [ -n $JAVA_HOME ] ; then
+	JDK_HOME=$JAVA_HOME
+    fi
+fi
+
+if [ -z $JDK_HOME ] ; then
+	if [ $OS == Darwin ] ; then
+		JDK_HOME=/usr
+	fi
+fi
+
+# check JDK_HOME
+if [ ! -f $JDK_HOME/bin/javac ] ; then
+   echo JDK_HOME is not properly set!
+fi
+
+export PATH="$JDK_HOME/bin":$PATH
+
+JACAMO_JAR=`find $JACAMO_HOME/libs -name jacamo*.jar`
+JASON_JAR=`find $JACAMO_HOME/libs  -name jason*.jar`
+
+echo Creating new JaCaMo project: $1
+
+java -classpath $JACAMO_JAR:$JASON_JAR jacamo.util.CreateNewProject $1

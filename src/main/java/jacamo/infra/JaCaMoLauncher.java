@@ -143,7 +143,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             }
         }
 
-        // ensures a log directory exists
+        // ensures that a log directory exists
         File ldir = new File("log");
         if (!ldir.exists())
             ldir.mkdirs();

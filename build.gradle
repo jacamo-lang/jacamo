@@ -141,15 +141,19 @@ task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) << {
 }
 
 // Builds the distribution, documentation and a new release
-task release(dependsOn: [ 'build', 'jjdoc', 'javadoc', 'zipRel']) << {
+task release(dependsOn: [ 'build', 'jjdoc', 'javadoc', 'renderAsciiDocs', 'zipRel']) << {
 } 
+
+task renderAsciiDocs(type: Exec) {
+    commandLine 'find', '.', '-name', '*.adoc', '-exec', 'asciidoctor', '{}', ';'
+}
 
 // copy files used to build a release
 task copyRel << {
     copy {
         from '.'
         into 'build/jacamo-'+project.version
-        include '*.md'
+        include '*.adoc'
         include 'LICENSE'
         include 'scripts/**'
         include 'doc/**'

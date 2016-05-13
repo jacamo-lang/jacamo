@@ -28,10 +28,6 @@ repositories {
     maven {
         url "http://jacamo.sourceforge.net/maven2"
     }
-    
-    /*flatDir {
-	   dirs 'lib'
-    }*/
 }
 
 
@@ -50,20 +46,21 @@ dependencies {
 jar {
     baseName 'jacamo'
     manifest {
-        attributes 'Main-Class': 'jacamo.util.ConfigGUI'
+        attributes 'Main-Class': 'jacamo.util.ConfigGUI',
+                   'Class-Path': file(project.configurations.compile.find { it.name.startsWith("jason-") }).name
     }
-    from ( configurations.compile.collect { zipTree(it) } ) {
-        include 'jason/**/*Factory.class', 'jason/**/Config.class'
+    
+    //from ( configurations.compile.collect { zipTree(it) } ) { // causes problem in the machine of Olivier (!), replaced by classpath in the manifest
+    //    include 'jason/**/*Factory.class', 'jason/**/Config.class'
+    //}
+    
+    doFirst {
+       Properties props = new Properties()
+        props.put('version', '')
+        props.put('release', project.version)
+        props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null) 
     }
 }
-
-jar.doFirst {
-    Properties props = new Properties()
-    props.put('version', '')
-    props.put('release', project.version)
-    props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null) 
-}
-
 
 clean {
     delete 'bin'
@@ -147,12 +144,16 @@ task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) << {
 }
 
 // Builds the distribution, documentation and a new release
-task release(dependsOn: [ 'clean', 'build', 'jjdoc', 'javadoc', 'renderAsciiDocs', 'zipRel']) << {
+task doc(dependsOn: [ 'jjdoc', 'javadoc', 'renderAsciiDocs']) << {
 } 
 
 task renderAsciiDocs(type: Exec) {
     commandLine 'find', '.', '-name', '*.adoc', '-exec', 'asciidoctor', '{}', ';'
 }
+
+// Builds the distribution, documentation and a new release
+task release(dependsOn: [ 'build', 'doc', 'zipRel']) << {
+} 
 
 // copy files used to build a release
 task copyRel << {

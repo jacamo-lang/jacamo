@@ -2,9 +2,12 @@
 
 == Version 0.6
 
-- move to GitHub
-- move to gradle
+- Beliefs related to JaCaMo are placed in the `jcm` namespace. So, consults to beliefs like `jcm__art(...)` should be replaced by `jcm::art(...)`.
+
+- JaCaMo development is moved to GitHub.
+
+- gradle is used to build.
 
 == Version 0.5
 
-- last version at source forge
+- last version at source forge.

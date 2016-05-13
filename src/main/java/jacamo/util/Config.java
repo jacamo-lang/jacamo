@@ -82,7 +82,9 @@ public class Config extends jason.util.Config {
             return null;
     }
     
-    /** returns the jacamo home (based on jacamo.jar) */
+    /** 
+     * @return the jacamo home (based on jacamo.jar)
+     */
     public String getJaCaMoHome() {
         try {
             if (get(JACAMO_JAR) != null)

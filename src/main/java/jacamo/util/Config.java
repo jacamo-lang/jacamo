@@ -75,11 +75,14 @@ public class Config extends jason.util.Config {
         String r = super.getProperty(DOT_PATH);
         if (r == null)
             r = "/opt/local/bin/dot";
-        File f = new File(r);
-        if (f.exists())
+        if (new File(r).exists())
             return r;
-        else
-            return null;
+        else {
+            r = "/usr/bin/dot";
+            if (new File(r).exists())
+                return r;
+        }
+        return null;
     }
     
     /** 

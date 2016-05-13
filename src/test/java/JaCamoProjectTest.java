@@ -46,7 +46,7 @@ public class JaCamoProjectTest extends TestCase {
 
     
     public void testWriteScript() {
-        RunJaCaMoProject.main(new String[] { "src/test/java/project/p1.jcm","run"}); // change to run to test if it runs
+        RunJaCaMoProject.main(new String[] { "src/test/java/project/p1.jcm","norun"}); // change to run to test if it runs
     }
 
 }

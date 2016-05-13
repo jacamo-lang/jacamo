@@ -50,12 +50,12 @@ jar {
                    'Class-Path': file(project.configurations.compile.find { it.name.startsWith("jason-") }).name
     }
     
-    //from ( configurations.compile.collect { zipTree(it) } ) { // causes problem in the machine of Olivier (!), replaced by classpath in the manifest
+    //from ( configurations.compile.collect { zipTree(it) } ) {
     //    include 'jason/**/*Factory.class', 'jason/**/Config.class'
     //}
     
     doFirst {
-       Properties props = new Properties()
+        Properties props = new Properties()
         props.put('version', '')
         props.put('release', project.version)
         props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null) 

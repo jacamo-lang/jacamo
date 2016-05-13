@@ -1,4 +1,4 @@
-The folder examples/house-building is to be given to students as the
+The folder src/examples/house-building is to be given to students as the
 initial solution.
 
 This folder contains the material for tutors, including tips for the

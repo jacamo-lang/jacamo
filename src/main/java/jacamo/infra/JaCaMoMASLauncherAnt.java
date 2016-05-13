@@ -25,7 +25,7 @@ public class JaCaMoMASLauncherAnt extends CentralisedMASLauncherAnt {
         }*/
         lib += "        <fileset dir=\""+Config.get().getJaCaMoHome()+"/libs\" > <include name=\"*.jar\" /> </fileset>\n";
         
-        script = replace(script, "<PATH-LIB>", lib + "\n<PATH-LIB>");
+        script = replace(script, "<PATH-LIB>", lib); // + "\n<PATH-LIB>");
                 
         //script = replace(script, "<OTHER-TASK>", startContainers);
 

@@ -32,6 +32,7 @@
         <mkdir dir="${build.dir}" />
         <mkdir dir="${basedir}/src/env" />
         <mkdir dir="${basedir}/src/agt" />
+        <mkdir dir="${basedir}/log" />
         <antcall target="user-init" />
     </target>
 

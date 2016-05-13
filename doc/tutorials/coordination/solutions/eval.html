@@ -1,63 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Comparison of the different solutions for coordination</title>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="Comparison of the different solutions for coordination"/>
-<meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2015-10-06T17:15+0200"/>
-<meta name="author" content="Jason Team"/>
-<meta name="description" content=""/>
-<meta name="keywords" content=""/>
+<!-- 2016-05-13 Fri 13:01 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Jason Team" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
-  html { font-family: Times, serif; font-size: 12pt; }
   .title  { text-align: center; }
-  .todo   { color: red; }
+  .todo   { font-family: monospace; color: red; }
   .done   { color: green; }
-  .tag    { background-color: #add8e6; font-weight:normal }
-  .target { }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
-  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
-  .center {margin-left:auto; margin-right:auto; text-align:center;}
-  p.verse { margin-left: 3% }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
   pre {
-	border: 1pt solid #AEBDCC;
-	background-color: #F3F5F7;
-	padding: 5pt;
-	font-family: courier, monospace;
-        font-size: 90%;
-        overflow:auto;
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
   }
-  table { border-collapse: collapse; }
-  td, th { vertical-align: top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
   dt { font-weight: bold; }
-  div.figure { padding: 0.5em; }
-  div.figure p { text-align: center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
     background: #ffffcc;
   }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
   textarea { overflow-x: auto; }
-  .linenr { font-size:smaller }
-  .code-highlighted {background-color:#ffff00;}
-  .org-info-js_info-navigation { border-style:none; }
-  #org-info-js_console-label { font-size:10px; font-weight:bold;
-                               white-space:nowrap; }
-  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
-                                 font-weight:bold; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
   /*]]>*/-->
 </style>
 <script type="text/javascript">
@@ -106,21 +134,14 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
-
 </head>
 <body>
-
-<div id="preamble">
-
-</div>
-
 <div id="content">
 <h1 class="title">Comparison of the different solutions for coordination</h1>
-
-
 <p>
 Some comparison criteria:
-</p><ul>
+</p>
+<ul class="org-ul">
 <li>what is the basic coordination mechanism?
 </li>
 <li>is the coordination inside or outside the agents? Inside =&gt; to change the protocol, the code of all agents need to be changed
@@ -137,63 +158,137 @@ Some comparison criteria:
 </li>
 </ul>
 
-
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" />
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
 </colgroup>
 <thead>
-<tr><th scope="col" class="left">oriented to</th><th scope="col" class="left">mechanism</th><th scope="col" class="left">coordination</th><th scope="col" class="left">requirements</th><th scope="col" class="left">acquaintances</th><th scope="col" class="left">explicit protocol</th><th scope="col" class="left">centralized</th><th scope="col" class="left">performance</th></tr>
+<tr>
+<th scope="col" class="left">oriented to</th>
+<th scope="col" class="left">mechanism</th>
+<th scope="col" class="left">coordination</th>
+<th scope="col" class="left">requirements</th>
+<th scope="col" class="left">acquaintances</th>
+<th scope="col" class="left">explicit protocol</th>
+<th scope="col" class="left">centralized</th>
+<th scope="col" class="left">performance</th>
+</tr>
 </thead>
 <tbody>
-<tr><td class="left">agent</td><td class="left">ACL - simple</td><td class="left">inside</td><td class="left">ACL</td><td class="left">YP</td><td class="left">no</td><td class="left">no</td><td class="left"><i>2p + p<sup>2</sup></i> messages<sup><a class="footref" name="fnr-.1" href="#fn-.1">1</a></sup></td></tr>
-<tr><td class="left">environment</td><td class="left">action/perception - simpler</td><td class="left">mixed<sup><a class="footref" name="fnr-.2" href="#fn-.2">2</a></sup></td><td class="left">Cartago</td><td class="left">YP</td><td class="left">no</td><td class="left">no<sup><a class="footref" name="fnr-.3" href="#fn-.3">3</a></sup></td><td class="left"><i>2+p</i> actions + <i>p<sup>2</sup></i> perceptions</td></tr>
-<tr><td class="left">organization</td><td class="left">schemes - complex</td><td class="left">outside</td><td class="left">Moise</td><td class="left">by roles</td><td class="left">yes</td><td class="left">no<sup><a class="footref" name="fnr-.3.2" href="#fn-.3">3</a></sup></td><td class="left">idem env</td></tr>
-<tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left">+ org actions + org perception</td></tr>
+<tr>
+<td class="left">agent</td>
+<td class="left">ACL - simple</td>
+<td class="left">inside</td>
+<td class="left">ACL</td>
+<td class="left">YP</td>
+<td class="left">no</td>
+<td class="left">no</td>
+<td class="left"><i>2p + p<sup>2</sup></i> messages<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup></td>
+</tr>
+
+<tr>
+<td class="left">environment</td>
+<td class="left">action/perception - simpler</td>
+<td class="left">mixed<sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup></td>
+<td class="left">Cartago</td>
+<td class="left">YP</td>
+<td class="left">no</td>
+<td class="left">no<sup><a id="fnr.3" name="fnr.3" class="footref" href="#fn.3">3</a></sup></td>
+<td class="left"><i>2+p</i> actions + <i>p<sup>2</sup></i> perceptions</td>
+</tr>
+
+<tr>
+<td class="left">organization</td>
+<td class="left">schemes - complex</td>
+<td class="left">outside</td>
+<td class="left">Moise</td>
+<td class="left">by roles</td>
+<td class="left">yes</td>
+<td class="left">no<sup><a id="fnr.3.100" name="fnr.3.100" class="footref" href="#fn.3">3</a></sup></td>
+<td class="left">idem env</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">+ org actions + org perception</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+</tr>
 </tbody>
 </table>
-
 
 
 <p>
 Remark: the organization is better for open systems, however it costs something (complexity of the application and performance).
 </p>
+
 <p>
 ACL = Agent Communication Language
 YP  = Yellow pages
 </p>
+
 <p>
 p   = number of participants
 </p>
 
 
-<hr/>
 
+<hr  />
 <div id="footnotes">
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
-<p class="footnote"><sup><a class="footnum" name="fn-.1" href="#fnr-.1">1</a></sup> <i>p</i> announce messages, <i>p</i> winner messages (so <i>2p</i>), <i>p</i> bids to all participants (so <i>p<sup>2</sup></i>)
-</p>
 
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p class="footpara">
+<i>p</i> announce messages, <i>p</i> winner messages (so <i>2p</i>), <i>p</i> bids to all participants (so <i>p<sup>2</sup></i>)
+</p></div>
 
-<p class="footnote"><sup><a class="footnum" name="fn-.2" href="#fnr-.2">2</a></sup> the agents still need to know <b>when</b> to bid, but some rules of the protocol can be externalized in the artifact
-</p>
+<div class="footdef"><sup><a id="fn.2" name="fn.2" class="footnum" href="#fnr.2">2</a></sup> <p class="footpara">
+the agents still need to know <b>when</b> to bid, but some rules of the protocol can be externalized in the artifact
+</p></div>
 
-
-<p class="footnote"><sup><a class="footnum" name="fn-.3" href="#fnr-.3">3</a></sup> several artifacts, one for each auction
-</p>
-
+<div class="footdef"><sup><a id="fn.3" name="fn.3" class="footnum" href="#fnr.3">3</a></sup> <p class="footpara">
+several artifacts, one for each auction
+</p></div>
 
 
 </div>
-</div>
-</div>
-
-<div id="postamble">
-<p class="date">Date: 2015-10-06T17:15+0200</p>
+</div></div>
+<div id="postamble" class="status">
 <p class="author">Author: Jason Team</p>
-<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
-
+<p class="date">Created: 2016-05-13 Fri 13:01</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.51.2 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

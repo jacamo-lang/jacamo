@@ -143,11 +143,6 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             }
         }
 
-        // ensures that a log directory exists
-        File ldir = new File("log");
-        if (!ldir.exists())
-            ldir.mkdirs();
-        
         // discover the handler        
         for (Handler h : Logger.getLogger("").getHandlers()) {
             // if there is a MASConsoleLogHandler, show it

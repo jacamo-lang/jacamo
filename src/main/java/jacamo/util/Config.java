@@ -16,6 +16,8 @@ public class Config extends jason.util.Config {
     public static final String jacamoHomeProp = "JaCaMoHome";
     public static final String DOT_PATH       = "dotPath";
 
+    public static final String JACAMO_JAR    = "jacamoJar";
+
     private static Config      singleton     = null;
 
     public static Config get() {
@@ -83,7 +85,8 @@ public class Config extends jason.util.Config {
     /** returns the jacamo home (based on jacamo.jar) */
     public String getJaCaMoHome() {
         try {
-            return new File(get(JACAMO_JAR).toString()).getParentFile().getParent();
+            if (get(JACAMO_JAR) != null)
+                return new File(get(JACAMO_JAR).toString()).getParentFile().getParent();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,6 +96,7 @@ public class Config extends jason.util.Config {
 
     /** Set most important parameters with default values */
     public void fix() {
+        tryToFixJarFileConf(JACAMO_JAR, "jacamo",   5000);
         super.fix();
         put("version", getJaCaMoRunningVersion());
         

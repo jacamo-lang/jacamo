@@ -57,10 +57,6 @@ jar {
     }
 }
 
-clean {
-    delete 'bin'
-}
-
 jar.doFirst {
     Properties props = new Properties()
     props.put('version', '')
@@ -68,38 +64,48 @@ jar.doFirst {
     props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null) 
 }
 
+
+clean {
+    delete 'bin'
+    delete 'readme.html'
+    delete 'release-notes.html'
+    delete fileTree('doc/tutorials/hello-world')  { include '**/*.html'  }
+    delete fileTree('doc/tutorials/coordination') { include '*.html'  }
+    delete fileTree('doc/tutorials/gold-miners')  { include '**/*.html'  }
+    delete fileTree('src')  { include '**/bin'  }
+    delete fileTree('src')  { include '**/*.log'  }
+}
+
 task config (type: JavaExec, dependsOn: 'jar') {
     main = 'jacamo.util.Config'
     classpath sourceSets.main.runtimeClasspath
-    workingDir project.buildDir.absolutePath + '/libs' 
-}
-
-config.doFirst {
-    delete System.getProperty("user.home")+'/.jacamo'
-    copy {
-        from configurations.runtime
-        into 'build/libs' 
-        include '**/*.jar'
+    workingDir project.buildDir.absolutePath + '/libs'
+    
+    doFirst {
+        delete System.getProperty("user.home")+'/.jacamo'
+        copy {
+            from configurations.runtime
+            into 'build/libs' 
+        }
+        copy {
+            from 'scripts'
+            into 'build/scripts'
+            include '**'
+        }
     }
-    copy {
-        from 'scripts'
-        into 'build/scripts'
-        include '**'
+    
+    doLast {    
+        println '------'
+        println ''
+        println 'you can set the JaCaMo home directory with the following command:'
+        println '     export JACAMO_HOME='+project.buildDir.absolutePath 
+        println ''
+        println 'and also change your PATH with:' 
+        println '     export PATH=$JACAMO_HOME/scripts:$PATH' 
+        println ''
+        println '-----'
     }
 }
-
-config << {    
-    println '------'
-    println ''
-    println 'you can set the JaCaMo home directory with the following command:'
-    println '     export JACAMO_HOME='+project.buildDir.absolutePath 
-    println ''
-    println 'and also change your PATH with:' 
-    println '     export PATH=$JACAMO_HOME/scripts:$PATH' 
-    println ''
-    println '-----'
-}
-
 
 publishing {
     publications {
@@ -141,7 +147,7 @@ task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) << {
 }
 
 // Builds the distribution, documentation and a new release
-task release(dependsOn: [ 'build', 'jjdoc', 'javadoc', 'renderAsciiDocs', 'zipRel']) << {
+task release(dependsOn: [ 'clean', 'build', 'jjdoc', 'javadoc', 'renderAsciiDocs', 'zipRel']) << {
 } 
 
 task renderAsciiDocs(type: Exec) {

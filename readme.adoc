@@ -18,17 +18,17 @@ This project aims to promote the MultiAgent Programming (MAP) approach by provid
 ----
 git clone https://github.com/jomifred/jacamo.git
 cd jacamo
-gradle config // <1>
+gradle config // <1> <2> <3>
 ----
-<1> builds the jacamo jar, configure jason properties file, and place all jars in build/libs
-
-The config task prints out the commands to set up the JACAMO_HOME and PATH variables.
+<1> gradle is available https://gradle.org/gradle-download/[here].
+<2> the config task builds the jacamo jar, configure jacamo properties file, and place all jars in build/libs.
+<3> this task also prints out the commands to set up the JACAMO_HOME and PATH variables.
 
 Examples can be run using the jacamo shell script, for example:
 
 	jacamo src/examples/house-building/house.jcm
 
-Other useful tasks:
+Other useful gradle tasks:
 
 -----
 gradle jar     // <1>

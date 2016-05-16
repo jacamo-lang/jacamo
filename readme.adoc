@@ -21,10 +21,10 @@ cd jacamo
 gradle config // <1> <2> <3>
 ----
 <1> gradle is available https://gradle.org/gradle-download/[here].
-<2> the config task builds the jacamo jar, configure jacamo properties file, and place all jars in build/libs.
-<3> this task also prints out the commands to set up the JACAMO_HOME and PATH variables.
+<2> the config task builds the jacamo jar, configure jacamo properties file, and place all jars in `build/libs`.
+<3> this task also prints out the commands to set up the `JACAMO_HOME` and `PATH` variables.
 
-Examples can be run using the jacamo shell script, for example:
+Examples can be run using the `jacamo` shell script, for example:
 
 	jacamo src/examples/house-building/house.jcm
 
@@ -36,7 +36,7 @@ gradle doc     // <2>
 gradle eclipse // <3>
 gradle release // <4>
 -----
-<1> generates a new jacamo jar
-<2> generates the javadoc and transforms asciidoc files into html
-<3> generates an _eclipse_ project configuration to develop JaCaMo
-<4> produces a zip file to be distributed to users
+<1> generates a new jacamo jar.
+<2> generates the javadoc and transforms asciidoc files into html (http://asciidoctor.org[asciidoctor] should be installed).
+<3> generates an _eclipse_ project configuration to develop JaCaMo.
+<4> produces a zip file in `build/distributions` to be distributed to users.

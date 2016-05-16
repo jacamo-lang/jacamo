@@ -16,27 +16,27 @@ This project aims to promote the MultiAgent Programming (MAP) approach by provid
 === For JaCaMo developers
 
 ----
-	git clone https://github.com/jomifred/jacamo.git
-	cd jacamo
-	gradle config // <1>
+git clone https://github.com/jomifred/jacamo.git
+cd jacamo
+gradle config // <1>
 ----
 <1> builds the jacamo jar, configure jason properties file, and place all jars in build/libs
 
-The config task prints out the command to set up the JACAMO_HOME variable.
+The config task prints out the commands to set up the JACAMO_HOME and PATH variables.
 
 Examples can be run using the jacamo shell script, for example:
 
-	scripts/jacamo src/examples/house-building/house.jcm
+	jacamo src/examples/house-building/house.jcm
 
 Other useful tasks:
 
 -----
-	gradle jar     // <1>
-	gradle doc     // <2>
-	gradle eclipse // <3>
-	gradle release // <4>
+gradle jar     // <1>
+gradle doc     // <2>
+gradle eclipse // <3>
+gradle release // <4>
 -----
 <1> generates a new jacamo jar
 <2> generates the javadoc and transforms asciidoc files into html
 <3> generates an _eclipse_ project configuration to develop JaCaMo
-<4> produces a zip files to be distributed to users
+<4> produces a zip file to be distributed to users

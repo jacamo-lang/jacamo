@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# this scripts transforms a moise specification (and .xml file) into
+# a .dot file and then into .svg, pdf, ....
+
 if [ -z JACAMO_HOME ] ; then
     CURDIR=`pwd`
     JACAMO_HOME=`dirname $0`
@@ -7,8 +10,6 @@ if [ -z JACAMO_HOME ] ; then
     JACAMO_HOME=`pwd`
     cd $CURDIR
 fi
-
-echo JaCaMo home is $JACAMO_HOME
 
 if [ -z $JDK_HOME ] ; then
     if [ -n $JAVA_HOME ] ; then

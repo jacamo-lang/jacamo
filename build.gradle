@@ -151,8 +151,14 @@ task renderAsciiDocs(type: Exec) {
     commandLine 'find', '.', '-name', '*.adoc', '-exec', 'asciidoctor', '{}', ';'
 }
 
+task fixTab {
+    ant.fixcrlf(eol: 'crlf',  includes: '**/*.txt,**/*.bat, **/*.adoc', srcdir: '.')
+    ant.fixcrlf(tab: 'remove', tablength: '4', javafiles: 'true', includes: '**/*.java,**/*.xml', srcdir: 'src')
+}
+
+
 // Builds the distribution, documentation and a new release
-task release(dependsOn: [ 'build', 'doc', 'zipRel']) << {
+task release(dependsOn: [ 'build', 'doc', 'fixTab', 'zipRel']) << {
 } 
 
 // copy files used to build a release

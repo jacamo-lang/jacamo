@@ -5,22 +5,23 @@ JaCaMo Team
 
 :prewrap!:
 
-[[introduction]]
-Introduction
-------------
+== Introduction
 
 This programming tutorial illustrates some features of JaCaMo through
 the development and refinement of a kind of (sophisticate) _Hello World_
 application that consider agents, environment and organisation.
 
-[[part-i-installation-and-new-project]]
-Part I (installation and new project)
--------------------------------------
+
+== Part I (installation and new project)
 
 To get started, you have to either install the latest
-http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or configure your  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based.html[shell command]. In the eclipse plugin, follow the instructions until step 12. Then, follow the steps
+http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or configure your  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based.html[shell command].
+
+- In the _eclipse_ plugin: follow the instructions until step 12. Then, follow the steps
 13 to 17 to create a new project for this tutorial. The project name
 should be `helloworld`, as proposed in step 14.
+
+- In the _shell command_: follow the steps 1 to 3.
 
 The file `helloworld.jcm` (the project file) describes the project and
 will be the main focus of this tutorial. By openning this file, you will
@@ -72,7 +73,7 @@ file, each agent will have an initial belief `message("xxxxx")`
 corresponding to the message that it should use to say hello.
 
 *2.* To create a new agent type select `src/agt` (in JaCaMo Navigator
-tab) and then the Eclipse menu File/New/Agent type.
+tab) and then the Eclipse menu File -> New -> Agent type.
 
 image:./screens/m1.png[width="60%"]
 
@@ -90,7 +91,7 @@ image:./screens/c1.png[]
 
 The plan in line 11 on the picture can be read by the agent as "whenever
 I have the goal `!start` and I believe in `message(X)`, I will achieve
-this goal by doing `.print(X)`". `X` is a variable that gets value by
+this goal by doing `.print(X)`. `X` is a variable that gets value by
 matching `message(X)` with some agent's belief. If the agent belief is
 `message("Bom dia")`, the value of `X` will be "Bom dia".
 
@@ -162,7 +163,7 @@ all agents will share the same display artifact and latter we will have
 displays in several countries.
 
 *1.* To create the display artifact, select `src/env` (in the JaCaMo
-Navigator tab) and then the Eclipse menu File/New/CArTAgO Artifact. Fill
+Navigator tab) and then the Eclipse menu File -> New -> CArTAgO Artifact. Fill
 the form as follows (NB.: use `display` and `GUIConsole` for the package
 and class names, respectively):
 
@@ -393,7 +394,7 @@ In Moise notation:
 image::./code/os-ss.png[width="70%", align=center]
 
 
-*1.* To create an organisational specification, select `src/org` (in the JaCaMo Navigator tab) and then the Eclipse menu File/New/Moise Specification. For organisation filename, fill `o1.xml`. Open `o1.xml` and replace its content by this link:./code/o1.xml.txt[file]. It contains an XML representation of the above specification. Try to identify the roles, missions, and schemes in the file.
+*1.* To create an organisational specification, select `src/org` (in the JaCaMo Navigator tab) and then the Eclipse menu File -> New -> Moise Specification. For organisation filename, fill `o1.xml`. Open `o1.xml` and replace its content by this link:./code/o1.xml.txt[file]. It contains an XML representation of the above specification. Try to identify the roles, missions, and schemes in the file.
 
 *2.* Based on this specification, the following code in the project file (`helloworld.jcm`) will create an organisation entity (i.e. agents within an organisation) where `francois` will play role `rv`, `maria` the role `rl`, `giacomo` the role `rc`, `alice` the role `rs` in the group `jacamo_team` which is of type `team`. This group is responsible for executing the social scheme `hello_eng` of type `hello_sch`.
 

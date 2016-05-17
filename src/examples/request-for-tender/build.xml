@@ -22,7 +22,7 @@
         <pathelement location="${basedir}"/>
         <pathelement location="${build.dir}"/>
         <pathelement location="${jasonJar}"/>
-	    <pathelement location="../../lib/jade.jar"/>
+        <pathelement location="../../lib/jade.jar"/>
         <pathelement location="../../lib/cartago.jar"/>
         <pathelement location="../../lib/c4jason.jar"/>
         <pathelement location="../../lib/moise.jar"/>

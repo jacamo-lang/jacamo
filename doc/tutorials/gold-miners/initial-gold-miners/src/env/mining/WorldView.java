@@ -52,7 +52,7 @@ public class WorldView extends GridWorldView {
             scenarios.addItem(i);
         }
         
-		JPanel sp = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel sp = new JPanel(new FlowLayout(FlowLayout.LEFT));
         sp.setBorder(BorderFactory.createEtchedBorder());
         sp.add(new JLabel("Scenario:"));
         sp.add(scenarios);*/

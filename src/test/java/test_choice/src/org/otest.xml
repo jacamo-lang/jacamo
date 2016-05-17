@@ -38,15 +38,15 @@
             <plan operator="sequence">
                 <goal id="goal2"    ttf="20 minutes" ds="description goal2"/>
                 <goal id="goal3">
-                	<plan operator="choice">
-                		<goal id="g4" min="1"/>
-                		<goal id="g5" min="1"/>
-                		<goal id="g6" min="1"/>
-                	</plan>
-               	</goal>
+                    <plan operator="choice">
+                        <goal id="g4" min="1"/>
+                        <goal id="g5" min="1"/>
+                        <goal id="g6" min="1"/>
+                    </plan>
+                </goal>
                 <goal id="gend" >
-                	<depends-on goal="g5" />
-               	</goal>
+                    <depends-on goal="g5" />
+                </goal>
             </plan>
         </goal>
 

@@ -5,15 +5,15 @@ import cartago.OPERATION;
 
 public class MsgConsole extends Artifact {
 
-	private MsgDisplay display;
+    private MsgDisplay display;
 
-	void init(String name) {
-    	display = new MsgDisplay(name);
-    	display.setVisible(true);
+    void init(String name) {
+        display = new MsgDisplay(name);
+        display.setVisible(true);
     }
     
     @OPERATION void printMsg(String msg){
-    	display.addText(msg);
+        display.addText(msg);
     }    
 }
 

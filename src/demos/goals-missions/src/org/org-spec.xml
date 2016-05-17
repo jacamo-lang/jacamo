@@ -16,12 +16,12 @@
 
         <role-definitions>
             <role id="student"></role><role id="greeter">
-				<extends role="student" /></role>
+                <extends role="student" /></role>
             <role id="observer">
-            	<extends role="student" />
+                <extends role="student" />
             </role>
             <role id="computer">
-            	<extends role="student" />
+                <extends role="student" />
             </role>
         </role-definitions>
 
@@ -47,18 +47,18 @@
         <scheme id="easssSch" >
 
             <goal id="easss" ttf="5 seconds" min="2">
-            	<plan operator="sequence">
+                <plan operator="sequence">
 
-            		<goal id="observe" ds="Observe what is published"></goal>
-            		<goal id="greet_for_ever"
-            			ds="Greeting and Greeting">
-            		</goal>
-            		<goal id="compute" ds="Compute PI"></goal>
+                    <goal id="observe" ds="Observe what is published"></goal>
+                    <goal id="greet_for_ever"
+                        ds="Greeting and Greeting">
+                    </goal>
+                    <goal id="compute" ds="Compute PI"></goal>
 
-            	</plan>
+                </plan>
             </goal>
             <mission id="mEasss">
-            	<goal id="easss" />
+                <goal id="easss" />
             </mission>
 
             <mission id="mGreeting" min="1" max="5">
@@ -79,9 +79,9 @@
 
     <normative-specification>
         <norm id="n1" type="obligation" role="greeter"
-        	mission="mGreeting" time-constraint="1 day" /><norm id="n2" type="obligation" role="observer" mission="mObserve" time-constraint="1 day" /><norm id="n3" type="obligation" role="computer" mission="mCompute" time-constraint="1 day" /><norm
-        	type="obligation" role="observer" mission="mEasss" id="n4" ></norm>
-    	
+            mission="mGreeting" time-constraint="1 day" /><norm id="n2" type="obligation" role="observer" mission="mObserve" time-constraint="1 day" /><norm id="n3" type="obligation" role="computer" mission="mCompute" time-constraint="1 day" /><norm
+            type="obligation" role="observer" mission="mEasss" id="n4" ></norm>
+        
         
 
     </normative-specification>

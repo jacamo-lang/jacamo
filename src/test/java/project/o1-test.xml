@@ -33,15 +33,15 @@
  </links>
  
  <subgroups>
-	<group-specification id="at">
-	    <subgroups>
-	        <group-specification id="t2">
-	           <roles>
-	               <role id="role3" />
-	           </roles>
-	        </group-specification>
-	    </subgroups>
-	</group-specification>
+    <group-specification id="at">
+        <subgroups>
+            <group-specification id="t2">
+               <roles>
+                   <role id="role3" />
+               </roles>
+            </group-specification>
+        </subgroups>
+    </group-specification>
  </subgroups>
  
  <formation-constraints>

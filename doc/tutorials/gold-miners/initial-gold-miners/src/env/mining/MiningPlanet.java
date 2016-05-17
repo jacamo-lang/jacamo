@@ -47,18 +47,18 @@ public class MiningPlanet extends Artifact {
     @OPERATION void left() throws Exception {   move(Move.LEFT);  }
     void move(Move m) throws Exception {
         if (sleep > 0) await_time(sleep);
-    	model.move(m, agId);
+        model.move(m, agId);
         updateAgPercept();
     }
     
     @OPERATION void pick() throws Exception {
         if (sleep > 0) await_time(sleep);
-    	model.pick(agId);
+        model.pick(agId);
         updateAgPercept();
     }
     @OPERATION void drop() throws Exception {
         if (sleep > 0) await_time(sleep);
-    	model.drop(agId);
+        model.drop(agId);
         view.udpateCollectedGolds();
         updateAgPercept();
     }    
@@ -70,24 +70,24 @@ public class MiningPlanet extends Artifact {
     public synchronized void initWorld(int w) {
         simId = w;
         try {
-        	if (model == null) {
-	            switch (w) {
-	            case 1: model = WorldModel.world1(); break;
-	            case 2: model = WorldModel.world2(); break;
-	            case 3: model = WorldModel.world3(); break;
-	            case 4: model = WorldModel.world4(); break;
-	            case 5: model = WorldModel.world5(); break;
-	            case 6: model = WorldModel.world6(); break;
-	            default:
-	                logger.info("Invalid index!");
-	                return;
-	            }
-	            if (hasGUI) {
-	                view = new WorldView(model);
-	                view.setEnv(this);
-	                view.udpateCollectedGolds();
-	            }
-	        }
+            if (model == null) {
+                switch (w) {
+                case 1: model = WorldModel.world1(); break;
+                case 2: model = WorldModel.world2(); break;
+                case 3: model = WorldModel.world3(); break;
+                case 4: model = WorldModel.world4(); break;
+                case 5: model = WorldModel.world5(); break;
+                case 6: model = WorldModel.world6(); break;
+                default:
+                    logger.info("Invalid index!");
+                    return;
+                }
+                if (hasGUI) {
+                    view = new WorldView(model);
+                    view.setEnv(this);
+                    view.udpateCollectedGolds();
+                }
+            }
             defineObsProperty("gsize", simId, model.getWidth(), model.getHeight());
             defineObsProperty("depot", simId, model.getDepot().x, model.getDepot().y);
             defineObsProperty("pos", -1, -1);
@@ -114,10 +114,10 @@ public class MiningPlanet extends Artifact {
         p.updateValue(1, l.y);
 
         if (model.isCarryingGold(agId)) {
-        	if (!hasObsProperty("carrying_gold"))
-        		defineObsProperty("carrying_gold");
+            if (!hasObsProperty("carrying_gold"))
+                defineObsProperty("carrying_gold");
         } else try {
-        	removeObsProperty("carrying_gold");
+            removeObsProperty("carrying_gold");
         } catch (IllegalArgumentException e) {}
 
         // what's around
@@ -142,7 +142,7 @@ public class MiningPlanet extends Artifact {
 
         // remove all first
         try {
-        	removeObsPropertyByTemplate("cell", null, null, null);
+            removeObsPropertyByTemplate("cell", null, null, null);
         } catch (IllegalArgumentException e) {}
                 
         if (model.hasObject(WorldModel.OBSTACLE, x, y)) {

@@ -4,6 +4,9 @@ build
 *.log
 .stop___MAS
 *~
+.gradle
+.settings
+doc/JaCaMoProjectParser.html
 
 *.class
 
@@ -19,3 +22,5 @@ hs_err_pid*
 
 readme.html
 release-notes.html
+
+src/test/java/project/log

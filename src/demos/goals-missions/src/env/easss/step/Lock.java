@@ -5,23 +5,23 @@ import java.math.BigDecimal;
 
 public class Lock extends Artifact {
 
-	private boolean locked;
-	
+    private boolean locked;
+    
     void init() {
-    	locked = false;
-	}
+        locked = false;
+    }
     
     @OPERATION void lock(){
-    	await("notLocked");
-    	locked = true;
+        await("notLocked");
+        locked = true;
     }
 
     @GUARD boolean notLocked(){
-    	return !locked;
+        return !locked;
     }
     
     @OPERATION void unlock(){
-    	locked = false;
+        locked = false;
     }
 
 }

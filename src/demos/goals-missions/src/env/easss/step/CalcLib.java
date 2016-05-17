@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 
 public class CalcLib {
 
-	/** constants used in pi computation */
-	private static final BigDecimal FOUR = BigDecimal.valueOf(4);
+    /** constants used in pi computation */
+    private static final BigDecimal FOUR = BigDecimal.valueOf(4);
 
-	/** rounding mode to use during pi computation */
-	private static final int roundingMode = BigDecimal.ROUND_HALF_EVEN;
+    /** rounding mode to use during pi computation */
+    private static final int roundingMode = BigDecimal.ROUND_HALF_EVEN;
 
-	/**
+    /**
      * Compute the value of pi to the specified number of 
      * digits after the decimal point.  The value is 
      * computed using Machin's formula:

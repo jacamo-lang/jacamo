@@ -1,7 +1,5 @@
 /* 
    JaCaMo Gradle build file
-
-   https://github.com/jomifred/jacamo
    
 */
 
@@ -32,10 +30,10 @@ repositories {
 
 
 dependencies {
-    compile group: 'net.sf.jason', name: 'jason',    version: '2.0.beta', changing: true
-    compile group: 'org.jacamo',   name: 'moise' ,   version: '0.9-SNAPSHOT', changing: true
-    compile group: 'org.jacamo',   name: 'cartago' , version: '2.0.2'
-    compile group: 'org.jacamo',   name: 'c4jason' , version: '2.0.2'
+    compile group: 'org.jason-lang', name: 'jason',    version: '2.0-SNAPSHOT', changing: true
+    compile group: 'org.jacamo',     name: 'moise' ,   version: '0.9-SNAPSHOT', changing: true
+    compile group: 'org.jacamo',     name: 'cartago' , version: '2.0.2'
+    compile group: 'org.jacamo',     name: 'c4jason' , version: '2.0.2'
 
     runtime group: 'net.sf.ingenias', name: 'jade', version: '4.3'
     runtime group: 'org.apache.ant',  name: 'ant',  version: '1.9.7'
@@ -47,6 +45,9 @@ jar {
     baseName 'jacamo'
     manifest {
         attributes 'Main-Class': 'jacamo.util.ConfigGUI',
+                   'Specification-Title': 'JaCaMo framework',
+                   'Specification-Version': project.version,
+                   'Implementation-Version': new Date().toString(),
                    'Class-Path': file(project.configurations.compile.find { it.name.startsWith("jason-") }).name
     }
     
@@ -54,12 +55,12 @@ jar {
     //    include 'jason/**/*Factory.class', 'jason/**/Config.class'
     //}
     
-    doFirst {
+    /*doFirst {
         Properties props = new Properties()
         props.put('version', '')
         props.put('release', project.version)
         props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null) 
-    }
+    }*/
 }
 
 clean {

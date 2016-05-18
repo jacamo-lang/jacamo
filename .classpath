@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="build/generated/javacc"/>
-	<classpathentry kind="lib" path="/Users/jomi/.gradle/caches/modules-2/files-2.1/net.sf.jason/jason/2.0.beta/42187987d47c5ec9b4450cb00a5132540485160a/jason-2.0.beta.jar" sourcepath="/Users/jomi/.gradle/caches/modules-2/files-2.1/net.sf.jason/jason/2.0.beta/115751ccb80256b343cfb867386a8cbc649f2c6e/jason-2.0.beta-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/jomi/.gradle/caches/modules-2/files-2.1/org.jason-lang/jason/2.0-SNAPSHOT/86260a306c518528c51a5177d21830c1b9488782/jason-2.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="/Users/jomi/.gradle/caches/modules-2/files-2.1/org.jacamo/moise/0.9-SNAPSHOT/5958dc20e85fb5a26a081bbe9ff7224f9d5c5c97/moise-0.9-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="/Users/jomi/.gradle/caches/modules-2/files-2.1/org.jacamo/cartago/2.0.2/b45be7a501deeba13699bebd72eaeadf3405e33d/cartago-2.0.2.jar"/>
 	<classpathentry kind="lib" path="/Users/jomi/.gradle/caches/modules-2/files-2.1/org.jacamo/c4jason/2.0.2/393bc413db1cbd16e13245e79ffd37052e68eea5/c4jason-2.0.2.jar"/>

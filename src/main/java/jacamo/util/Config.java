@@ -103,7 +103,6 @@ public class Config extends jason.util.Config {
     public void fix() {
         tryToFixJarFileConf(JACAMO_JAR, "jacamo",   5000);
         super.fix();
-        put("version", getJaCaMoRunningVersion());
         
         if (get(ANT_LIB) == null || !checkAntLib(getAntLib())) {
             try {
@@ -130,13 +129,12 @@ public class Config extends jason.util.Config {
         return null;
     }
 
-    @Override
-    public String getDistPropFile() {
-        return "/jacamo.dist.properties";
-    }
-    
-    public String getJaCaMoRunningVersion() {
-        return super.getJasonRunningVersion();
+    public String getJaCaMoVersion() {
+        Package j = Package.getPackage("jacamo.util");
+        if (j != null) {
+            return j.getSpecificationVersion();
+        }
+        return "?";
     }
 
     public static void main(String[] args) {

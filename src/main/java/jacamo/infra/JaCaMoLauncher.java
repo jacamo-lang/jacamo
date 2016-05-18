@@ -124,9 +124,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 readFromJAR = true;
                 Config.get(false); // to void to call fix/store the configuration in this case everything is read from a jar/jnlp file
             } else {
-                System.out.println("JaCaMo "+Config.get().getJaCaMoRunningVersion());
+                System.out.println("JaCaMo "+Config.get().getJaCaMoVersion());
                 System.err.println("You should inform the project file.");
-                JOptionPane.showMessageDialog(null,"You should inform the project file as a parameter.\n\nJaCaMo version "+Config.get().getJaCaMoRunningVersion(),"JaCaMo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"You should inform the project file as a parameter.\n\nJaCaMo version "+Config.get().getJaCaMoVersion(),"JaCaMo", JOptionPane.INFORMATION_MESSAGE);
                 System.exit(0);
             }
         } else {

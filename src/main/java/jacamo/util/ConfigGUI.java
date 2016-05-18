@@ -101,7 +101,7 @@ public class ConfigGUI {
     }
 
     protected String getWindowTitle() {
-        return "JaCaMo Configuration -- "+userProperties.getProperty("version");
+        return "JaCaMo Configuration -- "+userProperties.getJaCaMoVersion();
     }
 
     public JPanel getJasonConfigPanel() {    

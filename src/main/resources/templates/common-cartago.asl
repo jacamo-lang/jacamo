@@ -16,14 +16,14 @@
    <- //.print("focusing on artifact ",A," (at workspace ",W,")");
       !join_workspace(W,H); 
       lookupArtifact(A,AId);
-      +jcm::art(W,A,AId);
+      +jcm::focused(W,A,AId);
       focus(AId).
 -!jcm::focus_env_art(L,Try)
    <- //.print("wait a bit to focus on ",L," try #",Try);
       .wait(100);
       !jcm::focus_env_art(L,Try-1).
       
-+!join_workspace(W,_) : jcm::ws(W,I) <- cartago.set_current_wsp(I).      
-+!join_workspace(W,"local") <- joinWorkspace(W,I); +jcm::ws(W,I).
-+!join_workspace(W,local)   <- joinWorkspace(W,I); +jcm::ws(W,I).
-+!join_workspace(W,H)       <- joinRemoteWorkspace(W,H,I); +jcm::ws(W,I).
++!join_workspace(W,_) : jcm::joined(W,I) <- cartago.set_current_wsp(I).      
++!join_workspace(W,"local") <- joinWorkspace(W,I); +jcm::joined(W,I).
++!join_workspace(W,local)   <- joinWorkspace(W,I); +jcm::joined(W,I).
++!join_workspace(W,H)       <- joinRemoteWorkspace(W,H,I); +jcm::joined(W,I).

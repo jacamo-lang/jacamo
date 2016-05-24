@@ -20,7 +20,7 @@
 +!jcm::initial_roles(role(O,H,G,R),Try)
    <- !join_workspace(O,H); 
       lookupArtifact(G,GId);
-      +jcm::art(O,G,GId);
+      +jcm::focused(O,G,GId);
       focus(GId);
       adoptRole(R)[artifact_id(GId)];
       .print("playing ",R," in ",O,".",G).

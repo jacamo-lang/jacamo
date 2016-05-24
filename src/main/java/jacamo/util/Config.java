@@ -20,12 +20,15 @@ public class Config extends jason.util.Config {
 
     private static Config      singleton     = null;
 
+    static {
+        jason.util.Config.setClassFactory(Config.class.getName());        
+    }
+    
     public static Config get() {
         return get(true);
     }
 
     public static Config get(boolean tryToFixConfig) {
-        jason.util.Config.setClassFactory(Config.class.getName());
         if (singleton == null) {
             singleton = new Config();
             if (!singleton.load()) {
@@ -126,7 +129,7 @@ public class Config extends jason.util.Config {
         if (al == null) {
             return getJaCaMoHome()+"/libs";
         }
-        return null;
+        return al;
     }
 
     public String getJaCaMoVersion() {

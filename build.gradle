@@ -191,6 +191,10 @@ task copyRel << {
         from 'src/demos'      
         into 'build/jacamo-'+project.version+'/src/demos' 
     }
+    copy {
+        from 'src/main/resources/templates'      
+        into 'build/jacamo-'+project.version+'/src/templates' 
+    }
     delete fileTree('build/jacamo-'+project.version+'/doc')  { include '**/*.adoc', '**/Makefile', '**/publish.sh'  }
     
 }

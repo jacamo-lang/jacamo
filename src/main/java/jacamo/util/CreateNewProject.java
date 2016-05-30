@@ -42,6 +42,15 @@ public class CreateNewProject {
         CreateNewProject p = new CreateNewProject(new File(args[0]));        
         p.createDirs();
         p.copyFiles();
+        p.usage();
+    }
+    
+    void usage() {
+        System.out.println("\n\nYou can run your application with:");
+        System.out.println("   $ jacamo "+path+"/"+main+".jcm");
+        System.out.println("or");
+        System.out.println("   $ cd "+path);
+        System.out.println("   $ gradle -q");        
     }
 
     void createDirs() {
@@ -89,6 +98,10 @@ public class CreateNewProject {
                 l = l.replace("<SUPER_CLASS>", "Artifact");
                 
                 l = l.replace("<ORGANIZATION_NAME>", id);
+                
+                l = l.replace("handlers = jason.runtime.MASConsoleLogHandler", "#handlers = jason.runtime.MASConsoleLogHandler");
+                l = l.replace("#handlers= java.util.logging.ConsoleHandler", "handlers= java.util.logging.ConsoleHandler");
+                
                 out.append(l+"\n");
                 l = in.readLine();
             }

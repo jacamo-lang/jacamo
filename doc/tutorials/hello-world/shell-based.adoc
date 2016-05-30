@@ -22,4 +22,4 @@ Examples of agent, artifact and organization are placed in the `src` folder.
 If you have Gradle installed, you can also run the application with
 +
     cd ../somewhere/helloworld
-    gradle
+    gradle -q

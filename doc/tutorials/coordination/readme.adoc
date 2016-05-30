@@ -492,7 +492,9 @@ the group. The norms are the following:
 * `participants` are _obliged_ to achieve `bid`.
 
 The goals `start` and `decide` are thus part of the same mission
-`mAutioneer`, and `bid` is part of the mission `mParticipant`.
+`mAutioneer`, and `bid` is part of the mission `mParticipant`. This specification is depicted below in the Moise notation.
+
+image:./code/os.png[]
 
 The following steps will implement this MAS.
 

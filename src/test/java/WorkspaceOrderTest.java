@@ -1,10 +1,14 @@
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
 import jacamo.project.JaCaMoAgentParameters;
 import jacamo.project.JaCaMoProject;
-import junit.framework.TestCase;
 
 /** JUnit test case for syntax package */
-public class WorkspaceOrderTest extends TestCase {
+public class WorkspaceOrderTest {
     
+    @Test
     public void testOrder() {
         JaCaMoProject p = new JaCaMoProject();
         JaCaMoAgentParameters ap = new JaCaMoAgentParameters(p);
@@ -14,7 +18,7 @@ public class WorkspaceOrderTest extends TestCase {
         ap.addWorkspace("w3", "n5");
         p.addNodeHost("n5", "x.com", true);
         
-        System.out.println(ap.getWorkspaces());
+        assertEquals("[w1, w2, w4, w3]", ap.getWorkspaces().toString());
     }
 
 }

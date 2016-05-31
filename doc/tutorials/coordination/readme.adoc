@@ -771,11 +771,9 @@ Bob:
 +oblUnfulfilled( obligation(Ag,_,achieved(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // <1>
    <- .print("Participant ",Ag," didn't bid on time! S/he will be placed in a blacklist");
        // TODO: implement a black list artifact
-       .concat("goalAchieved(",Ag,",",bid,")",Cmd); // <2>
-       admCommand(Cmd)[artifact_id(AId)].
+       admCommand("goalSatisfied(bid)")[artifact_id(AId)].
 -------
 <1> it is the case that a bid was not achieved
-<2> creates an administrative command like "goalAchieved(alice,bid)", to be send to the scheme
 
 The code of the project for this part of the tutorial is available
 link:./code/auction_org.zip[here].

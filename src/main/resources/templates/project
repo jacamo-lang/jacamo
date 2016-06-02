@@ -13,8 +13,9 @@ mas <PROJECT_NAME> {
     <DEFAULT_AGENT>
     
 /* 
-   agent definition
+   agents definition
 
+      <agents>    ::= <agent>*
       <agent>     ::= agent <name> [ : <source> ] { <parameter>* }
       <parameter> ::= <id> : <value> ( (, | EOL) <value> ) *
        
@@ -66,7 +67,7 @@ mas <PROJECT_NAME> {
 */
 
 /*
-    organisation entity definition
+    organisations definition
     
        <organisations> ::= <org>*
        <org>           ::= organisation <name> [ : <source> ] { <parameter>* <agents> <node> <group>* <scheme>* }
@@ -75,16 +76,14 @@ mas <PROJECT_NAME> {
        
     e.g.
        organisation o1 : os.xml {                      // os.xml is the file with the organisational specification, if omitted o1.xml is used
-          group g1: writepaper {                       // creates a group instance named g1 based on the group definition identified by writepaper (defined in the o1.xml file)
-             responsible-for: s1                       // the group will be responsible for the scheme s1
-             owner: alice
-             debug                                     // starts a GUI for this group
-             
-             group sg2 : t1                            // groups sg2 will be a sub-group of g1          
+          group g1: writepaper {                       // creates a group instance g1 based on the group definition writepaper in os.xml file
+             responsible-for: s1                       // the group will be responsible for the scheme instance s1
+             debug                                     // starts a debug GUI for this group
+             group sg2 : t1                            // group instance sg2 of type t1 will be a sub-group of g1          
           }             
-          group g2 : writepaper                        // another group (without particular initialisation) 
+          group g2 : writepaper                        // another group instance (without particular initialisation) 
           
-          scheme s1 : wpscheme                         // instance of scheme identified by wpscheme (in o1.xml)  
+          scheme s1 : wpscheme                         // creates a scheme instance s1 based on the scheme definition wpscheme in os.xml file  
        }
 */
 

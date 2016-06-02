@@ -51,6 +51,22 @@
 </functional-specification>
 
 <normative-specification>
+    <!-- 
+       setup of how Moise properties (e.g. role compatibility) are handled (regimented or not)
+       when value = "fail", ensures that the property is not broken (regiment the property)
+       when value = "prohibition", violations are produced when the property is not followed by the agents
+       
+       possible properties are defined in https://github.com/moise-lang/moise/blob/master/src/main/java/ora4mas/nopl/tools/os2nopl.java
+       
+       some examples follows
+    -->
+    <!-- properties>
+        <property id="default_management"  value="fail" /> 
+        <property id="role_compatibility"  value="prohibition" />
+        <property id="mission_cardinality" value="prohibition" />
+    </properties-->
+    
+    <!-- the norms of the application -->
     <norm id="norm1" type="obligation" role="role2" mission="mission1"/>
 </normative-specification>
 

@@ -10,13 +10,13 @@
       commitMission(Mission)[artifact_id(ArtId)]. 
 
 // obligation to achieve a goal      
-+obligation(Ag,Norm,achieved(Scheme,Goal,Ag),Deadline)[artifact_id(ArtId)]
-    : .my_name(Ag)
++obligation(Ag,Norm,What,Deadline)[artifact_id(ArtId)]
+    : .my_name(Ag) & (What=satisfied(Scheme,Goal) | What = done(Scheme,Goal,Ag))
    <- //.print(" ---> working to achieve ",Goal," in scheme ",Scheme);
       !Goal[scheme(Scheme)];
       //.print(" <--- done");
       goalAchieved(Goal)[artifact_id(ArtId)].
-
+      
 // an unknown type of obligation was received
 +obligation(Ag,Norm,What,DeadLine)  
    : .my_name(Ag)

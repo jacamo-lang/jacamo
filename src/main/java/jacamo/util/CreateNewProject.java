@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /** 
  * class used to create an initial jacamo project: 
@@ -23,7 +25,7 @@ public class CreateNewProject {
     
     public CreateNewProject(File m) {
         main = m;
-        path = main.getAbsoluteFile().getParentFile();
+        path = main.getAbsoluteFile(); //.getParentFile();
         
         id = main.getName();
         id = id.substring(0,1).toLowerCase() + id.substring(1);
@@ -40,6 +42,15 @@ public class CreateNewProject {
         CreateNewProject p = new CreateNewProject(new File(args[0]));        
         p.createDirs();
         p.copyFiles();
+        p.usage();
+    }
+    
+    void usage() {
+        System.out.println("\n\nYou can run your application with:");
+        System.out.println("   $ jacamo "+path+"/"+main+".jcm");
+        System.out.println("or");
+        System.out.println("   $ cd "+path);
+        System.out.println("   $ gradle -q");        
     }
 
     void createDirs() {
@@ -59,11 +70,12 @@ public class CreateNewProject {
     }
     
     void copyFiles() {
-        copyFile("project", new File( main+".jcm"));
+        copyFile("project", new File( path+"/"+main+".jcm"));
         copyFile("agent", new File( path + "/src/agt/sample_agent.asl"));
         copyFile("logging.properties", new File( path + "/logging.properties"));
         copyFile("CArtAgOartifact", new File(path+"/src/env/tools/Counter.java"));
         copyFile("organization", new File( path + "/src/org/org.xml"));
+        copyFile("build.gradle", new File( path + "/build.gradle"));
     }
 
     void copyFile(String source, File target) {
@@ -74,6 +86,9 @@ public class CreateNewProject {
             while (l != null) {
                 l = l.replace("<PROJECT_NAME>", id);
                 l = l.replace("<PLATFORM>", "");
+                l = l.replace("<PROJECT-FILE>", main+".jcm");
+                l = l.replace("<VERSION>", c.getJaCaMoVersion());
+                l = l.replace("<DATE>", new SimpleDateFormat("MMMM dd, yyyy - HH:mm:ss").format(new Date()));
 
                 l = l.replace("<DEFAULT_AGENT>", "agent sample_agent");
                 l = l.replace("<AG_NAME>", "sample_agent");
@@ -83,6 +98,10 @@ public class CreateNewProject {
                 l = l.replace("<SUPER_CLASS>", "Artifact");
                 
                 l = l.replace("<ORGANIZATION_NAME>", id);
+                
+                l = l.replace("handlers = jason.runtime.MASConsoleLogHandler", "#handlers = jason.runtime.MASConsoleLogHandler");
+                l = l.replace("#handlers= java.util.logging.ConsoleHandler", "handlers= java.util.logging.ConsoleHandler");
+                
                 out.append(l+"\n");
                 l = in.readLine();
             }

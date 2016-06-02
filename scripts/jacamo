@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z JACAMO_HOME ] ; then
+if [ -z $JACAMO_HOME ] ; then
     CURDIR=`pwd`
     JACAMO_HOME=`dirname $0`
     cd "$JACAMO_HOME/.."
@@ -12,7 +12,7 @@ echo JaCaMo home is $JACAMO_HOME
 
 if [ -z $JDK_HOME ] ; then
     if [ -n $JAVA_HOME ] ; then
-	JDK_HOME=$JAVA_HOME
+	       JDK_HOME=$JAVA_HOME
     fi
 fi
 

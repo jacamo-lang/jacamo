@@ -97,7 +97,7 @@ has the format `bib( <service description>, <price>)`.
 
 [source,asl,linenums]
 .auctioneer.asl
-----------------------------------------------------------------------------------------------------------------------------
+------
 !start. // initial goal
 
 +!start <- .broadcast(tell, auction(service, flight_ticket(paris,athens,"15/12/2015"))).
@@ -113,7 +113,7 @@ has the format `bib( <service description>, <price>)`.
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }
-----------------------------------------------------------------------------------------------------------------------------
+------
 <1> `L` is a list of all bids, e.g. `[b(77.7,alice), b(91.7,giacomo), ...]`
 <2> all 4 expected bids have been received, announce the winner
 
@@ -492,7 +492,9 @@ the group. The norms are the following:
 * `participants` are _obliged_ to achieve `bid`.
 
 The goals `start` and `decide` are thus part of the same mission
-`mAutioneer`, and `bid` is part of the mission `mParticipant`.
+`mAutioneer`, and `bid` is part of the mission `mParticipant`. This specification is depicted below in the Moise notation.
+
+image:./code/os.png[]
 
 The following steps will implement this MAS.
 
@@ -766,14 +768,12 @@ the goal `bid` as satisfied anyway. The following plan will do that for
 Bob:
 
 -------
-+oblUnfulfilled( obligation(Ag,_,achieved(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // <1>
++oblUnfulfilled( obligation(Ag,_,done(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // <1>
    <- .print("Participant ",Ag," didn't bid on time! S/he will be placed in a blacklist");
        // TODO: implement a black list artifact
-       .concat("goalAchieved(",Ag,",",bid,")",Cmd); // <2>
-       admCommand(Cmd)[artifact_id(AId)].
+       admCommand("goalSatisfied(bid)")[artifact_id(AId)].
 -------
 <1> it is the case that a bid was not achieved
-<2> creates an administrative command like "goalAchieved(alice,bid)", to be send to the scheme
 
 The code of the project for this part of the tutorial is available
 link:./code/auction_org.zip[here].

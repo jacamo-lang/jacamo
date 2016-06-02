@@ -16,5 +16,10 @@ Examples of agent, artifact and organization are placed in the `src` folder.
 
 
 . And run it with
-
-    jacamo ../somewhere/helloworld.jcm
++
+    jacamo ../somewhere/helloworld/helloworld.jcm
++
+If you have Gradle installed, you can also run the application with
++
+    cd ../somewhere/helloworld
+    gradle -q

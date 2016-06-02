@@ -29,7 +29,8 @@ public class Config extends jason.util.Config {
     }
 
     public static Config get(boolean tryToFixConfig) {
-        if (singleton == null) {
+        if (singleton == null || !singleton.getClass().getName().equals(Config.class.getName())) {           
+            jason.util.Config.setClassFactory(Config.class.getName());        
             singleton = new Config();
             if (!singleton.load()) {
                 if (tryToFixConfig) {

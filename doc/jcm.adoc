@@ -1,0 +1,163 @@
+= JCM Documentation
+(for JaCaMo 0.6)
+:toc:
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:icons: font
+:prewrap!:
+
+The configuration of a JaCaMo program is realised in a file with the '.jcm' suffix (jcm stands for jacamo). This file is composed of the following sections included in a file:
+
+-  agents definition
+-  environment definition
+-  organisations definition
+-  execution configuration definition
+
+....
+mas myjacamoapplication {
+// agents definition
+  ...
+// environment definition
+  ...
+// organisations definition
+  ...
+// execution configuration definition
+  ...
+}
+....
+
+== Agents definition
+=== Syntax for agents definition
+-------------------------
+<agents>    ::= <agent>*
+<agent>     ::= agent <name> [ : <source> ] { <parameter>* }
+<parameter> ::= <id> : <value> ( (, | EOL) <value> ) *
+<id>        ::= beliefs | goals |
+                debug | verbose |
+                ag-class | ag-arch | ag-bb-class | myparameter |
+                node | instances |
+                join | focus | roles
+-------------------------
+=== Example of agents definition
+....
+// if source is omitted, bob.asl will be used by default
+agent bob : participant.asl {
+// initial beliefs
+      beliefs:     p("this is a condition",15000)   
+                   friend(alice)
+// initial goals                   
+      goals:       start, go(home)                  
+
+// starts the mind inspector for the agent
+      debug:       mindinspector(gui(2000,html,history))
+// verbose level: 0 (only agent output), 1 (agent+jason output), 2 (agent+jason+debug output)
+     verbose:     2
+
+// if omitted, Jason Agent default class will be used
+     ag-class:    tt.MyAgClass                     
+     ag-arch:     myp.myArch1
+// CArtAgO arch is automatically included, if necessary, JADE arch is automatically included
+                  mypk.MyCustomAgArch 
+// belief base management
+     ag-bb-class: my.Bb
+// user application parameter, used for instance by user custom architectures         
+     myparameter: "this is an appl parameter"      
+
+     node:        n1 // logical name of the node where the agent will run
+// 5 bobs (called bob1, bob2, ... bob5) will be created.
+// You can also list the names of the agents. Default value is 1.
+     instances:   5                                
+
+// join the workspace w2 (w2 should be defined in environment definition section)
+     join:        w2
+// focus on artifact a1 in workspace w1 running on node n1 (a1 should be defined in environment definition section)
+     focus:       w1.a1 @ n1
+// adopt the role r1 in group g2 and role r2 in group g3 (in org o1 running on node n2) (g2, g3, o1 should be defined in organisation definition section)
+     roles:       r1 in g2, r2 in o1.g3 @ n2       
+}
+// the source is alice.asl, one instance will be created at default node      
+agent alice                                      
+....
+== Environment definition
+=== Syntax for environment definition
+-------------------------
+<environment> ::= <workspace>*
+<workspace>   ::= workspace <name> { <artifact>* <agents> <node> <debug> }
+<artifact>    ::= artifact  <name> : <type> [ { focused-by: <agents> } ]
+<agents>      ::= agents : <name> ( (, | EOL) <name> )* | "*"   // "*" means all agents
+<node>        ::= node :   <name> EOL
+<debug>       ::= debug
+-------------------------       
+=== Example of environment definition
+....
+workspace w1 {
+// creates an artifact named c1 as an instance of mylib.Counter initialised with (10) 
+     artifact c1: mylib.Counter(10)               
+     artifact bll: mylist.BlackList()
+// this workspace will run on node n2     
+     node: n2
+// starts a GUI for this workspace
+      debug                                        
+}
+....
+== Organisations definition
+=== Syntax for organisations definition
+-------------------------
+<organisations> ::= <org>*
+<org>           ::= organisation <name> [ : <source> ] { <parameter>* <agents> <node> <group>* <scheme>* }
+<group>         ::= group  <name> : <type> [ { <gparameter>* } ]
+<gparameter>     ::= <gid> : <gvalue> ( (, | EOL) <gvalue> ) *
+<gid>            ::= responsible-for | debug | group
+<scheme>        ::= scheme <name> : <type> [ { <sparameter>* } ]
+<sparameter>     ::= <sid> : <svalue> ( (, | EOL) <svalue> ) *
+<sid>            ::= beliefs | goals |
+-------------------------       
+=== Example of organisations definition
+....
+// os.xml is the file with the organisational specification, if omitted o1.xml is used
+organisation o1 : os.xml {
+// a group instance g1 based on the group writepaper defined in os.xml
+      group g1: writepaper {
+// the group will be responsible for the scheme s1
+      responsible-for: s1                       
+// starts a debug GUI for this group      
+      debug                                     
+// groups sg2 will be a sub-group of g1                       
+      group sg2 : t1                            
+    }
+// another group instance (without particular initialisation)     
+    group g2 : writepaper                        
+// scheme instance identified by wpscheme in os.xml           
+    scheme s1 : wpscheme                         
+}
+....
+== Execution configuration definition
+=== Java class path
+....
+         class-path:  lib
+....   
+=== Agent source path
+....
+asl-path: src/agt
+              src/agt/inc
+....
+=== Platform configuration
+*  parameters for cartago                   
+   - "infrastructure" (optional): starts the cartago node in the network
+*  parameters for centralised
+   - pool,X : where X is the number os threads used to run the agents
+*  parameters for jade: any parameter we can use for jade.Boot. E.g.:
+   - jade("-gui -sniffer"): starts jade main-container with RMA and Sniffer already running
+   - jade("-container -host localhost -container-name c2"): starts a jade sub-container named c2
+....
+       platform: jade() 
+                   cartago("infrastructure") 
+                   centralised(pool,4)
+....
+=== Node configuration
+....
+ node n3 running @ x.com.fr
+....         
+ nodes not defined will be launched when this .jcm is run
+....    
+

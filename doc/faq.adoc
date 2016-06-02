@@ -1,0 +1,22 @@
+= JaCaMo FAQ
+(for JaCaMo 0.6)
+:toc:
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:icons: font
+:prewrap!:
+
+== General
+
+=== Why is the platform called JaCaMo?
+The name of the platform comes from the two first letters of the name of each of the three main platforms seamlessly integrated together: Jason, CarTAgO and MOISE. 
+
+=== How to configure JaCaMo program?
+The configuration of a JaCaMo program is realised in a file with the '.jcm' suffix (jcm stands for jacamo).
+Refer to link:jcm.adoc[jcm documentation]
+
+// === How to debug in JaCaMo
+// Refer to link:debug.adoc[debugging in JaCaMo]
+
+== Developing JaCaMo
+See https://github.com/jacamo-lang/jacamo

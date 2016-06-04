@@ -6,166 +6,165 @@
 :icons: font
 :prewrap!:
 
-Debug tools
------------
-  (details at http://jason.sourceforge.net/faq/faq.html -- How to log agents' mind states?)
-[[how-to-setup-verbosity-of-an-agent]]
-How to setup verbosity of an agent?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Debug tools
 
-The verbosity is set in the options defined for the agent in the project
-file. For instance
+=== Logging the overall execution
+The JaCaMo uses the http://java.sun.com/j2se/1.5.0/docs/guide/logging/overview.html[Java logging API] to output messages from the multi-agent programs into the console (the default console is called MASConsole).
+The default configuration file that comes with the JaCaMo distribution logging.properties has comments that
+helps you to customise the kinds of log you can get.
 
----------------------------
-   ...
-   agents: ag1 [verbose=2];
-   ...
----------------------------
+==== Setting the console
+*  Default Jason MAS Console : handlers = jason.runtime.MASConsoleLogHandler
+*  To use the ConsoleHandler : handlers= java.util.logging.ConsoleHandler
+*  To also add the FileHandler, you can add in previous handlers the java.util.logging.FileHandler as follows: 
+     handlers= java.util.logging.FileHandler, java.util.logging.ConsoleHandler
 
-A number between 0 and 2 should be specified. The higher the number, the
-more information about that agent is printed out in the Jason console.
-The default is in fact 1, not 0; verbose 1 prints out only the actions
-that agents perform in the environment and the messages exchanged
-between them. Verbose 2 is for debugging (it corresponds to the java log
-level FINE).
+==== Setting the logging level
+Setting the default logging level of the MAS application is realized by defining the value of .level (e.g. .level = INFO). Other possible values are : 
+*  SEVERE (only severe messages)
+*  WARNING (only warnings and severe messages)
+*  INFO (normal output)
+*  FINE (debug level of messages)
 
-=== How to log the overall execution?
+==== Setting handler specific properties
+*  Jason Handler parameters
+  **  jason.runtime.MASConsoleLogHandler.level = ALL
+  **  jason.runtime.MASConsoleLogHandler.formatter = jason.runtime.MASConsoleLogFormatter
+*  Set one text area for each agent
+  **  jason.runtime.MASConsoleLogHandler.tabbed = true
+  **  jason.runtime.MASConsoleLogHandler.colors = false
+*  File handler properties:
+  **  default file output is in project's directory.
+  **  java.util.logging.FileHandler.pattern = log/mas-%g.log
+  **  java.util.logging.FileHandler.limit = 500000
+  **  java.util.logging.FileHandler.count = 10
+  **  java.util.logging.FileHandler.formatter = jason.runtime.MASConsoleLogFormatter
+  **  java.util.logging.FileHandler.formatter = java.util.logging.XMLFormatter
+*  Limitting the message that are printed on the console:
+  **  java.util.logging.ConsoleHandler.level = FINE
+  **  java.util.logging.ConsoleHandler.formatter = jason.runtime.MASConsoleLogFormatter
+*  java.level=OFF
+*  javax.level=OFF
+*  sun.level=OFF
+*  jade.level=OFF
 
-Jason uses the http://java.sun.com/j2se/1.5.0/docs/guide/logging/overview.html[Java logging API] to output messages into the console (the default console is
-called MASConsole). To change the log level or device, select the menu
-Plugins -> Jason -> Edit Log properties in the jEdit plugin. If you
-are not using jEdit, you can copy the default configuration file from https://github.com/jason-lang/jason/blob/master/src/main/resources/templates/logging.properties[here] to your
-application directory. The default configuration file has comments that
-helps you customise your log. For instance, to output messages both into
-an XML file and in the console, you only need to set the log handler as
-in the following line:
-
---------------------------------------------------------------------------
+==== Examples 
+For instance, to output messages both into an XML file and in the console, you only need to set the log handler as in the following line:
 handlers = java.util.logging.FileHandler, java.util.logging.ConsoleHandler
---------------------------------------------------------------------------
 
 To get only console output (without the MASConsole GUI):
-
--------------------------------------------
 handlers = java.util.logging.ConsoleHandler
--------------------------------------------
 
-[[how-to-log-agents-mind-states]]
-How to log agents’ mind states?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+== Debugging an agent
 
-Besides running the system in debug mode, we can define options for an
-agent such that the current state of its mind is shown or stored in
-files.
-
-To show the current mind state in the screen, add the following option
-in the project:
-
----------------------------------------------
-agents:
-       bob [mindinspector="gui(cycle,html)"];
----------------------------------------------
-
-In this case the screen is updated each reasoning cycle. If you want to
-store all the states in a kind of _history_, add a third argument as
-in the example below.
-
-----------------------------------------------------
-      bob [mindinspector="gui(cycle,html,history)"];
-----------------------------------------------------
-
-In the place of _cycle_, you can write the refresh interval in
-mili-seconds:
-
----------------------------------------------------
-      bob [mindinspector="gui(2000,html,history)"];
----------------------------------------------------
-
-You can also see the history of minds in a browser with the following
-configuration:
-
-----------------------------------------------------
-      bob [mindinspector="web(cycle,html,history)"];
-----------------------------------------------------
-
-The URL is typically http://locaslhost:3272.
-
-To store the history of minds in files, use the following configuration:
-
-------------------------------------------------
-      bob [mindinspector="file(cycle,xml,log)"];
-------------------------------------------------
-
-The last parameter is the name of the directory where files will be
-stored. Each file corresponds to a sample of the mind. They are XML
-files with suitable style sheets to be viewed in browsers.
-
-== Infrastructures
-
-=== What are infrastructures for?
-
-An infrastructure provides the following services for the MAS:
-
-* communication (e.g., the centralised infrastructure implements
-communication based on KQML whilst JADE implements it using FIPA-ACL),
-* control of the agent life cycle (creation, running, destruction).
-
-=== Which infrastructures are available?
-
-The current distribution has the following infrastructures:
-
-Centralised:::
-  this infrastructure runs all agents in the same host. It provides fast
-  startup and high performance for systems that can be executed in a
-  single computer. It is also useful to test and develop (prototype)
-  systems. Centralised is the default infrastructure.
-Jade:::
-  provides distribution and communication using http://jade.tilab.com[Jade],
-  which is based on FIPA-ACL. With this infrastructure, all tools
-  available with JADE (e.g., Sniffer and Inspector) are also available to
-  monitor and inspect agents.
-  +
-Since Jason agents use KQML and JADE uses FIPA-ACL, we opted to translate the
-  messages from KQML to FIPA-ACL and vice-versa to maintain the
-  AgentSpeak programming the same for all infrastructures. The following
-  table summarises the translation of the basic performatives:
-+
-[cols="<,<",options="header",]
-|=================
-|FIPA-ACL |KQML
-|inform |tell
-|query-ref |askOne
-|request |achieve
-|=================
-+
-You can find more information about this infrastructure in the http://jason.sourceforge.net/mini-tutorial/jason-jade[Jason-JADE tutorial].
-
-
-=== How to select an infrastructure?
-
-In the `.mas2j` project file, use the `infrastructure` entry to select
-an infrastructure, for example to use Centralised:
-
--------------------------------
-MAS auction {
-    infrastructure: Centralised
-    agents: ag1; ag2; ag3;
-}
--------------------------------
-
-and to use Jade:
-
+=== Verbose level of an agent
+The verbosity is set in the parameter's value _verbose_ used in the configuration of an agent in the .jcm project file. For instance
 ---------------------------
-MAS auction {
-    infrastructure: Jade
-    agents: ag1; ag2; ag3;
-}
+   ...
+   agent bob : ag1.asl {
+     ...
+     verbose: 2
+     ...
+   }
+   ...
 ---------------------------
+A number between 0 and 2 should be specified. The higher the number, the more information about that agent is printed out in the console.
+Default is 1 (not 0).
+*  Verbose 1 is for printing out only the actions that agents perform in the environment and the messages exchanged between them.
+*  Verbose 2 is for debugging (it corresponds to the java log level FINE).
 
-Note that the agents do not need to be changed for different
-infrastructures. The Jason Agent Architecture binds them to the available
-infrastructure.
+=== Logging agents’ mind states
+To start the execution of an agent in the debug mode, use the parameter 'debug' in the agent definition in .jcm file.
+Options are available to configure the visibility degree of the agent's mind state:
+*  Showing the mindstate in a gui _gui_ or in a browser _web_ (the URL is typically http://locaslhost:3272) or in a file _file_:
+---------------------------------------------
+// Showing the current mind state in the screen with update each reasoning cycle
+  ...
+  agent bob : agt1.asl {
+     ...
+     debug: mindinspector(gui(cycle,html))
+     ...
+  }
+  ...
+---------------------------------------------
+or
+---------------------------------------------
+// Showing the current mind state in the browser with update each reasoning cycle
+  ...
+  agent bob : agt1.asl {
+     ...
+     debug: mindinspector(web(cycle,html))
+     ...
+  }
+  ...
+---------------------------------------------
+or
+---------------------------------------------
+// Showing the current mind state in a file with update each reasoning cycle
+  ...
+  agent bob : agt1.asl {
+     ...
+     debug: mindinspector(file(cycle,xml,log))
+     ...
+  }
+  ...
+---------------------------------------------
+The last parameter is the name of the directory where files will be stored. Each file corresponds to a sample of the mind. They are XML files with suitable style sheets to be viewed in browsers.
 
-== Developing JaCaMo
+*  Setting up the udpate frequency, use _cycle_ (for each cycle), a number (e.g. 2000) to have an update every 2000 milli-seconds, 
+---------------------------------------------
+// Showing the current mind state in the screen with update each reasoning cycle
+  ...
+  agent bob : agt1.asl {
+     ...
+     debug: mindinspector(gui(cycle,html))
+     ...
+  }
+  ...
+---------------------------------------------
+*  Storing all the states in a kind of _history_, add a third argument:
+----------------------------------------------------
+  ...
+  agent bob : agt1.asl {
+     ...
+     debug: mindinspector(gui(cycle,html,history))
+     ...
+  }
+  ...
+----------------------------------------------------
 
-See https://github.com/jacamo-lang/jacamo
+== Debugging the environment
+
+=== Debugging artifacts in workspace
+*  To start the execution of a workspace in a debug mode by displaying the observable properties of the artifacts executing in the workspace, use the parameter 'debug' in the workspace definition in .jcm file. This will display the content of artifact in the browser
+(the URL is typically http://locaslhost:3273)
+----------------------------------------------------
+  ...
+  workspace wsp1 {
+     ...
+     // starts a debug mode in this workspace for all the artifacts of wsp1
+     debug
+     ...
+  }
+  ...
+----------------------------------------------------
+
+== Debugging an organisation
+*  To start the execution of a group or a scheme in a debug mode by displaying the observable properties of the artifacts executing in the workspace, use the parameter 'debug' in the group or scheme definition in .jcm file. This will create a GUI and also display the content of group or scheme in the browser
+(the URL is typically http://locaslhost:3271)
+----------------------------------------------------
+  ...
+  group g1 : g1group{
+     ...
+     // starts a debug mode in this group instance
+     debug
+     ...
+  }
+  scheme s1 : s1scheme {
+     ...
+     // starts a debug mode in this scheme instance
+     debug
+     ...
+  }
+  ...
+----------------------------------------------------

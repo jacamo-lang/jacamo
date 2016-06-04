@@ -116,10 +116,10 @@ workspace w1 {
 <org>           ::= organisation <name> [ : <source> ] { <parameter>* <agents> <node> <group>* <scheme>* }
 <group>         ::= group  <name> : <type> [ { <gparameter>* } ]
 <gparameter>    ::= <gid> : <gvalue> ( (, | EOL) <gvalue> ) *
-<gid>           ::= responsible-for | debug | group
+<gid>           ::= responsible-for | debug | group | players
 <scheme>        ::= scheme <name> : <type> [ { <sparameter>* } ]
 <sparameter>    ::= <sid> : <svalue> ( (, | EOL) <svalue> ) *
-<sid>           ::= beliefs | goals |
+<sid>           ::= debug
 ------
 
 === Example of organisations definition
@@ -131,6 +131,10 @@ organisation o1 : os.xml {
       group g1: writepaper {
 // the group will be responsible for the scheme s1
       responsible-for: s1
+// bob plays r1 and r2 in group g1, alice plays r1 in g1 
+      players: bob r1
+               bob r2
+               alice r1
 // starts a debug GUI for this group
       debug
 // groups sg2 will be a sub-group of g1

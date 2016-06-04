@@ -15,8 +15,8 @@ The name of the platform comes from the two first letters of the name of each of
 The configuration of a JaCaMo program is realised in a file with the '.jcm' suffix (jcm stands for jacamo).
 Refer to link:jcm.adoc[jcm documentation].
 
-// === How to debug in JaCaMo
-// Refer to link:debug.adoc[debugging in JaCaMo]
+=== How to debug in JaCaMo
+Refer to link:debug.adoc[debugging in JaCaMo]
 
 == Developing JaCaMo
 

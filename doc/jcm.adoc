@@ -1,5 +1,7 @@
 = JCM Documentation
 (for JaCaMo 0.6)
+:author: JaCaMo Team
+:date: June 2016
 :toc:right:
 :source-highlighter: coderay
 :coderay-linenums-mode: inline
@@ -180,3 +182,5 @@ asl-path: src/agt
 ------
 
 nodes not defined will be launched when this .jcm is run
+
+link:documentation.adoc[Back to JaCaMo Documentation]

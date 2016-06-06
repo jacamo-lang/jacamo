@@ -1,6 +1,8 @@
 = Debugging in JaCaMo
 (for JaCaMo 0.6)
-:toc:
+:author: JaCaMo Team
+:date: June 2016
+:toc:right:
 :source-highlighter: coderay
 :coderay-linenums-mode: inline
 :icons: font
@@ -168,3 +170,5 @@ The last parameter is the name of the directory where files will be stored. Each
   }
   ...
 ----------------------------------------------------
+
+link:documentation.adoc[Back to JaCaMo Document]

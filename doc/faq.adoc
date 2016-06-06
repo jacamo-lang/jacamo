@@ -1,6 +1,8 @@
 = JaCaMo FAQ
 (for JaCaMo 0.6)
-:toc:
+:author: JaCaMo Team
+:date: June 2016
+:toc:right:
 :source-highlighter: coderay
 :coderay-linenums-mode: inline
 :icons: font
@@ -18,6 +20,11 @@ Refer to link:jcm.adoc[jcm documentation].
 === How to debug in JaCaMo
 Refer to link:debug.adoc[debugging in JaCaMo]
 
+=== How to make agents live in a JaCaMo system
+Refer to link:faq-agent-in-mas.adoc[Agents in JaCaMo World]
+
 == Developing JaCaMo
 
 See https://github.com/jacamo-lang/jacamo
+
+link:documentation.adoc[Back to JaCaMo Documentation]

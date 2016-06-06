@@ -1,0 +1,1071 @@
+= Agents in a multi-agent world
+(for JaCaMo 0.6)
+:author: JaCaMo Team
+:date: June 2016
+:toc:right:
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:icons: font
+:prewrap!:
+
+[[how-to-program-agents]]
+How to program agents?
+----------------------
+
+*ToBeCompleted*
+
+[[how-can-agents-use-the-environment]]
+How can agents use the environment?
+-----------------------------------
+
+[[what-is-an-artifact]]
+What is an Artifact?
+~~~~~~~~~~~~~~~~~~~~
+
+*ToBeCompleted*
+
+[[observeproperty]]
+observeProperty
+^^^^^^^^^^^^^^^
+
+code,example
+------------------------------------------------------------------------
+ observeProperty(String name, OpFeedbackParam<ArtifactObsProperty> prop)
+------------------------------------------------------------------------
+
+[[what-are-the-default-artifacts-at-the-disposal-of-agents]]
+What are the default artifacts at the disposal of agents?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, each workspace contains a basic set of predefined artifacts
+that provide core functionalities to the agents.
+
+* *workspace* artifact _cartago.WorkspaceArtifact_ (see the
+http://jacamo.sf.net/doc/cartago/main-api/cartago/WorkspaceArtifact.html[Workspace
+API]): the workspace artifact provides functionalities to create,
+dispose, lookup, link, focus artifacts of the workspace. It provides
+also operations to set roles and policies related to the RBAC security
+model.
+* *node* artifact _cartago.NodeArtifact_ (see the
+http://jacamo.sf.net/doc/cartago/main-api/cartago/NodeArtifact.html[Node
+API]) provides functionalities to create new workspaces, to join local
+and remote workspaces
+* *blackboard* artifact _cartago.tools.TupleSpace_ provides a tuple
+space that agents can exploit to communicate and coordinate with each
+other.
+* *console* artifact _cartago.tools.Console_ provides functionalities to
+print messages on standard output.
+
+[[how-can-an-agent-use-and-access-the-manual-of-an-artifact]]
+How can an agent use and access the Manual of an Artifact?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An agent can use and access the Manual of an Artifact through the
+*ManRepoArtifact* Artifact.
+
+[[how-to-store-the-manual]]
+How to store the Manual?
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+An agent can use the operation *storeManual* of the *ManRepoArtifact* as
+follows:
+
+---------------------------------------------------
+  storeManual(String artifactModelName, String uri)
+---------------------------------------------------
+
+[[how-to-get-the-manual-of-an-artifact-of-a-certain-type]]
+How to get the Manual of an artifact of a certain type?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An agent can use the operation *getManualContent* of the
+*ManRepoArtifact* as follows:
+
+-----------------------------------------------------------------------------
+  getManualContent(String artifactModelName, OpFeedbackParam<String> content)
+-----------------------------------------------------------------------------
+
+[[how-to-consult-the-manual-of-an-artifact-of-a-certain-type]]
+How to consult the Manual of an artifact of a certain type?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An agent can use the operation *consultManual* of the *ManRepoArtifact*
+as follows:
+
+----------------------------------------- 
+  consultManual(String artifactModelName)
+-----------------------------------------
+
+[[how-can-agent-use-and-operate-on-a-node]]
+How can agent use and operate on a Node?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[how-to-get-the-id-of-a-node]]
+How to get the Id of a node?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An agent can get the Id of a node by using the operation *getNodeId* of
+the _NodeArtifact_ where _param_ is the parameter receiving the Node Id.
+
+------------------------------------------ 
+  getNodeId(OpFeedbackParam<NodeId> param)
+------------------------------------------
+
+[[how-to-enable-linking-with-node]]
+How to enable Linking with Node?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An agent can enable linking with node by using the operation
+*enableLinkingWithNode* of the _NodeArtifact_ where _id_ is the Node Id,
+_support_ is the kind of support and _address_ is the address of the
+node to link with.
+
+------------------------------------------------------------------
+  enableLinkingWithNode(NodeId id, String support, String address)
+------------------------------------------------------------------
+
+[[how-to-shutdown-a-node]]
+How to shutdown a Node?
+^^^^^^^^^^^^^^^^^^^^^^^
+
+[[in-a-graceful-way]]
+in a graceful way
++++++++++++++++++
+
+An agent can shutdown a node by using the operation *shutdownNode* of
+the _NodeArtifact_ calling the dispose routines of all the artifacts.
+
+---------------- 
+  shutdownNode()
+----------------
+
+[[and-after-one-second-shutdown-the-vm]]
+and after one second shutdown the VM
+++++++++++++++++++++++++++++++++++++
+
+by using the operation *crash* of the _NodeArtifact_
+
+--------- 
+  crash()
+---------
+
+[[how-can-an-agent-get-information-on-the-workspaces-in-a-node]]
+How can an agent get information on the workspaces in a Node?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An agent can use and access the workspaces through the *NodeArtifact*
+
+[[working-in-workspaces]]
+Working in workspaces
+^^^^^^^^^^^^^^^^^^^^^
+
+*  By default an agent, when launched, joins the default workspace on current node.
+*  Agents can create, join and work in multiple workspace at a time. However there is always a current workspace, to which are routed actions with no artifact id or workspace id specified.
+
+* Agents can join workspaces that are hosted on remote nodes, by means
+of a *joinRemoteWorkspace* action. As soon as the join succeed, the
+interaction within remote workspaces is the same as local workspace.
+
+[[how-to-get-the-workspaces-of-a-node]]
+How to get the workspaces of a Node?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[by-focusing-on-the-node-artifact]]
+By focusing on the Node Artifact
+++++++++++++++++++++++++++++++++
+
+By focusing on the __NodeArtifact__, getting the observable property
+*workspace(name, wspId)*
+
+[[by-discovering-a-workspace-by-name]]
+By discovering a workspace by name
+++++++++++++++++++++++++++++++++++
+
+By using the operation *lookupWorkspace* on the _NodeArtifact_ where
+_workspaceName_ is the name of the workspace and _aid_ is the output
+parameter receiving the workspace id
+
+------------------------------------------------------------------
+lookupWorkspace(String wspName, OpFeedbackParam<ArtifactId> aid)
+------------------------------------------------------------------
+
+[[how-to-join-a-workspace]]
+How to join a workspace?
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[a-local-one]]
+a local one
++++++++++++
+
+by using the operation *joinWorkspace* of the _NodeArtifact_ where
+_wspName_ is the workspace name and _res_ is the output parameter
+receiving the workspace id
+
+---------------------------------------------------------------
+joinWorkspace(String wspName, OpFeedbackParam<WorkspaceId> res)
+---------------------------------------------------------------
+
+[[a-local-one-giving-credentials]]
+a local one, giving credentials
++++++++++++++++++++++++++++++++
+
+by using the operation *joinWorkspace* of the _NodeArtifact_ where
+_wspName_ is the workspace name, _cred_ are the agent credentials, _res_
+is the output parameter receiving the workspace id.
+
+---------------------------------------------------------------------------------------
+  joinWorkspace(String wspName, AgentCredential cred, OpFeedbackParam<WorkspaceId> res)
+---------------------------------------------------------------------------------------
+
+[[a-remote-one]]
+a remote one
+++++++++++++
+
+by using the operation *joinRemoteWorkspace* of the _NodeArtifact_ where
+_wspName_ is the workspace name, _address_ is the address and _res_ is
+the output parameter receiving the workspace id.
+
+-------------------------------------------------------------------------------------
+joinRemoteWorkspace(String wspName, String address, OpFeedbackParam<WorkspaceId> res)
+-------------------------------------------------------------------------------------
+
+[[a-remote-one-with-infraservicetype]]
+a remote one with infraServiceType
+++++++++++++++++++++++++++++++++++
+
+by using the operation *joinRemoteWorkspace* of the _NodeArtifact_ where
+_wspName_ is the workspace name, _address_ is the address,
+_infraServiceType_ is the infrastructure service type (use /"default"/
+to use default one), and _res_ is the output parameter receiving the
+workspace id.
+
+---------------------------------------------------------------------------------------------------------------
+joinRemoteWorkspace(String wspName, String address, String infraServiceType, OpFeedbackParam<WorkspaceId> res) 
+---------------------------------------------------------------------------------------------------------------
+
+**Infrastructure options**:
+
+* by default, Jason programs using CArtAgO environment create a
+standalone CArtAgO node, i.e. not accessible through the network
+* To install a CArtAgO node accessible also to remote agents further
+parameters can be specified to the c4jason.CartagoEnvironment:
+** **c4jason.CartagoEnvironment("infrastructure"\{,WspName,
+protocol(ProtName, Address), ...})**: installs an infrastructure layer
+specifying the protocols to support and the local address where to start
+the service;
+** **c4jason.CartagoEnvironment("remote"\{,WspName, protocol(ProtName,
+Address), ...})**: does not install any node – agents directly join the
+specified remote workspace;
+** **c4jason.CartagoEnvironment("local"\{,WspName})**: does not install
+any node – agents directly join the specified local workspace.
+
+[[how-to-quit-workspace]]
+How to quit workspace?
+^^^^^^^^^^^^^^^^^^^^^^
+
+An agent can qui a workspace by using the operation *quitWorkspace* of
+the _WorkspaceArtifact_ that it wants to quit
+
+---------------------------------------- 
+  quitWorkspace(WorkspaceArtifact WspId)
+----------------------------------------
+
+[[how-to-create-a-workspace]]
+How to create a workspace ?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[in-the-local-node.]]
+in the local node.
+++++++++++++++++++
+
+An agent can create a workspace in the local node by using the operation
+*createWorkspace(String name)* of the _NodeArtifact_ where _name_ is the
+name of the workspace
+
+[[in-the-local-node-with-a-topology]]
+in the local node, with a topology
+++++++++++++++++++++++++++++++++++
+
+An agent can create a workspace in the local node by using the operation
+*createWorkspaceWithTopology(String name, String topologyClassName)* of
+the _NodeArtifact_ where _name_ is the name of the workspace and
+_topologyClassName_ is the topology
+
+[[in-the-local-one-with-a-logger]]
+in the local one with a logger
+++++++++++++++++++++++++++++++
+
+An agent can create a workspace in the local node by using the operation
+*createWorkspace(String wspName, ICartagoLogger logger)* of the
+_NodeArtifact_ where _wspName_ is the workspace name and _logger_ of
+type _ICartagoLogger_ is the logger
+
+[[how-can-an-agent-use-and-access-artifacts-within-a-workspace]]
+How can an agent use and access artifacts within a Workspace?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An agent can use and access artifacts within a workspace through the
+*WorkspaceArtifact*
+
+[[how-to-make-agents-invoque-operations-of-the-artifact]]
+How to make agents invoque operations of the artifact?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* In case of operation invocation with no specification of target
+artifact: the artifact is automatically selected from the workspace. If
+there are no artifacts providing such action, the action fails. if more
+than one artifact is found, artifacts created by the agent itself are
+considered first. If more than one artifact is found, one is selected
+non deterministically. Then, the rest of the artifacts are considered,
+and one is selected non deterministically.
+* In case of operation invocation with specification of a target
+artifact: This is done by adding the annotation
+**~[artifact~id~(Id)]~**, where _Id_ must be bound to the artifact
+identifier. Alternatively, the annotation *~[artifact~name~(Name)]~* can
+be used, where _Name_ must be bound to the logic name of the artifact.
+* In case of operation invocation with specification of the target
+workspace: done by adding the annotation **~[wsp~id~(WspID)]~**, where
+_WspID_ must be bound to the wsp identifier.
+
+[[how-to-create-or-delete-artifacts]]
+How to create or delete Artifacts?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[create-a-new-artifact]]
+Create a new artifact
++++++++++++++++++++++
+
+by using the operation *makeArtifact* of the _WorkspaceArtifact_ where
+_name_ is the name of the artifact, _template_ is the artifact template
+(type) and _aid_ is the output parameter receiving the artifact id.
+
+-----------------------------------------------------------------------------------------
+  makeArtifact(String artifactName, String templateName, OpFeedbackParam<ArtifactId> aid)
+-----------------------------------------------------------------------------------------
+
+[[create-a-new-artifact-with-configuration]]
+Create a new artifact with configuration
+++++++++++++++++++++++++++++++++++++++++
+
+by using the operation *makeArtifact* of the _WorkspaceArtifact_ where
+_name_ is the name of the artifact, _template_ is the artifact template
+(type), _artifactconf_ the artifact configuration and _aid_ is the
+output parameter receiving the artifact id.
+
+-----------------------------------------------------------------------------------------------------------------
+makeArtifact(String artifactName, String templateName, ArtifactConfig artifactconf, OpFeedbackParam<ArtifactId>   aid)
+-----------------------------------------------------------------------------------------------------------------
+
+[[add-an-artifact-factory]]
+Add an artifact factory
++++++++++++++++++++++++
+
+by using the operation *addArtifactFactory* of the _WorkspaceArtifact_
+where _factory_ is the artifact factory.
+
+---------------------------------------------
+  addArtifactFactory(ArtifactFactory factory)
+---------------------------------------------
+
+[[remove-an-existing-artifact-factory]]
+Remove an existing artifact factory
++++++++++++++++++++++++++++++++++++
+
+by using the operation *removeArtifactFactory* of the
+_WorkspaceArtifact_ where _name_ is the factory name
+
+------------------------------------
+  removeArtifactFactory(String name)
+------------------------------------
+
+[[dispose-artifact]]
+Dispose Artifact
+++++++++++++++++
+
+by using the operation *disposeArtifact* of the _WorkspaceArtifact_
+where _id_ is the artifact id.
+
+--------------------------------
+  disposeArtifact(ArtifactId id)
+--------------------------------
+
+[[how-to-get-the-artifacts-within-a-workspace]]
+How to get the artifacts within a workspace?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[by-focusing-on-the-workspace-artifact]]
+By focusing on the Workspace Artifact
++++++++++++++++++++++++++++++++++++++
+
+By focusing on the Workspace Artifact, getting the observable property
+_artifact(artifactName, templateName, id)_
+
+[[by-discovering-an-artifact-by-name]]
+By discovering an artifact by name
+++++++++++++++++++++++++++++++++++
+
+Using the operation *lookupArtifact* of the _WorkspaceArtifact_ where
+_artifactName (string)_ is the name of the artifact, _aid_ is the output
+parameter receiving the id of the artifact.
+
+----------------------------------------------------------------------
+  lookupArtifact(String artifactName, OpFeedbackParam<ArtifactId> aid)
+----------------------------------------------------------------------
+
+[[by-discovering-an-artifact-by-type]]
+By discovering an artifact by type
+++++++++++++++++++++++++++++++++++
+
+Using the operation *lookupArtifactByType* of the _WorkspaceArtifact_
+where _artifactName (string)_ is the name of the artifact, _aid_ is the
+output parameter receiving the id of the artifact.
+
+----------------------------------------------------------------------------
+  lookupArtifactByType(String artifactType, OpFeedbackParam<ArtifactId> aid)
+----------------------------------------------------------------------------
+
+For instance *lookupArtifactByType("cartago.WorkspaceArtifact",Id)* in a
+jason program will return the id of WorkspaceArtifact in the current
+workspace, *lookupArtifactByType("tool.Counter",Idbis)* will return the
+id (in **IdBis**) of the artifact created in the application of type
+**tool.Counter**, i.e. the artifact of type *Counter* in package
+**tool**.
+
+[[by-getting-the-list-of-available-artifact-names]]
+By getting the list of available artifact names
++++++++++++++++++++++++++++++++++++++++++++++++
+
+Using the operation *getCurrentArtifacts* of the _WorkspaceArtifact_
+where _list_ is the output parameter receiving the list of the artifact
+names.
+
+-----------------------------------------------------
+  getCurrentArtifacts(OpFeedbackParam<String[]> list)
+-----------------------------------------------------
+
+[[by-getting-the-current-artifact-list]]
+By getting the current artifact list
+++++++++++++++++++++++++++++++++++++
+
+Using the operation *getArtifactList* of the _WorkspaceArtifact_ where
+_artifacts_ is the output parameter receiving the list of the artifact
+ids.
+
+----------------------------------------------------------
+  getArtifactList(OpFeedbackParam<ArtifactId[]> artifacts)
+----------------------------------------------------------
+
+[[how-to-observe-artifacts]]
+How to observe artifacts?
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[start-observing]]
+Start observing
++++++++++++++++
+
+Using the operation *focus* of the _WorkspaceArtifact_ where _aid_ is
+the artifact id on which ones wants to focus.
+
+-----------------------
+  focus(ArtifactId aid)
+-----------------------
+
+[[start-observing-when-available]]
+Start observing when available
+++++++++++++++++++++++++++++++
+
+Using the operation *focusWhenAvailable* of the _WorkspaceArtifact_
+where _artName_ is the artifact name
+
+------------------------------------
+  focusWhenAvailable(String artName)
+------------------------------------
+
+[[start-observing-for-specific-events]]
+Start observing for specific events
++++++++++++++++++++++++++++++++++++
+
+Using the operation *focus* of the _WorkspaceArtifact_ where _aid_ is
+the artifact id, _filter_ is the filter to select which events to
+perceive
+
+--------------------------------------------
+  focus(ArtifactId aid, IEventFilter filter)
+--------------------------------------------
+
+[[start-observing-for-specific-events-when-available]]
+Start observing for specific events when available
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Using the operation *focusWhenAvailable* of the _WorkspaceArtifact_
+where _artName_ is the artifact name, _filter_ is the filter to select
+the events to perceive
+
+---------------------------------------------------------
+  focusWhenAvailable(String artName, IEventFilter filter)
+---------------------------------------------------------
+
+[[how-to-stop-observing-artifacts]]
+How to stop Observing artifacts?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[stop-observing-an-artifact]]
+Stop observing an artifact
+++++++++++++++++++++++++++
+
+Using the operation *stopFocus* of the _WorkspaceArtifact_ where _aid_
+is the artifact id that one wants to stop focusing on
+
+---------------------------
+  stopFocus(ArtifactId aid)
+---------------------------
+
+[[how-to-link-artifacts]]
+How to link artifacts?
+^^^^^^^^^^^^^^^^^^^^^^
+
+Using the operation *linkArtifacts* of the _WorkspaceArtifact_ where
+_artifactOutId_ is the artifact id source of the link, _artifactOutPort_
+is the port of the source, _artifactInId_ is the artifact id of the
+target of the link
+
+------------------------------------------------------------------------------------------
+  linkArtifacts(ArtifactId artifactOutId, String artifactOutPort, ArtifactId artifactInId)
+------------------------------------------------------------------------------------------
+
+[[how-to-add-a-specific-rule-based-management-to-a-workspace]]
+How to add a specific rule-based management to a workspace?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Using the operation *setWSPRuleEngine* of the _WorkspaceArtifact_ where
+_man_ is the rule engine to add
+
+---------------------------------------------
+  setWSPRuleEngine(AbstractWSPRuleEngine man)
+---------------------------------------------
+
+[[how-to-add-a-specific-topology-to-a-workspace]]
+How to add a specific topology to a workspace?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Using the operation *setWorkspaceTopology* of the _WorkspaceArtifact_
+
+----------------------------------------------------------
+  setWorkspaceTopology(AbstractWorkspaceTopology topology)
+----------------------------------------------------------
+
+[[comment-manuals-management]]
+COMMENT manuals management
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[create-manual]]
+create manual
++++++++++++++
+
+* createManual(String src, OpFeedbackParam<ArtifactId> aid)
+
+[[create-manual-from-file]]
+create manual from file
++++++++++++++++++++++++
+
+* createManualFromFile(String fname, OpFeedbackParam<ArtifactId> aid)
+
+[[how-to-add-rbac-to-a-workspace]]
+How to add RBAC to a workspace?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[setting-a-security-manager]]
+Setting a security manager
+++++++++++++++++++++++++++
+
+Using the operation *setSecurityManager* of the _WorkspaceArtifact_
+where _man_ is the security manager
+
+---------------------------------------------------
+  setSecurityManager(IWorkspaceSecurityManager man)
+---------------------------------------------------
+
+[[adding-a-role]]
+Adding a role
++++++++++++++
+
+Using the operation *addRole* of the _WorkspaceArtifact_ where
+_roleName_ is the role Name to add
+
+--------------------------
+  addRole(String roleName)
+--------------------------
+
+[[removing-a-role-if-it-exists]]
+Removing a role, if it exists
++++++++++++++++++++++++++++++
+
+Using the operation *removeRole* of the _WorkspaceArtifact_ where
+_roleName_ is the role Name to remove
+
+-----------------------------
+  removeRole(String roleName)
+-----------------------------
+
+[[getting-the-current-roles-list]]
+Getting the current roles list
+++++++++++++++++++++++++++++++
+
+Using the operation *getRoleList* of the _WorkspaceArtifact_ where
+_list_ is the role list
+
+---------------------------------------------
+  getRoleList(OpFeedbackParam<String[]> list)
+---------------------------------------------
+
+[[adding-a-policy-to-a-role]]
+Adding a policy to a role
++++++++++++++++++++++++++
+
+Using the operation *addRolePolicy* of the _WorkspaceArtifact_ where
+_roleName_ is the role name, _artifactName_ is the artifact name,
+_policy_ is the policy
+
+---------------------------------------------------------------------------------
+  addRolePolicy(String roleName, String  artifactName, IArtifactUsePolicy policy)
+---------------------------------------------------------------------------------
+
+[[removing-a-policy]]
+Removing a policy
++++++++++++++++++
+
+Using the operation *removeRolePolicy* of the _WorkspaceArtifact_ where
+_roleName_ is the role Name, _artifactName_ is the artifact name
+
+---------------------------------------------------------
+  removeRolePolicy(String roleName, String  artifactName)
+---------------------------------------------------------
+
+[[setting-the-default-use-policy]]
+Setting the default use policy
+++++++++++++++++++++++++++++++
+
+Using the operation *setDefaultRolePolicy* of the _WorkspaceArtifact_
+where _roleName_ is the role name, _artName_ is the artifact name,
+_policy_ is the policy to add
+
+----------------------------------------------------------------------------------
+  setDefaultRolePolicy(String roleName, String artName, IArtifactUsePolicy policy)
+----------------------------------------------------------------------------------
+
+[[how-can-an-agent-use-the-organization]]
+How can an agent use the organization?
+--------------------------------------
+
+Being part of an organization means for an agent to be able to get the
+current state of the organization entity and to execute organizational
+actions on the organization entity. Actions and current state are
+brought to the agents by _organisational_ artifacts: _GroupBoard_ and
+_SchemeBoard_
+
+[[how-can-an-agent-use-groups]]
+How can an agent use Groups?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Agents may use groups by using the GroupBoard Artifact (see the
+http://moise.sf.net/doc/api/ora4mas/nopl/GroupBoard.html[GroupBoard
+API])
+
+[[how-to-manage-groups]]
+How to manage groups?
+^^^^^^^^^^^^^^^^^^^^^
+
+[[how-to-create-a-group]]
+How to create a group?
+++++++++++++++++++++++
+
+An agent can create a group instance by using the *makeArtifact*
+operation using a _GroupBoard_ artifact template ToBeCompleted
+
+[[how-to-delete-a-group]]
+How to delete a group?
+++++++++++++++++++++++
+
+A group can be deleted by destroying the artifact (`GrId`) that manages
+it and then disposing the corresponding Artifact.
+
+-------------------------------
+  destroy()[artifact_id(GrId)];
+  disposeArtifact(GrId);
+-------------------------------
+
+[[how-to-get-the-group-specification-of-a-group]]
+How to get the group specification of a group?
+++++++++++++++++++++++++++++++++++++++++++++++
+
+The group specification is accessible through the observable property
+mapped to *specification(….)* agent's belief - annotated with
+artifact(artifact id) (a prolog like representation)
+
+-----------------------------------------------------------------------------------
+  group_specification(group type id, list of role, list of sub-groups, properties) 
+-----------------------------------------------------------------------------------
+
+Each role in the list is: __role(id,min cardinality, max cardinality,
+list of compatible roles, list of links)__, each link is: _link(type,
+target, scopo)_
+(http://moise.sf.net/doc/api/moise/os/ss/Group.html#getAsProlog()[see
+explanations])
+
+[[how-to-enter-a-group]]
+How to enter a group?
+^^^^^^^^^^^^^^^^^^^^^
+
+* for now the only way to enter a group is by adopting a role
+
+[[how-to-manage-roles-within-a-group]]
+How to manage roles within a group?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[how-to-adopt-a-role]]
+How to adopt a role?
+++++++++++++++++++++
+
+An agent can try to adopt _role_ in the group by calling the action
+*adoptRole* on the GroupBoard in charge of the management of the group
+
+------------------------
+  adoptRole(String role)
+------------------------
+
+[[how-to-leave-a-role]]
+How to leave a role?
+++++++++++++++++++++
+
+An agent can try to leave/give up /role/in the group by executing the
+action *leaveRole* on the GroupBoard in charge of the management of the
+group
+
+------------------------
+  leaveRole(String role)
+------------------------
+
+[[how-to-know-what-roles-are-played-in-a-group]]
+How to know what roles are played in a group?
++++++++++++++++++++++++++++++++++++++++++++++
+
+An agent can know the roles that are played in a group by accessing to
+the observable property mapped to an agent's belief - annotated with the
+group artifact id - *play* with _agent_ being the agent is playing the
+_role_ in the _group_
+
+---------------------------
+  play(agent, role, group) 
+---------------------------
+
+[[how-to-manage-social-scheme-responsibilities-of-a-group]]
+How to manage social scheme responsibilities of a group?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[how-to-start-a-group-being-responsible-of-a-social-scheme]]
+How to start a group being responsible of a social scheme?
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+An agent can start a group being responsible for the scheme _schId_ by
+using the operation *addScheme* on the GroupBoard in charge on the
+management of the group
+
+--------------------------
+  addScheme(String schId) 
+--------------------------
+
+[[how-to-stop-a-group-being-responsible-of-a-social-scheme]]
+How to stop a group being responsible of a social scheme?
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+An agent can finish a group being responsible for the scheme _schId_ by
+using the operation *removeScheme* on the GroupBoard in charge on the
+management of the group
+
+----------------------------
+  removeScheme(String schId)
+----------------------------
+
+[[how-to-the-scheme-under-the-responsibility-of-a-group]]
+How to the scheme under the responsibility of a group?
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+An agent can get the list of schemes ids it is responsible for through
+the observable property mapped to the agent's belief - annotated with
+artifact(artifact id) - *schemes*
+
+-------------------------
+  schemes(ListOfSchemes) 
+-------------------------
+
+[[how-to-manage-hierachies-of-groups]]
+How to manage hierachies of groups?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[how-to-set-the-parent-of-a-group]]
+How to set the parent of a group?
++++++++++++++++++++++++++++++++++
+
+An agent can set a group becoming a subgroup of _parentGroupId_ by using
+the operation *setParentGroup*
+
+---------------------------------------
+  setParentGroup(String parentGroupId) 
+---------------------------------------
+
+[[how-to-get-the-hierarchy-of-a-group]]
+How to get the hierarchy of a group?
+++++++++++++++++++++++++++++++++++++
+
+An agent cat get the list of subgroup ids of a group through the
+observable properties mapped to the agent's beliefs - annotated with
+artifact(artifact id) - *subgroups*
+
+---------------------------
+  subgroups(ListOfGroupIds)
+---------------------------
+
+An agent cat get the parent group id of a group through the observable
+properties mapped to the agent's beliefs - annotated with
+artifact(artifact id) - *parentGgroup*
+
+----------------------
+  parentGroup(GroupId)
+----------------------
+
+[[how-to-manage-ownership-of-a-group]]
+How to manage ownership of a group?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* ToBeCompleted
+
+[[how-to-get-the-status-of-a-group]]
+How to get the status of a group?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An agent can get the status (i.e. wether the group is well-formed or
+not) of a group through the observable property mapped to an agent's
+belief - annotated with the group artifact id - *formationStatus*
+(values are _ok_ and __nok__)
+
+----------------------------
+  formationStatus(OkOrNotOk)
+----------------------------
+
+[[how-can-an-agent-use-social-schemes]]
+How can an agent use social schemes?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+see the
+http://moise.sf.net/doc/api/ora4mas/nopl/SchemeBoard.html[SchemeBoard
+API]
+
+[[how-to-manage-a-social-scheme]]
+How to manage a social scheme?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+[[how-to-create-a-scheme]]
+How to create a scheme?
++++++++++++++++++++++++
+
+ToBeCompleted
+
+[[how-to-delete-a-scheme]]
+How to delete a scheme?
++++++++++++++++++++++++
+
+A scheme can be deleted by destroying the artifact (`SchId`) that
+manages it and then disposing the corresponding Artifact.
+
+--------------------------------
+  destroy()[artifact_id(SchId)];
+  disposeArtifact(SchId);
+--------------------------------
+
+[[how-to-get-the-scheme-specification-of-a-scheme]]
+How to get the scheme specification of a scheme?
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+The scheme specification is accessible through the observable property
+mapped to *specification(….)* agent's belief - annotated with
+artifact(artifact id) (see
+http://moise.sf.net/doc/api/ora4mas/nopl/SchemeBoard.html[SchemeBoard
+API])
+(http://moise.sf.net/doc/api/moise/os/fs/Scheme.html#getAsProlog()[see
+explanations])
+
+--------------------------------------------------------------------
+  scheme_specification(id,goals tree starting by root goal,missions)
+--------------------------------------------------------------------
+
+[[how-to-know-which-groups-are-responsible-of-a-scheme]]
+How to know which groups are responsible of a scheme?
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+An agent can get the list of groups responsible for a scheme through the
+observable property mapped to the agent's beliefs - annotated with
+artifact(artifact id) - *groups*
+
+----------------------
+  groups(ListOfGroups)
+----------------------
+
+[[how-to-know-that-a-scheme-has-been-destroyed]]
+How to know that a scheme has been destroyed?
++++++++++++++++++++++++++++++++++++++++++++++
+
+An agent can get the fact that an artifact has been destroyed through
+the belief *destroyed*
+
+------------------------
+  destroyed(artifact id)
+------------------------
+
+[[how-to-manage-goals]]
+How to manage goals?
+^^^^^^^^^^^^^^^^^^^^
+
+[[how-to-set-a-goal-of-a-social-scheme-as-achieved]]
+How to set a goal of a social scheme as achieved?
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+An agent can set a goal as achieved using the action *goalAchieved*
+
+--------------------------
+goalAchieved(String goal) 
+--------------------------
+
+Note: verifications that the agent is committed to the goal and that the
+goal has been enabled throwing a _normFailure_ in the case of breaking
+some regimentation
+
+[[how-to-set-an-argument-to-a-goal]]
+How to set an argument to a goal?
++++++++++++++++++++++++++++++++++
+
+An agent can set a _value_ for the _goal_ argument _var_ by using the
+action *setArgumentValue*
+
+--------------------------------------------------------
+setArgumentValue(String goal, String var, Object value) 
+--------------------------------------------------------
+
+[[how-to-reset-a-goal-and-relaunch-its-achievement]]
+How to reset a goal and relaunch its achievement?
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+An agent can reset the status of a goal by using the action *resetGoal*
+
+----------------------
+resetGoal(String goal)
+----------------------
+
+[[how-to-get-a-goal-state]]
+How to get a goal state?
+++++++++++++++++++++++++
+
+The status of a goal is accessible through the observable property
+mapped to the agent's belief - annotated with artifact(artifact id) -
+*goalState*
+
+---------------------------------------------------------------------------------------------------
+  goalState(schId, goalId, list of committed agents, list of agents that achieved the goal, state) 
+---------------------------------------------------------------------------------------------------
+
+The _state_ refers to the goal status: __waiting__, __enabled__,
+__satisfied__).
+
+[[how-to-manage-missions]]
+How to manage missions?
+^^^^^^^^^^^^^^^^^^^^^^^
+
+[[how-to-commit-to-a-mission]]
+How to commit to a mission?
++++++++++++++++++++++++++++
+
+An agent can try to commit to a mission in the scheme by using the
+action *commitMission*
+
+-----------------------------
+commitMission(String mission)
+-----------------------------
+
+__Note__: verifications of the mission max cardinality and mission
+permissions, throwing _normFailure_ in the case of breaking some
+regimentation)
+
+[[how-to-leave-a-mission]]
+How to leave a mission?
++++++++++++++++++++++++
+
+An agent can leave its misseion in the scheme by using the action
+*leaveMission*
+
+-------------------------------
+  leaveMission(String mission) 
+-------------------------------
+
+__Note__: verification that the agent is committed to the mission and
+that the mission's goals have been satisfied throwing a _normFailure_ in
+the case of breaking some regimentation
+
+[[how-to-get-the-current-mission-commitments]]
+How to get the current mission commitments?
++++++++++++++++++++++++++++++++++++++++++++
+
+The current mission commitments are accessible through the observable
+property mapped to an agent's belief - annotated with artifact(artifact
+id) - *commitment* telling that agent ag is committed to the mission in
+the scheme (we have as many obs prop as commitments)
+
+-------------------------------------
+  commitment(agent, mission, scheme) 
+-------------------------------------
+
+[[how-can-an-agent-manage-norms-and-obligations]]
+How can an agent manage norms and obligations?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[how-to-get-the-current-obligations]]
+How to get the current obligations?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An agent can get current active obligation through the observable
+property mapped to an agent's belief - annotated with artifact(artifact
+id) - **obligation**:
+
+---------------------------------------
+  obligation(agent,norm,goal,deadline) 
+---------------------------------------
+
+[[how-to-get-the-status-of-a-norm]]
+How to get the status of a norm?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An agent can get the status of a norm thanks to organizational events
+mapped to the following agent's beliefs: *oblCreated* (the obligation
+_o_ is created), *oblFulfilled* (the obligation _o_ is fulfilled),
+*oblUnfulfilled* (the obligation _o_ is unfulfilled (e.g. by timeout),
+*oblInactive* (the obligation _o_ is inactive (e.g. its condition does
+not hold anymore))
+
+-----------------
+oblCreated(o)
+oblFulfilled(o)
+oblUnfulfilled(o)
+oblInactive(o) 
+-----------------
+
+[[how-to-get-the-reason-why-a-norm-has-failed]]
+How to get the reason why a norm has failed?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An agent can get the failure reason _f_ (e.g. due to some regimentation
+violation) of a norm thanks thanks to organizational events mapped to
+agent's belief **normFailure**:
+
+---------------
+normFailure(f) 
+---------------
+
+link:documentation.adoc[Back to JaCaMo Documentation]

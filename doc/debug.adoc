@@ -11,18 +11,27 @@
 == Debug tools
 
 === Logging the overall execution
-The JaCaMo uses the http://java.sun.com/j2se/1.5.0/docs/guide/logging/overview.html[Java logging API] to output messages from the multi-agent programs into the console (the default console is called MASConsole).
-The default configuration file that comes with the JaCaMo distribution logging.properties has comments that
+JaCaMo uses the http://java.sun.com/j2se/1.5.0/docs/guide/logging/overview.html[Java logging API] to output messages from the multi-agent programs into the execution console (the default console is called MASConsole).
+
+The default configuration file that comes with the JaCaMo distribution _logging.properties_ has comments that
 helps you to customise the kinds of log you can get.
 
 ==== Setting the console
-*  Default Jason MAS Console : handlers = jason.runtime.MASConsoleLogHandler
-*  To use the ConsoleHandler : handlers= java.util.logging.ConsoleHandler
-*  To also add the FileHandler, you can add in previous handlers the java.util.logging.FileHandler as follows: 
-     handlers= java.util.logging.FileHandler, java.util.logging.ConsoleHandler
-
+*  Setting the default Jason MAS console:
+----
+handlers = jason.runtime.MASConsoleLogHandler
+----
+*  To use the ConsoleHandler:
+----
+handlers= java.util.logging.ConsoleHandler
+----
+*  To also add the FileHandler, you can add in previous handlers the _java.util.logging.FileHandler_ as follows: 
+----
+handlers= java.util.logging.FileHandler, java.util.logging.ConsoleHandler
+----
 ==== Setting the logging level
-Setting the default logging level of the MAS application is realized by defining the value of .level (e.g. .level = INFO). Other possible values are : 
+Setting the default logging level of the MAS application is realized by defining the value of _.level_ (e.g. .level = INFO). Other possible values are : 
+
 *  SEVERE (only severe messages)
 *  WARNING (only warnings and severe messages)
 *  INFO (normal output)
@@ -51,16 +60,18 @@ Setting the default logging level of the MAS application is realized by defining
 *  jade.level=OFF
 
 ==== Examples 
-For instance, to output messages both into an XML file and in the console, you only need to set the log handler as in the following line:
+For instance, to output messages both into an XML file and in the console, you only need to set the log handler as:
+----
 handlers = java.util.logging.FileHandler, java.util.logging.ConsoleHandler
-
+----
 To get only console output (without the MASConsole GUI):
+----
 handlers = java.util.logging.ConsoleHandler
-
+----
 == Debugging an agent
 
-=== Verbose level of an agent
-The verbosity is set in the parameter's value _verbose_ used in the configuration of an agent in the .jcm project file. For instance
+=== Setting the verbose level of an agent
+The verbosity (value between 0 and 2) is set in the parameter's value _verbose_ used in the configuration of an agent in the .jcm project file. The higher the number, the more information about that agent is printed out in the console. For instance
 ---------------------------
    ...
    agent bob : ag1.asl {
@@ -70,15 +81,15 @@ The verbosity is set in the parameter's value _verbose_ used in the configuratio
    }
    ...
 ---------------------------
-A number between 0 and 2 should be specified. The higher the number, the more information about that agent is printed out in the console.
-Default is 1 (not 0).
+*  Default is 1 (not 0).
 *  Verbose 1 is for printing out only the actions that agents perform in the environment and the messages exchanged between them.
 *  Verbose 2 is for debugging (it corresponds to the java log level FINE).
 
 === Logging agents’ mind states
-To start the execution of an agent in the debug mode, use the parameter 'debug' in the agent definition in .jcm file.
+To start the execution of an agent in the debug mode, use the parameter '_debug_' in the agent definition in .jcm file.
 Options are available to configure the visibility degree of the agent's mind state:
-*  Showing the mindstate in a gui _gui_ or in a browser _web_ (the URL is typically http://locaslhost:3272) or in a file _file_:
+
+*  Setting where to show the mindstate: in a gui _gui_ , in a browser _web_ (the URL is typically http://locaslhost:3272) or in a file _file_:
 ---------------------------------------------
 // Showing the current mind state in the screen with update each reasoning cycle
   ...
@@ -138,7 +149,7 @@ The last parameter is the name of the directory where files will be stored. Each
 == Debugging the environment
 
 === Debugging artifacts in workspace
-*  To start the execution of a workspace in a debug mode by displaying the observable properties of the artifacts executing in the workspace, use the parameter 'debug' in the workspace definition in .jcm file. This will display the content of artifact in the browser
+*  To start the execution of a workspace in a debug mode by displaying the observable properties of the artifacts executing in the workspace, use the parameter 'debug' in the workspace definition in .jcm file. This will display the content of artifact in a GUI and in the browser
 (the URL is typically http://locaslhost:3273)
 ----------------------------------------------------
   ...
@@ -171,4 +182,4 @@ The last parameter is the name of the directory where files will be stored. Each
   ...
 ----------------------------------------------------
 
-link:documentation.adoc[Back to JaCaMo Document]
+link:documentation.adoc[Back to JaCaMo Documentation]

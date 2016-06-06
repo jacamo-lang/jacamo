@@ -9,7 +9,7 @@
 :prewrap!:
 
 == Getting Started Guides
-If you’re just getting to know JaCaMo or tackling programming your first multi-agent program, these guides are for you! All you need is ??? minutes. The only prerequisites are a JDK and a text editor
+If you’re just getting to know JaCaMo or tackling programming your first multi-agent program, these guides are for you! All you need is ??? minutes. The only prerequisites are a JaCaMo platform installed, a JDK and a text editor
 
 == Tutorials
 Designed to be completed in ??? hours, you will experience deeper, in-context explorations and practices of multi-agent oriented programming topics. After the practice of these tutorials, you will be ready to implement real-world multiagent solutions.

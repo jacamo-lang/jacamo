@@ -24,3 +24,6 @@ readme.html
 release-notes.html
 
 src/test/java/project/log
+
+.classpath
+.project

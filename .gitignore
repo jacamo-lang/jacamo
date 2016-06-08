@@ -6,7 +6,7 @@ build
 *~
 .gradle
 .settings
-doc/JaCaMoProjectParser.html
+doc/*.html
 
 *.class
 

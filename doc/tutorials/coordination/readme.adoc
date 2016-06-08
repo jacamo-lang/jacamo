@@ -734,7 +734,7 @@ obliged to do so). To simulate that, the program `participant.asl` can
 be changed to:
 
 .participant.asl
----------------------------------------------------------------------------------------------------
+------
 +!bid[scheme(Sch)]
    <- ?goalState(Sch, auction(AuctionId,S),_,_,_); // retrieve auction id and focus on the artifact
       lookupArtifact(AuctionId,AId);
@@ -751,7 +751,7 @@ be changed to:
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }
----------------------------------------------------------------------------------------------------
+------
 
 And remove the `min=2` in goal `bid` (file `auction_os.xml`).
 

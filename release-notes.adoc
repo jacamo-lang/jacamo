@@ -4,6 +4,8 @@
 
 - Beliefs related to JaCaMo are placed in the `jcm` namespace. So, consults to beliefs like `jcm__art(...)` should be replaced by `jcm::focused(WorkspaceName,ArtName,ArtId)`.
 
+- new versions of Moise (https://github.com/moise-lang/moise/blob/master/release-notes.adoc[0.10]), Jason (https://github.com/jason-lang/jason/blob/master/release-notes.adoc[2.0]), and Cartago.
+
 - JaCaMo development is moved to GitHub.
 
 - gradle is used to build.

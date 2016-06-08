@@ -2,7 +2,7 @@
 
 == Version 0.6
 
-- Beliefs related to JaCaMo are placed in the `jcm` namespace. So, consults to beliefs like `jcm__art(...)` should be replaced by `jcm::art(...)`.
+- Beliefs related to JaCaMo are placed in the `jcm` namespace. So, consults to beliefs like `jcm__art(...)` should be replaced by `jcm::focused(WorkspaceName,ArtName,ArtId)`.
 
 - JaCaMo development is moved to GitHub.
 

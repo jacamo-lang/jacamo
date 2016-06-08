@@ -77,7 +77,8 @@ number_of_tasks(NS) :- .findall( S, task(S), L) & .length(L,NS).
       createWorkspace("ora4mas");
       joinWorkspace("ora4mas",_);
      
-      makeArtifact("hsh_group","ora4mas.nopl.GroupBoard",["src/org/house-os.xml", house_group, false, true ],GrArtId);
+      makeArtifact("hsh_group","ora4mas.nopl.GroupBoard",["src/org/house-os.xml", house_group], GrArtId);
+      startGUI[artifact_id(GrArtId)];
       adoptRole(house_owner)[artifact_id(GrArtId)];
       focus(GrArtId);
       
@@ -87,7 +88,8 @@ number_of_tasks(NS) :- .findall( S, task(S), L) & .length(L,NS).
 	  makeArtifact("housegui", "simulator.House");
 	  
       // create the scheme
-      makeArtifact("bhsch", "ora4mas.nopl.SchemeBoard",["src/org/house-os.xml", build_house_sch, false, true], SchArtId);
+      makeArtifact("bhsch", "ora4mas.nopl.SchemeBoard",["src/org/house-os.xml", build_house_sch], SchArtId);
+      startGUI[artifact_id(SchArtId)];
       focus(SchArtId);
       
       ?formationStatus(ok)[artifact_id(GrArtId)]; // see plan below to ensure we wait until it is well formed

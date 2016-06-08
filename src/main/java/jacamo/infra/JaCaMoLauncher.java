@@ -32,6 +32,7 @@ import jacamo.project.parser.JaCaMoProjectParser;
 import jacamo.project.parser.ParseException;
 import jacamo.util.Config;
 import jason.JasonException;
+import jason.architecture.MindInspectorWeb;
 import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.directives.DirectiveProcessor;
@@ -248,7 +249,8 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         if (args == null)
             args = new String[] {};
         env.init(args);
-        EnvironmentInspectorWeb.startHttpServer();
+        if (! "false".equals(Config.get().getProperty(Config.START_WEB_EI))) 
+            EnvironmentInspectorWeb.startHttpServer();
 
         cartagoCtx = new CartagoBasicContext("JaCaMo Launcher","default");
         for (JaCaMoWorkspaceParameters wp: getJaCaMoProject().getWorkspaces()) {
@@ -318,11 +320,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     }
     
     protected void createGroup(String osFile, JaCaMoGroupParameters parent, JaCaMoGroupParameters g, JaCaMoOrgParameters org) {
-        Object[] args = new Object[4];
+        Object[] args = new Object[2];
         args[0] = osFile;
         args[1] = g.getType();
-        args[2] = false;
-        args[3] = g.hasDebug(); 
 
         String m = g.getName()+": "+args[1]+" defined at "+args[0]+" using artifact "+GroupBoard.class.getName(); 
 
@@ -330,6 +330,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             ArtifactId aid = cartagoCtx.makeArtifact(g.getName(), GroupBoard.class.getName(), args);
             artIds.put(g.getName(), aid);
             logger.info("group created: "+m);
+            if (g.hasDebug())
+                cartagoCtx.doAction(aid, new Op("startGUI", new Object[] { } ));
+                
             if (parent != null) {
                 cartagoCtx.doAction(aid, new Op("setParentGroup", new Object[] { parent.getName() } ));
             }
@@ -354,11 +357,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     }
 
     protected void createScheme(String osFile, JaCaMoSchemeParameters s, JaCaMoOrgParameters org) {
-        Object[] args = new Object[4];
+        Object[] args = new Object[2];
         args[0] = osFile;
         args[1] = s.getType();
-        args[2] = false;
-        args[3] = s.hasDebug();
 
         String m = s.getName()+": "+args[1]+" defined at "+args[0]+" using artifact "+SchemeBoard.class.getName(); 
 
@@ -366,6 +367,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             ArtifactId aid = cartagoCtx.makeArtifact(s.getName(), SchemeBoard.class.getName(), args);
             artIds.put(s.getName(), aid);
             logger.info("scheme created: "+m);
+            if (s.hasDebug())
+                cartagoCtx.doAction(aid, new Op("startGUI", new Object[] { } ));
+            
             String owner = s.getParameter("owner");
             if (owner != null) {
                 cartagoCtx.doAction(aid, new Op("setOwner", new Object[] { owner } ));                

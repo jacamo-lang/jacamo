@@ -4,7 +4,7 @@ To run this example:
    JaCaMo eclipse plugin and then run it as usual.
    
 2. just type in a terminal 
-         ant run
+         jacamo house.jcm
 
 Some documentation is found in scenario-exercises.pdf and doc folder.
 

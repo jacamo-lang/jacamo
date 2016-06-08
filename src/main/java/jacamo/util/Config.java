@@ -17,7 +17,7 @@ public class Config extends jason.util.Config {
     public static final String DOT_PATH       = "dotPath";
 
     public static final String JACAMO_JAR    = "jacamoJar";
-
+    
     private static Config      singleton     = null;
 
     static {

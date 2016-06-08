@@ -618,14 +618,15 @@ mission `mAuctioneer` there.
 included. These plans are quite similar to the previous plans.
 
 .auctioneer.asl
----------------------------------------------------------------------------------------------------------------------
+------
 !do_auction("a1","flight_ticket(paris,athens,date(15,12,2015))"). // initial goals
 !do_auction("a2","flight_ticket(athens,paris,18/12/2015)").
 
 +!do_auction(Id,P)
    <- // creates a scheme to coordinate the auction
       .concat("sch_",Id,SchName);
-      makeArtifact(SchName, "ora4mas.nopl.SchemeBoard",["src/org/auction_os.xml", doAuction, false, true ],SchArtId);
+      makeArtifact(SchName, "ora4mas.nopl.SchemeBoard",["src/org/auction_os.xml", doAuction],SchArtId);
+      startGUI[artifact_id(SchArtId)];
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)];
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)];
       .my_name(Me); setOwner(Me)[artifact_id(SchArtId)];     // I am the owner of this scheme!
@@ -657,7 +658,7 @@ included. These plans are quite similar to the previous plans.
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }
----------------------------------------------------------------------------------------------------------------------
+------
 <1> No need to broadcast the focus to the agents, the organisation will signal the participants about their goals.
 <2> We do not need create the goal `decide` anymore, it is now a goal in the organisational scheme.
 
@@ -680,7 +681,7 @@ The program of the participants also need to be
 changed to achieve organisational goals:
 
 .participant.asl
----------------------------------------------------------------------------------------------------
+------
 +!bid[scheme(Sch)]
    <- ?goalState(Sch, auction(AuctionId,S),_,_,_); // retrieve auction id and focus on the artifact
       lookupArtifact(AuctionId,ArtId);
@@ -693,7 +694,7 @@ changed to achieve organisational goals:
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }
----------------------------------------------------------------------------------------------------
+------
 
 *4.* The execution output is:
 

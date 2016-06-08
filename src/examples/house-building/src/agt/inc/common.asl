@@ -34,7 +34,7 @@ i_am_winning(Art)   // check if I placed the current best bid on auction artifac
    <- println("I am obliged to commit to ",Mission," on ",Scheme,"... doing so");
       commitMission(Mission)[artifact_name(Scheme)]. 
 // obligation to achieve a goal      
-+obligation(Ag,Norm,achieved(Scheme,Goal,Ag),Deadline)
++obligation(Ag,Norm,done(Scheme,Goal,Ag),Deadline)
     : .my_name(Ag)
    <- //println("I am obliged to achieve goal ",Goal);
       println(" ---> working to achieve ",Goal);

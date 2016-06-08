@@ -139,7 +139,7 @@ achievement in the execution.
 
 In the code of Giacomo, add the following line:
 
-:      makeArtifact("hsh_group","ora4mas.nopl.GroupBoard",["src/house-os.xml", house_group, false, true ],GrArtId);
+:      makeArtifact("hsh_group","ora4mas.nopl.GroupBoard",["src/house-os.xml", house_group ],GrArtId);
 :      adoptRole(house_owner)[artifact_id(GrArtId)];
 :      adoptRole(roofer)[artifact_id(GrArtId)];                   /**** add this line ****/
 :      focus(GrArtId);

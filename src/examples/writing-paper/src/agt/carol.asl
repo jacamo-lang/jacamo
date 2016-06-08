@@ -12,7 +12,7 @@
 +obligation(Ag,Norm,committed(Ag,_,Scheme),DeadLine).
 
 // obligation to achieve a goal      
-+obligation(Ag,Norm,achieved(Scheme,Goal,Ag),Deadline)[artifact_id(ArtId)]
++obligation(Ag,Norm,done(Scheme,Goal,Ag),Deadline)[artifact_id(ArtId)]
     : .my_name(Ag)
    <- //.print(" ---> working to achieve ",Goal," in scheme ",Scheme);
       !Goal[scheme(Scheme)];

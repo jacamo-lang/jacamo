@@ -45,12 +45,11 @@
       ?best_bid(V)[artifact_id(AId)];
       .print("Winner for ", S, " is ",W," with ", V).         
 
-+oblUnfulfilled( obligation(Ag,_,achieved(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // it is the case that a bid was not achieved
++oblUnfulfilled( obligation(Ag,_,done(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // it is the case that a bid was not achieved
    : .my_name(Me) & play(Me,auctioneer,_)  // handle unfulfilled obl if I am the auctioneer
    <- .print("Participant ",Ag," didn't bid on time! S/he will be placed in a blacklist");
        // TODO: implement an black list artifact
-       .concat("goalAchieved(",Ag,",",bid,")",Cmd);         // create an administrative command like "goalAchieved(alice,bid)", to be send to the scheme
-       admCommand(Cmd)[artifact_id(AId)].
+       admCommand("goalSatisfied(bid)")[artifact_id(AId)]. // go on in the scheme....
    
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }

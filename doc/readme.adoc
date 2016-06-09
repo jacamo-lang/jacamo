@@ -35,7 +35,7 @@ Looking for in-depth knowledge on a particular JaCaMo dimension, you will find q
 *  http://jason.sourceforge.net/wp/documents[Agent documentation (Jason)]
 //*  link:agent.html[Agent project: Jason]
 //*  link:environment.html[Environment project: CArTaGo]
-//*  link:organisation.html[Organisation project: Moise]
+*  http://moise.sourceforge.net/doc/ora4mas[Organisation documentation (Moise & ORA4MAS)]
 //*  link:agent-env.html[Agent-Environment project: C4Jason]
 //*  link:org-env.html[Organisation-Environment project: ORA4MAS]
 //*  link:jacandroid.html[JaCaMo for Android]

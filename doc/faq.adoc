@@ -1,8 +1,8 @@
 = JaCaMo FAQ
 (for JaCaMo 0.6)
+:toc: right
 :author: JaCaMo Team
 :date: June 2016
-:toc:right:
 :source-highlighter: coderay
 :coderay-linenums-mode: inline
 :icons: font
@@ -15,16 +15,14 @@ The name of the platform comes from the two first letters of the name of each of
 
 === How to configure a JaCaMo application?
 The configuration of a JaCaMo program is realised in a file with the '.jcm' suffix (jcm stands for jacamo).
-Refer to link:jcm.adoc[jcm documentation].
+Refer to link:jcm.html[jcm documentation].
 
 === How to debug in JaCaMo
-Refer to link:debug.adoc[debugging in JaCaMo]
+Refer to link:debug.html[debugging in JaCaMo]
 
-=== How to make agents live in a JaCaMo system
-Refer to link:faq-agent-in-mas.adoc[Agents in JaCaMo World]
+// === How to make agents live in a JaCaMo system
+// Refer to link:faq-agent-in-mas.html[Agents in JaCaMo World]
 
 == Developing JaCaMo
 
 See https://github.com/jacamo-lang/jacamo
-
-link:documentation.adoc[Back to JaCaMo Documentation]

@@ -32,10 +32,9 @@ Looking for in-depth knowledge on a particular JaCaMo dimension, you will find q
 
 *  link:jcm.html[JaCaMo project: jcm files]
 *  link:debug.html[Debugging in JaCaMo]
-*  http://jason.sourceforge.net/wp/documents[Agent documentation (Jason)]
-//*  link:agent.html[Agent project: Jason]
+*  Agent documentation: http://jason.sourceforge.net/wp/documents[Jason]
 //*  link:environment.html[Environment project: CArTaGo]
-*  http://moise.sourceforge.net/doc/ora4mas[Organisation documentation (Moise & ORA4MAS)]
+*  Organisation documentation: http://moise.sourceforge.net[Moise] & http://moise.sourceforge.net/doc/ora4mas[ORA4MAS]
 //*  link:agent-env.html[Agent-Environment project: C4Jason]
 //*  link:org-env.html[Organisation-Environment project: ORA4MAS]
 //*  link:jacandroid.html[JaCaMo for Android]

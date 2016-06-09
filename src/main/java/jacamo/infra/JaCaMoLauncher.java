@@ -23,30 +23,6 @@
 
 package jacamo.infra;
 
-import jacamo.project.JaCaMoGroupParameters;
-import jacamo.project.JaCaMoOrgParameters;
-import jacamo.project.JaCaMoProject;
-import jacamo.project.JaCaMoSchemeParameters;
-import jacamo.project.JaCaMoWorkspaceParameters;
-import jacamo.project.parser.JaCaMoProjectParser;
-import jacamo.project.parser.ParseException;
-import jacamo.util.Config;
-import jason.JasonException;
-import jason.architecture.MindInspectorWeb;
-import jason.asSyntax.ASSyntax;
-import jason.asSyntax.Literal;
-import jason.asSyntax.directives.DirectiveProcessor;
-import jason.asSyntax.directives.Include;
-import jason.infra.centralised.CentralisedAgArch;
-import jason.infra.centralised.RunCentralisedMAS;
-import jason.infra.jade.RunJadeMAS;
-import jason.infra.repl.ReplAgGUI;
-import jason.mas2j.AgentParameters;
-import jason.mas2j.ClassParameters;
-import jason.runtime.MASConsoleGUI;
-import jason.runtime.MASConsoleLogHandler;
-import jason.runtime.Settings;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -62,8 +38,6 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import ora4mas.nopl.GroupBoard;
-import ora4mas.nopl.SchemeBoard;
 import c4jason.CAgentArch;
 import c4jason.CartagoEnvironment;
 import cartago.ArtifactId;
@@ -73,6 +47,30 @@ import cartago.CartagoWorkspace;
 import cartago.Op;
 import cartago.security.AgentIdCredential;
 import cartago.util.agent.CartagoBasicContext;
+import jacamo.project.JaCaMoGroupParameters;
+import jacamo.project.JaCaMoOrgParameters;
+import jacamo.project.JaCaMoProject;
+import jacamo.project.JaCaMoSchemeParameters;
+import jacamo.project.JaCaMoWorkspaceParameters;
+import jacamo.project.parser.JaCaMoProjectParser;
+import jacamo.project.parser.ParseException;
+import jacamo.util.Config;
+import jason.JasonException;
+import jason.asSyntax.ASSyntax;
+import jason.asSyntax.Literal;
+import jason.asSyntax.directives.DirectiveProcessor;
+import jason.asSyntax.directives.Include;
+import jason.infra.centralised.CentralisedAgArch;
+import jason.infra.centralised.RunCentralisedMAS;
+import jason.infra.jade.RunJadeMAS;
+import jason.infra.repl.ReplAgGUI;
+import jason.mas2j.AgentParameters;
+import jason.mas2j.ClassParameters;
+import jason.runtime.MASConsoleGUI;
+import jason.runtime.MASConsoleLogHandler;
+import jason.runtime.Settings;
+import ora4mas.nopl.GroupBoard;
+import ora4mas.nopl.SchemeBoard;
 
 /**
  * Runs MASProject using JaCaMo infrastructure.

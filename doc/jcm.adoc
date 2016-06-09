@@ -1,8 +1,7 @@
-= JCM Documentation
-(for JaCaMo 0.6)
-:author: JaCaMo Team
+= JaCaMo project files (JCM)
+JaCaMo Team
+:toc: right
 :date: June 2016
-:toc:right:
 :source-highlighter: coderay
 :coderay-linenums-mode: inline
 :icons: font
@@ -38,49 +37,46 @@ mas myjacamoapplication {
 <id>        ::= beliefs | goals |
                 debug | verbose |
                 ag-class | ag-arch | ag-bb-class | myparameter |
-                node | instances |
+                instances |
                 join | focus | roles
 -------------------------
+
 === Example of agents definition
 
 ----
-// if source is omitted, bob.asl will be used by default
-agent bob : participant.asl {
-// initial beliefs
+agent bob : participant.asl { // if source is omitted, bob.asl will be used by default
+
+      // initial beliefs
       beliefs:     p("this is a condition",15000)
                    friend(alice)
-// initial goals
+      // initial goals
       goals:       start, go(home)
 
-// starts the mind inspector for the agent
-      debug:       mindinspector(gui(2000,html,history))
-// verbose level: 0 (only agent output), 1 (agent+jason output), 2 (agent+jason+debug output)
-     verbose:     2
+      // debug options
+      debug:       mindinspector(gui(2000,html,history))   // starts the mind inspector for the agent
+      // verbose level: 0 (only agent output), 1 (agent+jason output), 2 (agent+jason+debug output)
+      verbose:     2
 
-// if omitted, Jason Agent default class will be used
-     ag-class:    tt.MyAgClass
-     ag-arch:     myp.myArch1
-// CArtAgO arch is automatically included, if necessary, JADE arch is automatically included
-                  mypk.MyCustomAgArch
-// belief base management
-     ag-bb-class: my.Bb
-// user application parameter, used for instance by user custom architectures
-     myparameter: "this is an appl parameter"
+      // customisation classes
+      ag-class:    tt.MyAgClass
+      ag-arch:     myp.myArch1
+                   mypk.MyCustomAgArch
+      ag-bb-class: my.Bb
 
-     node:        n1 // logical name of the node where the agent will run
-// 5 bobs (called bob1, bob2, ... bob5) will be created.
-// You can also list the names of the agents. Default value is 1.
-     instances:   5
+      // user application parameter, used for instance by user custom architectures
+      myparameter: "this is an appl parameter"
 
-// join the workspace w2 (w2 should be defined in environment definition section)
-     join:        w2
-// focus on artifact a1 in workspace w1 running on node n1 (a1 should be defined in environment definition section)
-     focus:       w1.a1 @ n1
-// adopt the role r1 in group g2 and role r2 in group g3 (in org o1 running on node n2) (g2, g3, o1 should be defined in organisation definition section)
-     roles:       r1 in g2, r2 in o1.g3 @ n2
+      // 5 bobs (called bob1, bob2, ... bob5) will be created.
+      // You can also list the names of the agents. Default value is 1.
+      instances:   5
+
+      // join the workspace w2 (w2 should be defined in environment definition section)
+      join:        w2
+      // focus on artifact a1 in workspace w1 (a1 should be defined in environment definition section)
+      focus:       w1.a1
+      // adopt the role r1 in group g2 and role r2 in group g3 (g2, g3, o1 should be defined in organisation definition section)
+      roles:       r1 in g2, r2 in o1.g3
 }
-// the source is alice.asl, one instance will be created at default node
-agent alice
 ----
 
 == Environment definition
@@ -88,10 +84,9 @@ agent alice
 
 ------
 <environment> ::= <workspace>*
-<workspace>   ::= workspace <name> { <artifact>* <agents> <node> <debug> }
+<workspace>   ::= workspace <name> { <artifact>* <agents> <debug> }
 <artifact>    ::= artifact  <name> : <type> [ { focused-by: <agents> } ]
 <agents>      ::= agents : <name> ( (, | EOL) <name> )* | "*"   // "*" means all agents
-<node>        ::= node :   <name> EOL
 <debug>       ::= debug
 ------
 
@@ -99,13 +94,12 @@ agent alice
 
 ----
 workspace w1 {
-// creates an artifact named c1 as an instance of mylib.Counter initialised with (10)
+     // creates an artifact named c1 as an instance of mylib.Counter initialised with (10)
      artifact c1: mylib.Counter(10)
      artifact bll: mylist.BlackList()
-// this workspace will run on node n2
-     node: n2
-// starts a GUI for this workspace
-      debug
+
+     // starts a GUI for this workspace
+     debug
 }
 ----
 
@@ -115,43 +109,51 @@ workspace w1 {
 
 ------
 <organisations> ::= <org>*
-<org>           ::= organisation <name> [ : <source> ] { <parameter>* <agents> <node> <group>* <scheme>* }
+<org>           ::= organisation <name> [ : <source> ] { <parameter>* <agents> <group>* <scheme>* }
 <group>         ::= group  <name> : <type> [ { <gparameter>* } ]
 <gparameter>    ::= <gid> : <gvalue> ( (, | EOL) <gvalue> ) *
-<gid>           ::= responsible-for | debug | group | players
+<gid>           ::= responsible-for | debug | group | players | owner
 <scheme>        ::= scheme <name> : <type> [ { <sparameter>* } ]
 <sparameter>    ::= <sid> : <svalue> ( (, | EOL) <svalue> ) *
-<sid>           ::= debug
+<sid>           ::= debug | owner
 ------
 
 === Example of organisations definition
 
 ------
-// os.xml is the file with the organisational specification, if omitted o1.xml is used
-organisation o1 : os.xml {
-// a group instance g1 based on the group writepaper defined in os.xml
+organisation o1 : os.xml {   // os.xml is the file with the organisational specification, if omitted o1.xml is used
+
+      // a group instance g1 based on the group writepaper defined in os.xml
       group g1: writepaper {
-// the group will be responsible for the scheme s1
-      responsible-for: s1
-// bob plays r1 and r2 in group g1, alice plays r1 in g1 
-      players: bob r1
-               bob r2
-               alice r1
-// starts a debug GUI for this group
-      debug
-// groups sg2 will be a sub-group of g1
-      group sg2 : t1
+          // the group will be responsible for the scheme s1
+          responsible-for: s1
+
+          owner: alice // alice is the owner of the group and can manage it
+
+          // bob plays r1 and r2 in group g1, alice plays r1 in g1
+          players: bob r1
+                   bob r2
+                  alice r1
+          // starts a debug GUI for this group
+          debug
+
+          // groups sg2 will be a subgroup of g1
+          group sg2 : t1
     }
-// another group instance (without particular initialisation)
+
+    // another group instance (without particular initialisation)
     group g2 : writepaper
-// scheme instance identified by wpscheme in os.xml
+
+    // scheme instance identified by wpscheme in os.xml
     scheme s1 : wpscheme
 }
 ------
-== Execution configuration definition
+
+== Execution configuration
+
 === Java class path
 ------
-         class-path:  lib
+class-path:  lib
 ------
 
 === Agent source path
@@ -162,6 +164,7 @@ asl-path: src/agt
 ------
 
 === Platform configuration
+
 *  parameters for cartago
    - `infrastructure` (optional): starts the cartago node in the network
 *  parameters for centralised
@@ -174,13 +177,3 @@ asl-path: src/agt
               cartago("infrastructure")
               centralised(pool,4)
 ------
-
-=== Node configuration
-
-------
- node n3 running @ x.com.fr
-------
-
-nodes not defined will be launched when this .jcm is run
-
-link:documentation.adoc[Back to JaCaMo Documentation]

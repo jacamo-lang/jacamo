@@ -1,8 +1,8 @@
 = Debugging in JaCaMo
 (for JaCaMo 0.6)
+:toc: right
 :author: JaCaMo Team
 :date: June 2016
-:toc:right:
 :source-highlighter: coderay
 :coderay-linenums-mode: inline
 :icons: font
@@ -25,12 +25,12 @@ handlers = jason.runtime.MASConsoleLogHandler
 ----
 handlers= java.util.logging.ConsoleHandler
 ----
-*  To also add the FileHandler, you can add in previous handlers the _java.util.logging.FileHandler_ as follows: 
+*  To also add the FileHandler, you can add in previous handlers the _java.util.logging.FileHandler_ as follows:
 ----
 handlers= java.util.logging.FileHandler, java.util.logging.ConsoleHandler
 ----
 ==== Setting the logging level
-Setting the default logging level of the MAS application is realized by defining the value of _.level_ (e.g. .level = INFO). Other possible values are : 
+Setting the default logging level of the MAS application is realized by defining the value of _.level_ (e.g. .level = INFO). Other possible values are :
 
 *  SEVERE (only severe messages)
 *  WARNING (only warnings and severe messages)
@@ -59,7 +59,7 @@ Setting the default logging level of the MAS application is realized by defining
 *  sun.level=OFF
 *  jade.level=OFF
 
-==== Examples 
+==== Examples
 For instance, to output messages both into an XML file and in the console, you only need to set the log handler as:
 ----
 handlers = java.util.logging.FileHandler, java.util.logging.ConsoleHandler
@@ -124,7 +124,7 @@ or
 ---------------------------------------------
 The last parameter is the name of the directory where files will be stored. Each file corresponds to a sample of the mind. They are XML files with suitable style sheets to be viewed in browsers.
 
-*  Setting up the udpate frequency, use _cycle_ (for each cycle), a number (e.g. 2000) to have an update every 2000 milli-seconds, 
+*  Setting up the udpate frequency, use _cycle_ (for each cycle), a number (e.g. 2000) to have an update every 2000 milli-seconds,
 ---------------------------------------------
 // Showing the current mind state in the screen with update each reasoning cycle
   ...
@@ -181,5 +181,3 @@ The last parameter is the name of the directory where files will be stored. Each
   }
   ...
 ----------------------------------------------------
-
-link:documentation.adoc[Back to JaCaMo Documentation]

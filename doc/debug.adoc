@@ -38,12 +38,9 @@ Setting the default logging level of the MAS application is realized by defining
 *  FINE (debug level of messages)
 
 ==== Setting handler specific properties
-*  Jason Handler parameters
+*  Handler parameters
   **  jason.runtime.MASConsoleLogHandler.level = ALL
   **  jason.runtime.MASConsoleLogHandler.formatter = jason.runtime.MASConsoleLogFormatter
-*  Set one text area for each agent
-  **  jason.runtime.MASConsoleLogHandler.tabbed = true
-  **  jason.runtime.MASConsoleLogHandler.colors = false
 *  File handler properties:
   **  default file output is in project's directory.
   **  java.util.logging.FileHandler.pattern = log/mas-%g.log
@@ -58,6 +55,9 @@ Setting the default logging level of the MAS application is realized by defining
 *  javax.level=OFF
 *  sun.level=OFF
 *  jade.level=OFF
+*  Set one text area for each agent
+  **  jason.runtime.MASConsoleLogHandler.tabbed = true
+  **  jason.runtime.MASConsoleLogHandler.colors = false
 
 ==== Examples
 For instance, to output messages both into an XML file and in the console, you only need to set the log handler as:

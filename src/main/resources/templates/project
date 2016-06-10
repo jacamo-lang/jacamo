@@ -1,126 +1,26 @@
 /* 
+    <PROJECT_NAME>
+    ---------------------------
 
-    JaCaMo Project File 
+    JaCaMo Project File
     
     This file defines the initial state of the MAS (initial agents, environment, organisation, ....)
     
-    (see below the documentation about what can be defined in this file)
-
+    (see jacamo/doc/jcm.html for more information about what can be defined in this file)
+    
+    JaCaMo <VERSION>
+    <DATE>
 */
 
 mas <PROJECT_NAME> {
 
     <DEFAULT_AGENT>
     
-/* 
-   agents definition
-
-      <agents>    ::= <agent>*
-      <agent>     ::= agent <name> [ : <source> ] { <parameter>* }
-      <parameter> ::= <id> : <value> ( (, | EOL) <value> ) *
-       
-   e.g.
-      agent bob : participant.asl {                    // if source is omitted, bob.asl will be used
-         beliefs:     p("this is a condition",15000)   // initial beliefs
-                      friend(alice)
-         goals:       start, go(home)                  // initial goals
-
-         debug:       mindinspector(gui(2000,html,history)) // starts the mind inspector for the agent  (details at http://jason.sourceforge.net/faq/faq.html -- How to log agents' mind states?)
-         verbose:     2                                // 0 means only agent output, 1 means agent+jason output, 2 means agent+jason+debug output
-         
-         ag-class:    tt.MyAgClass                     // if omitted, Jason Agent default class will be used
-         ag-arch:     myp.myArch1
-                      mypkg.MyCustomAgArch             // CArtAgO arch is automatically included, if necessary, JADE arch is automatically included
-         ag-bb-class: my.Bb
-
-         
-         myparameter: "this is an appl parameter"      // user application parameter, used for instance by user custom architectures
-         
-         node:        n1                               // the logical name of the place where the agent will run
-         instances:   5                                // 5 bobs (called bob1, bob2, ... bob5) will be created. 
-                                                       // You can also list the names of the agents. Default value is 1.
-         join:        w2                               // join the workspace w2
-         focus:       w1.a1 @ n1                       // focus on artifact a1 in workspace w1 running on node n1
-         roles:       r1 in g2, r2 in o1.g3 @ n2       // adopt the role r1 in group g2 and role r2 in group g3 (in org o1 running on node n2)
-      }
-      
-      agent alice                                      // the source is alice.asl, one instance will be created at default node
-*/
-
-/*
-    environment definition
-    
-       <environment> ::= <workspace>*
-       <workspace>   ::= workspace <name> { <artifact>* <agents> <node> <debug> }
-       <artifact>    ::= artifact  <name> : <type> [ { focused-by: <agents> } ]
-       <agents>      ::= agents : <name> ( (, | EOL) <name> )* | "*"   // "*" means all agents
-       <node>        ::= node :   <name> EOL
-       <debug>       ::= debug
-       
-    e.g.
-       workspace w1 {
-          artifact c1: mylib.Counter(10)               // creates an artifact named c1 as an instance of mylib.Counter initialised with (10) 
-          artifact bll: mylist.BlackList() 
-          node: n2                                     // this workspace will run on node n2
-          debug                                        // starts a GUI for this workspace
-       }
-*/
-
-/*
-    organisations definition
-    
-       <organisations> ::= <org>*
-       <org>           ::= organisation <name> [ : <source> ] { <parameter>* <agents> <node> <group>* <scheme>* }
-       <group>         ::= group  <name> : <type> [ { <parameter>* } ] 
-       <scheme>        ::= scheme <name> : <type> [ { <parameter>* } ] 
-       
-    e.g.
-       organisation o1 : os.xml {                      // os.xml is the file with the organisational specification, if omitted o1.xml is used
-          group g1: writepaper {                       // creates a group instance g1 based on the group definition writepaper in os.xml file
-             responsible-for: s1                       // the group will be responsible for the scheme instance s1
-             debug                                     // starts a debug GUI for this group
-             group sg2 : t1                            // group instance sg2 of type t1 will be a sub-group of g1          
-          }             
-          group g2 : writepaper                        // another group instance (without particular initialisation) 
-          
-          scheme s1 : wpscheme                         // creates a scheme instance s1 based on the scheme definition wpscheme in os.xml file  
-       }
-*/
-
-
-    // java class path
-    /* e.g.
-         class-path:  lib
-    */
-   
     // agent source path
     asl-path: src/agt
               src/agt/inc
 
-    /* platform configuration
-       e.g.
-         platform: jade() 
-                   cartago("infrastructure") 
-                   centralised(pool,4)
-
-       parameters for cartago                   
-           - "infrastructure" (optional): starts the cartago node in the network
-           
-       parameters for centralised
-           - pool,X : where X is the number os threads used to run the agents
-            
-       parameters for jade: any parameter we can use for jade.Boot. E.g.:
-           - jade("-gui -sniffer"): starts jade main-container with RMA and Sniffer already running
-           - jade("-container -host localhost -container-name c2"): starts a jade sub-container named c2
-    */
-   
     <PLATFORM>
     
-    /* node configuration
-       e.g.
-         node n3 running @ x.com.fr
-         
-       nodes not defined will be launched when this .jcm is run
-    */
 }
 

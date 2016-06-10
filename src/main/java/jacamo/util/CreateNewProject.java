@@ -93,7 +93,7 @@ public class CreateNewProject {
                 l = l.replace("<DEFAULT_AGENT>", "agent sample_agent");
                 l = l.replace("<AG_NAME>", "sample_agent");
                 
-                l = l.replace("<PCK>", "tool");
+                l = l.replace("<PCK>", "tools");
                 l = l.replace("<ARTIFACT_NAME>", "Counter");
                 l = l.replace("<SUPER_CLASS>", "Artifact");
                 

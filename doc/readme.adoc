@@ -8,6 +8,8 @@ June 2016
 :icons: font
 :prewrap!:
 
+ifdef::env-github[:outfilesuffix: .adoc]
+
 == Getting Started Guides
 
 If you’re just getting to know JaCaMo or tackling programming your first multi-agent program, these guides are for you! All you need is a few minutes. The only prerequisites are a JaCaMo platform installed, a JDK and a text editor.

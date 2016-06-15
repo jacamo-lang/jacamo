@@ -8,6 +8,9 @@
 :icons: font
 :prewrap!:
 
+ifdef::env-github[:outfilesuffix: .adoc]
+
+
 == Debug tools
 
 === Logging the overall execution

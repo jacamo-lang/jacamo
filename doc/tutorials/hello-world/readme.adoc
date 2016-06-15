@@ -5,6 +5,8 @@ JaCaMo Team
 
 :prewrap!:
 
+ifdef::env-github[:outfilesuffix: .adoc]
+
 == Introduction
 
 This programming tutorial illustrates some features of JaCaMo through
@@ -15,7 +17,7 @@ application that consider agents, environment and organisation.
 == Part I (installation and new project)
 
 To get started, you have to either install the latest
-http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or configure your  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based.html[shell command].
+http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or configure your  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based{outfilesuffix}[shell command].
 
 - In the _eclipse_ plugin: follow the instructions until step 12. Then, follow the steps
 13 to 17 to create a new project for this tutorial. The project name

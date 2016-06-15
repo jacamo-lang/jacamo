@@ -7,6 +7,10 @@ JaCaMo Team
 :icons: font
 :prewrap!:
 
+ifdef::env-github[:outfilesuffix: .adoc]
+
+
+
 The configuration of a JaCaMo program is realised in a file with the `.jcm` suffix (jcm stands for jacamo). This file is composed of the following sections included in a file:
 
 -  agents definition

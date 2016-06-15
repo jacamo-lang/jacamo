@@ -15,29 +15,30 @@ ifdef::env-github[:outfilesuffix: .adoc]
 If you’re just getting to know JaCaMo or tackling programming your first multi-agent program, these guides are for you! All you need is a few minutes. The only prerequisites are a JaCaMo platform installed, a JDK and a text editor.
 
 * link:tutorials/hello-world/readme{outfilesuffix}[Hello World with JaCaMo]
-* <<tutorials/hello-world/readme#, test>>
 
 == Tutorials
 
 With the following tutorials you will experience deeper, in-context explorations and practices of multi-agent oriented programming topics.
 // After the practice of these tutorials, you will be ready to implement real-world multiagent solutions.
 
-* link:tutorials/coordination/readme.html[Different approaches to implement coordination using JaCaMo]
-* link:tutorials/gold-miners/readme.html[Agent programming in a contest scenario]
-* link:tutorials/house-building/slides-practical.pdf[Building a house scenario (slides)] and link:tutorials/house-building/readme.txt[readme]
+* link:tutorials/coordination/readme{outfilesuffix}[Different approaches to implement coordination using JaCaMo]
+* link:tutorials/gold-miners/readme{outfilesuffix}[Agent programming in a contest scenario (Gold Miners)]
 
 == JaCaMo FAQ
 
-*  link:faq.html[JaCaMo FAQ]
+*  link:faq{outfilesuffix}[JaCaMo FAQ]
+
+== Didactical Material
+* link:tutorials/house-building/slides-practical.pdf[Building a house scenario (slides)] and link:tutorials/house-building/readme.txt[readme]
 
 == Reference Documentation
 Looking for in-depth knowledge on a particular JaCaMo dimension, you will find quick access to javadoc APIs and reference documentations
 
-*  link:jcm.html[JaCaMo project: jcm files]
-*  link:debug.html[Debugging in JaCaMo]
+*  link:jcm{outfilesuffix}[JaCaMo project: jcm files]
+*  link:debug{outfilesuffix}[Debugging in JaCaMo]
 *  Agent documentation: http://jason.sourceforge.net/wp/documents[Jason]
 //*  link:environment.html[Environment project: CArTaGo]
 *  Organisation documentation: http://moise.sourceforge.net[Moise] & http://moise.sourceforge.net/doc/ora4mas[ORA4MAS]
-//*  link:agent-env.html[Agent-Environment project: C4Jason]
-//*  link:org-env.html[Organisation-Environment project: ORA4MAS]
-//*  link:jacandroid.html[JaCaMo for Android]
+//*  link:agent-env{outfilesuffix}[Agent-Environment project: C4Jason]
+//*  link:org-env{outfilesuffix}[Organisation-Environment project: ORA4MAS]
+//*  link:jacandroid{outfilesuffix}[JaCaMo for Android]

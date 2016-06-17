@@ -175,6 +175,8 @@ task renderAsciiDocs(type: Exec) {
 task fixTab {
     ant.fixcrlf(eol: 'lf',  includes: '**/*.txt,**/*.bat, **/*.adoc', srcdir: '.')
     ant.fixcrlf(tab: 'remove', tablength: '4', javafiles: 'true', includes: '**/*.java,**/*.xml', srcdir: 'src')
+    ant.fixcrlf(tab: 'remove', tablength: '4', javafiles: 'true', includes: '**/*.java,**/*.xml, **/*.asl, **/*.jcm', srcdir: 'examples')
+    ant.fixcrlf(tab: 'remove', tablength: '4', javafiles: 'true', includes: '**/*.java,**/*.xml, **/*.asl, **/*.jcm', srcdir: 'demos')
 }
 
 
@@ -203,12 +205,12 @@ task copyRel << {
         into 'build/jacamo-'+project.version+'/doc'
     }
     copy {
-        from 'src/examples'      
-        into 'build/jacamo-'+project.version+'/src/examples' 
+        from 'examples'      
+        into 'build/jacamo-'+project.version+'/examples' 
     }
     copy {
-        from 'src/demos'      
-        into 'build/jacamo-'+project.version+'/src/demos' 
+        from 'demos'      
+        into 'build/jacamo-'+project.version+'/demos' 
     }
     copy {
         from 'src/main/resources/templates'      

@@ -27,7 +27,7 @@ gradle config // <1> <2> <3>
 
 Examples can be run using the `jacamo` shell script, for example:
 
-	jacamo src/examples/house-building/house.jcm
+	jacamo examples/house-building/house.jcm
 
 Other useful gradle tasks:
 

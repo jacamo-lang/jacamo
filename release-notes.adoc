@@ -8,7 +8,7 @@
 
 - JaCaMo development is moved to GitHub.
 
-- gradle is used to build.
+- gradle is used for building the project.
 
 == Version 0.5
 

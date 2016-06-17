@@ -42,6 +42,25 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
+// copy dep jars and scritps into build directory
+task copyJarsToBuild {
+    inputs.files configurations.runtime.files
+    inputs.dir   'scripts'
+    outputs.dir  'build/libs'
+    outputs.dir  'build/scripts'
+    doLast {
+        copy {
+            from configurations.runtime
+            into 'build/libs' 
+        }
+        copy {
+            from 'scripts'
+            into 'build/scripts'
+            include '**'
+        }
+    }
+}
+
 jar {
     baseName 'jacamo'
     manifest {
@@ -63,6 +82,7 @@ jar {
         props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null) 
     }*/
 }
+jar.dependsOn(copyJarsToBuild)
 
 clean {
     delete 'bin'
@@ -82,15 +102,6 @@ task config (type: JavaExec, dependsOn: 'jar') {
     
     doFirst {
         delete System.getProperty("user.home")+'/.jacamo'
-        copy {
-            from configurations.runtime
-            into 'build/libs' 
-        }
-        copy {
-            from 'scripts'
-            into 'build/scripts'
-            include '**'
-        }
     }
     
     doLast {    

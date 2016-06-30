@@ -314,11 +314,11 @@ In `hf.asl`, change the plan for achieving the goal `start` to:
 
 -----
 +!start : message(X)
-   <- ?jcm__art("france","gui",ArtId);
+   <- ?jcm::focused("france","gui",ArtId);
       printMsg(X)[artifact_id(ArtId)].
 -----
 
-This plan consults (by the operator `?`) the belief base of the agent for the artifact id corresponding to the artifact named "gui" in workspace "france" footnote:[Every JaCaMo agent has beliefs like `jcm__art` (as you can see at http://localhost:3272) that store the artifact id of the artifacts the agent is focusing on (as defined in its `agent` declaration).]. Then this id is used as an annotation for the action `printMsg`, defining the exact artifact where this operation will be executed.
+This plan consults (by the operator `?`) the belief base of the agent for the artifact id corresponding to the artifact named "gui" in workspace "france" footnote:[Every JaCaMo agent has beliefs like `jcm::focused` (as you can see at http://localhost:3272) that store the artifact id of the artifacts the agent is focusing on (as defined in its `agent` declaration).]. Then this id is used as an annotation for the action `printMsg`, defining the exact artifact where this operation will be executed.
 
 
 [[step10]]
@@ -326,12 +326,12 @@ This plan consults (by the operator `?`) the belief base of the agent for the ar
 
 -----
 +!start : message(X)
-   <- for ( jcm__art(_,"gui",ArtId) ) {
+   <- for ( jcm::focused(_,"gui",ArtId) ) {
           printMsg(X)[artifact_id(ArtId)]
       }.
 -----
 
-This plan can be read as "for each answer for the query `jcm__art(\_,"gui",ArtId)`, print a message using the value of variable `ArtId` as the target artifact". The `_` means "any thing". Each iteration of the loop will have `ArtId` assigned to a different value.
+This plan can be read as "for each answer for the query `jcm::focused(\_,"gui",ArtId)`, print a message using the value of variable `ArtId` as the target artifact". The `_` means "any thing". Each iteration of the loop will have `ArtId` assigned to a different value.
 
 
 [[exercises-1]]
@@ -422,18 +422,18 @@ NOTE: the `debug` in the definition of the group or of the scheme will start the
 *3.* On the agents side, we need to include in their code plans so that they are capable to achieve their organisational goals and fulfil their duties. Change `hello.asl` to:
 
 -----
-+!print_h    <- ?jcm__art(jacamo,gui,ArtId); printMsg("H")[artifact_id(ArtId)]; .wait(700).
-+!print_e    <- ?jcm__art(jacamo,gui,ArtId); printMsg("e")[artifact_id(ArtId)]; .wait(700).
-+!print_l1   <- ?jcm__art(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
-+!print_l2   <- ?jcm__art(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
-+!print_l3   <- ?jcm__art(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
-+!print_spc  <- ?jcm__art(jacamo,gui,ArtId); printMsg(" ")[artifact_id(ArtId)]; .wait(700).
-+!print_w    <- ?jcm__art(jacamo,gui,ArtId); printMsg("W")[artifact_id(ArtId)]; .wait(700).
-+!print_o1   <- ?jcm__art(jacamo,gui,ArtId); printMsg("o")[artifact_id(ArtId)]; .wait(700).
-+!print_o2   <- ?jcm__art(jacamo,gui,ArtId); printMsg("o")[artifact_id(ArtId)]; .wait(700).
-+!print_r    <- ?jcm__art(jacamo,gui,ArtId); printMsg("r")[artifact_id(ArtId)]; .wait(700).
-+!print_d    <- ?jcm__art(jacamo,gui,ArtId); printMsg("d")[artifact_id(ArtId)]; .wait(700).
-+!print_excl <- ?jcm__art(jacamo,gui,ArtId); printMsg("!")[artifact_id(ArtId)]; .wait(700).
++!print_h    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("H")[artifact_id(ArtId)]; .wait(700).
++!print_e    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("e")[artifact_id(ArtId)]; .wait(700).
++!print_l1   <- ?jcm::focusedjacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
++!print_l2   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
++!print_l3   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
++!print_spc  <- ?jcm::focused(jacamo,gui,ArtId); printMsg(" ")[artifact_id(ArtId)]; .wait(700).
++!print_w    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("W")[artifact_id(ArtId)]; .wait(700).
++!print_o1   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("o")[artifact_id(ArtId)]; .wait(700).
++!print_o2   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("o")[artifact_id(ArtId)]; .wait(700).
++!print_r    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("r")[artifact_id(ArtId)]; .wait(700).
++!print_d    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("d")[artifact_id(ArtId)]; .wait(700).
++!print_excl <- ?jcm::focused(jacamo,gui,ArtId); printMsg("!")[artifact_id(ArtId)]; .wait(700).
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }

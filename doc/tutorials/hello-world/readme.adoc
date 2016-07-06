@@ -42,8 +42,7 @@ link:./slides.pdf[slides], and in some
 http://dx.doi.org/10.1016/j.scico.2011.10.004[papers].
 
 [[part-ii-agent]]
-Part II (agent)
----------------
+== Part II (agent)
 
 Our initial application will have four agents that will print different
 hello world messages. The source code for all of them will be the same
@@ -154,8 +153,7 @@ agent type, that will join the system composed of `alice`, `francois`,
 __Solution__: available link:./solutions/e1b.txt[here].
 
 [[part-iii-environment]]
-Part III (environment)
-----------------------
+== Part III (environment)
 
 The environment of this application is quite simple, it has a graphical
 display artifact where agents can print messages and perceive the number
@@ -255,7 +253,7 @@ which `debug` appears.
 agents should be placed in their proper workspace. This is why we add
 the `join` instruction in the project file as follows:
 
----------------------------------------------------------------------------------------------------------------------------------
+------
     agent francois : hello.asl {
         beliefs: message("Bonjour")
         join:  france
@@ -273,7 +271,7 @@ the `join` instruction in the project file as follows:
         beliefs: message("Good morning")
         focus: usa.gui
     }
----------------------------------------------------------------------------------------------------------------------------------
+------
 
 *7.* The result of the execution should be:
 
@@ -314,11 +312,11 @@ In `hf.asl`, change the plan for achieving the goal `start` to:
 
 -----
 +!start : message(X)
-   <- ?jcm::focused("france","gui",ArtId);
+   <- ?jcm::focused(france, gui, ArtId);
       printMsg(X)[artifact_id(ArtId)].
 -----
 
-This plan consults (by the operator `?`) the belief base of the agent for the artifact id corresponding to the artifact named "gui" in workspace "france" footnote:[Every JaCaMo agent has beliefs like `jcm::focused` (as you can see at http://localhost:3272) that store the artifact id of the artifacts the agent is focusing on (as defined in its `agent` declaration).]. Then this id is used as an annotation for the action `printMsg`, defining the exact artifact where this operation will be executed.
+This plan consults (by the operator `?`) the belief base of the agent for the artifact id corresponding to the artifact named `gui` in workspace `france` footnote:[Every JaCaMo agent has beliefs like `jcm::focused` (as you can see at http://localhost:3272) that store the artifact id of the artifacts the agent is focusing on (as defined in its `agent` declaration).]. Then this id is used as an annotation for the action `printMsg`, defining the exact artifact where this operation will be executed.
 
 
 [[step10]]
@@ -358,8 +356,7 @@ of beliefs `numMsg` by clicking on [...].
 __Solution__: available link:./solutions/e2d.txt[here].
 
 [[part-iv-organisation]]
-Part IV (organisation)
-----------------------
+== Part IV (organisation)
 
 We will change our example so that the printing of "Hello World" will be
 a coordinated task for our four agents: each agent will print one
@@ -424,7 +421,7 @@ NOTE: the `debug` in the definition of the group or of the scheme will start the
 -----
 +!print_h    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("H")[artifact_id(ArtId)]; .wait(700).
 +!print_e    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("e")[artifact_id(ArtId)]; .wait(700).
-+!print_l1   <- ?jcm::focusedjacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
++!print_l1   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
 +!print_l2   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
 +!print_l3   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
 +!print_spc  <- ?jcm::focused(jacamo,gui,ArtId); printMsg(" ")[artifact_id(ArtId)]; .wait(700).
@@ -526,8 +523,7 @@ __Solutions__: available link:./solutions/e3e.txt[here] and
 link:./solutions/e3e-version2.txt[here].
 
 [[part-v-distribution]]
-Part V (distribution)
----------------------
+== Part V (distribution)
 
 The last part of this tutorial will distribute the agents, workspaces,
 and organisation on different machines. In JaCaMo, an application can be
@@ -601,7 +597,7 @@ scheme does not start!
 
 *3.* Copy `helloworld.jcm` to `america.jcm`. Change `america.jcm` to:
 
----------------------------------------------------------------------------------------------------------------------------
+------
 mas helloworld_america {
 
     agent maria    : hello.asl {
@@ -631,7 +627,7 @@ mas helloworld_america {
 
     node europe running @ localhost      // definition of the host where node europe is running
 }
----------------------------------------------------------------------------------------------------------------------------
+------
 
 Some important changes:
 

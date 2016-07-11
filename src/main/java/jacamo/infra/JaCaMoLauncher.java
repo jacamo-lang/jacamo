@@ -362,7 +362,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
 
         try {
             OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<ArtifactId>();
-            cartagoCtx.doAction(orgB, new Op("createGroup", new Object[] { s.getName(), s.getType(), fb} ));
+            cartagoCtx.doAction(orgB, new Op("createScheme", new Object[] { s.getName(), s.getType(), fb} ));
             ArtifactId aid = fb.get();
 
             artIds.put(s.getName(), aid);

@@ -29,4 +29,4 @@ task_roles("Painting",         [painter]).
 @lin[atomic]    
 +!in_ora4mas
    <- joinWorkspace("ora4mas",_);
-	  +in_ora4mas.
+      +in_ora4mas.

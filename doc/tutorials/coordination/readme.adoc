@@ -627,7 +627,7 @@ included. These plans are quite similar to the previous plans.
 +!do_auction(Id,P)
    <- // creates a scheme to coordinate the auction
       .concat("sch_",Id,SchName);
-      makeArtifact(SchName, "ora4mas.nopl.SchemeBoard",["src/org/auction_os.xml", doAuction],SchArtId);
+      createScheme(SchName, doAuction, SchArtId);
       startGUI[artifact_id(SchArtId)];
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)];
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)];

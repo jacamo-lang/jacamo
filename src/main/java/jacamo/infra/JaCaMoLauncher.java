@@ -45,6 +45,7 @@ import cartago.CartagoException;
 import cartago.CartagoNode;
 import cartago.CartagoWorkspace;
 import cartago.Op;
+import cartago.OpFeedbackParam;
 import cartago.security.AgentIdCredential;
 import cartago.util.agent.CartagoBasicContext;
 import jacamo.project.JaCaMoGroupParameters;
@@ -70,6 +71,7 @@ import jason.runtime.MASConsoleGUI;
 import jason.runtime.MASConsoleLogHandler;
 import jason.runtime.Settings;
 import ora4mas.nopl.GroupBoard;
+import ora4mas.nopl.OrgBoard;
 import ora4mas.nopl.SchemeBoard;
 
 /**
@@ -301,14 +303,16 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                     
                     cartagoCtx.joinWorkspace(o.getName(), new AgentIdCredential("JaCaMoLauncherAg"));
                     
+                    ArtifactId aid = cartagoCtx.makeArtifact(o.getName(), OrgBoard.class.getName(), new Object[] { o.getParameter("source") } );
+
                     // schemes
                     for (JaCaMoSchemeParameters s: o.getSchemes()) {
-                        createScheme(o.getParameter("source"), s, o);
+                        createScheme(aid, s, o);
                     }
     
                     // groups
                     for (JaCaMoGroupParameters g: o.getGroups()) {
-                        createGroup(o.getParameter("source"),null,g,o);
+                        createGroup(aid,null,g,o);
                     }
                 }
             } catch (CartagoException e) {
@@ -317,15 +321,14 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         }
     }
     
-    protected void createGroup(String osFile, JaCaMoGroupParameters parent, JaCaMoGroupParameters g, JaCaMoOrgParameters org) {
-        Object[] args = new Object[2];
-        args[0] = osFile;
-        args[1] = g.getType();
-
-        String m = g.getName()+": "+args[1]+" defined at "+args[0]+" using artifact "+GroupBoard.class.getName(); 
+    protected void createGroup(ArtifactId orgB, JaCaMoGroupParameters parent, JaCaMoGroupParameters g, JaCaMoOrgParameters org) {
+        String m = g.getName()+": "+g.getType()+" using artifact "+GroupBoard.class.getName(); 
 
         try {
-            ArtifactId aid = cartagoCtx.makeArtifact(g.getName(), GroupBoard.class.getName(), args);
+            OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<ArtifactId>();
+            cartagoCtx.doAction(orgB, new Op("createGroup", new Object[] { g.getName(), g.getType(), fb} ));
+            ArtifactId aid = fb.get();
+            
             artIds.put(g.getName(), aid);
             logger.info("group created: "+m);
             if (g.hasDebug())
@@ -339,7 +342,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 cartagoCtx.doAction(aid, new Op("setOwner", new Object[] { owner } ));                
             }
             for (JaCaMoGroupParameters sg: g.getSubGroups()) {
-                createGroup(osFile, g, sg, org);
+                createGroup(orgB, g, sg, org);
             }
             
             String respFor = g.getParameter("responsible-for"); // should be done after subgroup creation
@@ -354,15 +357,14 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         
     }
 
-    protected void createScheme(String osFile, JaCaMoSchemeParameters s, JaCaMoOrgParameters org) {
-        Object[] args = new Object[2];
-        args[0] = osFile;
-        args[1] = s.getType();
-
-        String m = s.getName()+": "+args[1]+" defined at "+args[0]+" using artifact "+SchemeBoard.class.getName(); 
+    protected void createScheme(ArtifactId orgB, JaCaMoSchemeParameters s, JaCaMoOrgParameters org) {
+        String m = s.getName()+": "+s.getType()+" using artifact "+SchemeBoard.class.getName(); 
 
         try {
-            ArtifactId aid = cartagoCtx.makeArtifact(s.getName(), SchemeBoard.class.getName(), args);
+            OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<ArtifactId>();
+            cartagoCtx.doAction(orgB, new Op("createGroup", new Object[] { s.getName(), s.getType(), fb} ));
+            ArtifactId aid = fb.get();
+
             artIds.put(s.getName(), aid);
             logger.info("scheme created: "+m);
             if (s.hasDebug())

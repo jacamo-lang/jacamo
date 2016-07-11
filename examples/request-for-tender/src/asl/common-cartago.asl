@@ -10,9 +10,9 @@
       !join_wsp(W).
 
 +!join_remote_wsp(W,Host)
-   <- 	joinRemoteWorkspace(W,Host,Id); 
-   	 	+wsp_id(W,Id);
-      	.print("I am in the workspace ",W).
+   <-   joinRemoteWorkspace(W,Host,Id); 
+        +wsp_id(W,Id);
+        .print("I am in the workspace ",W).
       
 -!join_remote_wsp(W,Host)
    <- .print("waiting for the workspace...");

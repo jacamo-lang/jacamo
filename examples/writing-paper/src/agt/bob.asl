@@ -6,7 +6,7 @@
 +!wtitle     <- .wait(500); .print("writing title...").
 +!wabs       <- .print("writing abstract...").
 +!wsectitles <- .print("writing section title...").
-+!wconc	     <- .print("writing conclusion...").
++!wconc      <- .print("writing conclusion...").
 +!wp         <- .print("paper finished!").
 
 /* other plans */

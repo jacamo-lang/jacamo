@@ -17,8 +17,8 @@
       Bid = math.floor(math.random(10000))+800;
       //.print("my bid in auction artifact ", Art, " is ",Bid);
       bid( Bid )[artifact_id(Art)]. // recall that the artifact ignores if this
-	                                // agent places a bid that is higher than
-									// the current bid
+                                    // agent places a bid that is higher than
+                                    // the current bid
 
 /* plans for execution phase */
 

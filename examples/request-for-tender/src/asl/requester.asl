@@ -37,22 +37,22 @@ evaluator_candidate(carol2).
       +my_rft_bl(RFTBLArtId);
       +rft_board_art_id(RFTBoardArtId);
       if (rft(gui)) {  // Creation of the GUI Artifact
-      	.my_name(Me);
-      	.concat(Me,"_RFTConsole",CN);
-      	makeArtifact(CN,"hmi.RFTConsole",[Me],RFTCId);
-      	focus(RFTCId);
-      	+rft_console_art_id(RFTCId);
+        .my_name(Me);
+        .concat(Me,"_RFTConsole",CN);
+        makeArtifact(CN,"hmi.RFTConsole",[Me],RFTCId);
+        focus(RFTCId);
+        +rft_console_art_id(RFTCId);
       }
-	  else {     
+      else {     
          +product("apple","red apples, delivery in 30 days, max price 4 USD / Kg",6000);
-	     //+product("banana","yellow bananas, delivery in 30 days, max price 4 USD / Kg",4000);
-	     }.
+         //+product("banana","yellow bananas, delivery in 30 days, max price 4 USD / Kg",4000);
+         }.
 
 // Interaction with the GUI Artifact
 +cmd("addRFT",Terms,Conditions,Deadline)
 <- +product(Terms,Conditions,Deadline).
 
-// Internal reasoning 		
+// Internal reasoning       
 +product(Product,Conditions,Deadline) 
    <- .my_name(Me);
       .concat(Me,Product,"RFTGr",GrName);
@@ -64,28 +64,28 @@ evaluator_candidate(carol2).
       !startRFT(Product,Conditions,Deadline,GrName,SchName,ControlGrName,ControlSchName).
       
 +!startRFT(Product,Conditions,Deadline,GrName,SchName,ControlGrName,ControlSchName) 
-   <- 	
-   		+current(rft(Product,Conditions,Deadline,GrName,SchName,ControlGrName,ControlSchName));
-	      // creates the organisation for the RFT
-   	   	?my_org_wsp(OrgWsp);
-   		?wsp_id(OrgWsp,OrgWspId);
-   		cartago.set_current_wsp(OrgWspId);
-   		?my_org_spec(OS);
-	    makeArtifact(GrName,"ora4mas.nopl.GroupBoard",[OS, rftMngt, false, true ],GrArtId);
-      	focus(GrArtId);
-      	.my_name(Me);
-      	setOwner(Me)[artifact_id(GrArtId)];
-      	?my_org_name(OrgGrName);
-      	setParentGroup(OrgGrName)[artifact_id(GrArtId)];
-      	makeArtifact(ControlGrName,"ora4mas.nopl.GroupBoard",[OS, rftControl, false, true ],ControlGrArtId);
-      	focus(ControlGrArtId);
-      	setOwner(Me)[artifact_id(ControlGrArtId)];
-      	setParentGroup(GrName)[artifact_id(ControlGrArtId)];
-      	adoptRole(contractingAuthority)[artifact_id(ControlGrArtId)].
-  //    	adoptRole(contractingAuthority)[artifact_id(GrArtId)].
+   <-   
+        +current(rft(Product,Conditions,Deadline,GrName,SchName,ControlGrName,ControlSchName));
+          // creates the organisation for the RFT
+        ?my_org_wsp(OrgWsp);
+        ?wsp_id(OrgWsp,OrgWspId);
+        cartago.set_current_wsp(OrgWspId);
+        ?my_org_spec(OS);
+        makeArtifact(GrName,"ora4mas.nopl.GroupBoard",[OS, rftMngt, false, true ],GrArtId);
+        focus(GrArtId);
+        .my_name(Me);
+        setOwner(Me)[artifact_id(GrArtId)];
+        ?my_org_name(OrgGrName);
+        setParentGroup(OrgGrName)[artifact_id(GrArtId)];
+        makeArtifact(ControlGrName,"ora4mas.nopl.GroupBoard",[OS, rftControl, false, true ],ControlGrArtId);
+        focus(ControlGrArtId);
+        setOwner(Me)[artifact_id(ControlGrArtId)];
+        setParentGroup(GrName)[artifact_id(ControlGrArtId)];
+        adoptRole(contractingAuthority)[artifact_id(ControlGrArtId)].
+  //        adoptRole(contractingAuthority)[artifact_id(GrArtId)].
 //      !recruitement(OrgWsp,GrName);
 //      .my_name(Me);
-//   	  .concat(Me,Product,"RFTSch",SchName);
+//        .concat(Me,Product,"RFTSch",SchName);
 //      !rft_published(SchName).
 
      
@@ -93,43 +93,43 @@ evaluator_candidate(carol2).
 //+formationStatus(ok)[artifact_name(_,ControlGrName),artifact_id(GrArtId)]
 +formationStatus(ok)[artifact_name(_,ControlGrName),artifact_id(GrArtId)] 
     :  current(rft(Product,_,_,_,_,ControlGrName,ControlSchName))
-   <-	.print("Group ",ControlGrName," is ok");
-   		?my_org_wsp(OrgWsp);
-   		?wsp_id(OrgWsp,OrgWspId);
- 	   	cartago.set_current_wsp(OrgWspId);
- 	   	?my_org_spec(OS);
-      	makeArtifact(ControlSchName,"ora4mas.nopl.SchemeBoard",[OS, rftControl, false, true ],ControlSchArtId);
-      	setArgumentValue(tenders_verified,"Deadline",3000)[artifact_id(ControlSchArtId)];
-      	addScheme(ControlSchName)[artifact_id(GrArtId)];
-      	.println("Group ",ControlGrName," is well formed and linked to the scheme ",ControlSchName).		
+   <-   .print("Group ",ControlGrName," is ok");
+        ?my_org_wsp(OrgWsp);
+        ?wsp_id(OrgWsp,OrgWspId);
+        cartago.set_current_wsp(OrgWspId);
+        ?my_org_spec(OS);
+        makeArtifact(ControlSchName,"ora4mas.nopl.SchemeBoard",[OS, rftControl, false, true ],ControlSchArtId);
+        setArgumentValue(tenders_verified,"Deadline",3000)[artifact_id(ControlSchArtId)];
+        addScheme(ControlSchName)[artifact_id(GrArtId)];
+        .println("Group ",ControlGrName," is well formed and linked to the scheme ",ControlSchName).        
 
 +formationStatus(ok)[artifact_name(_,GrName),artifact_id(GrArtId)] 
     : current(rft(Product,_,_,GrName,SchName,_,_)) 
-   <- 	.print("Group ",GrName," is ok");
-   	  	?my_org_wsp(OrgWsp);
-   		?wsp_id(OrgWsp,OrgWspId);
-   		cartago.set_current_wsp(OrgWspId);
-      	?my_org_spec(OS); 
-   		makeArtifact(SchName,"ora4mas.nopl.SchemeBoard",[OS, rftMngt, false, true ],SchArtId);
-      	addScheme(SchName)[artifact_id(GrArtId)];
-      	.println("Group ",GrName," is well formed and linked to the scheme ",SchName).
-      	      
+   <-   .print("Group ",GrName," is ok");
+        ?my_org_wsp(OrgWsp);
+        ?wsp_id(OrgWsp,OrgWspId);
+        cartago.set_current_wsp(OrgWspId);
+        ?my_org_spec(OS); 
+        makeArtifact(SchName,"ora4mas.nopl.SchemeBoard",[OS, rftMngt, false, true ],SchArtId);
+        addScheme(SchName)[artifact_id(GrArtId)];
+        .println("Group ",GrName," is well formed and linked to the scheme ",SchName).
+              
 // organisational goals   
 
 +!recruitement[scheme(ControlSchName)] : current(rft(Product,Conditions,Deadline,GrName,_,_,ControlSchName))
-   <- 	.findall(Ag,evaluator_candidate(Ag),LEval);
-   		?my_org_wsp(OrgWsp);
-   		?wsp_id(OrgWsp,OrgWspId);
-   		.send(LEval, achieve, join_group(OrgWsp,GrName,rft(Product,Conditions,Deadline,GrName))).
+   <-   .findall(Ag,evaluator_candidate(Ag),LEval);
+        ?my_org_wsp(OrgWsp);
+        ?wsp_id(OrgWsp,OrgWspId);
+        .send(LEval, achieve, join_group(OrgWsp,GrName,rft(Product,Conditions,Deadline,GrName))).
      
 +!rft_published[scheme(ControlSchName)] : current(rft(Product,Conditions,Deadline,GrName,SchName,ControlGrName,ControlSchName))
-   <- 	?rft_board_art_id(RFTBoardArtId);
-   		announce(Product, Conditions, Deadline, GrName, SchName, AName)[artifact_id(RFTBoardArtId)];
-      	.print(Product, " is announced! The artifact for bids is ",AName);
-      	?my_rft_wsp(RftWsp);
-      	?wsp_id(RftWsp,RftWspId);
-      	!lookup_focus(RftWsp,AName,_);
-      	.print("RFT for ",Product," started!").
+   <-   ?rft_board_art_id(RFTBoardArtId);
+        announce(Product, Conditions, Deadline, GrName, SchName, AName)[artifact_id(RFTBoardArtId)];
+        .print(Product, " is announced! The artifact for bids is ",AName);
+        ?my_rft_wsp(RftWsp);
+        ?wsp_id(RftWsp,RftWspId);
+        !lookup_focus(RftWsp,AName,_);
+        .print("RFT for ",Product," started!").
       
 +!rft_published[scheme(SchName)] 
    <- .print("RFT Board not created yet, waiting....");
@@ -146,13 +146,13 @@ evaluator_candidate(carol2).
 //+state(S) : .string(S) <- .print("state is ",S).
 
 +!bid_allocated[scheme(SchName)] : scheme(SchName)[artifact_id(RFTBidArtId)]
-	<- ?terms(Term)[artifact_id(RFTBidArtId)];
-	   ?bids(SchName,List);
-	   ?group(GrName)[artifact_id(RFTBidArtId)];
+    <- ?terms(Term)[artifact_id(RFTBidArtId)];
+       ?bids(SchName,List);
+       ?group(GrName)[artifact_id(RFTBidArtId)];
       .findall(Ag,play(Ag,evaluator,GrName),LEval);
-	  .send(LEval,tell,bids_to_evaluate(SchName,List, blind, english, 1, 6));
-	  .print("Bid allocated for ", Term).
-	  
+      .send(LEval,tell,bids_to_evaluate(SchName,List, blind, english, 1, 6));
+      .print("Bid allocated for ", Term).
+      
 +!decision_taken[scheme(SchName)] : scheme(SchName)[artifact_id(RFTBidArtId)]
    <- ?bids_evaluated(SchName,[bid(Vl,Tender,_,_)|_]);
       notify(Tender)[artifact_id(RFTBidArtId)]; 

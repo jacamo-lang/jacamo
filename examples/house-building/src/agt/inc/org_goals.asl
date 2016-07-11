@@ -17,5 +17,5 @@
 +!G[scheme(S)] 
    <- .print(" ---> working to achieve ",G);
       G; // simulates the action (in GUI artifact)
-	  .print(" <--- done.").
+      .print(" <--- done.").
 */

@@ -70,25 +70,27 @@ number_of_tasks(NS) :- .findall( S, task(S), L) & .length(L,NS).
 +!execute
    <- println;
       println("*** Execution Phase ***");
-      println;	  
-	  
+      println;    
+      
       // create the group
       .my_name(Me);
       createWorkspace("ora4mas");
       joinWorkspace("ora4mas",_);
      
-      makeArtifact("hsh_group","ora4mas.nopl.GroupBoard",["src/org/house-os.xml", house_group], GrArtId);
+      makeArtifact(myorg, "ora4mas.nopl.OrgBoard", ["src/org/house-os.xml"], OrgArtId);
+      focus(OrgArtId);
+      createGroup(hsh_group, house_group, GrArtId);
       startGUI[artifact_id(GrArtId)];
       adoptRole(house_owner)[artifact_id(GrArtId)];
       focus(GrArtId);
       
       !contract_winners("hsh_group"); // they will enter into the group
       
-	  // create the GUI artifact
-	  makeArtifact("housegui", "simulator.House");
-	  
+      // create the GUI artifact
+      makeArtifact("housegui", "simulator.House");
+      
       // create the scheme
-      makeArtifact("bhsch", "ora4mas.nopl.SchemeBoard",["src/org/house-os.xml", build_house_sch], SchArtId);
+      createScheme(bhsch, build_house_sch, SchArtId);
       startGUI[artifact_id(SchArtId)];
       focus(SchArtId);
       

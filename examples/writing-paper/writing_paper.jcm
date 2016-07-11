@@ -10,16 +10,16 @@ mas writing_paper {
     agent alice
     agent carol
 
-	organisation opaper: wp-os.xml {
-		group paper_group: wpgroup {
-			responsible-for: s1
-			players: bob editor
-			         alice writer
-			         carol writer
-		}
-		scheme s1: writePaperSch
-	}
-	
+    organisation opaper: wp-os.xml {
+        group paper_group: wpgroup {
+            responsible-for: s1
+            players: bob editor
+                     alice writer
+                     carol writer
+        }
+        scheme s1: writePaperSch
+    }
+    
     asl-path: src/agt, src/agt/inc
 
 }

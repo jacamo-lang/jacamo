@@ -3,7 +3,7 @@
  In the project, add:
  
     agent exercise3b {
-    	roles: participant in agrp
+        roles: participant in agrp
     }
  
 */
@@ -26,7 +26,7 @@
 // Produced error:
 // [exercise3b] Could not finish intention: intention 31: 
 //    +commitment(exercise3b,mParticipant,"sch_a1")[artifact_id(cobj_3) ... 
-//	Trigger: +commitment(exercise3b,mParticipant,"sch_a1")...
+//  Trigger: +commitment(exercise3b,mParticipant,"sch_a1")...
 //      env_failure_reason(reason(fail(mission_cardinality(mAuctioneer,"sch_a1",2,1)))),
 //      error_msg("Error committing to mission mAuctioneer")...
 //

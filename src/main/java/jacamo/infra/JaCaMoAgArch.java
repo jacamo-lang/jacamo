@@ -185,10 +185,19 @@ public class JaCaMoAgArch extends AgArch {
                         ASSyntax.createString(host),  // host
                         ASSyntax.createAtom(r[1]));   // art
                 if (!lart.contains(art)) 
-                    lart.append(art);                            
+                    lart.append(art);
+                
+                // add auto focus on org board
+                art = ASSyntax.createLiteral("art_env", 
+                        ASSyntax.createAtom(r[0]),    // workspace
+                        ASSyntax.createString(host),  // host
+                        ASSyntax.createAtom(r[0]));   // art
+                if (!lart.contains(art)) 
+                    lart.append(art);                
             }
         }
-        if (! lart.isEmpty()) {    
+        
+        if (! lart.isEmpty()) {
             if (getTS().getLogger().isLoggable(Level.FINE)) getTS().getLogger().fine("producing goal to focus on "+lart);
             Intention i = new Intention();
             i.setAtomic(1); // force this event to be selected first

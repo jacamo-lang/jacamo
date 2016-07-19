@@ -19,7 +19,7 @@ fi
 # try to fix JDK_HOME on MacOS
 if [ -z $JDK_HOME ] ; then
     if [ `uname` == Darwin ] ; then
-	       JDK_HOME=`find /Library/Java/JavaVirtualMachines -name javac | tail -1`
+           JDK_HOME=`find /Library/Java/JavaVirtualMachines -name javac | tail -1`
            JDK_HOME=`dirname $JDK_HOME`
            JDK_HOME=`dirname $JDK_HOME`
        fi
@@ -35,4 +35,4 @@ export PATH=$JDK_HOME/bin:$PATH
 JACAMO_JAR=`find $JACAMO_HOME/libs -name jacamo*.jar`
 JASON_JAR=`find $JACAMO_HOME/libs  -name jason*.jar`
 
-java -classpath $JACAMO_JAR:$JASON_JAR jacamo.infra.RunJaCaMoProject $1
+java -classpath $JACAMO_JAR:$JASON_JAR jacamo.infra.RunJaCaMoProject $1 $2

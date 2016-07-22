@@ -639,7 +639,8 @@ included. These plans are quite similar to the previous plans.
 /* plans for organizational goals */
 
 +!start[scheme(Sch)]                        // plan for the goal start defined in the scheme
-   <- ?goalState(Sch, auction(AuctionId,S),_,_,_); // retrieve auction Id and service description S
+   <- ?goalArgument(Sch,auction,"Id",Id);   // retrieve auction Id and service description S
+      ?goalArgument(Sch,auction,"Service",S);
       .print("Start scheme ",Sch," for ",S);
       makeArtifact(AuctionId, "auction_env.AuctionArtifact", [], ArtId); // create the auction artifact
       focus(ArtId);
@@ -649,7 +650,7 @@ included. These plans are quite similar to the previous plans.
       .
 
 +!decide[scheme(Sch)]
-   <- ?goalState(Sch, auction(Id,S),_,_,_); // retrieve the auction artifact name Id
+   <- ?goalArgument(Sch,auction,"Id",Id);
       stop[artifact_name(Id)].
 
 +winner(W)[artifact_id(AId)] : W \== no_winner
@@ -685,7 +686,7 @@ changed to achieve organisational goals:
 .participant.asl
 ------
 +!bid[scheme(Sch)]
-   <- ?goalState(Sch, auction(AuctionId,S),_,_,_); // retrieve auction id and focus on the artifact
+   <- ?goalArgument(Sch,auction,"Id",AuctionId);
       lookupArtifact(AuctionId,ArtId);
       focus(ArtId);
       .wait( (math.random * 5+1)*1000);      // to simulate some "decision" reasoning
@@ -738,7 +739,7 @@ be changed to:
 .participant.asl
 ------
 +!bid[scheme(Sch)]
-   <- ?goalState(Sch, auction(AuctionId,S),_,_,_); // retrieve auction id and focus on the artifact
+   <- ?goalArgument(Sch,auction,"Id",AuctionId);
       lookupArtifact(AuctionId,AId);
       focus(AId);
       if (math.random  < 0.5) {              // bid in 50% of the cases

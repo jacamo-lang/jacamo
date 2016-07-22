@@ -80,7 +80,7 @@ number_of_tasks(NS) :- .findall( S, task(S), L) & .length(L,NS).
       makeArtifact(myorg, "ora4mas.nopl.OrgBoard", ["src/org/house-os.xml"], OrgArtId);
       focus(OrgArtId);
       createGroup(hsh_group, house_group, GrArtId);
-      startGUI[artifact_id(GrArtId)];
+      debug(inspector_gui(on))[artifact_id(GrArtId)];
       adoptRole(house_owner)[artifact_id(GrArtId)];
       focus(GrArtId);
       
@@ -91,7 +91,7 @@ number_of_tasks(NS) :- .findall( S, task(S), L) & .length(L,NS).
       
       // create the scheme
       createScheme(bhsch, build_house_sch, SchArtId);
-      startGUI[artifact_id(SchArtId)];
+      debug(inspector_gui(on))[artifact_id(SchArtId)];
       focus(SchArtId);
       
       ?formationStatus(ok)[artifact_id(GrArtId)]; // see plan below to ensure we wait until it is well formed

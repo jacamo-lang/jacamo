@@ -11,8 +11,8 @@
 
 // the usual plans of participant....
 +!bid[scheme(Sch)] 
-   <- ?goalState(Sch, auction(AuctionId,S),_,_,_); // retrieve auction id and focus on the artifact
-      lookupArtifact(AuctionId,AId);
+   <- ?goalArgument(Sch,auction,"Id",Id);
+      lookupArtifact(Id,AId);
       focus(AId);
       bid(math.random * 100 + 10)[artifact_id(AId)];
       goalAchieved(decide)[artifact_name(Sch)];

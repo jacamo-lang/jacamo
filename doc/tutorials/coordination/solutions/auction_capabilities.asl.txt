@@ -5,7 +5,7 @@
       createScheme(SchName, doAuction, SchArtId);
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)]; 
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)]; 
-      startGUI[artifact_id(SchArtId)];
+      debug(inspector_gui(on))[artifact_id(SchArtId)];
       .my_name(Me); setOwner(Me)[artifact_id(SchArtId)];  // I am the owner of this scheme!
       focus(SchArtId);
       addScheme(SchName);  // set the group as responsible for the scheme
@@ -14,7 +14,8 @@
 /* plans for organizational goals */
 
 +!start[scheme(Sch)]                        // plan for the goal start defined in the scheme 
-   <- ?goalState(Sch, auction(Id,S),_,_,_); // retrieve auction Id and service description S 
+   <- ?goalArgument(Sch,auction,"Id",Id);   // retrieve auction Id and service description S
+      ?goalArgument(Sch,auction,"Service",S);
       .print("Start scheme ",Sch," for ",S);
       makeArtifact(Id, "auction_env.AuctionArtifact", [], ArtId); // create the auction artifact
       focus(ArtId);
@@ -22,11 +23,11 @@
       .
       
 +!decide[scheme(Sch)] 
-   <- ?goalState(Sch, auction(Id,S),_,_,_); // retrieve the auction artifact name Id
+   <- ?goalArgument(Sch,auction,"Id",Id);
       stop[artifact_name(Id)].
             
 +!bid[scheme(Sch)] 
-   <- ?goalState(Sch, auction(Id,S),_,_,_); // retrieve auction id and focus on the artifact
+   <- ?goalArgument(Sch,auction,"Id",Id);
       lookupArtifact(Id,AId);
       focus(AId);
       if (math.random  < 0.8) {              // bid in 80% of the cases 

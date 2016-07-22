@@ -628,7 +628,7 @@ included. These plans are quite similar to the previous plans.
    <- // creates a scheme to coordinate the auction
       .concat("sch_",Id,SchName);
       createScheme(SchName, doAuction, SchArtId);
-      startGUI[artifact_id(SchArtId)];
+      debug(inspector_gui(on))[artifact_id(SchArtId)];
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)];
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)];
       .my_name(Me); setOwner(Me)[artifact_id(SchArtId)];     // I am the owner of this scheme!

@@ -23,7 +23,7 @@
       .wait(100);
       !jcm::focus_env_art(L,Try-1).
       
-+!join_workspace(W,_) : jcm::joined(W,I) <- cartago.set_current_wsp(I).      
++!join_workspace(W,_) : jcm::joined(W,I). // <- cartago.set_current_wsp(I).      
 +!join_workspace(W,"local") <- joinWorkspace(W,I); +jcm::joined(W,I).
 +!join_workspace(W,local)   <- joinWorkspace(W,I); +jcm::joined(W,I).
 +!join_workspace(W,H)       <- joinRemoteWorkspace(W,H,I); +jcm::joined(W,I).

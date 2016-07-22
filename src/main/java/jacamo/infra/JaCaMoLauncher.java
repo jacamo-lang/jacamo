@@ -252,7 +252,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         if (! "false".equals(Config.get().getProperty(jason.util.Config.START_WEB_EI))) 
             EnvironmentInspectorWeb.startHttpServer();
 
-        cartagoCtx = new CartagoBasicContext("JaCaMo Launcher","default");
+        cartagoCtx = new CartagoBasicContext("JaCaMo Launcher", CartagoNode.MAIN_WSP_NAME);
         for (JaCaMoWorkspaceParameters wp: getJaCaMoProject().getWorkspaces()) {
             try {
                 if (getJaCaMoProject().isInDeployment(wp.getNode())) {

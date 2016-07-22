@@ -2,8 +2,8 @@
 
 // keep focused on schemes that my groups are responsible for
 @l_focus_on_my_scheme[atomic]
-+schemes(L)[workspace(_,_,W)] 
-   <- cartago.set_current_wsp(W);
++schemes(L) //[workspace(_,_,W)] 
+   <- //cartago.set_current_wsp(W);
       for ( .member(S,L) ) {
          lookupArtifact(S,ArtId);
          focus(ArtId)

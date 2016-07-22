@@ -686,8 +686,8 @@ changed to achieve organisational goals:
 .participant.asl
 ------
 +!bid[scheme(Sch)]
-   <- ?goalArgument(Sch,auction,"Id",AuctionId);
-      lookupArtifact(AuctionId,ArtId);
+   <- ?goalArgument(Sch,auction,"Id",Id);
+      lookupArtifact(Id,ArtId);
       focus(ArtId);
       .wait( (math.random * 5+1)*1000);      // to simulate some "decision" reasoning
       bid(math.random * 100 + 10)[artifact_id(ArtId)].
@@ -739,8 +739,8 @@ be changed to:
 .participant.asl
 ------
 +!bid[scheme(Sch)]
-   <- ?goalArgument(Sch,auction,"Id",AuctionId);
-      lookupArtifact(AuctionId,AId);
+   <- ?goalArgument(Sch,auction,"Id",Id);
+      lookupArtifact(Id,AId);
       focus(AId);
       if (math.random  < 0.5) {              // bid in 50% of the cases
         .wait( (math.random * 5+1)*1000);    // to simulate some "decision" reasoning

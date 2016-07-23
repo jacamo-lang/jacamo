@@ -22,7 +22,7 @@ public class JaCaMoSchemeParameters extends JaCaMoOrgParameters {
             s.append("         "+a+": "+parameters.get(a)+"\n");
         }
         if (hasDebug()) {
-            s.append("         debug\n");            
+            s.append("         debug: "+getDebugConf()+"\n");            
         }
         s.append("      }");
         return s.toString();

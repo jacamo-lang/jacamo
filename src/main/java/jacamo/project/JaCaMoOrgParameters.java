@@ -13,7 +13,7 @@ public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
     protected List<JaCaMoGroupParameters>  groups     = new ArrayList<JaCaMoGroupParameters>();
     protected List<JaCaMoSchemeParameters> schemes    = new ArrayList<JaCaMoSchemeParameters>();
     protected Map<String,String>           parameters = new HashMap<String, String>(); // like source ....
-    protected boolean debug = false;
+    protected String                       debug      = null;
 
     public JaCaMoOrgParameters(JaCaMoProject project) {
         super(project);
@@ -57,10 +57,13 @@ public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
         return null;
     }
     
-    public void setDebug(boolean on) {
-        debug = on;
+    public void setDebug(String arg) {
+        debug = arg;
     }
     public boolean hasDebug() {
+        return debug != null;
+    }
+    public String getDebugConf() {
         return debug;
     }
     

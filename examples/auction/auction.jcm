@@ -10,8 +10,9 @@ mas auction {
 
     agent bob : auction_capabilities.asl {
         goals: do_auction("a1","flight_ticket(paris,athens,date(15,12,2015))")
-               do_auction("a2","flight_ticket(athens,paris,date(18,12,2015))")
+               do_auction("a2","flight_ticket(athens,paris,date(18,12,2015))") 
     }
+    
     
     agent alice   : auction_capabilities.asl
     agent maria   : auction_capabilities.asl
@@ -25,7 +26,8 @@ mas auction {
                      maria    participant
                      francois participant
                      giacomo  participant
-            debug
+                     
+            debug: inspector_gui(on)
         }
     }
     

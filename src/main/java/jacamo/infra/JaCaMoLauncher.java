@@ -332,7 +332,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             artIds.put(g.getName(), aid);
             logger.info("group created: "+m);
             if (g.hasDebug())
-                cartagoCtx.doAction(aid, new Op("debug", new Object[] { "inspector_gui(on)" } ));
+                cartagoCtx.doAction(aid, new Op("debug", new Object[] { g.getDebugConf() } ));
                 
             if (parent != null) {
                 cartagoCtx.doAction(aid, new Op("setParentGroup", new Object[] { parent.getName() } ));
@@ -368,7 +368,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             artIds.put(s.getName(), aid);
             logger.info("scheme created: "+m);
             if (s.hasDebug())
-                cartagoCtx.doAction(aid, new Op("debug", new Object[] { "inspector_gui(on)" } ));
+                cartagoCtx.doAction(aid, new Op("debug", new Object[] { s.getDebugConf() } ));
             
             String owner = s.getParameter("owner");
             if (owner != null) {

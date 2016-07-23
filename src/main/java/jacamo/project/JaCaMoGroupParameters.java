@@ -46,7 +46,7 @@ public class JaCaMoGroupParameters extends JaCaMoOrgParameters {
             s.append("         "+a+": "+parameters.get(a)+"\n");
         }
         if (hasDebug()) {
-            s.append("         debug\n");            
+            s.append("         debug: "+getDebugConf()+"\n");            
         }
         String bgn = "         players: ";
         for (AgentParameters ap: project.getAgents()) {

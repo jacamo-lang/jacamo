@@ -146,7 +146,7 @@ organisation o1 : os.xml {   // os.xml is the file with the organisational speci
                    bob r2
                    alice r1
           // starts a debug GUI for this group
-          debug
+          debug: inspector_gui(on) // currently the only possible value is "inspector_gui(on)"
 
           // groups sg2 will be a subgroup of g1
           group sg2 : t1

@@ -185,10 +185,10 @@ JaCaMoProject parse(String directory) :           { Token masId; File f = null; 
   
   (  
       (  
-           <CLASSPATH>      ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f.toString());} ) * 
-        |  <ASLPATH>        ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addSourcePath(f.toString());} ) *
+           <CLASSPATH>      ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f.toString());} ) + 
+        |  <ASLPATH>        ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addSourcePath(f.toString());} ) +
         |  <PLATFORM>       ":"                                                         { project.resetPlatform(); } 
-                                 (LOOKAHEAD(4) cp = classDef()             (<EOL>|",")+ { project.addPlatformParameters(cp);} ) *
+                                 (LOOKAHEAD(4) cp = classDef()             (<EOL>|",")+ { project.addPlatformParameters(cp);} ) +
         |  <NODE> id = <ATOM> 
                                  { r = false; }  [ <RUNNING> { r = true;}] 
                                  { h = null; }   ["@" h = host() ]         (<EOL>|",")+ { project.addNodeHost(id.image,h,r); }
@@ -226,17 +226,21 @@ void agent() :              { Token agType; Token agName; Token qty; Token opt; 
                               | (opt=<ATOM>                   (<EOL>|",")+       { instances.add(opt.image); }  )* 
                               )
         |  <NODE>        ":"  opt=<ATOM>                      (<EOL>)+           { ag.setHost(opt.image); } 
-        |  <AGARCH>      ":"  (LOOKAHEAD(4) arch = classDef() (<EOL>|",")+       { ag.insertArchClass(arch); })*
+        |  <AGARCH>      ":"  (LOOKAHEAD(4) arch = classDef() (<EOL>|",")+       { ag.insertArchClass(arch); })+
         |  <AGCLASS>     ":"  ag.agClass = classDef()         (<EOL>)+
         |  <AGBBCLASS>   ":"  ag.bbClass = classDef()         (<EOL>)+
-        |  <BELIEF>      ":"  (LOOKAHEAD(4) l=literal()       (<EOL>|",")+       { ag.addInitBel(l); } )*
-        |  <GOAL>        ":"  (LOOKAHEAD(4) l=literal()       (<EOL>|",")+       { ag.addInitGoal(l); } )*
+        |  <BELIEF>      ":"  (LOOKAHEAD(4) l=literal()       (<EOL>|",")+       { ag.addInitBel(l); } )+
+        |  <GOAL>        ":"  (LOOKAHEAD(4) l=literal()       (<EOL>|",")+       { ag.addInitGoal(l); } )+
+//        |  <GOAL>        ":"  (l=literal()                          { ag.addInitGoal(l); } 
+//                                 ( (<EOL>|",")+ l=literal()     { ag.addInitGoal(l); } 
+//                                 )*
+//                              )
         |  <FOCUS>       ":"  (LOOKAHEAD(4) oval=<ATOM>                          { n = null; }
                                   [ "@" t = <ATOM>                               { n = t.image; }
-                                  ]                           (<EOL>|",")+       { ag.addFocus(oval.toString(), n); } )*
+                                  ]                           (<EOL>|",")+       { ag.addFocus(oval.toString(), n); } )+
         |  <JOIN>        ":"  (LOOKAHEAD(4) oval=<ATOM>                          { n = null; }
                                   [ "@" t = <ATOM>                               { n = t.image; }
-                                  ]                           (<EOL>|",")+       { ag.addWorkspace(oval.toString(), n); } )*
+                                  ]                           (<EOL>|",")+       { ag.addWorkspace(oval.toString(), n); } )+
         |  <ROLES>       ":"  (LOOKAHEAD(4) opt=<ATOM> <IN> oval=<ATOM>          { n = null; }
                                   [ "@" t = <ATOM>                               { n = t.image; }
                                   ]                           (<EOL>|",")+       { if (n != null) ag.addFocus(oval.toString(), n);
@@ -270,7 +274,7 @@ void workspace() :          { Token t;
   "{"  (<EOL>)*         
     (  
       artifact(wks)   
-    | <AGENTS> ":"  ( (t = <ATOM> | t = <AST>) (<EOL>|",")+  { project.addAgWorkspace(t.image,wks); } )*
+    | <AGENTS> ":"  ( (t = <ATOM> | t = <AST>) (<EOL>|",")+  { project.addAgWorkspace(t.image,wks); } )+
     | <NODE>   ":"  t=<ATOM>                   (<EOL>)+      { wks.setNode(t.image); } 
     | <DEBUG>                                  (<EOL>)+      { wks.setDebug(true); }  
     )*
@@ -312,7 +316,7 @@ void organisation() :       { Token t;  Token opt; Object oval;
        (
               g = group(org)     { org.addGroup(g); } 
            |  scheme(org)
-           |  <AGENTS>      ":"  (LOOKAHEAD(4) (t = <ATOM>  | t = <AST>) (<EOL>|",")+  { project.addAgWorkspace(t.image,org); } )*
+           |  <AGENTS>      ":"  (LOOKAHEAD(4) (t = <ATOM>  | t = <AST>) (<EOL>|",")+  { project.addAgWorkspace(t.image,org); } )+
            |  <NODE>        ":"  opt=<ATOM>                              (<EOL>)+      { org.setNode(opt.image); } 
            |  opt=<ATOM>    ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { org.addParameter(opt.image,oval.toString()); }
        ) 
@@ -322,7 +326,7 @@ void organisation() :       { Token t;  Token opt; Object oval;
 }
 
 JaCaMoGroupParameters group(JaCaMoOrgParameters org) :
-                           { Token t; Token r; Token type; Token opt; Object oval;
+                           { Token t; Token r; Token type; Token opt; Object oval = null;
                              JaCaMoGroupParameters sg;
                              JaCaMoGroupParameters g = new JaCaMoGroupParameters(project);
                            } 
@@ -334,9 +338,9 @@ JaCaMoGroupParameters group(JaCaMoOrgParameters org) :
        (
               sg = group(org)                        { g.addSubGroup(sg); }                   
            |  <RESPFOR>     ":" t = <ATOM>  (<EOL>)+ { g.addParameter("responsible-for", t.image); }  
-           |  <DEBUG>                       (<EOL>)+ { g.setDebug(true); }  
+           |  <DEBUG>  { oval = "inspector_gui(on)"; }   [ ":" oval=literal() ]  (<EOL>)+ { g.setDebug(oval.toString()); }  
            |  opt=<ATOM>    ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { g.addParameter(opt.image,oval.toString()); }
-           |  <PLAYERS>     ":"  (LOOKAHEAD(4) t = <ATOM> r = <ATOM> (<EOL>|",")+     { project.addAgRole(t.image, org, g, r.image); } )*
+           |  <PLAYERS>     ":"  (LOOKAHEAD(4) t = <ATOM> r = <ATOM> (<EOL>|",")+     { project.addAgRole(t.image, org, g, r.image); } )+
        ) 
     )*  
   "}"
@@ -355,7 +359,7 @@ void scheme(JaCaMoOrgParameters org) :
   [
   "{"  (<EOL>)*         
   (  
-           <DEBUG>                       (<EOL>)+ { s.setDebug(true); }  
+           <DEBUG>  { oval = "inspector_gui(on)"; }   [ ":" oval=literal() ]  (<EOL>)+ { s.setDebug(oval.toString()); }  
          | opt=<ATOM>    ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { s.addParameter(opt.image,oval.toString()); }
   )*  
   "}"
@@ -406,10 +410,10 @@ void deployment(String directory):
 
     (  
       (  
-           <CLASSPATH>      ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f.toString());} ) * 
-        |  <ASLPATH>        ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addSourcePath(f.toString());} ) *
+           <CLASSPATH>      ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f.toString());} ) + 
+        |  <ASLPATH>        ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addSourcePath(f.toString());} ) +
         |  <PLATFORM>       ":"                                                         { project.resetPlatform(); } 
-                                 (LOOKAHEAD(4) cp = classDef()             (<EOL>|",")+ { project.addPlatformParameters(cp);} ) *
+                                 (LOOKAHEAD(4) cp = classDef()             (<EOL>|",")+ { project.addPlatformParameters(cp);} ) +
         |  <NODE> id = <ATOM>  { h = null; } ["@" h = host() ]             (<EOL>|",")+ { project.addNodeHost(id.image,h); }
         //|  <DEBUG>          ":" (id = <ATOM> 
         //   [ "{" (<EOL>)*

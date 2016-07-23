@@ -4,10 +4,10 @@
 
 // plans to handle obligations
 // obligation to commit to a mission
-+obligation(Ag,Norm,committed(Ag,Mission,Scheme),Deadline)[artifact_id(ArtId)]
++obligation(Ag,Norm,committed(Ag,Mission,Scheme),Deadline)
     : .my_name(Ag)
    <- .print("I am obliged to commit to ",Mission," on ",Scheme,"... doing so");
-      commitMission(Mission)[artifact_id(ArtId)]. 
+      commitMission(Mission)[artifact_name(Scheme)]. 
 
 // obligation to achieve a goal      
 +obligation(Ag,Norm,What,Deadline)[artifact_id(ArtId)]

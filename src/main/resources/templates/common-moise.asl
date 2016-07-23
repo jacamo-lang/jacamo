@@ -2,11 +2,14 @@
 
 // keep focused on schemes that my groups are responsible for
 @l_focus_on_my_scheme[atomic]
-+schemes(L) //[workspace(_,_,W)] 
++schemes(L)[artifact_name(_,GroupName)] //[workspace(_,_,W)] 
    <- //cartago.set_current_wsp(W);
       for ( .member(S,L) ) {
          lookupArtifact(S,ArtId);
-         focus(ArtId)
+         focus(ArtId);
+         .concat(GroupName,".",S,NBName);
+         lookupArtifact(NBName,NBId);
+         focus(NBId);         
       }.
 
 // the goal !focus_org_art is produced by the JaCaMo launcher for the agent to focus on initial artifacts

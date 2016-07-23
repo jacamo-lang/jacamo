@@ -95,8 +95,10 @@ number_of_tasks(NS) :- .findall( S, task(S), L) & .length(L,NS).
       focus(SchArtId);
       
       ?formationStatus(ok)[artifact_id(GrArtId)]; // see plan below to ensure we wait until it is well formed
-      addScheme("bhsch")[artifact_id(GrArtId)].
-
+      addScheme("bhsch")[artifact_id(GrArtId)];
+      commitMission("management_of_house_building")[artifact_id(SchArtId)];
+      .
+      
 +!contract_winners(GroupName)
     : number_of_tasks(NS) &
       .findall( ArtId, currentWinner(A)[artifact_id(ArtId)] & A \== "no_winner", L) &

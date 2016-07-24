@@ -38,9 +38,9 @@ public class AuctionArtifact extends Artifact {
         ObsProperty opCurrentValue  = getObsProperty("best_bid");
         if (bidValue < opCurrentValue.doubleValue()) {  // the bid is better than the previous
             opCurrentValue.updateValue(bidValue);
-            currentWinner = getOpUserName(); // the name of the agent doing this operation
+            currentWinner = getCurrentOpAgentId().getAgentName(); // the name of the agent doing this operation
         }
-        System.out.println("Received bid "+bidValue+" from "+getOpUserName()+" for "+getObsProperty("task").stringValue());
+        System.out.println("Received bid "+bidValue+" from "+getCurrentOpAgentId().getAgentName()+" for "+getObsProperty("task").stringValue());
     }    
 }
 

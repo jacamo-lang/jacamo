@@ -14,7 +14,7 @@ public class WhiteBoard extends Artifact {
     @OPERATION
     void message(String m) {
         ObsProperty prop = getObsProperty("count");
-        System.out.println( prop.intValue()+"> "+getOpUserName()+": "+m);
+        System.out.println( prop.intValue()+"> "+getCurrentOpAgentId().getAgentName()+": "+m);
         prop.updateValue(prop.intValue()+1);
         signal("tick");
     }

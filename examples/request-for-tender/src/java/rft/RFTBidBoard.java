@@ -34,10 +34,10 @@ public class RFTBidBoard extends Artifact {
     }
 
     @OPERATION void getBids(OpFeedbackParam<String> b) {
-        if (getObsProperty("requester").getValue().equals(getOpUserName())) {
+        if (getObsProperty("requester").getValue().equals(getCurrentOpAgentId().getAgentName())) {
             b.set(bids.toString());
         } else {
-            failed(getOpUserName()+" is not allowed to get the bids! Only "+getObsProperty("requester").getValue()+" is.");
+            failed(getCurrentOpAgentId().getAgentName()+" is not allowed to get the bids! Only "+getObsProperty("requester").getValue()+" is.");
         }
     }
     
@@ -52,7 +52,7 @@ public class RFTBidBoard extends Artifact {
     
     // TODO: how to receive a list of member from jason?
     @OPERATION void bid(double value, String members, String properties) {
-        bids.add(new Bid(getOpUserName(),value,members,properties,getOpUserId()));
+        bids.add(new Bid(getCurrentOpAgentId().getAgentName(),value,members,properties,getOpUserId()));
     }
     
 }

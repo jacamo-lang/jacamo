@@ -23,7 +23,7 @@ public class AuctionArt extends Artifact {
         ObsProperty opCurrentWinner = getObsProperty("currentWinner");
         if (bidValue < opCurrentValue.doubleValue()) {  // the bid is better than the previous
             opCurrentValue.updateValue(bidValue);
-            opCurrentWinner.updateValue(getOpUserName());
+            opCurrentWinner.updateValue(getCurrentOpAgentId().getAgentName());
         }
     }
     

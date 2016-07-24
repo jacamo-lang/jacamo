@@ -19,7 +19,7 @@ public class RFTBoard extends Artifact {
         taskId++;
         try {
             String artifactName = terms+"_bid_board_"+taskId;
-            makeArtifact(artifactName, "rft.RFTBidBoard", new ArtifactConfig(terms, conditions, deadline, grArtName, schArtName, getOpUserName()));
+            makeArtifact(artifactName, "rft.RFTBidBoard", new ArtifactConfig(terms, conditions, deadline, grArtName, schArtName, getCurrentOpAgentId().getAgentName()));
             defineObsProperty("task", terms, artifactName);
             id.set(artifactName);
         } catch (Exception ex){

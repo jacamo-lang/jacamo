@@ -1,11 +1,10 @@
 package jacamo.infra;
 
-import java.io.File;
-
 import jacamo.project.JaCaMoProject;
 import jacamo.project.parser.JaCaMoProjectParser;
-import jacamo.util.Config;
 import jason.infra.MASLauncherInfraTier;
+
+import java.io.File;
 
 /**
  * Run a JaCaMo project
@@ -52,7 +51,7 @@ public class RunJaCaMoProject {
           File file = new File(name);
           File directory = file.getAbsoluteFile().getParentFile();
           project = parser.parse(directory.toString());
-          Config.get().fix();
+          //Config.get().fix();
           project.setProjectFile(file);
           System.out.println("file "+name+" parsed successfully!\n");
           

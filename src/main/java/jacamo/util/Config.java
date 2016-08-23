@@ -25,7 +25,7 @@ public class Config extends jason.util.Config {
     }
     
     public static Config get() {
-        return get(true);
+        return get(false);
     }
 
     public static Config get(boolean tryToFixConfig) {

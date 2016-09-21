@@ -7,21 +7,19 @@ import java.net.BindException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
-
-import cartago.ArtifactId;
-import cartago.ArtifactInfo;
-import cartago.CartagoException;
-import cartago.CartagoWorkspace;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+
+import cartago.ArtifactId;
+import cartago.ArtifactInfo;
+import cartago.CartagoException;
+import cartago.CartagoService;
 
 public class EnvironmentInspectorWeb {
 
@@ -32,7 +30,7 @@ public class EnvironmentInspectorWeb {
     static String     httpServerURL = "http://localhost:"+httpServerPort;
     static int        refreshInterval = 5;
     
-    static Map<String,CartagoWorkspace> wrkps = new HashMap<String,CartagoWorkspace>(); 
+    static Set<String> wrkps = new HashSet<String>(); 
     
     static Set<String> hidenArts = new HashSet<String>( Arrays.asList(new String[] {
         "node",
@@ -95,9 +93,9 @@ public class EnvironmentInspectorWeb {
         }
     }
     
-    public static void registerWorkspace(CartagoWorkspace w) {
-        wrkps.put(w.getId().getName(),w);
-        registerWksBrowserView(w.getId().getName());
+    public static void registerWorkspace(String w) {
+        wrkps.add(w);
+        registerWksBrowserView(w);
     }
     
     private static void registerWksListBrowserView() {        
@@ -116,13 +114,15 @@ public class EnvironmentInspectorWeb {
                         responseBody.write(("<html><head><title>CArtAgO (list of artifacts)</title><meta http-equiv=\"refresh\" content=\""+refreshInterval+"\" ></head><body>").getBytes());
                         responseBody.write(("<font size=\"+2\"><span style='color: red; font-family: arial;'>workspaces</span></font><br/>").getBytes());
                         StringWriter out  = new StringWriter();
-                        for (CartagoWorkspace w: wrkps.values()) {
+                        for (String wname: wrkps) {
                             try {
-                                out.append("<br/><scan style='color: red; font-family: arial;'>"+w.getId().getName()+"</scan> <br/>");
-                                for (ArtifactId aid: w.getController().getCurrentArtifacts()) {
+                                out.append("<br/><scan style='color: red; font-family: arial;'>"+wname+"</scan> <br/>");
+                                for (ArtifactId aid: CartagoService.getController(wname).getCurrentArtifacts()) {
                                     if (hidenArts.contains(aid.getName()))
                                         continue;
-                                    String addr = w.getId().getName()+"/"+aid.getName();
+                                    if (aid.getName().endsWith("-body"))
+                                        continue;
+                                    String addr = wname+"/"+aid.getName();
                                     out.append(" - <a href=\""+addr+"\" target=\"arts\" style=\"font-family: arial; text-decoration: none\">"+aid.getName()+"</a><br/>");
                                 }
                             } catch (CartagoException e) {
@@ -159,7 +159,7 @@ public class EnvironmentInspectorWeb {
                             int p = path.lastIndexOf("/");
                             path = path.substring(p+1);
 
-                            ArtifactInfo info = wrkps.get(id).getController().getArtifactInfo(path);
+                            ArtifactInfo info = CartagoService.getController(id).getArtifactInfo(path);
                             
                             responseBody.write(EnvironmentInspector.getArtHtml(id, info, refreshInterval).getBytes());                                            
                         } catch (Exception e) {

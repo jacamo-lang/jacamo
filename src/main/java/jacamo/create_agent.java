@@ -1,14 +1,12 @@
 package jacamo;
 
+import java.util.List;
+
+import jaca.CAgentArch;
 import jacamo.infra.JaCaMoAgArch;
-import jacamo.project.JaCaMoAgentParameters;
 import jason.asSemantics.TransitionSystem;
 import jason.asSyntax.Term;
 import jason.runtime.Settings;
-
-import java.util.List;
-
-import c4jason.CAgentArch;
 
 /* 
  * internal action to create agents for jacamo

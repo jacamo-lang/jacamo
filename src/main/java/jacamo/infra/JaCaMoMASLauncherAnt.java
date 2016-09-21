@@ -1,5 +1,7 @@
 package jacamo.infra;
 
+import java.io.File;
+
 import jacamo.util.Config;
 import jason.infra.centralised.CentralisedMASLauncherAnt;
 
@@ -24,7 +26,12 @@ public class JaCaMoMASLauncherAnt extends CentralisedMASLauncherAnt {
         if (project.isJade()) {
             lib += "        <pathelement location=\""+Config.get().getJaCaMoHome()+"/lib/jade.jar\"/>\n";                        
         }*/
-        lib += "        <fileset dir=\""+Config.get().getJaCaMoHome()+"/libs\" > <include name=\"*.jar\" /> </fileset>\n";
+        
+        if (new File(Config.get().getJaCaMoHome() + File.separator + "lib").exists()) {
+            lib += "        <fileset dir=\""+Config.get().getJaCaMoHome()+"/lib\" > <include name=\"*.jar\" /> </fileset>\n";
+        } else {
+            lib += "        <fileset dir=\""+Config.get().getJaCaMoHome()+"/libs\" > <include name=\"*.jar\" /> </fileset>\n";
+        }
         
         script = replace(script, "<PATH-LIB>", lib + "\n<PATH-LIB>");
                 

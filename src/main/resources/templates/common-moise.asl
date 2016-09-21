@@ -2,14 +2,14 @@
 
 // keep focused on schemes that my groups are responsible for
 @l_focus_on_my_scheme[atomic]
-+schemes(L)[artifact_name(_,GroupName)] //[workspace(_,_,W)] 
++schemes(L)[artifact_name(_,GroupName), workspace(_,_,W)] 
    <- //cartago.set_current_wsp(W);
       for ( .member(S,L) ) {
-         lookupArtifact(S,ArtId);
-         focus(ArtId);
+         lookupArtifact(S,ArtId)[wid(W)];
+         focus(ArtId)[wid(W)];
          .concat(GroupName,".",S,NBName);
-         lookupArtifact(NBName,NBId);
-         focus(NBId);         
+         lookupArtifact(NBName,NBId)[wid(W)];
+         focus(NBId)[wid(W)];
       }.
 
 // the goal !focus_org_art is produced by the JaCaMo launcher for the agent to focus on initial artifacts
@@ -21,10 +21,10 @@
    <- !jcm::initial_roles(H,Try);
       !jcm::initial_roles(T,Try).
 +!jcm::initial_roles(role(O,H,G,R),Try)
-   <- !join_workspace(O,H); 
-      lookupArtifact(G,GId);
+   <- !join_workspace(O,H,WId); 
+      lookupArtifact(G,GId)[wid(WId)];
       +jcm::focused(O,G,GId);
-      focus(GId);
+      focus(GId)[wid(WId)];
       adoptRole(R)[artifact_id(GId)];
       .print("playing ",R," in ",O,".",G).
 -!jcm::initial_roles(L,Try)

@@ -38,16 +38,16 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import c4jason.CAgentArch;
-import c4jason.CartagoEnvironment;
+import cartago.AgentIdCredential;
 import cartago.ArtifactId;
+import cartago.CartagoContext;
 import cartago.CartagoException;
-import cartago.CartagoNode;
-import cartago.CartagoWorkspace;
+import cartago.CartagoService;
 import cartago.Op;
 import cartago.OpFeedbackParam;
-import cartago.security.AgentIdCredential;
-import cartago.util.agent.CartagoBasicContext;
+import cartago.WorkspaceId;
+import jaca.CAgentArch;
+import jaca.CartagoEnvironment;
 import jacamo.project.JaCaMoGroupParameters;
 import jacamo.project.JaCaMoOrgParameters;
 import jacamo.project.JaCaMoProject;
@@ -85,7 +85,7 @@ import ora4mas.nopl.SchemeBoard;
 public class JaCaMoLauncher extends RunCentralisedMAS {
     
     protected CartagoEnvironment  env;
-    protected CartagoBasicContext cartagoCtx;
+    protected CartagoContext      cartagoCtx;
     
     protected Map<String, ArtifactId> artIds = new HashMap<String, ArtifactId>();
     
@@ -252,7 +252,12 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         if (! "false".equals(Config.get().getProperty(jason.util.Config.START_WEB_EI))) 
             EnvironmentInspectorWeb.startHttpServer();
 
-        cartagoCtx = new CartagoBasicContext("JaCaMo Launcher", CartagoNode.MAIN_WSP_NAME);
+        try {
+            cartagoCtx = CartagoService.startSession(CartagoService.MAIN_WSP_NAME, new AgentIdCredential("JaCaMo_Launcher"));
+        } catch (CartagoException e1) {
+            e1.printStackTrace();
+            return;
+        }
         for (JaCaMoWorkspaceParameters wp: getJaCaMoProject().getWorkspaces()) {
             try {
                 if (getJaCaMoProject().isInDeployment(wp.getNode())) {
@@ -260,25 +265,29 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                         logger.warning("**** Remote workspace creation is not implemented yet! The workspace @ "+getJaCaMoProject().getNodeHost(wp.getNode())+" wasn't created");
                         continue;
                     }
-                    CartagoWorkspace cWsp = CartagoNode.getInstance().createWorkspace(wp.getName());
+                    CartagoService.createWorkspace(wp.getName());
                     logger.info("Workspace "+wp.getName()+" created.");
-                    EnvironmentInspectorWeb.registerWorkspace(cWsp);
+                    EnvironmentInspectorWeb.registerWorkspace(wp.getName());
+
                     cartagoCtx.joinWorkspace(wp.getName(), new AgentIdCredential("JaCaMoLauncherAg"));
+                    WorkspaceId wid = cartagoCtx.getJoinedWspId(wp.getName());
+                    
                     for (String aName: wp.getArtifacts().keySet()) {
                         String m = null;
                         try {
                             ClassParameters cp = wp.getArtifacts().get(aName);
                             m = "artifact "+aName+": "+cp.getClassName()+"("+cp.getParametersStr(",")+") at "+wp.getName();
-                            ArtifactId aid = cartagoCtx.makeArtifact(aName, cp.getClassName(), cp.getTypedParametersArray());
+                            ArtifactId aid = cartagoCtx.makeArtifact(wid, aName, cp.getClassName(), cp.getTypedParametersArray());
                             artIds.put(aName, aid);
                             logger.info(m+" created.");
-                            if (wp.hasDebug()) {
-                                EnvironmentInspector.addInGui(cWsp, aid);
-                            }
+                            EnvironmentInspector.addInGui(wp.getName(), aid);
                         } catch (CartagoException e) {
                             logger.log(Level.SEVERE, "error creating "+m,e);
                         }
-                    }                    
+                    }    
+                    if (wp.hasDebug()) {
+                        CartagoService.enableDebug(wp.getName());
+                    }
                 }
             } catch (CartagoException e) {
                 logger.log(Level.SEVERE, "error creating environmet, workspace:"+wp.getName(),e);
@@ -298,12 +307,13 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                     if (!spec.exists()) {
                         o.addParameter("source", "src/org/"+spec);
                     }
-                    CartagoNode.getInstance().createWorkspace(o.getName());
+                    CartagoService.createWorkspace(o.getName());
                     logger.info("Workspace "+o.getName()+" created.");
                     
                     cartagoCtx.joinWorkspace(o.getName(), new AgentIdCredential("JaCaMoLauncherAg"));
+                    WorkspaceId wid = cartagoCtx.getJoinedWspId(o.getName());
                     
-                    ArtifactId aid = cartagoCtx.makeArtifact(o.getName(), OrgBoard.class.getName(), new Object[] { o.getParameter("source") } );
+                    ArtifactId aid = cartagoCtx.makeArtifact(wid, o.getName(), OrgBoard.class.getName(), new Object[] { o.getParameter("source") } );
 
                     // schemes
                     for (JaCaMoSchemeParameters s: o.getSchemes()) {
@@ -314,6 +324,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                     for (JaCaMoGroupParameters g: o.getGroups()) {
                         createGroup(aid,null,g,o);
                     }
+                    //CartagoService.enableDebug(o.getName());
                 }
             } catch (CartagoException e) {
                 e.printStackTrace();

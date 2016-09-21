@@ -19,7 +19,7 @@ import cartago.ArtifactId;
 import cartago.ArtifactInfo;
 import cartago.ArtifactObsProperty;
 import cartago.CartagoException;
-import cartago.CartagoWorkspace;
+import cartago.CartagoService;
 
 public class EnvironmentInspector {
 
@@ -29,7 +29,7 @@ public class EnvironmentInspector {
     private static int guiCount = 60;
 
     private static Map<String, JTextPane>        artsPane = new HashMap<String, JTextPane>();
-    private static Map<String, CartagoWorkspace> artsWrps = new HashMap<String, CartagoWorkspace>();
+    private static Map<String, String>           artsWrps = new HashMap<String, String>();
     private static Map<String, String>           artsLast = new HashMap<String, String>();
         
     private static void initFrame() {
@@ -53,7 +53,7 @@ public class EnvironmentInspector {
         });        
     }
 
-    public static void addInGui(CartagoWorkspace wks, ArtifactId aId) {
+    public static void addInGui(String wksName, ArtifactId aId) {
         if (frame == null)
             initFrame();
 
@@ -66,9 +66,9 @@ public class EnvironmentInspector {
         txtOP.setAutoscrolls(false);
         nsp.add(BorderLayout.CENTER, new JScrollPane(txtOP));
 
-        String id = wks.getId().getName()+"."+aId.getName();
+        String id = wksName+"."+aId.getName();
         //artsInfo.put(id, wks.getController().getArtifactInfo(aId.getName()));
-        artsWrps.put(id, wks);
+        artsWrps.put(id, wksName);
         artsPane.put(id, txtOP);
         allArtsPane.add(id, nsp);     
         
@@ -82,11 +82,11 @@ public class EnvironmentInspector {
     static void updateOP() {
         for (String k: artsPane.keySet()) {
             try {
-                CartagoWorkspace wks = artsWrps.get(k);
+                String wks = artsWrps.get(k);
                 String aname = k.substring(k.indexOf(".")+1);
-                ArtifactInfo info = wks.getController().getArtifactInfo(aname);
+                ArtifactInfo info = CartagoService.getController(wks).getArtifactInfo(aname);
                 
-                String sOut = getArtHtml(wks.getId().getName(), info, 5);
+                String sOut = getArtHtml(wks, info, 5);
                 
                 String lastOut = artsLast.get(k);
                 if (lastOut == null || !lastOut.endsWith(sOut)) {

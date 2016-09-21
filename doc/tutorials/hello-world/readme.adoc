@@ -170,7 +170,7 @@ and class names, respectively):
 image:./screens/f2.png[width="60%", align=center]
 
 Replace the default code of GUIConsole by the Java code available
-link:./code/GUIConsole.java[here]. Identify in the Java source code
+link:./code/helloworld/src/env/display/GUIConsole.java[here]. Identify in the Java source code
 where the observable properties and operations are declared.
 
 *2.* Add this artifact in the project by including the following lines
@@ -230,7 +230,6 @@ project file (.jcm) will create the workspaces and artifacts:
 
     workspace italy {
         artifact gui: display.GUIConsole("Italy")
-        debug
     }
 
     workspace brazil {
@@ -393,7 +392,7 @@ In Moise notation:
 image::./code/os-ss.png[width="70%", align=center]
 
 
-*1.* To create an organisational specification, select `src/org` (in the JaCaMo Navigator tab) and then the Eclipse menu File -> New -> Moise Specification. For organisation filename, fill `o1.xml`. Open `o1.xml` and replace its content by this link:./code/o1.xml.txt[file]. It contains an XML representation of the above specification. Try to identify the roles, missions, and schemes in the file.
+*1.* To create an organisational specification, select `src/org` (in the JaCaMo Navigator tab) and then the Eclipse menu File -> New -> Moise Specification. For organisation filename, fill `o1.xml`. Open `o1.xml` and replace its content by this link:./code/helloworld/src/org/o1.xml[file]. It contains an XML representation of the above specification. Try to identify the roles, missions, and schemes in the file.
 
 *2.* Based on this specification, the following code in the project file (`helloworld.jcm`) will create an organisation entity (i.e. agents within an organisation) where `francois` will play role `rv`, `maria` the role `rl`, `giacomo` the role `rc`, `alice` the role `rs` in the group `jacamo_team` which is of type `team`. This group is responsible for executing the social scheme `hello_eng` of type `hello_sch`.
 
@@ -473,7 +472,7 @@ Finally, the agents need to focus on the common artifact `gui` in the `jacamo` w
     ...
 -----
 
-The complete project file is available link:./code/helloworld-org.jcm.txt[here].
+The complete project file is available link:./code/helloworld/helloworld.jcm.txt[here].
 
 *4.* The result of the execution should be:
 
@@ -539,50 +538,10 @@ We will distribute our application on two nodes:
 
 *1.* Copy `helloworld.jcm` to `europe.jcm`. Change `europe.jcm` to:
 
----------------------------------------------------
-mas helloworld_europe {
-
-    agent francois : hello.asl {
-        beliefs: message("Bonjour")
-        focus: france.gui
-        focus: italy.gui
-        focus: jacamo.gui
-    }
-    agent giacomo  : hello.asl {
-        beliefs: message("Buon giorno")
-        focus: italy.gui
-        focus: jacamo.gui
-    }
-
-    workspace jacamo {
-        artifact gui: display.GUIConsole("common")
-    }
-    workspace france {
-        artifact gui: display.GUIConsole("France")
-    }
-    workspace italy {
-        artifact gui: display.GUIConsole("Italy")
-    }
-
-    organisation hello_org: o1.xml {
-        group jacamo_team: team {
-            responsible-for: hello_eng
-            players: francois rv,
-                     giacomo  rc
-            debug
-        }
-        scheme hello_eng: hello_sch {
-            debug
-        }
-    }
-
-    // agent source path
-    asl-path: src/agt
-              src/agt/inc
-
-    platform: cartago("infrastructure")
-}
----------------------------------------------------
+[source,jcm]
+----
+include::code/helloworld/europe.jcm[]
+----
 
 Some important changes:
 
@@ -597,37 +556,10 @@ scheme does not start!
 
 *3.* Copy `helloworld.jcm` to `america.jcm`. Change `america.jcm` to:
 
-------
-mas helloworld_america {
-
-    agent maria    : hello.asl {
-        beliefs: message("Bom dia")
-        focus: brazil.gui
-        focus: jacamo.gui @ europe                  // this workspace runs at node europe
-        roles: rl in hello_org.jacamo_team @ europe // adopts the role rl in the group jacamo_team that runs at node europe
-    }
-    agent alice    : hello.asl {
-        beliefs: message("Good morning")
-        focus: usa.gui
-        focus: jacamo.gui @ europe
-        roles: rs in hello_org.jacamo_team @ europe
-    }
-
-    workspace brazil {
-        artifact gui: display.GUIConsole("Brazil")
-    }
-    workspace usa {
-        artifact gui: display.GUIConsole("USA")
-    }
-
-    asl-path: src/agt
-              src/agt/inc
-
-    platform: cartago()
-
-    node europe running @ localhost      // definition of the host where node europe is running
-}
-------
+[source,jcm]
+----
+include::code/helloworld/america.jcm[]
+----
 
 Some important changes:
 

@@ -12,7 +12,7 @@
 /* other plans */
 
 // when a scheme is created for writing papers (goal wp is waiting), I commit to mManager
-+goalState(_,wp,_,_,waiting) <- commitMission(mManager).
++goalState(_,wp,_,_,waiting)[workspace(_,_,W)] <- commitMission(mManager)[wid(W)].
 
 // signals
 +normFailure(N)  <- .print("norm failure event: ", N).

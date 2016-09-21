@@ -25,7 +25,7 @@ package jacamo.infra;
 
 import java.util.logging.Level;
 
-import c4jason.CAgentArch;
+import jaca.CAgentArch;
 import cartago.CartagoException;
 import cartago.Op;
 import cartago.WorkspaceId;

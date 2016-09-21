@@ -2,16 +2,17 @@
 +!do_auction(Id,P) 
    <- // creates a scheme to coordinate the auction
       .concat("sch_",Id,SchName);
-      createScheme(SchName, doAuction,SchArtId);
+      ?joined("aorg",OrgWks); // get the workspace id of the org
+      createScheme(SchName, doAuction,SchArtId)[wid(OrgWks)];
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)]; 
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)]; 
       debug(inspector_gui(on))[artifact_id(SchArtId)];
       .my_name(Me); setOwner(Me)[artifact_id(SchArtId)];  // I am the owner of this scheme!
-      focus(SchArtId);
-      addScheme(SchName);  // set the group as responsible for the scheme
+      focus(SchArtId)[wid(OrgWks)];
+      addScheme(SchName)[wid(OrgWks)];  // set the group as responsible for the scheme
       commitMission(mAuctioneer)[artifact_id(SchArtId)].
 
-/* plans for organizational goals */
+/* plans for organisational goals */
 
 +!start[scheme(Sch)]                        // plan for the goal start defined in the scheme 
    <- ?goalArgument(Sch,auction,"Id",Id);   // retrieve auction Id and service description S
@@ -22,7 +23,7 @@
       start(S)[artifact_id(ArtId)];
       .
       
-+!decide[scheme(Sch)] 
++!decide[scheme(Sch)]
    <- ?goalArgument(Sch,auction,"Id",Id);
       stop[artifact_name(Id)].
             

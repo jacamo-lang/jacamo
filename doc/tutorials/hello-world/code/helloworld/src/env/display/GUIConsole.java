@@ -29,7 +29,7 @@ public class GUIConsole extends Artifact {
     
     // implements an operation available to the agents
     @OPERATION void printMsg(String msg){
-        String agentName = this.getCurrentOpAgentId().getAgentName();
+        String agentName = this.getOpUserName();
         ObsProperty prop = this.getObsProperty("numMsg");
         prop.updateValue(prop.intValue()+1);
         display.addText("Message at "+System.currentTimeMillis()+" from "+agentName+": "+msg);

@@ -10,7 +10,7 @@ JaCaMo Team
 ifdef::env-github[:outfilesuffix: .adoc]
 
 
-The configuration of a JaCaMo project is realised in a file with the `.jcm` suffix (jcm stands for jacamo).
+The configuration of a JaCaMo project is realised in a file with the `.jcm` suffix (jcm stands for JaCaMo).
 
 This file is composed of the following sections:
 
@@ -36,6 +36,8 @@ mas myjacamoapplication {
   ...
 }
 ----
+
+
 
 == Agents configuration
 
@@ -179,7 +181,7 @@ asl-path: src/agt
 *  parameters for cartago
    - `infrastructure` (optional): starts the cartago node in the network
 *  parameters for centralised
-   - `pool,X` : where X is the number os threads used to run the agents
+   - `pool,X` : where X is the number os threads used to run the agents (more options link:https://github.com/jason-lang/jason/blob/master/doc/tech/concurrency.adoc#synchronous-reasoning-cycle[here])
 *  parameters for Jade: any parameter we can use for jade.Boot. E.g.:
    - `jade("-gui -sniffer")`: starts Jade main-container with RMA and Sniffer already running
    - `jade("-container -host localhost -container-name c2")`: starts a Jade sub-container named `c2`
@@ -188,3 +190,15 @@ asl-path: src/agt
               cartago("infrastructure")
               centralised(pool,4)
 ------
+
+=== Include
+
+A project can import other projects by the keyword `uses`, as in the following example:
+
+----
+mas d uses p1, p2 {
+  ...
+}
+----
+
+In this case, all agents, workspaces and organisations defined in files `p1.jcm` and `p2.jcm` are included in the above project. The `platform` configuration are imported only if nothing about platforms is informed in the project that is *using* another project configuration.

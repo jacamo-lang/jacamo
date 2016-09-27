@@ -280,7 +280,8 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                             ArtifactId aid = cartagoCtx.makeArtifact(wid, aName, cp.getClassName(), cp.getTypedParametersArray());
                             artIds.put(aName, aid);
                             logger.info(m+" created.");
-                            EnvironmentInspector.addInGui(wp.getName(), aid);
+                            if (wp.hasDebug())
+                                EnvironmentInspector.addInGui(wp.getName(), aid);
                         } catch (CartagoException e) {
                             logger.log(Level.SEVERE, "error creating "+m,e);
                         }

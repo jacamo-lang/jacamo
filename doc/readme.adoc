@@ -23,6 +23,7 @@ With the following tutorials you will experience deeper, in-context explorations
 
 * link:tutorials/coordination/readme{outfilesuffix}[Different approaches to implement coordination using JaCaMo]
 * link:tutorials/gold-miners/readme{outfilesuffix}[Agent programming in a contest scenario (Gold Miners)]
+* link:http://jason.sourceforge.net/mini-tutorial/hello-bdi/[Intentional Agent programming  (the BDI model)]
 
 == JaCaMo FAQ
 

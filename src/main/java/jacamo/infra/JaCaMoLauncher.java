@@ -93,12 +93,13 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     
     public static void main(String[] args) throws JasonException {
         logger = Logger.getLogger(JaCaMoLauncher.class.getName());
-        runner = new JaCaMoLauncher();
-        runner.init(args);
-        runner.create();
-        runner.start();
-        runner.waitEnd();
-        runner.finish();
+        JaCaMoLauncher r = new JaCaMoLauncher();
+        runner = r;
+        r.init(args);
+        r.create();
+        r.start();
+        r.waitEnd();
+        r.finish();
     }
 
     public static JaCaMoLauncher getJaCaMoRunner() {
@@ -405,6 +406,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 return;
             }
         }
+        
         // add jacamo archs
         List<AgentParameters> lags = new ArrayList<AgentParameters>();
         for (AgentParameters ap: getJaCaMoProject().getAgents()) {
@@ -441,10 +443,19 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     }    
     
     @Override
+    protected void startAgs() {
+        if (getProject().isJade()) {
+            rJADE.startAgs();
+        } else {
+            super.startAgs();
+        }
+    }
+    
+    @Override
     protected void createReplAg(String n) {
         CentralisedAgArch agArch = new CentralisedAgArch();
-        agArch.setAgName(n);
         try {
+            agArch.setAgName(n);
             List<String> archs = new ArrayList<String>();
             archs.add(CAgentArch.class.getName());
             archs.add(JaCaMoAgArch.class.getName());

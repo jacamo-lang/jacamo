@@ -266,53 +266,9 @@ File -> New -> CArtAgO Artifact). Replace the Java code of the artifact by:
 [[app-listing]]
 [source,java]
 .AuctionArtifact.java
-----------------------------------------------------------------------------------------------
-package auction_env;
-
-import jason.asSyntax.Atom;
-import cartago.*;
-
-public class AuctionArtifact extends Artifact {
-
-    String currentWinner = "no_winner";
-
-    @OPERATION public void init()  {
-        // observable properties
-        defineObsProperty("running",     false);
-        defineObsProperty("task",        "no_task");
-        defineObsProperty("best_bid",    Double.MAX_VALUE);
-        defineObsProperty("winner",      new Atom(currentWinner)); // Atom is a Jason type
-    }
-
-    @OPERATION public void start(String task)  {
-        if (getObsProperty("running").booleanValue())
-            failed("The protocol is already running and so you cannot start it!");
-
-        getObsProperty("running").updateValue(true);
-        getObsProperty("task").updateValue(task);
-    }
-
-    @OPERATION public void stop()  {
-        if (! getObsProperty("running").booleanValue())
-            failed("The protocol is not running, why to stop it?!");
-
-        getObsProperty("running").updateValue(false);
-        getObsProperty("winner").updateValue(new Atom(currentWinner));
-    }
-
-    @OPERATION public void bid(double bidValue) {
-        if (! getObsProperty("running").booleanValue())
-            failed("You can not bid for this auction, it is not started!");
-
-        ObsProperty opCurrentValue  = getObsProperty("best_bid");
-        if (bidValue < opCurrentValue.doubleValue()) {  // the bid is better than the previous
-            opCurrentValue.updateValue(bidValue);
-            currentWinner = getOpUserName(); // the name of the agent doing this operation
-        }
-        System.out.println("Received bid "+bidValue+" from "+getOpUserName());
-    }
-}
-----------------------------------------------------------------------------------------------
+----
+include::code/auction_env/src/env/auction_env/AuctionArtifact.java[]
+----
 
 *2.* In the project file, create a workspace with an
 instance of the above artifact and the same agents as before:
@@ -341,7 +297,7 @@ mas auction_env {
 *3.* The code of the `auctioneer.asl` is:
 
 ------------------------------------------------------
-!start. // initial goals
+!start. // initial goal
 
 +!start
    <- start("flight_ticket(paris,athens,15/12/2015)");
@@ -385,40 +341,30 @@ image:./screens/r2.png[image]
 auction artifacts is pre-defined in the `.jcm` file. We will change it
 so that Bob will create the artifacts on demand.
 
-Change the workspace definition to:
+Change the workspace definition as follows:
 
---------------------------------------------------------------------------------------------
-    workspace market_place {
-        agents: bob, alice, maria, francois, giacomo // these agents will join the workspace
-    }
---------------------------------------------------------------------------------------------
+[source,jcm]
+.JCM project
+----
+include::code/auction_env/auction_env.jcm[]
+----
 
 so that the artifact is no more created when the application is started.
 The artifact will be created by Bob in its new `start` plan:
 
---------------------------------------------------------------------------
-+!start
-   <- makeArtifact("a1", "auction_env.AuctionArtifact", [], ArtId);
-      focus(ArtId);
-      start("flight_ticket(paris,athens,15/12/2015)")[artifact_id(ArtId)];
-      .at("now + 10 seconds", {+!decide}).
---------------------------------------------------------------------------
+[source,asl]
+.Auctioneer.asl
+----
+include::code/auction_env/src/agt/auctioneer.asl[]
+----
 
-The participants continuously lookup their environment waiting for an
-auction artifact. The following code will do that:
+The participants programs is now:
 
-----------------------------------------------------------------------------------
-!keep_focusing. // initial goal
-
-+!keep_focusing
-   <- lookupArtifact("a1",ToolId); // try to lookup an artifact identified by "a1"
-      focus(ToolId);
-      .wait(1000);
-      !keep_focusing.             // continue with the goal
--!keep_focusing                   // in case of some failure,
-   <- .wait(1000);
-      !keep_focusing.             // continue with the goal
-----------------------------------------------------------------------------------
+[source,asl]
+.Auctioneer.asl
+----
+include::code/auction_env/src/agt/participant.asl[]
+----
 
 === Exercises
 

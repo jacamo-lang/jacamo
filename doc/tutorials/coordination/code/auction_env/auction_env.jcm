@@ -30,6 +30,6 @@ mas auction_env {
     
     asl-path: src/agt, src/agt/inc
     
-    platform: jade()
+    //platform: jade()
 }
 

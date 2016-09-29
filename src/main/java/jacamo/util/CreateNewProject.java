@@ -50,7 +50,9 @@ public class CreateNewProject {
         System.out.println("   $ jacamo "+path+"/"+main+".jcm");
         System.out.println("or");
         System.out.println("   $ cd "+path);
-        System.out.println("   $ gradle -q");        
+        System.out.println("   $ gradle -q\n");        
+        System.out.println("an eclipse project can be create with");
+        System.out.println("   $ gradle eclipse\n");
     }
 
     void createDirs() {

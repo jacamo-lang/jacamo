@@ -1,9 +1,9 @@
 = Creating JaCaMo projects in the shell command
 for unix users
 
-. Download JaCaMo https://sourceforge.net/projects/jacamo/files/version-0[here] and unzip it.
+. Download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here] and unzip it.
 
-. Make sure you have `JACAMO_HOME` properly set (it should have the directories `libs` and `scripts` inside), then setup the `PATH`:
+. Make sure you have `JACAMO_HOME` properly set (this variable points to a directory with  subdirectories `libs` and `scripts` of JaCaMo), then setup the `PATH`:
 
     export PATH=$JACAMO_HOME/scripts:$PATH
 

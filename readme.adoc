@@ -47,3 +47,9 @@ gradle release // <5>
 <3> generates an _eclipse_ project configuration to develop JaCaMo.
 <4> cleans all generated files.
 <5> produces a zip file in `build/distributions` to be distributed to users.
+
+The development of the main tools used by JaCaMo is also hosted on GitHub:
+
+- https://github.com/jason-lang/jason[Jason]
+- https://github.com/aricci303/cartago[CArtaAgO]
+- https://github.com/moise-lang/moise[Moise]

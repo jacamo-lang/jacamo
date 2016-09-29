@@ -201,4 +201,4 @@ mas d uses p1, p2 {
 }
 ----
 
-In this case, all agents, workspaces and organisations defined in files `p1.jcm` and `p2.jcm` are included in the above project. The `platform` configuration are imported only if nothing about platforms is informed in the project that is *using* another project configuration.
+In this case, all agents, workspaces and organisations defined in files `p1.jcm` and `p2.jcm` are included in the above project. The `platform` configuration is imported only if nothing about platforms is informed in the project that is *using* another project configuration.

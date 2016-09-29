@@ -121,10 +121,24 @@ publishing {
     publications {
         maven(MavenPublication) {
             from components.java
+			artifact sourceJar
+			artifact javadocJar
             
             artifactId 'jacamo'
         }
     }
+}
+
+task javadocJar (type: Jar, dependsOn: javadoc) {
+    baseName 'jacamo'
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task sourceJar (type : Jar) {
+    baseName 'jacamo'
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
 
 eclipse {

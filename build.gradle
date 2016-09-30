@@ -147,6 +147,7 @@ eclipse {
         file.whenMerged { cp ->
             cp.entries.add( new org.gradle.plugins.ide.eclipse.model.SourceFolder('build/generated/javacc', null) )
         }
+        downloadJavadoc = true
     }
 }
 

@@ -750,7 +750,7 @@ result of the execution.
 _Solution_: available link:./solutions/exercise3c.txt[here].
 
 d) Use the same source code (the `.asl` file) for all agents of the
-system. Their goals should be defined either by the organisation of the
+system. Their goals should be defined either by the organisation or the
 project file.
 
 _Hint_: initial goals can be given to agents in the project as follows:

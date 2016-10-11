@@ -566,7 +566,7 @@ Some important changes:
 * in the agent declaration
 ** we define the node where the `jacamo` workspace is running,
 ** we define the roles (see the comments in the code above),
-* the platform `cartago()` is add to enable distributed workspaces,
+* the platform `cartago()` is added to enable distributed workspaces,
 * the `node` declaration defines where the node `europe` is running
 (`localhost` in the case).
 

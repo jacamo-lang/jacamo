@@ -33,7 +33,7 @@ public class AuctionArtifact extends Artifact {
 
     @OPERATION public void bid(double bidValue) {
         if (! getObsProperty("running").booleanValue())
-            failed("You can not bid for this auction, it is not started!");
+            failed("You can not bid for this auction, it is not running!");
         
         ObsProperty opCurrentValue  = getObsProperty("best_bid");
         if (bidValue < opCurrentValue.doubleValue()) {  // the bid is better than the previous

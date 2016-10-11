@@ -11,7 +11,7 @@
 //     }
 
 +!print_h[scheme(SchId)] : sch_art(SchId,WId,ArtName)    
-   <- ?jcm::focused(WId,ArtName,ArtId); 
+   <- ?focused(WId,ArtName,ArtId); 
       printMsg("H")[artifact_id(ArtId)];
       .wait(700).
 

@@ -4,7 +4,7 @@
 /* application domain goals */
 +!wsecs[scheme(S)]  <- .print("writing sections for scheme ",S,"...").
 
-/* organizational plans for obligations (this agent does not use the obedient plans) */
+/* organisational plans for obligations (this agent does not use the obedient plans) */
 
 // only commits to mColaborator!
 +obligation(Ag,Norm,committed(Ag,mColaborator,Scheme),DeadLine)[workspace(_,_,W)] : .my_name(Ag)

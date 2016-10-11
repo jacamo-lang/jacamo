@@ -1,4 +1,4 @@
-// Agent giacomo, who wants to build a house
+// Agent Giacomo, who wants to build a house
 
 { include("common.asl") }
 
@@ -48,7 +48,7 @@ number_of_tasks(NS) :- .findall( S, task(S), L) & .length(L,NS).
    <- .print("Error creating artifact ", Code).
        
 +!wait_for_bids
-   <- println("Waiting the bids for 5 seconds...");
+   <- println("Waiting bids for 5 seconds...");
       .wait(5000); // use an internal deadline of 5 seconds to close the auctions
       !show_winners.
    
@@ -75,9 +75,9 @@ number_of_tasks(NS) :- .findall( S, task(S), L) & .length(L,NS).
       // create the group
       .my_name(Me);
       createWorkspace("ora4mas");
-      joinWorkspace("ora4mas",_);
+      joinWorkspace("ora4mas",WOrg);
      
-      makeArtifact(myorg, "ora4mas.nopl.OrgBoard", ["src/org/house-os.xml"], OrgArtId);
+      makeArtifact(myorg, "ora4mas.nopl.OrgBoard", ["src/org/house-os.xml"], OrgArtId)[wid(WOrg)];
       focus(OrgArtId);
       createGroup(hsh_group, house_group, GrArtId);
       debug(inspector_gui(on))[artifact_id(GrArtId)];

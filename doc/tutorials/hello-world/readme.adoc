@@ -311,11 +311,11 @@ In `hf.asl`, change the plan for achieving the goal `start` to:
 
 -----
 +!start : message(X)
-   <- ?jcm::focused(france, gui, ArtId);
+   <- focused(france, gui, ArtId);
       printMsg(X)[artifact_id(ArtId)].
 -----
 
-This plan consults (by the operator `?`) the belief base of the agent for the artifact id corresponding to the artifact named `gui` in workspace `france` footnote:[Every JaCaMo agent has beliefs like `jcm::focused` (as you can see at http://localhost:3272) that store the artifact id of the artifacts the agent is focusing on (as defined in its `agent` declaration).]. Then this id is used as an annotation for the action `printMsg`, defining the exact artifact where this operation will be executed.
+This plan consults (by the operator `?`) the belief base of the agent for the artifact id corresponding to the artifact named `gui` in workspace `france` footnote:[Every JaCaMo agent has beliefs like `focused` (as you can see at http://localhost:3272) that store the artifact id of the artifacts the agent is focusing on (as defined in its `agent` declaration).]. Then this id is used as an annotation for the action `printMsg`, defining the exact artifact where this operation will be executed.
 
 
 [[step10]]
@@ -323,15 +323,15 @@ This plan consults (by the operator `?`) the belief base of the agent for the ar
 
 -----
 +!start : message(X)
-   <- for ( jcm::focused(_,"gui",ArtId) ) {
+   <- for ( focused(_,gui,ArtId) ) {
           printMsg(X)[artifact_id(ArtId)]
       }.
 -----
 
-This plan can be read as "for each answer for the query `jcm::focused(\_,"gui",ArtId)`, print a message using the value of variable `ArtId` as the target artifact". The `_` means "any thing". Each iteration of the loop will have `ArtId` assigned to a different value.
+This plan can be read as "for each answer for the query `focused(\_,gui,ArtId)`, print a message using the value of variable `ArtId` as the target artifact". The `_` means "any thing". Each iteration of the loop will have `ArtId` assigned to a different value.
 
 
-[[exercises-1]]
+
 Exercises
 ~~~~~~~~~
 
@@ -352,7 +352,7 @@ create the artifact (`display.GUIConsole` in our case).
 __Hint__: In the mind inspector, take a closer look at the annotations
 of beliefs `numMsg` by clicking on [...].
 
-__Solution__: available link:./solutions/e2d.txt[here].
+__Solution__: available link:./code/helloworld/src/agt/hf.asl[here].
 
 [[part-iv-organisation]]
 == Part IV (organisation)
@@ -417,24 +417,11 @@ NOTE: the `debug` in the definition of the group or of the scheme will start the
 
 *3.* On the agents side, we need to include in their code plans so that they are capable to achieve their organisational goals and fulfil their duties. Change `hello.asl` to:
 
------
-+!print_h    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("H")[artifact_id(ArtId)]; .wait(700).
-+!print_e    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("e")[artifact_id(ArtId)]; .wait(700).
-+!print_l1   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
-+!print_l2   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
-+!print_l3   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("l")[artifact_id(ArtId)]; .wait(700).
-+!print_spc  <- ?jcm::focused(jacamo,gui,ArtId); printMsg(" ")[artifact_id(ArtId)]; .wait(700).
-+!print_w    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("W")[artifact_id(ArtId)]; .wait(700).
-+!print_o1   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("o")[artifact_id(ArtId)]; .wait(700).
-+!print_o2   <- ?jcm::focused(jacamo,gui,ArtId); printMsg("o")[artifact_id(ArtId)]; .wait(700).
-+!print_r    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("r")[artifact_id(ArtId)]; .wait(700).
-+!print_d    <- ?jcm::focused(jacamo,gui,ArtId); printMsg("d")[artifact_id(ArtId)]; .wait(700).
-+!print_excl <- ?jcm::focused(jacamo,gui,ArtId); printMsg("!")[artifact_id(ArtId)]; .wait(700).
+[source,asl]
+----
+include::code/helloworld/src/agt/hello.asl[]
+----
 
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
------
 
 As we can easily see, each organisational goal is implemented by a Jason plan. The plan discovers the artifact id of the common console and prints the corresponding letter there.  There is no more a `start` initial goal. All agent's goals come from the roles they play in the organisation. It is also the organisation that controls when those goals could be achieved, and thus coordinate the agent's actions as defined in the scheme.
 
@@ -521,7 +508,6 @@ The value of this variable can be used to select the proper console.
 __Solutions__: available link:./solutions/e3e.txt[here] and
 link:./solutions/e3e-version2.txt[here].
 
-[[part-v-distribution]]
 == Part V (distribution)
 
 The last part of this tutorial will distribute the agents, workspaces,

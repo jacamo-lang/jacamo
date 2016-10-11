@@ -227,8 +227,10 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         if (args == null)
             args = new String[] {};
         env.init(args);
-        if (! "false".equals(Config.get().getProperty(jason.util.Config.START_WEB_EI))) 
+        if (! "false".equals(Config.get().getProperty(jason.util.Config.START_WEB_EI))) {
             EnvironmentInspectorWeb.startHttpServer();
+            EnvironmentInspectorWeb.registerWorkspace(CartagoService.MAIN_WSP_NAME);
+        }
 
         try {
             cartagoCtx = CartagoService.startSession(CartagoService.MAIN_WSP_NAME, new AgentIdCredential("JaCaMo_Launcher"));

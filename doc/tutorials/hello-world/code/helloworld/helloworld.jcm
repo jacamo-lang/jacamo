@@ -33,10 +33,11 @@ mas helloworld {
         //roles: rs in hello_org.jacamo_team
     }
 
-    /*agent bob    : hello2.asl {
+    agent bob    : hf.asl {
         beliefs: country(it)
-        focus: italy.gui
-    }*/
+                 message("Buon giorno")
+        focus: italy.gui, usa.gui
+    }
     
     workspace jacamo {
         artifact gui: display.GUIConsole("common") 

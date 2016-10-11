@@ -2,7 +2,7 @@
 +!do_auction(Id,P) 
    <- // creates a scheme to coordinate the auction
       .concat("sch_",Id,SchName);
-      ?joined("aorg",OrgWks); // get the workspace id of the org
+      ?joined(aorg,OrgWks); // get the workspace id of the org
       createScheme(SchName, doAuction,SchArtId)[wid(OrgWks)];
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)]; 
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)]; 
@@ -11,6 +11,8 @@
       focus(SchArtId)[wid(OrgWks)];
       addScheme(SchName)[wid(OrgWks)];  // set the group as responsible for the scheme
       commitMission(mAuctioneer)[artifact_id(SchArtId)].
+
++?joined(Name,Id) <- .print("waiting for workspace ",Name); .wait(100); ?joined(Name,Id).
 
 /* plans for organisational goals */
 

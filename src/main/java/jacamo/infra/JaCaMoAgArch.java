@@ -45,7 +45,7 @@ public class JaCaMoAgArch extends AgArch {
         if (ap == null)
             return;
         
-        getTS().getLogger().info("Using parameters from project "+ap.getProject().getSocName()+" for agent "+ap.getAgName());
+        getTS().getLogger().fine("Using parameters from project "+ap.getProject().getSocName()+" for agent "+ap.getAgName());
 
         ListTerm lart = new ListTermImpl();  // list used to produce a goal to join/focus on artifacts
         ListTerm tail = lart;

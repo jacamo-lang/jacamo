@@ -7,7 +7,7 @@
       for ( .member(S,L) ) {
          lookupArtifact(S,ArtId)[wid(W)];
          focus(ArtId)[wid(W)];
-         .concat(GroupName,".",S,NBName);
+         .concat(GroupName,".",S,NBName); 
          lookupArtifact(NBName,NBId)[wid(W)];
          focus(NBId)[wid(W)];
       }.
@@ -23,7 +23,7 @@
 +!jcm::initial_roles(role(O,H,G,R),Try)
    <- !join_workspace(O,H,WId); 
       lookupArtifact(G,GId)[wid(WId)];
-      +jcm::focused(O,G,GId);
+      //+jcm::focused(O,G,GId);
       focus(GId)[wid(WId)];
       adoptRole(R)[artifact_id(GId)];
       .print("playing ",R," in ",O,".",G).

@@ -263,7 +263,6 @@ the default configuration in the `.jcm` file) and create also a new
 artifact, called `AuctionArtifact` (select `src/env`, menu
 File -> New -> CArtAgO Artifact). Replace the Java code of the artifact by:
 
-[[app-listing]]
 [source,java]
 .AuctionArtifact.java
 ----
@@ -343,7 +342,7 @@ so that Bob will create the artifacts on demand.
 
 Change the workspace definition as follows:
 
-[source,jcm]
+[source,jcm,linenums]
 .JCM project
 ----
 include::code/auction_env/auction_env.jcm[]
@@ -353,7 +352,7 @@ so that the artifact is no more created when the application is started.
 The artifact will be created by Bob in its new `start` plan:
 
 [source,asl]
-.Auctioneer.asl
+.auctioneer.asl
 ----
 include::code/auction_env/src/agt/auctioneer.asl[]
 ----
@@ -361,7 +360,7 @@ include::code/auction_env/src/agt/auctioneer.asl[]
 The participants programs is now:
 
 [source,asl]
-.Auctioneer.asl
+.participant.asl
 ----
 include::code/auction_env/src/agt/participant.asl[]
 ----
@@ -447,70 +446,15 @@ image:./code/os.png[]
 The following steps will implement this MAS.
 
 *1.* In Eclipse, copy the project `auction_env` into a new project
-called `auction_org` and create an organisation, called `auction_os.xml`
+called `auction_org` and create an organisation, called `auction-os.xml`
 (select `src/org`, menu File -> New -> Moise Organization). Replace the XML
 code by:
 
 [source,xml]
-.auction_os.xml
-----------------------------------------------------------------------------------
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
-<organisational-specification
-    id="auction"
-    os-version="0.7"
-
-    xmlns='http://moise.sourceforge.net/os'
-    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-    xsi:schemaLocation='http://moise.sourceforge.net/os
-                        http://moise.sourceforge.net/xml/os.xsd' >
-
-<structural-specification>
-
-<role-definitions>
- <role id="auctioneer" />
- <role id="participant" />
-</role-definitions>
-
-<group-specification id="auctionGroup">
- <roles>
-  <role id="auctioneer"  min="1" max="1"/>
-  <role id="participant" min="0" max="300"/>
- </roles>
-</group-specification>
-</structural-specification>
-
-<functional-specification>
- <scheme id="doAuction">
-
-   <goal id="auction">
-     <argument id="Id" />
-     <argument id="Service" />
-     <plan operator="sequence">
-       <goal id="start" />
-       <goal id="bid"    ttf="10 seconds"/>
-       <goal id="decide" ttf="1 hour" />
-     </plan>
-   </goal>
-
-   <mission id="mAuctioneer" min="1" max="1">
-     <goal id="start" />
-     <goal id="decide" />
-   </mission>
-   <mission id="mParticipant" min="1" >
-     <goal id="bid" />
-   </mission>
-
- </scheme>
-</functional-specification>
-
-<normative-specification>
-  <norm id="n1"  type="permission"   role="auctioneer"   mission="mAuctioneer" />
-  <norm id="n2"  type="obligation"   role="participant"  mission="mParticipant" />
-</normative-specification>
-
-</organisational-specification>
-----------------------------------------------------------------------------------
+.auction-os.xml
+----
+include::code/auction_org/src/org/auction-os.xml[]
+----
 
 Notes:
 
@@ -523,31 +467,11 @@ its description.
 *2.* Rename the file `auction_env.jcm` to `auction_org.jcm` and edit it
 so that one instance of the `auctionGroup` is created:
 
+[source,jcm]
 .auction_org.jcm
------------------------------------------
-mas auction_org {
-
-    agent bob     : auctioneer.asl
-
-    agent alice   : participant.asl
-    agent maria   : participant.asl
-    agent francois: participant.asl
-    agent giacomo : participant.asl
-
-    organisation aorg : auction_os.xml {
-        group agrp : auctionGroup {
-            players: bob      auctioneer
-                     alice    participant
-                     maria    participant
-                     francois participant
-                     giacomo  participant
-            debug
-        }
-    }
-
-    asl-path: src/agt, src/agt/inc
-}
------------------------------------------
+----
+include::code/auction_org/auction_org.jcm[]
+----
 
 Notice that no social scheme is created in the `.jcm` project, they will
 be created by Bob at runtime whenever he wants to start an auction. One
@@ -565,49 +489,11 @@ mission `mAuctioneer` there.
 * Plans for the organisational goals `start` and `decide` have to be
 included. These plans are quite similar to the previous plans.
 
+[source,asl]
 .auctioneer.asl
-------
-!do_auction("a1","flight_ticket(paris,athens,date(15,12,2015))"). // initial goals
-!do_auction("a2","flight_ticket(athens,paris,18/12/2015)").
-
-+!do_auction(Id,P)
-   <- // creates a scheme to coordinate the auction
-      .concat("sch_",Id,SchName);
-      createScheme(SchName, doAuction, SchArtId);
-      debug(inspector_gui(on))[artifact_id(SchArtId)];
-      setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)];
-      setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)];
-      .my_name(Me); setOwner(Me)[artifact_id(SchArtId)];     // I am the owner of this scheme!
-      focus(SchArtId);
-      addScheme(SchName);  // set the group as responsible for the scheme
-      commitMission(mAuctioneer)[artifact_id(SchArtId)].
-
-/* plans for organizational goals */
-
-+!start[scheme(Sch)]                        // plan for the goal start defined in the scheme
-   <- ?goalArgument(Sch,auction,"Id",Id);   // retrieve auction Id and service description S
-      ?goalArgument(Sch,auction,"Service",S);
-      .print("Start scheme ",Sch," for ",S);
-      makeArtifact(AuctionId, "auction_env.AuctionArtifact", [], ArtId); // create the auction artifact
-      focus(ArtId);
-      // .broadcast(achieve,focus(Id));  // <1>
-      start(S)[artifact_id(ArtId)];
-      //.at("now + 4 seconds", {+!decide(AuctionId)}); // <2>
-      .
-
-+!decide[scheme(Sch)]
-   <- ?goalArgument(Sch,auction,"Id",Id);
-      stop[artifact_name(Id)].
-
-+winner(W)[artifact_id(AId)] : W \== no_winner
-   <- ?task(S)[artifact_id(AId)];
-      ?best_bid(V)[artifact_id(AId)];
-      .print("Winner for ", S, " is ",W," with ", V).
-
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
-------
+----
+include::code/auction_org/src/agt/auctioneer.asl[]
+----
 <1> No need to broadcast the focus to the agents, the organisation will signal the participants about their goals.
 <2> We do not need create the goal `decide` anymore, it is now a goal in the organisational scheme.
 
@@ -682,25 +568,11 @@ Let's consider that some participants do not bid (even if they are
 obliged to do so). To simulate that, the program `participant.asl` can
 be changed to:
 
+[source,asl]
 .participant.asl
-------
-+!bid[scheme(Sch)]
-   <- ?goalArgument(Sch,auction,"Id",Id);
-      lookupArtifact(Id,AId);
-      focus(AId);
-      if (math.random  < 0.5) {              // bid in 50% of the cases
-        .wait( (math.random * 5+1)*1000);    // to simulate some "decision" reasoning
-        bid(math.random * 100 + 10)[artifact_id(AId)];
-      } else {
-        .fail;                               // fail otherwise
-      }.
-
-+winner(W) : .my_name(W) <- .print("I Won!").
-
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
-------
+----
+include::code/auction_org/src/agt/participant.asl[]
+----
 
 And remove the `min=2` in goal `bid` (file `auction_os.xml`).
 

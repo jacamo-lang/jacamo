@@ -9,8 +9,8 @@
 mas auction_env {
 
     agent bob     : auctioneer.asl {
-        goals: start("a1","flight_ticket(paris,athens,15/12/2015)")
-               start("a2","flight_ticket(athens,paris,18/12/2015)")
+        goals: start(a1,"flight_ticket(paris,athens,15/12/2015)")
+               start(a2,"flight_ticket(athens,paris,18/12/2015)")
     }
     
     agent alice   : participant.asl

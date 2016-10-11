@@ -1,17 +1,17 @@
 +!start(Id,P) 
    <- makeArtifact(Id, "auction_env.AuctionArtifact", [], ArtId);
       .print("Auction artifact created for ",P);
-      focus(ArtId);
+      Id::focus(ArtId);  // place observable properties of this auction in a particular name space
       .broadcast(achieve,focus(Id));  // ask all others to focus on this new artifact
-      start(P)[artifact_id(ArtId)];
+      Id::start(P);
       .at("now + 5 seconds", {+!decide(Id)}).
       
 +!decide(Id)
    <- stop[artifact_name(Id)].
    
-+winner(W)[artifact_id(AId)] : W \== no_winner
-   <- ?task(S)[artifact_id(AId)];
-      ?best_bid(V)[artifact_id(AId)];
++NS::winner(W)[artifact_id(AId)] : W \== no_winner
+   <- ?NS::task(S);
+      ?NS::best_bid(V);
       .print("Winner for ", S, " is ",W," with ", V).         
 
 { include("$jacamoJar/templates/common-cartago.asl") }

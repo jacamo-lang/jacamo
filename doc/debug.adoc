@@ -92,7 +92,7 @@ The verbosity (value between 0 and 2) is set in the parameter's value _verbose_ 
 To start the execution of an agent in the debug mode, use the parameter '_debug_' in the agent definition in .jcm file.
 Options are available to configure the visibility degree of the agent's mind state:
 
-*  Setting where to show the mindstate: in a gui _gui_ , in a browser _web_ (the URL is typically http://locaslhost:3272) or in a file _file_:
+*  Setting where to show the mindstate: in a gui _gui_ , in a browser _web_ (the URL is typically http://localhost:3272) or in a file _file_:
 ---------------------------------------------
 // Showing the current mind state in the screen with update each reasoning cycle
   ...
@@ -153,7 +153,7 @@ The last parameter is the name of the directory where files will be stored. Each
 
 === Debugging artifacts in workspace
 *  To start the execution of a workspace in a debug mode by displaying the observable properties of the artifacts executing in the workspace, use the parameter 'debug' in the workspace definition in .jcm file. This will display the content of artifact in a GUI and in the browser
-(the URL is typically http://locaslhost:3273)
+(the URL is typically http://localhost:3273)
 ----------------------------------------------------
   ...
   workspace wsp1 {
@@ -167,7 +167,7 @@ The last parameter is the name of the directory where files will be stored. Each
 
 == Debugging an organisation
 *  To start the execution of a group or a scheme in a debug mode by displaying the observable properties of the artifacts executing in the workspace, use the parameter 'debug' in the group or scheme definition in .jcm file. This will create a GUI and also display the content of group or scheme in the browser
-(the URL is typically http://locaslhost:3271)
+(the URL is typically http://localhost:3271)
 ----------------------------------------------------
   ...
   group g1 : g1group{

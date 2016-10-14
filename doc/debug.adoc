@@ -13,6 +13,16 @@ ifdef::env-github[:outfilesuffix: .adoc]
 
 == Debug tools
 
+By default, three inspectors are launched on a Web Browser when executing a JaCaMo application. The level of information and frequency of update can be managed for each agent, workspace or organisation (see below for details).
+
+Deactivation of these inspectors can be realised by setting the following property to `false` in the `user.properties` of the jacamo platform: 
+
+-----
+startWebMindInspector=false  // Agent inspector
+startWebEnvInspector=false   // Environment inspector
+startWebOrgInspector=false   // Organisation inspector
+-----
+
 === Logging the overall execution
 JaCaMo uses the http://java.sun.com/j2se/1.5.0/docs/guide/logging/overview.html[Java logging API] to output messages from the multi-agent programs into the execution console (the default console is called MASConsole).
 

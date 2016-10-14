@@ -9,7 +9,7 @@
 +!decide(Id)
    <- stop[artifact_name(Id)].
    
-+NS::winner(W)[artifact_id(AId)] : W \== no_winner
++NS::winner(W) : W \== no_winner
    <- ?NS::task(S);
       ?NS::best_bid(V);
       .print("Winner for ", S, " is ",W," with ", V).         

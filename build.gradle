@@ -53,6 +53,7 @@ task copyJarsToBuild {
         copy {
             from configurations.runtime
             into 'build/libs' 
+            exclude '**/jason-2.0.jar'
         }
         copy {
             from 'scripts'

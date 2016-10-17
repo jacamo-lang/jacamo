@@ -90,11 +90,15 @@ clean {
     delete 'bin'
     delete 'readme.html'
     delete 'release-notes.html'
+    delete fileTree('doc') { include '*.html'  }
     delete fileTree('doc/tutorials/hello-world')  { include '**/*.html'  }
     delete fileTree('doc/tutorials/coordination') { include '*.html'  }
     delete fileTree('doc/tutorials/gold-miners')  { include '**/*.html'  }
     delete fileTree('src')  { include '**/bin'  }
     delete fileTree('src')  { include '**/*.log'  }
+    delete 'examples/auction/bin'
+    delete 'examples/house-building/bin'
+    delete 'examples/writing-paper/bin'
 }
 
 task config (type: JavaExec, dependsOn: 'jar') {
@@ -237,6 +241,7 @@ task copyRel << {
         from configurations.runtime
         into 'build/jacamo-'+project.version+'/'+libsDirName
         include '**/*.jar'
+        exclude '**/jason-2.0.jar'
     }
     copy {
         from docsDir

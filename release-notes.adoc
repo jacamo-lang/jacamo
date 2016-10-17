@@ -2,9 +2,15 @@
 
 == Version 0.6
 
-- Beliefs related to JaCaMo are placed in the `jcm` namespace. So, consults to beliefs like `jcm__art(...)` should be replaced by `jcm::focused(WorkspaceName,ArtName,ArtId)`.
+- New CArtAgO integration
+** Use of Jason name spaces: if the focus operation is prefixed with a name space, as in `ns::focus(AID)`, all perception from AID goes to the name space `ns`. Similarly, actions, like `ns::bid(10)`, will be delivered to the artifact assigned (by focus) to name space `ns`. The annotation `artifact_id` still works and overrides the name space prefix. 
+ 
 
-- new versions of Moise (https://github.com/moise-lang/moise/blob/master/release-notes.adoc[0.10]), Jason (https://github.com/jason-lang/jason/blob/master/release-notes.adoc[2.0]), and Cartago.
+** Beliefs related to CArtAgO are the following:
+*** `joined(WorkspaceName,WId)`, always placed in the default name space
+*** `focused(WorkspaceName,ArtName~[artifact_type(Type)]~,ArtId)`, placed in the name space where the `ArtName` is focused on.
+
+- new versions of Moise (https://github.com/moise-lang/moise/blob/master/release-notes.adoc[0.10]), Jason (https://github.com/jason-lang/jason/blob/master/release-notes.adoc[2.0]), and Cartago (2.2).
 
 - JaCaMo development is moved to GitHub.
 

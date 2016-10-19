@@ -47,11 +47,11 @@ public class CreateNewProject {
     
     void usage() {
         System.out.println("\n\nYou can run your application with:");
-        System.out.println("   $ jacamo "+path+"/"+main+".jcm");
+        System.out.println("   $ jacamo "+path+"/"+id+".jcm");
         System.out.println("or");
         System.out.println("   $ cd "+path);
         System.out.println("   $ gradle -q\n");        
-        System.out.println("an eclipse project can be create with");
+        System.out.println("an eclipse project can be created with");
         System.out.println("   $ gradle eclipse\n");
     }
 
@@ -72,7 +72,7 @@ public class CreateNewProject {
     }
     
     void copyFiles() {
-        copyFile("project", new File( path+"/"+main+".jcm"));
+        copyFile("project", new File( path+"/"+id+".jcm"));
         copyFile("agent", new File( path + "/src/agt/sample_agent.asl"));
         copyFile("logging.properties", new File( path + "/logging.properties"));
         copyFile("CArtAgOartifact", new File(path+"/src/env/tools/Counter.java"));

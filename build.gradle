@@ -59,6 +59,12 @@ task copyJarsToBuild {
             from 'scripts'
             into 'build/scripts'
             include '**'
+            filter {
+			    String line -> line.replaceAll("JacamoREL=[0-9]+\\.[0-9]+", "JacamoREL="+project.version)
+			}
+			filter {
+				String line -> line.replaceAll("JasonREL", file(project.configurations.compile.find { it.name.startsWith("jason-") }).name)
+			}
         }
     }
 }

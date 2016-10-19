@@ -1,7 +1,6 @@
 #!/bin/bash
 
-JacamoREL=0.6-SNAPSHOT
-JasonREL=2.1-SNAPSHOT
+JacamoREL=0.6
 
 if [ -z $JACAMO_HOME ] ; then
     CURDIR=`pwd`
@@ -14,7 +13,7 @@ fi
 echo JaCaMo home is $JACAMO_HOME
 
 JACAMO_JAR=$JACAMO_HOME/libs/jacamo-$JacamoREL.jar
-JASON_JAR=$JACAMO_HOME/libs/jason-$JasonREL.jar
+JASON_JAR=$JACAMO_HOME/libs/JasonREL
 
 if [ ! -f $JACAMO_JAR ] ; then
     echo JaCaMo.jar is not properly set!
@@ -27,7 +26,7 @@ fi
 
 if [ -z $JDK_HOME ] ; then
     if [ -n $JAVA_HOME ] ; then
-	JDK_HOME=$JAVA_HOME
+        JDK_HOME=$JAVA_HOME
     fi
 fi
 
@@ -37,7 +36,7 @@ if [ -z $JDK_HOME ] ; then
            JDK_HOME=`find /Library/Java/JavaVirtualMachines -name javac | tail -1`
            JDK_HOME=`dirname $JDK_HOME`
            JDK_HOME=`dirname $JDK_HOME`
-       fi
+    fi
 fi
 
 # check JDK_HOME
@@ -45,4 +44,3 @@ if [ ! -f $JDK_HOME/bin/javac ] ; then
    echo JDK_HOME is not properly set!
 fi
 export PATH=$JDK_HOME/bin:$PATH
-

@@ -7,6 +7,8 @@ for unix users
 
     export PATH=$JACAMO_HOME/scripts:$PATH
 
+. Ensure you have `JDK_HOME` properly set (this variable points to a Java Development Kit (JDK) directory)
+
 . Create a new project with
 +
 ----
@@ -18,8 +20,14 @@ Examples of agent, artifact and organization are placed in the `src` folder.
 . And run it with
 +
     jacamo ../somewhere/helloworld/helloworld.jcm
-+
+
+
+
 If you have Gradle installed, you can also run the application with
-+
+
     cd ../somewhere/helloworld
     gradle -q
+
+and create an eclipse project with
+
+    gradle eclipse

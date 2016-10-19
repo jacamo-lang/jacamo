@@ -1,4 +1,4 @@
-= Creating JaCaMo projects in the shell command
+= JaCaMo projects in the shell command
 for unix users
 
 . Download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here] and unzip it.
@@ -23,7 +23,7 @@ Examples of agent, artifact and organization are placed in the `src` folder.
 
 
 
-If you have Gradle installed, you can also run the application with
+If you have https://gradle.org[Gradle] installed, you can also run the application with
 
     cd ../somewhere/helloworld
     gradle -q
@@ -31,3 +31,6 @@ If you have Gradle installed, you can also run the application with
 and create an eclipse project with
 
     gradle eclipse
+
+
+If you use the https://atom.io[Atom] editor, the following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].

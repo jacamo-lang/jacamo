@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JacamoREL=0.6
+JacamoREL=0.7
 
 if [ -z $JACAMO_HOME ] ; then
     CURDIR=`pwd`

@@ -2,6 +2,7 @@ package jacamo.infra;
 
 import jacamo.project.JaCaMoProject;
 import jacamo.project.parser.JaCaMoProjectParser;
+import jacamo.util.Config;
 import jason.infra.MASLauncherInfraTier;
 
 import java.io.File;
@@ -29,6 +30,7 @@ public class RunJaCaMoProject {
       JaCaMoProject project = new JaCaMoProject();
       
       if (args.length == 0) {
+          System.out.println(Config.get().getPresentation()+"\n");
           System.out.println("usage must be:");
           System.out.println("      java "+RunJaCaMoProject.class.getName()+" <JaCaMo Project File> [notrun]");
           return;

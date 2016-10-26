@@ -23,7 +23,7 @@ http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or 
 13 to 17 to create a new project for this tutorial. The project name
 should be `helloworld`, as proposed in step 14.
 
-- In the _shell command_: follow the steps 1 to 3.
+- In the _shell command_: follow the steps 1 to 4.
 
 The file `helloworld.jcm` (the project file) describes the project and
 will be the main focus of this tutorial. By openning this file, you will

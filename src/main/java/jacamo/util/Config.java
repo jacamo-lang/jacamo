@@ -89,6 +89,12 @@ public class Config extends jason.util.Config {
         return null;
     }
     
+    public String getPresentation() {
+        return "JaCaMo "+getJaCaMoVersion()+"\n"+
+               "     built on "+getJasonBuiltDate()+"\n"+
+               "     installed at "+getJaCaMoHome();        
+    }
+    
     /** 
      * @return the jacamo home (based on jacamo.jar)
      */

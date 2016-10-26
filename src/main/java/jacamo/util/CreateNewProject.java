@@ -21,7 +21,7 @@ public class CreateNewProject {
     
     File main, path;
     String id;
-    Config c = Config.get();
+    static Config c = Config.get();
     
     public CreateNewProject(File m) {
         main = m;
@@ -34,6 +34,7 @@ public class CreateNewProject {
 
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
+            System.out.println(Config.get().getPresentation()+"\n");
             System.out.println("usage must be:");
             System.out.println("      java "+CreateNewProject.class.getName()+" <id of new application>");
             return;

@@ -1,6 +1,6 @@
-/* 
+/*
    JaCaMo Gradle build file
-   
+
 */
 
 plugins {
@@ -22,7 +22,7 @@ targetCompatibility = 1.7
 
 repositories {
     mavenCentral()
-    
+
     maven {
         url "http://jacamo.sourceforge.net/maven2"
     }
@@ -34,13 +34,13 @@ dependencies {
     compile group: 'org.jason-lang', name: 'jason',    version: '2.1-SNAPSHOT', changing: true
     compile group: 'org.jacamo',     name: 'moise' ,   version: '0.10', changing: true, transitive: false
     compile group: 'org.jacamo',     name: 'npl' ,     version: '0.+', changing: false, transitive: false
-    compile group: 'org.jacamo',     name: 'cartago',  version: '2.2', changing: false
-    compile group: 'org.jacamo',     name: 'jaca',     version: '2.2', changing: false
+    compile group: 'org.jacamo',     name: 'cartago',  version: '2.3-SNAPSHOT', changing: true
+    compile group: 'org.jacamo',     name: 'jaca',     version: '2.3-SNAPSHOT', changing: true
     compile group: 'org.jacamo',     name: 'intmas' ,  version: '1.0.0'
 
     runtime group: 'net.sf.ingenias', name: 'jade', version: '4.3'
     runtime group: 'org.apache.ant',  name: 'ant',  version: '1.9.7'
-    
+
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
@@ -53,7 +53,7 @@ task copyJarsToBuild {
     doLast {
         copy {
             from configurations.runtime
-            into 'build/libs' 
+            into 'build/libs'
             //exclude '**/jason-2.0.jar'
         }
         copy {
@@ -79,16 +79,16 @@ jar {
                    'Implementation-Version': new Date().toString(),
                    'Class-Path': file(project.configurations.compile.find { it.name.startsWith("jason-") }).name
     }
-    
+
     //from ( configurations.compile.collect { zipTree(it) } ) {
     //    include 'jason/**/*Factory.class', 'jason/**/Config.class'
     //}
-    
+
     /*doFirst {
         Properties props = new Properties()
         props.put('version', '')
         props.put('release', project.version)
-        props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null) 
+        props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null)
     }*/
 }
 jar.dependsOn(copyJarsToBuild)
@@ -112,19 +112,19 @@ task config (type: JavaExec, dependsOn: 'jar') {
     main = 'jacamo.util.Config'
     classpath sourceSets.main.runtimeClasspath
     workingDir project.buildDir.absolutePath + '/libs'
-    
+
     doFirst {
         delete System.getProperty("user.home")+'/.jacamo'
     }
-    
-    doLast {    
+
+    doLast {
         println '------'
         println ''
         println 'you can set the JaCaMo home directory with the following command:'
-        println '     export JACAMO_HOME='+project.buildDir.absolutePath 
+        println '     export JACAMO_HOME='+project.buildDir.absolutePath
         println ''
-        println 'and also change your PATH with:' 
-        println '     export PATH=$JACAMO_HOME/scripts:$PATH' 
+        println 'and also change your PATH with:'
+        println '     export PATH=$JACAMO_HOME/scripts:$PATH'
         println ''
         println '-----'
     }
@@ -136,7 +136,7 @@ publishing {
             from components.java
 			artifact sourceJar
 			artifact javadocJar
-            
+
             artifactId 'jacamo'
         }
     }
@@ -160,10 +160,10 @@ eclipse {
         file.whenMerged { cp ->
             cp.entries.add( new org.gradle.plugins.ide.eclipse.model.SourceFolder('build/generated/javacc', null) )
         }
-        
+
         file.whenMerged { cp ->
 	        logger.lifecycle "Removing duplicate classpath entries from eclipse for project '${project.name}'"
-	
+
 	        Map entryByPath = cp.entries.groupBy { entry -> entry.path }
 	        entryByPath.each { key, values ->
 	          if (values.size() > 1) {
@@ -214,7 +214,7 @@ task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) << {
 
 // Builds the distribution, documentation and a new release
 task doc(dependsOn: [ 'jjdoc', 'javadoc', 'renderAsciiDocs']) << {
-} 
+}
 
 task renderAsciiDocs(type: Exec) {
     commandLine 'find', '.', '-name', '*.adoc', '-exec', 'asciidoctor', '{}', ';'
@@ -231,7 +231,7 @@ task fixTab {
 
 // Builds the distribution, documentation and a new release
 task release(dependsOn: [ 'build', 'doc', 'fixTab', 'zipRel']) << {
-} 
+}
 
 // copy files used to build a release
 task copyRel << {
@@ -255,19 +255,19 @@ task copyRel << {
         into 'build/jacamo-'+project.version+'/doc'
     }
     copy {
-        from 'examples'      
-        into 'build/jacamo-'+project.version+'/examples' 
+        from 'examples'
+        into 'build/jacamo-'+project.version+'/examples'
     }
     copy {
-        from 'demos'      
-        into 'build/jacamo-'+project.version+'/demos' 
+        from 'demos'
+        into 'build/jacamo-'+project.version+'/demos'
     }
     copy {
-        from 'src/main/resources/templates'      
-        into 'build/jacamo-'+project.version+'/src/templates' 
+        from 'src/main/resources/templates'
+        into 'build/jacamo-'+project.version+'/src/templates'
     }
     delete fileTree('build/jacamo-'+project.version+'/doc')  { include '**/*.adoc', '**/Makefile', '**/publish.sh'  }
-    
+
 }
 
 // creates a zip file for a release

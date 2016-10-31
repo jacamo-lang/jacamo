@@ -44,3 +44,11 @@ if [ ! -f $JDK_HOME/bin/javac ] ; then
    echo JDK_HOME is not properly set!
 fi
 export PATH=$JDK_HOME/bin:$PATH
+
+if [ ! -d "$HOME/.jacamo" ] ; then
+    echo ----------------------------------------------------------------
+    echo JaCaMo is not configured in your System
+    echo run the following command to create a default configuration:
+    echo       java -cp $JACAMO_JAR jacamo.util.Config
+    echo ----------------------------------------------------------------
+fi

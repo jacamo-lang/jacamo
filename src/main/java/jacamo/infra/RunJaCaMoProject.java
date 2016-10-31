@@ -53,7 +53,10 @@ public class RunJaCaMoProject {
           File file = new File(name);
           File directory = file.getAbsoluteFile().getParentFile();
           project = parser.parse(directory.toString());
-          //Config.get().fix();
+          if (Config.get().getJaCaMoHome().isEmpty()) {
+              System.out.println("JaCaMo is not configured, creating a default configuration.");
+              Config.get().fix();
+          }
           project.setProjectFile(file);
           System.out.println("file "+name+" parsed successfully!\n");
           

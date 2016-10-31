@@ -18,8 +18,6 @@ public class Config extends jason.util.Config {
 
     public static final String JACAMO_JAR    = "jacamoJar";
     
-    private static Config      singleton     = null;
-
     static {
         jason.util.Config.setClassFactory(Config.class.getName());        
     }
@@ -39,7 +37,7 @@ public class Config extends jason.util.Config {
                 }
             }
         }
-        return singleton;
+        return (Config)singleton;
     }
     
 
@@ -108,11 +106,36 @@ public class Config extends jason.util.Config {
         return "";
     }
 
+    @Override
+    public String getJasonJar() {
+        String jj = super.getJasonJar();
+        if (jj == null) {
+            // try to solve it by jacamo.jar
+            try {
+                File jasonjardir = new File(getJaCaMoHome()+"/libs").getAbsoluteFile().getCanonicalFile();
+                String jarFile = findJarInDirectory(jasonjardir, "jason");
+                if (checkJar(jarFile, 800000)) {
+                    put(JASON_JAR, jarFile);
+                    System.out.println("found at " + jarFile+" by JaCaMo HOME");
+                    jj = jarFile;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return jj;
+    }
 
     /** Set most important parameters with default values */
     public void fix() {
         tryToFixJarFileConf(JACAMO_JAR, "jacamo",   5000);
         super.fix();
+        if (getProperty(START_WEB_EI) == null) {
+            put(START_WEB_EI, "true");
+        }
+        if (getProperty(START_WEB_OI) == null) {
+            put(START_WEB_OI, "true");
+        }
         
         if (get(ANT_LIB) == null || !checkAntLib(getAntLib())) {
             try {

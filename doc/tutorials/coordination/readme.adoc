@@ -11,52 +11,27 @@ ifdef::env-github[:outfilesuffix: .adoc]
 
 == Introduction
 
-This programming tutorial illustrates different approaches to coordinate
-agents in JaCaMo. Since JaCaMo is a multi-dimensional programming
-platform, we can develop the coordination part of our system focusing on
-agent, environment or organisation dimensions. For instance, we can
-conceive the coordination based on interaction by direct message passing
-as usual in MAS, we can use the environment as a coordination medium, or
-declare the coordination strategies within organisation specifications.
+This programming tutorial illustrates different approaches to coordinate agents in JaCaMo. Since JaCaMo is a multi-dimensional programming platform, we can develop the coordination part of our system focusing on agent, environment or organisation dimensions. For instance, we can conceive the coordination based on interaction by direct message passing as usual in MAS, we can use the environment as a coordination medium, or declare the coordination strategies within organisation specifications.
 
-During the tutorial we will develop many versions of a simple market
-place where an agent who wants to buy some product or service, announces
-its requirements, other agents bid, and the winner is then chosen. We
-will start with versions based on message exchange (part I), move to
-versions where a suitable environment is added (part II), and finish
-with an auction MAS based on organisation programming (part III).
-Although the coordination requirements for the market place application
-are quite simple, we can highlight the differences, advantages,
-limitations, .... of each coordination approach.
+During the tutorial we will develop many versions of a simple market place where an agent who wants to buy some product or service, announces its requirements, other agents bid, and the winner is then chosen. We will start with versions based on message exchange (part I), move to versions where a suitable environment is added (part II), and finish with an auction MAS based on organisation programming (part III). Although the coordination requirements for the market place application are quite simple, we can highlight the differences, advantages, limitations, .... of each coordination approach.
 
-We suppose you have already followed some more introductory tutorials as
-http://jacamo.sourceforge.net/tutorial/hello-world[hello world],
-http://jacamo.sourceforge.net/tutorial/gold-miners/[gold miners], and
-http://jason.sourceforge.net/mini-tutorial/hello-bdi/[BDI intro]. (The
-application developed in the hello world tutorial is used in some
-exercises of this tutorial.)
+We suppose you have already followed some more introductory tutorials as http://jacamo.sourceforge.net/tutorial/hello-world[hello world], http://jacamo.sourceforge.net/tutorial/gold-miners/[gold miners], and http://jason.sourceforge.net/mini-tutorial/hello-bdi/[BDI intro]. (The application developed in the hello world tutorial is used in some exercises of this tutorial.)
 
 == Part I (message oriented coordination)
 
-The coordination in a market place can follow different protocols, here
-we will consider a simple _auction protocol_ and its implementation
-based on message exchanges:
-
+The coordination in a market place can follow different protocols, here we will consider a simple _auction protocol_ and its implementation based on message exchanges:
 1.  An auctioneer broadcasts a message with his requirements,
 2.  Participants send him back messages with the prices, and
 3.  The auctioneer broadcasts the winner.
 
 Our first implementation has 5 agents:
 
-* `bob` (auctioneer): the agent is interested in buying a flight ticket
-from Paris to Athens.
-* `francois`, `alice`, `maria`, and `giacomo` (participants): travel
-agency agents.
+* `bob` (auctioneer): the agent is interested in buying a flight ticket from Paris to Athens.
+* `francois`, `alice`, `maria`, and `giacomo` (participants): travel agency agents.
 
 The following steps will implement this system.
 
-*1.* Create a new JaCaMo project called `auction_ag` with the following
-project file content:
+*1.* Create a new JaCaMo project called `auction_ag` with the following project file content:
 
 [source,jcm,linenums]
 .auction_ag.jcm
@@ -427,19 +402,14 @@ achieved under this structure are specified within a social _scheme_
 2.  `bid`: proposing a bid,
 3.  `decide`: deciding who is the winner of the auction.
 
-These goals should be achieved exactly in the order they are presented
-above, i.e. the decision should be taken after the bids that should be
-proposed after the start.
+These goals should be achieved exactly in the order they are presented above, i.e. the decision should be taken after the bids that should be proposed after the start.
 
-Finally the normative specification declares the set of duties and
-permissions that agents will have to fulfil while playing some roles in
-the group. The norms are the following:
+Finally the normative specification declares the set of duties and permissions that agents will have to fulfil while playing some roles in the group. The norms are the following:
 
 * `auctioneers` are _permitted_ to achieve `start` and `decide`,
 * `participants` are _obliged_ to achieve `bid`.
 
-The goals `start` and `decide` are thus part of the same mission
-`mAutioneer`, and `bid` is part of the mission `mParticipant`. This specification is depicted below in the Moise notation.
+The goals `start` and `decide` are thus part of the same mission `mAutioneer`, and `bid` is part of the mission `mParticipant`. This specification is depicted below in the Moise notation.
 
 image:./code/os.png[]
 

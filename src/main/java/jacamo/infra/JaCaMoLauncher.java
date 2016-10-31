@@ -112,6 +112,11 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             Config.get(); // to setup the JaCaMo Config
             projectFileName = args[0];
         }
+        
+        if (Config.get().getJaCaMoHome().isEmpty()) {
+            System.out.println("JaCaMo is not configured, creating a default configuration.");
+            Config.get().fix();
+        }
 
         setupLogger();
 

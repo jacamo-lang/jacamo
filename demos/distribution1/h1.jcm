@@ -1,23 +1,29 @@
-/* 
+/*
 
-    JaCaMo Project File 
+    JaCaMo Project File
 
-    Demo with remote workspaces    
+    Demo with remote workspaces
 
-    host h1 will run the workspace
-    host h2 will run the agent    
+    host h1 will run the workspace and alice
+    host h2 will run the agent bob
 
     this project runs on host h1 (the workspace)
-    
+
 */
 
 
-mas demo_distribution_1 {  
+mas demo_distribution_1 {
 
-    workspace rw1 {
-        artifact table: myenv.WhiteBoard("Remote Artifact (demo)") 
+    agent alice {
+         focus: rw1.table
     }
 
-    platform: cartago("infrastructure")
-}
+    workspace rw1 {
+        artifact table: myenv.WhiteBoard("Remote Artifact (demo)")
+    }
 
+    asl-path: src/agt, src/agt/inc
+
+    platform: cartago("infrastructure")
+              jade()
+}

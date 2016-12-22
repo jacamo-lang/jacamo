@@ -12,18 +12,18 @@ mas helloworld_america {
         focus: jacamo.gui @ europe
         roles: rs in hello_org.jacamo_team @ europe
     }
-    
+
     workspace brazil {
-        artifact gui: display.GUIConsole("Brazil") 
+        artifact gui: display.GUIConsole("Brazil")
     }
     workspace usa {
-        artifact gui: display.GUIConsole("USA") 
+        artifact gui: display.GUIConsole("USA")
     }
- 
+
     asl-path: src/agt
               src/agt/inc
 
     platform: cartago()
 
-    node europe running @ localhost    
+    node europe running @ localhost
 }

@@ -51,5 +51,5 @@ gradle release // <5>
 The development of the main tools used by JaCaMo is also hosted on GitHub:
 
 - https://github.com/jason-lang/jason[Jason]
-- https://github.com/aricci303/cartago[CArtaAgO]
+- https://github.com/CArtAgO-lang/cartago[CArtAgO]
 - https://github.com/moise-lang/moise[Moise]

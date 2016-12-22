@@ -1,15 +1,12 @@
-/* 
+/*
 
-    JaCaMo Project File 
+    JaCaMo Project File
 
-    Demo with remote workspaces    
-
-    host h1 will run the workspace
-    host h2 will run the agent    
+    Demo with remote workspaces
 
     this project runs the agent on host h2
-        
-    (replace 10.0.1.17 by the host IP where h1.jcm is running)
+
+    (replace 127.0.0.1 by the host IP where h1.jcm is running)
 */
 
 
@@ -20,9 +17,9 @@ mas demo_distribution_2 {
        }
 
        asl-path: src/agt, src/agt/inc
-       
+
        platform: cartago()
+                 jade("-container -host 127.0.0.1")
 
-       node n1 running @ 134.157.244.212 // "running" implies that the node n1 will not be launched, but is already running 
+       node n1 running @ 127.0.0.1 // "running" implies that the node n1 will not be launched, but is already running
 }
-

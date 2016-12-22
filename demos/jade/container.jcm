@@ -1,4 +1,4 @@
-/* 
+/*
 
 Run main-container.jcm first
 
@@ -7,10 +7,9 @@ Run main-container.jcm first
 mas simple_container { // not a main container
 
     agent bob
-       
-    asl-path: src/agt, src/agt/inc
-   
-    platform: jade("-container -host localhost -container-name c2")
-    
-}
 
+    asl-path: src/agt, src/agt/inc
+
+    platform: jade("-container -host localhost -container-name c2")
+
+}

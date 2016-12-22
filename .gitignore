@@ -1,5 +1,7 @@
 bin
 build
+APDescription.txt
+MTPs-Main-Container.txt
 
 *.log
 .stop___MAS

@@ -7,10 +7,9 @@ public class AuctionArtifact extends Artifact {
     
     String currentWinner = "no_winner";
     
-    @OPERATION public void init()  {
+    public void init()  {
         // observable properties   
         defineObsProperty("running",     false);
-        defineObsProperty("task",        "no_task");
         defineObsProperty("best_bid",    Double.MAX_VALUE);
         defineObsProperty("winner",      new Atom(currentWinner)); // Atom is a Jason type      
     }
@@ -19,7 +18,7 @@ public class AuctionArtifact extends Artifact {
         if (getObsProperty("running").booleanValue())
             failed("The protocol is already running and so you cannot start it!");
         
-        getObsProperty("task").updateValue(task);
+        defineObsProperty("task", task);
         getObsProperty("running").updateValue(true);
     }
     

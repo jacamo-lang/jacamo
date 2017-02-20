@@ -10,7 +10,7 @@ ifdef::env-github[:outfilesuffix: .adoc]
 == Introduction
 
 This programming tutorial illustrates some features of JaCaMo through
-the development and refinement of a kind of (sophisticate) _Hello World_
+the development and refinement of a kind of (sophisticated) _Hello World_
 application that consider agents, environment and organisation.
 
 

@@ -459,7 +459,7 @@ Finally, the agents need to focus on the common artifact `gui` in the `jacamo` w
     ...
 -----
 
-The complete project file is available link:./code/helloworld/helloworld.jcm.txt[here].
+The complete project file is available link:./code/helloworld/helloworld.jcm[here].
 
 *4.* The result of the execution should be:
 

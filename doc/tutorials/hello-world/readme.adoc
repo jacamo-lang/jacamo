@@ -311,7 +311,7 @@ In `hf.asl`, change the plan for achieving the goal `start` to:
 
 -----
 +!start : message(X)
-   <- focused(france, gui, ArtId);
+   <- ?focused(france, gui, ArtId);
       printMsg(X)[artifact_id(ArtId)].
 -----
 

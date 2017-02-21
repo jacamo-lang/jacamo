@@ -2,6 +2,7 @@ USER=jomifred
 
 asciidoctor readme.adoc
 cp readme.html index.html
+cp ./code/helloworld/helloworld.jcm ./code/helloworld/helloworld.jcm.txt
 
 asciidoctor shell-based.adoc
 

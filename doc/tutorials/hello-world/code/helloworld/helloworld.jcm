@@ -1,10 +1,9 @@
-/* 
+/*
 
-    JaCaMo Project File 
-    
+    JaCaMo Project File
+    for Hello World tutorial
+
     This file defines the initial state of the MAS (initial agents, environment, organisation, ....)
-    
-    (see below the documentation about what can be defined in this file)
 
 */
 
@@ -38,30 +37,30 @@ mas helloworld {
                  message("Buon giorno")
         focus: italy.gui, usa.gui
     }
-    
+
     workspace jacamo {
-        artifact gui: display.GUIConsole("common") 
-    }      
+        artifact gui: display.GUIConsole("common")
+    }
 
     workspace france {
-        artifact gui: display.GUIConsole("France") 
+        artifact gui: display.GUIConsole("France")
     }
-    
+
     workspace italy {
         artifact gui: display.GUIConsole("Italy")
     }
-    
+
     workspace brazil {
-        artifact gui: display.GUIConsole("Brazil") 
+        artifact gui: display.GUIConsole("Brazil")
     }
- 
+
     workspace usa {
-        artifact gui: display.GUIConsole("USA") 
+        artifact gui: display.GUIConsole("USA")
     }
-    
+
     organisation hello_org: o1.xml {       // the organisational entity is hello_org from spec o1.xml
         group jacamo_team: team {          // instance group (jacamo_team) from spec team
-            responsible-for: hello_eng     // that will be responsible for the execution of scheme hello_sch (defined below) 
+            responsible-for: hello_eng     // that will be responsible for the execution of scheme hello_sch (defined below)
             players: francois rv,          // the roles of the agents in this group
                      maria    rl,
                      giacomo  rc,
@@ -70,13 +69,12 @@ mas helloworld {
         }
         scheme hello_eng: hello_sch {      // instance scheme (hello_eng) from spec hello_sch
             debug
-        } 
+        }
     }
-    
-  
+
+
     // agent source path
     asl-path: src/agt
               src/agt/inc
 
 }
-

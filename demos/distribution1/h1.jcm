@@ -24,6 +24,6 @@ mas demo_distribution_1 {
 
     asl-path: src/agt, src/agt/inc
 
-    platform: cartago("infrastructure")
+    platform: cartago(infrastructure)
               jade()
 }

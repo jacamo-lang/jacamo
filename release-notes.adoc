@@ -1,10 +1,12 @@
 = Release notes for JaCaMo
 
+== Version 0.7
+
 == Version 0.6
 
 - New CArtAgO integration
-** Use of Jason name spaces: if the focus operation is prefixed with a name space, as in `ns::focus(AID)`, all perception from AID goes to the name space `ns`. Similarly, actions, like `ns::bid(10)`, will be delivered to the artifact assigned (by focus) to name space `ns`. The annotation `artifact_id` still works and overrides the name space prefix. 
- 
+** Use of Jason name spaces: if the focus operation is prefixed with a name space, as in `ns::focus(AID)`, all perception from AID goes to the name space `ns`. Similarly, actions, like `ns::bid(10)`, will be delivered to the artifact assigned (by focus) to name space `ns`. The annotation `artifact_id` still works and overrides the name space prefix.
+
 
 ** Beliefs related to CArtAgO are the following:
 *** `joined(WorkspaceName,WId)`, always placed in the default name space

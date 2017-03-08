@@ -19,7 +19,7 @@ mas demo_distribution_2 {
        asl-path: src/agt, src/agt/inc
 
        platform: cartago()
-                 jade("-container -host 10.0.1.6")
+                 jade("-container -host 127.0.0.1")
 
-       node n1 running @ 10.0.1.6 // "running" implies that the node n1 will not be launched, but is already running
+       node n1 running @ 127.0.0.1 // "running" implies that the node n1 will not be launched, but is already running
 }

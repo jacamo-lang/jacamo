@@ -195,25 +195,27 @@ jjdoc {
 }
 
 // transfer local maven artifact to our maven2 repository at sourceforge
-task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) << {
-    def wdir = System.getProperty("user.home")+'/.m2/repository/org/jacamo/jacamo'
-    def tdir = 'jomifred,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/maven2/org/jacamo/jacamo'
-    exec {
-        commandLine 'scp', '-r', project.version, tdir
-        workingDir wdir
-    }
-    exec {
-        commandLine 'cp', 'maven-metadata-local.xml', 'maven-metadata.xml'
-        workingDir wdir
-    }
-    exec {
-        commandLine 'scp', 'maven-metadata.xml', tdir
-        workingDir wdir
-    }
+task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) {
+	doLast {
+	    def wdir = System.getProperty("user.home")+'/.m2/repository/org/jacamo/jacamo'
+	    def tdir = 'jomifred,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/maven2/org/jacamo/jacamo'
+	    exec {
+	        commandLine 'scp', '-r', project.version, tdir
+	        workingDir wdir
+	    }
+	    exec {
+	        commandLine 'cp', 'maven-metadata-local.xml', 'maven-metadata.xml'
+	        workingDir wdir
+	    }
+	    exec {
+	        commandLine 'scp', 'maven-metadata.xml', tdir
+	        workingDir wdir
+	    }
+	}
 }
 
 // Builds the distribution, documentation and a new release
-task doc(dependsOn: [ 'jjdoc', 'javadoc', 'renderAsciiDocs']) << {
+task doc(dependsOn: [ 'jjdoc', 'javadoc', 'renderAsciiDocs']) {
 }
 
 task renderAsciiDocs(type: Exec) {
@@ -230,44 +232,45 @@ task fixTab {
 
 
 // Builds the distribution, documentation and a new release
-task release(dependsOn: [ 'build', 'doc', 'fixTab', 'zipRel']) << {
+task release(dependsOn: [ 'build', 'doc', 'fixTab', 'zipRel']) {
 }
 
 // copy files used to build a release
-task copyRel << {
-    copy {
-        from '.'
-        into 'build/jacamo-'+project.version
-        include '*.html'
-        include 'LICENSE'
-        include 'scripts/**'
-        include 'doc/**'
-    }
-    copy {
-        from libsDir
-        from configurations.runtime
-        into 'build/jacamo-'+project.version+'/'+libsDirName
-        include '**/*.jar'
-        //exclude '**/jason-2.0.jar'
-    }
-    copy {
-        from docsDir
-        into 'build/jacamo-'+project.version+'/doc'
-    }
-    copy {
-        from 'examples'
-        into 'build/jacamo-'+project.version+'/examples'
-    }
-    copy {
-        from 'demos'
-        into 'build/jacamo-'+project.version+'/demos'
-    }
-    copy {
-        from 'src/main/resources/templates'
-        into 'build/jacamo-'+project.version+'/src/templates'
-    }
-    delete fileTree('build/jacamo-'+project.version+'/doc')  { include '**/*.adoc', '**/Makefile', '**/publish.sh'  }
-
+task copyRel {
+	doLast {
+	    copy {
+	        from '.'
+	        into 'build/jacamo-'+project.version
+	        include '*.html'
+	        include 'LICENSE'
+	        include 'scripts/**'
+	        include 'doc/**'
+	    }
+	    copy {
+	        from libsDir
+	        from configurations.runtime
+	        into 'build/jacamo-'+project.version+'/'+libsDirName
+	        include '**/*.jar'
+	        //exclude '**/jason-2.0.jar'
+	    }
+	    copy {
+	        from docsDir
+	        into 'build/jacamo-'+project.version+'/doc'
+	    }
+	    copy {
+	        from 'examples'
+	        into 'build/jacamo-'+project.version+'/examples'
+	    }
+	    copy {
+	        from 'demos'
+	        into 'build/jacamo-'+project.version+'/demos'
+	    }
+	    copy {
+	        from 'src/main/resources/templates'
+	        into 'build/jacamo-'+project.version+'/src/templates'
+	    }
+	    delete fileTree('build/jacamo-'+project.version+'/doc')  { include '**/*.adoc', '**/Makefile', '**/publish.sh'  }
+	}
 }
 
 // creates a zip file for a release

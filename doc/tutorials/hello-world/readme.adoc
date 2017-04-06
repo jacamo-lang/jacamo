@@ -1,6 +1,9 @@
 = Hello JaCaMo and Multi-Agent World
 Use of the JaCaMo Platform
 JaCaMo Team
+:source-highlighter: pygments
+:pygments-style: autumn
+:pygments-linenums-mode: inline
 :toc: right
 
 :prewrap!:
@@ -52,6 +55,7 @@ initial beliefs.
 *1.* To add the four agents, in the project file, replace
 `agent sample_agent` by:
 
+[source,jacamoproject]
 ----------------------------------------
     agent francois : hello.asl {
         beliefs: message("Bonjour")
@@ -121,6 +125,7 @@ Exercises
 *a)* Create a new type of agent (called `hello2.asl`) with the following
 initial code:
 
+[source,jasonagent]
 ------------------------------------------------------
 msg(fr,"Bonjour").
 msg(br,"Bom dia").
@@ -176,6 +181,7 @@ where the observable properties and operations are declared.
 *2.* Add this artifact in the project by including the following lines
 in the .jcm project:
 
+[source,jacamoproject]
 ---------------------------------------------------
     workspace jacamo {
         artifact gui: display.GUIConsole("common")
@@ -190,6 +196,7 @@ The above lines create an instance of the display artifact and named it
 This is why we add for each agent a `focus` instruction focusing on the
 artifact `gui` in the workspace `jacamo`:
 
+[source,jacamoproject]
 ---------------------------------------
     agent francois : hello.asl {
         beliefs: message("Bonjour")
@@ -204,6 +211,7 @@ by `printMsg` which is the name of the operation provided by the `gui`
 artifact. The agent will thus use the artifact operation instead of the
 Jason MAS Console.
 
+[source,jasonagent]
 ------------------------------------
 +!start : message(X) <- printMsg(X).
 ------------------------------------
@@ -222,6 +230,7 @@ workspaces, we will also create a workspace for each
 country.footnote:[In this simple example, we decided to have only one artifact by workspace -- this decision is based on the objective of this tutorial. Of course, workspaces can contain several artifacts and we could also group artifacts in less workspaces.] The following new lines for the
 project file (.jcm) will create the workspaces and artifacts:
 
+[source,jacamoproject]
 -------------------------------------------------------------------------------------
     workspace france {
         artifact gui: display.GUIConsole("France")
@@ -252,6 +261,7 @@ which `debug` appears.
 agents should be placed in their proper workspace. This is why we add
 the `join` instruction in the project file as follows:
 
+[source,jacamoproject]
 ------
     agent francois : hello.asl {
         beliefs: message("Bonjour")
@@ -283,6 +293,7 @@ image::./screens/wi.png[width="70%"]
 
 *8.* What happens in case an agent joined two workspaces as below? (remind that focusing on an artifact implies joining the workspace hosting this artifact)
 
+[source,jacamoproject]
 ----
     agent francois : hello.asl {
     	beliefs: message("Bonjour")
@@ -299,6 +310,7 @@ The message is shown in an undetermined console! Two alternatives are proposed t
 [[step9]]
 *9.* Create a new source code for `francois`: copy `hello.asl` to `hf.asl` and change the source code for `francois` in its `agent` declaration to take this into account.
 
+[source,jacamoproject]
 -----
     agent francois : hf.asl {
     	beliefs: message("Bonjour")
@@ -309,6 +321,7 @@ The message is shown in an undetermined console! Two alternatives are proposed t
 
 In `hf.asl`, change the plan for achieving the goal `start` to:
 
+[source,jasonagent]
 -----
 +!start : message(X)
    <- ?focused(france, gui, ArtId);
@@ -321,6 +334,7 @@ This plan consults (by the operator `?`) the belief base of the agent for the ar
 [[step10]]
 *10.* To print a message in all console artifacts named "gui", change the plan for achieving the goal `start` to:
 
+[source,jasonagent]
 -----
 +!start : message(X)
    <- for ( focused(_,gui,ArtId) ) {
@@ -396,6 +410,7 @@ image::./code/os-ss.png[width="70%", align=center]
 
 *2.* Based on this specification, the following code in the project file (`helloworld.jcm`) will create an organisation entity (i.e. agents within an organisation) where `francois` will play role `rv`, `maria` the role `rl`, `giacomo` the role `rc`, `alice` the role `rs` in the group `jacamo_team` which is of type `team`. This group is responsible for executing the social scheme `hello_eng` of type `hello_sch`.
 
+[source,jacamoproject]
 -----
     organisation hello_org: o1.xml {       // the organisational entity is hello_org from spec o1.xml
     	group jacamo_team: team {          // instance group (jacamo_team) from spec team
@@ -417,7 +432,7 @@ NOTE: the `debug` in the definition of the group or of the scheme will start the
 
 *3.* On the agents side, we need to include in their code plans so that they are capable to achieve their organisational goals and fulfil their duties. Change `hello.asl` to:
 
-[source,asl]
+[source,jasonagent]
 ----
 include::code/helloworld/src/agt/hello.asl[]
 ----
@@ -429,6 +444,7 @@ Briefly, the agent has a role as defined in the project file (the `organisation/
 
 Finally, the agents need to focus on the common artifact `gui` in the `jacamo` workspace as follows:
 
+[source,jacamoproject]
 -----
     ...
     agent francois : hello.asl {
@@ -498,6 +514,7 @@ the message of the scheme you have developed in the previous exercise.
 __Hint__: The organisational goals are annotated with the scheme that
 has produced it. For instance, a plan like
 
+[source,jasonagent]
 ------------------------------
 +!print_h[scheme(S)]   <- ....
 ------------------------------
@@ -524,7 +541,7 @@ We will distribute our application on two nodes:
 
 *1.* Copy `helloworld.jcm` to `europe.jcm`. Change `europe.jcm` to:
 
-[source,jcm]
+[source,jacamoproject]
 ----
 include::code/helloworld/europe.jcm[]
 ----
@@ -542,7 +559,7 @@ scheme does not start!
 
 *3.* Copy `helloworld.jcm` to `america.jcm`. Change `america.jcm` to:
 
-[source,jcm]
+[source,jacamoproject]
 ----
 include::code/helloworld/america.jcm[]
 ----

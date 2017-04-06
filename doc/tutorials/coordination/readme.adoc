@@ -1,8 +1,9 @@
 = Playing with Dimensions of Coordination
 JaCaMo Team
 :toc: right
-:source-highlighter: coderay
-:coderay-linenums-mode: inline
+:source-highlighter: pygments
+:pygments-style: autumn
+:pygments-linenums-mode: inline
 :icons: font
 :prewrap!:
 
@@ -33,7 +34,7 @@ The following steps will implement this system.
 
 *1.* Create a new JaCaMo project called `auction_ag` with the following project file content:
 
-[source,jcm,linenums]
+[source,jacamoproject,linenums]
 .auction_ag.jcm
 -----------------------------------
 mas auction_ag {
@@ -52,7 +53,7 @@ mas auction_ag {
 
 *2.* The agent code for the participants is:
 
-[source,asl,linenums]
+[source,jasonagent,linenums]
 .participant.asl
 --------------------------------------------------------------------------------
 +auction(service, D)[source(A)] <- .send(A,tell,bid(D, math.random * 100 + 10)).
@@ -72,7 +73,7 @@ has the format `bib( <service description>, <price>)`.
 
 *3.* The agent code for `bob` is
 
-[source,asl,linenums]
+[source,jasonagent,linenums]
 .auctioneer.asl
 ------
 !start. // initial goal
@@ -120,6 +121,7 @@ image:./screens/r1.png[image]
 *5.* To launch two auctions concurrently, we can simply change the plan
 for the goal `start` to:
 
+[source,jasonagent]
 ------
 +!start : true
    <- .broadcast(tell, auction(service, flight_ticket(paris,athens,"15/12/2015")));
@@ -247,6 +249,7 @@ include::code/auction_env/src/env/auction_env/AuctionArtifact.java[]
 *2.* In the project file, create a workspace with an
 instance of the above artifact and the same agents as before:
 
+[source,jacamoproject]
 .auction_env.jcm
 ------------------------------------------------------------
 mas auction_env {
@@ -270,6 +273,7 @@ mas auction_env {
 
 *3.* The code of the `auctioneer.asl` is:
 
+[source,jasonagent]
 ------------------------------------------------------
 !start. // initial goal
 
@@ -292,6 +296,7 @@ mas auction_env {
 
 and the `participant.asl` is:
 
+[source,jasonagent]
 --------------------------------------------------------
 +task(D) : running(true) <- bid(math.random * 100 + 10).
 
@@ -317,7 +322,7 @@ so that Bob will create the artifacts on demand.
 
 Change the workspace definition as follows:
 
-[source,jcm,linenums]
+[source,jacamoproject,linenums]
 .JCM project
 ----
 include::code/auction_env/auction_env.jcm[]
@@ -326,7 +331,7 @@ include::code/auction_env/auction_env.jcm[]
 so that the artifact is no more created when the application is started.
 The artifact will be created by Bob in its new `start` plan:
 
-[source,asl]
+[source,jasonagent]
 .auctioneer.asl
 ----
 include::code/auction_env/src/agt/auctioneer.asl[]
@@ -334,7 +339,7 @@ include::code/auction_env/src/agt/auctioneer.asl[]
 
 The participants programs is now:
 
-[source,asl]
+[source,jasonagent]
 .participant.asl
 ----
 include::code/auction_env/src/agt/participant.asl[]
@@ -356,6 +361,7 @@ the artifact the participants should focus on.
 _Hint_: Annotations could be used to discover from which artifact the
 information is coming. For instance
 
+[source,jasonagent]
 ------------------------------------------------------------
 +task(D)[artifact_id(AId)] : running(true)[artifact_id(AId)]
    <- bid(math.random * 100 + 10)[artifact_id(AId)].
@@ -437,7 +443,7 @@ its description.
 *2.* Rename the file `auction_env.jcm` to `auction_org.jcm` and edit it
 so that one instance of the `auctionGroup` is created:
 
-[source,jcm]
+[source,jacamoproject]
 .auction_org.jcm
 ----
 include::code/auction_org/auction_org.jcm[]
@@ -459,7 +465,7 @@ mission `mAuctioneer` there.
 * Plans for the organisational goals `start` and `decide` have to be
 included. These plans are quite similar to the previous plans.
 
-[source,asl]
+[source,jasonagent]
 .auctioneer.asl
 ----
 include::code/auction_org/src/agt/auctioneer.asl[]
@@ -485,6 +491,7 @@ in the organisation specification, and not in the code of the agents.
 The program of the participants also need to be
 changed to achieve organisational goals:
 
+[source,jasonagent]
 .participant.asl
 ------
 +!bid[scheme(Sch)]
@@ -538,7 +545,7 @@ Let's consider that some participants do not bid (even if they are
 obliged to do so). To simulate that, the program `participant.asl` can
 be changed to:
 
-[source,asl]
+[source,jasonagent]
 .participant.asl
 ----
 include::code/auction_org/src/agt/participant.asl[]
@@ -559,6 +566,7 @@ putting those agents in a black list (not implemented here) and setting
 the goal `bid` as satisfied anyway. The following plan will do that for
 Bob:
 
+[source,jasonagent]
 -------
 +oblUnfulfilled( obligation(Ag,_,done(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // <1>
    <- .print("Participant ",Ag," didn't bid on time! S/he will be placed in a blacklist");
@@ -597,6 +605,7 @@ project file.
 
 _Hint_: initial goals can be given to agents in the project as follows:
 
+[source,jacamoproject]
 ------------------------------------------------------------------------------
     agent bob : auctioneer.asl {
         goals: do_auction("a1","flight_ticket(paris,athens,date(15,12,2015))")
@@ -607,6 +616,7 @@ _Hint_: initial goals can be given to agents in the project as follows:
 _Hint_: if a plan should be executed only the auctioneer, the context of
 the plan can be used, as in the following example:
 
+[source,jasonagent]
 -------------------------------------------------------------------------------------------
 +oblUnfulfilled( obligation(Ag,_,achieved(Sch,bid,Ag),_ ) )[artifact_id(AId)]
    : .my_name(Me) & play(Me,auctioneer,_)  // handle unfulfilled obl if I am the auctioneer

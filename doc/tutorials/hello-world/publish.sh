@@ -1,6 +1,6 @@
 USER=jomifred
 
-asciidoctor readme.adoc
+asciidoctor -r ../../../src/main/resources/pygments_init.rb readme.adoc
 cp readme.html index.html
 cp ./code/helloworld/helloworld.jcm ./code/helloworld/helloworld.jcm.txt
 

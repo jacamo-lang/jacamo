@@ -7,7 +7,7 @@ fi
 DEST=/home/project-web/jacamo/htdocs/tutorial/coordination
 find . -name .DS_Store -exec rm {} \;
 
-asciidoctor readme.adoc
+asciidoctor -r ../../../src/main/resources/pygments_init.rb readme.adoc
 mv readme.html index.html
 
 scp -r *.html $USERSF,jacamo@web.sf.net:$DEST

@@ -11,7 +11,7 @@
 
 // obligation to achieve a goal      
 +obligation(Ag,Norm,What,Deadline)[artifact_id(ArtId)]
-    : .my_name(Ag) & (What=satisfied(Scheme,Goal) | What = done(Scheme,Goal,Ag))
+    : .my_name(Ag) & (satisfied(Scheme,Goal)=What | done(Scheme,Goal,Ag)=What)
    <- //.print(" ---> working to achieve ",Goal," in scheme ",Scheme);
       !Goal[scheme(Scheme)];
       //.print(" <--- done");

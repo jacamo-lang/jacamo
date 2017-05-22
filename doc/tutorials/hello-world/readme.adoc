@@ -2,7 +2,7 @@
 Use of the JaCaMo Platform
 JaCaMo Team
 :source-highlighter: pygments
-:pygments-style: autumn
+:pygments-style: jacamo
 :pygments-linenums-mode: inline
 :toc: right
 

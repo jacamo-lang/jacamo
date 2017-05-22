@@ -2,7 +2,7 @@
 JaCaMo Team
 :toc: right
 :source-highlighter: pygments
-:pygments-style: autumn
+:pygments-style: jacamo
 :pygments-linenums-mode: inline
 :icons: font
 :prewrap!:

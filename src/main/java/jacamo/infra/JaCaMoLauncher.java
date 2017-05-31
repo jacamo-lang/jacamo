@@ -400,8 +400,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                     continue;
                 }
                 lags.add(ap);
-                ap.addArchClass(new ClassParameters(CAgentArch.class.getName()));
-                ap.addArchClass(new ClassParameters(JaCaMoAgArch.class.getName()));
+                ap.insertArchClass( // so that the user ag arch is the first arch in the chain
+                        new ClassParameters(CAgentArch.class.getName()),
+                        new ClassParameters(JaCaMoAgArch.class.getName()));
                 
                 // includes mind inspector
                 String debug = ap.getOption("debug");

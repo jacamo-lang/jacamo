@@ -46,6 +46,7 @@ import jason.mas2j.AgentParameters;
 import jason.mas2j.ClassParameters;
 import jason.runtime.MASConsoleGUI;
 import jason.runtime.MASConsoleLogHandler;
+import jason.runtime.RuntimeServicesInfraTier;
 import jason.runtime.Settings;
 import ora4mas.nopl.GroupBoard;
 import ora4mas.nopl.OrgBoard;
@@ -88,6 +89,11 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             project = new JaCaMoProject(getProject());
         }
         return (JaCaMoProject)getProject();
+    }
+    
+    @Override
+    public RuntimeServicesInfraTier getRuntimeServices() {
+        return new JaCaMoRuntimeServices(runner);
     }
     
     public ArtifactId getArtId(String artName) {

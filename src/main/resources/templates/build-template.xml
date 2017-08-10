@@ -60,9 +60,9 @@
     <target name="jar" depends="compile">
         <mkdir dir="${basedir}/lib" />
         <delete file="${ant.project.name}.jar" />
-        <copy file="${jasonJar}" tofile="${ant.project.name}.jar" />
+        <copy file="${jasonJar}" tofile="<PROJECT-FILE-NOEXT>.jar" />
         <copy file="${jacamo.project.file}" tofile="default.jcm" />
-        <jar update="yes" jarfile="${ant.project.name}.jar" >
+        <jar update="yes" jarfile="<PROJECT-FILE-NOEXT>.jar" >
             <fileset dir="${basedir}">
                 <include name="**/*.asl" />
                 <include name="**/*.jcm" />

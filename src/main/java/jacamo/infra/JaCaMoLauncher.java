@@ -48,6 +48,7 @@ import jason.runtime.MASConsoleGUI;
 import jason.runtime.MASConsoleLogHandler;
 import jason.runtime.RuntimeServicesInfraTier;
 import jason.runtime.Settings;
+import jason.runtime.SourcePath;
 import ora4mas.nopl.GroupBoard;
 import ora4mas.nopl.OrgBoard;
 import ora4mas.nopl.SchemeBoard;
@@ -68,6 +69,8 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     protected Map<String, ArtifactId> artIds = new HashMap<String, ArtifactId>();
     
     protected RunJadeMAS rJADE = null;
+    
+    public static String defaultProjectFileName = "default.jcm";
     
     public static void main(String[] args) throws JasonException {
         logger = Logger.getLogger(JaCaMoLauncher.class.getName());
@@ -148,7 +151,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             InputStream inProject;
             if (readFromJAR) {
                 inProject = RunCentralisedMAS.class.getResource("/"+defaultProjectFileName).openStream();
-                urlPrefix = Include.CRPrefix + "/";
+                urlPrefix = SourcePath.CRPrefix + "/";
             } else {
                 URL file;
                 // test if the argument is an URL
@@ -184,7 +187,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 }
             }
             project.setupDefault();
-            
+            getJaCaMoProject().setUrlPrefix(urlPrefix);
             project.registerDirectives();
             // set the aslSrcPath in the include
             ((Include)DirectiveProcessor.getDirective("include")).setSourcePath(project.getSourcePaths());
@@ -216,7 +219,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         }
         return errorCode;
     }
-    
+        
     @Override
     protected InputStream getDefaultLogProperties() throws IOException {
         return JaCaMoLauncher.class.getResource("/templates/" + logPropFile).openStream();
@@ -295,10 +298,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                         logger.warning("**** Remote organisation creation is not implemented yet! The organisation @ "+getJaCaMoProject().getNodeHost(o.getNode())+" wasn't created");
                         continue;
                     }
-                    File spec = new File(o.getParameter("source"));
-                    if (!spec.exists()) {
-                        o.addParameter("source", "src/org/"+spec);
-                    }
+                    // fix path for org
+                    o.addParameter("source", getJaCaMoProject().getOrgPaths().fixPath(o.getParameter("source")));
+                    
                     CartagoService.createWorkspace(o.getName());
                     logger.info("Workspace "+o.getName()+" created.");
                     
@@ -424,7 +426,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         }            
         project.getAgents().clear(); // clear only after iterating the getAgInstances!
         project.getAgents().addAll(lags);
-        project.fixAgentsSrc(urlPrefix);
+        project.fixAgentsSrc();
         
         if (getProject().isJade()) {
             rJADE.createAgs();

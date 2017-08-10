@@ -15,7 +15,9 @@
     <property name="jacamo.project.file" value="<PROJECT-FILE>"/>
     <property name="debug" value="<DEBUG>"/> <!-- use "-debug" to run in debug mode -->
     <property name="build.dir" value="${basedir}/bin/classes" />
-
+    
+    <property name="jasonJar" value="<JASON-JAR>"/>
+    
     <path id="project.classpath">
         <pathelement location="${basedir}"/>
         <pathelement location="${build.dir}"/>
@@ -53,6 +55,35 @@
             <!-- jvmarg line="-Xmx500M -Xss8M"/ -->    
         </java>
         <antcall target="user-end" />
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${basedir}/lib" />
+        <delete file="${ant.project.name}.jar" />
+        <copy file="${jasonJar}" tofile="${ant.project.name}.jar" />
+        <copy file="${jacamo.project.file}" tofile="default.jcm" />
+        <jar update="yes" jarfile="${ant.project.name}.jar" >
+            <fileset dir="${basedir}">
+                <include name="**/*.asl" />
+                <include name="**/*.jcm" />
+                <include name="**/*.xml" />
+            </fileset>
+            <fileset dir="${basedir}">
+                <include name="logging.properties" />
+            </fileset>
+            <fileset dir="${build.dir}">
+                <include name="**/*.class" />
+            </fileset>
+            <zipgroupfileset dir="${basedir}/lib" includes="**/*.jar" />
+            <zipgroupfileset dir="${jasonJar}/../../libs" includes="*.jar" />
+            <manifest>
+                  <attribute name="Main-Class" value="<PROJECT-RUNNER-CLASS>"/>
+            </manifest>
+        </jar>
+        <delete file="default.jcm" />
+        <echo>-----------------------</echo>
+        <echo/>
+        <echo>To run your MAS, just type "java -jar <PROJECT-FILE-NOEXT>.jar"</echo>
     </target>
 
     <target name="clean" >

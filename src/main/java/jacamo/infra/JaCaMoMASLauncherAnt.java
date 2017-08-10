@@ -14,7 +14,11 @@ public class JaCaMoMASLauncherAnt extends CentralisedMASLauncherAnt {
 
     protected String replaceMarks(String script, boolean debug) {
         script = replace(script, "<PROJECT-RUNNER-CLASS>", JaCaMoLauncher.class.getName());
+        script = replace(script, "<PROJECT-RUNNER-CLASS>", JaCaMoLauncher.class.getName());
         script = replace(script, "<VERSION>", Config.get().getJaCaMoVersion());
+        
+        String name = project.getProjectFile().getName();
+        script = replace(script, "<PROJECT-FILE-NOEXT>", name.substring(0,name.length()-4));
 
         String lib = "";
         /*lib += "        <pathelement location=\""+Config.get().getJaCaMoHome()+"/lib/cartago.jar\"/>\n";

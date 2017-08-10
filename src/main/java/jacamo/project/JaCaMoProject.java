@@ -8,6 +8,7 @@ import jason.infra.InfrastructureFactory;
 import jason.mas2j.AgentParameters;
 import jason.mas2j.ClassParameters;
 import jason.mas2j.MAS2JProject;
+import jason.runtime.SourcePath;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,19 +37,33 @@ public class JaCaMoProject extends MAS2JProject {
     protected Map<String,String> nodeHosts = new HashMap<String, String>();
     //protected Set<String> toDebug = new HashSet<String>();
     
+    protected SourcePath orgPaths = new SourcePath();
+    
     Map<String, String[]> platformParameters = new HashMap<String, String[]>();
 
     public JaCaMoProject() {
-        //dep = new Deployment(this);
+        // TODO: parse org-path
+        orgPaths.addPath(".");
+        orgPaths.addPath("src/org");
     }
     
     public JaCaMoProject(MAS2JProject project) {
+        this();
         this.setSocName(project.getSocName());
         this.setProjectFile(project.getProjectFile());
         this.setDirectory( project.getDirectory());
         importProject(project);
     }
 
+    public SourcePath getOrgPaths() {
+        return orgPaths;
+    }
+    
+    public void setUrlPrefix(String url) {
+        orgPaths.setUrlPrefix(url);
+        super.getSourcePaths().setUrlPrefix(url);
+    }
+    
     public void importProject(String directory, File f) throws ParseException {
         // import project
         try {
@@ -64,8 +79,8 @@ public class JaCaMoProject extends MAS2JProject {
     public void importProject(MAS2JProject project) {
         // import from mas2j project
         // COPY all other parameters from project to this
-        for (String p: project.getSourcePaths())
-            this.addSourcePath(p);
+        getSourcePaths().addAll(project.getSourcePaths());
+
         for (String p: project.getClassPaths())
             this.addClassPath(p);
         
@@ -398,7 +413,7 @@ public class JaCaMoProject extends MAS2JProject {
         }
         
         bgn = "   asl-path:   ";
-        for (String p: getSourcePaths()) {
+        for (String p: getSourcePaths().getPaths()) {
             s.append(bgn+p+"\n");
             bgn = "               ";
         }

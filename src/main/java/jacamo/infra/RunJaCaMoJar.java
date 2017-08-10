@@ -8,19 +8,17 @@ import jacamo.util.Config;
 import jason.infra.MASLauncherInfraTier;
 
 /**
- * Run a JaCaMo project
+ * Run a JaCaMo jar tasks
  * 
  * parameters: 
- *    /JaCaMo Project File/ [Deployment File] [norun]
- * 
- * "notrun" means that only the ant script will be create and the system will not start running
+ *    /JaCaMo Project File/ application
  * 
  * @author jomi
  *
  */
-public class RunJaCaMoProject {
+public class RunJaCaMoJar {
     
-    static MASLauncherInfraTier launcher;
+    static JaCaMoMASLauncherAnt launcher;
     
     // Run the parser
     public static void main (String args[]) {
@@ -32,7 +30,7 @@ public class RunJaCaMoProject {
       if (args.length == 0) {
           System.out.println(Config.get().getPresentation()+"\n");
           System.out.println("usage must be:");
-          System.out.println("      java "+RunJaCaMoProject.class.getName()+" <JaCaMo Project File> [notrun]");
+          System.out.println("      java "+RunJaCaMoJar.class.getName()+" <JaCaMo Project File.jcm> [application]");
           return;
       } else {
           name = args[0];
@@ -44,10 +42,14 @@ public class RunJaCaMoProject {
               return;
           }
       }
-
-      boolean       nrunmas = args.length >= 2 && args[1].equals("notrun"); 
-      if (!nrunmas) nrunmas = args.length >= 3 && args[2].equals("notrun"); 
       
+      String task = "run";
+      if (args[1].equals("application"))
+          task = "jar";
+      else {
+          System.out.println(args[1]+" is not implemented");
+          System.exit(1);
+      }
 
       // parsing
       try {
@@ -61,15 +63,12 @@ public class RunJaCaMoProject {
           project.setProjectFile(file);
           System.out.println("file "+name+" parsed successfully!\n");
           
-          launcher = project.getInfrastructureFactory().createMASLauncher();
+          launcher = (JaCaMoMASLauncherAnt)project.getInfrastructureFactory().createMASLauncher();
           launcher.setProject(project);
           launcher.writeScripts(false, false);
+          launcher.setTask(task);
           
-          if (nrunmas) {
-              System.out.println("To run your MAS, just type \"ant -f bin/"+file.getName().substring(0,file.getName().length()-3)+"xml\"");
-          } else {
-              new Thread(launcher, "MAS-Launcher").start();
-          }
+          new Thread(launcher, "MAS-Launcher").start();
       } catch(Exception e){
           System.err.println("parsing errors found... \n" + e);
       }

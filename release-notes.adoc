@@ -2,6 +2,22 @@
 
 == Version 0.7
 
+- new script to create a single jar with all application
++
+----
+jacamo-jar some.jcm
+----
+the application then can be run by
++
+----
+java -jar some.jar
+----
+The script indeed only encapsulate the command
++
+----
+ant -f bin/some.xml jar
+----
+
 == Version 0.6
 
 - New CArtAgO integration

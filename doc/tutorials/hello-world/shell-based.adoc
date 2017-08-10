@@ -34,3 +34,16 @@ and create an eclipse project with
 
 
 If you use the https://atom.io[Atom] editor, the following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].
+
+== Other scripts
+
+=== jacamo-jar
+
+Creates a single jar file with all resources to run the application
+----
+jacamo-jar some.jcm
+----
+the application can then be run by
+----
+java -jar some.jar
+----

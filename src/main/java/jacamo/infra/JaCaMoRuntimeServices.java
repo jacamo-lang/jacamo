@@ -14,16 +14,16 @@ import jason.runtime.Settings;
 public class JaCaMoRuntimeServices extends CentralisedRuntimeServices {
 
     //private static Logger logger = Logger.getLogger(JaCaMoRuntimeServices.class.getName());
-    
+
     public JaCaMoRuntimeServices(BaseCentralisedMAS masRunner) {
         super(masRunner);
     }
 
     @Override
     public String createAgent(String agName, String agSource, String agClass, List<String> archClasses, ClassParameters bbPars, Settings stts, Agent father) throws Exception {
-        if (archClasses == null) 
+        if (archClasses == null)
             archClasses = new ArrayList<String>();
-        
+
         if (!archClasses.contains(JaCaMoAgArch.class.getName()))
             archClasses.add(JaCaMoAgArch.class.getName());
         if (!archClasses.contains(CAgentArch.class.getName()))
@@ -31,7 +31,7 @@ public class JaCaMoRuntimeServices extends CentralisedRuntimeServices {
 
         return super.createAgent(agName, agSource, agClass, archClasses, bbPars, stts, father);
     }
-    
+
     /*
     @Override
     protected CentralisedAgArch newAgInstance() {

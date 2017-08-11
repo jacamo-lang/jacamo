@@ -1,4 +1,4 @@
-    // in the .jcm project: 
+    // in the .jcm project:
     agent francois : hello.asl {
         beliefs: message("Bonjour")
     }

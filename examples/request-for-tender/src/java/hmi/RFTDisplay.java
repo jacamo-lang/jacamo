@@ -8,18 +8,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class RFTDisplay extends JFrame {        
-    
+public class RFTDisplay extends JFrame {
+
 
     public JButton addRFT;
     public JTextField rftToAdd, conditionToAdd, deadlineToAdd;
 
     public JTextArea text;
-    
+
     public RFTDisplay(String title){
         setTitle(".:: "+title+" RFT-MANAGEMENT CONSOLE ::.");
         setSize(400,400);
-        
+
         JPanel panel = new JPanel();
         setContentPane(panel);
         panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
@@ -34,7 +34,7 @@ public class RFTDisplay extends JFrame {
         textpanel.add(text);
         // panel.add(Box.createVerticalStrut(5));
         panel.add(textpanel);*/
-        
+
         JPanel rftPanel = new JPanel();
         addRFT = new JButton("add RFT");
         rftToAdd = new JTextField(10);
@@ -44,9 +44,9 @@ public class RFTDisplay extends JFrame {
         rftPanel.add(conditionToAdd);
         rftPanel.add(deadlineToAdd);
         rftPanel.add(addRFT);
-        panel.add(rftPanel);    
+        panel.add(rftPanel);
     }
-    
+
     /*public void addText(final String s){
         SwingUtilities.invokeLater(new Runnable(){
             public void run() {
@@ -55,5 +55,5 @@ public class RFTDisplay extends JFrame {
             }
         });
     }*/
-    
+
 }

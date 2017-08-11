@@ -7,7 +7,7 @@ public class Counter extends Artifact {
         defineObsProperty("count", v);
         System.out.println("Created artifact "+name+" with initial value "+v);
     }
-        
+
     @OPERATION void inc() {
         ObsProperty prop = getObsProperty("count");
         prop.updateValue(prop.intValue()+1);

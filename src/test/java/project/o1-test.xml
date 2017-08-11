@@ -2,15 +2,15 @@
 
 <?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
 
-<organisational-specification 
+<organisational-specification
     id="test_org"
     os-version="0.8"
-  
+
     xmlns='http://moise.sourceforge.net/os'
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
     xsi:schemaLocation='http://moise.sourceforge.net/os
                         http://moise.sourceforge.net/xml/os.xsd' >
-    
+
 <structural-specification>
 
 <role-definitions>
@@ -24,14 +24,14 @@
   <role id="role1" min="2" max="10"/>
   <role id="role2" min="3" max="10"/>
  </roles>
- 
+
  <links>
-  <link from="role1" to="role2" type="authority" scope="intra-group" 
+  <link from="role1" to="role2" type="authority" scope="intra-group"
         extends-subgroups="false" bi-dir="false"/>
-  <link from="role2" to="role1" type="communication" scope="intra-group" 
+  <link from="role2" to="role1" type="communication" scope="intra-group"
         extends-subgroups="false" bi-dir="false"/>
  </links>
- 
+
  <subgroups>
     <group-specification id="at">
         <subgroups>
@@ -43,7 +43,7 @@
         </subgroups>
     </group-specification>
  </subgroups>
- 
+
  <formation-constraints>
     <compatibility from="role1" to="role2" type="compatibility" />
  </formation-constraints>

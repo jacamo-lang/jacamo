@@ -7,7 +7,7 @@ import jacamo.project.JaCaMoProject;
 
 /** JUnit test case for syntax package */
 public class WorkspaceOrderTest {
-    
+
     @Test
     public void testOrder() {
         JaCaMoProject p = new JaCaMoProject();
@@ -17,7 +17,7 @@ public class WorkspaceOrderTest {
         ap.addWorkspace("w4", null);
         ap.addWorkspace("w3", "n5");
         p.addNodeHost("n5", "x.com", true);
-        
+
         assertEquals("[w1, w2, w4, w3]", ap.getWorkspaces().toString());
     }
 

@@ -8,7 +8,7 @@ public class Env extends Artifact {
     private Display display;
     private boolean locked;
     private int nBarrierParticipants;
-    
+
     void init(int nParticipants) {
         this.defineObsProperty("numMsg",0);
         display = new Display();
@@ -17,7 +17,7 @@ public class Env extends Artifact {
         nBarrierParticipants = nParticipants;
         System.out.println("Env ready.");
     }
-    
+
     @OPERATION void printMsg(String msg){
         String agentName = this.getCurrentOpAgentId().getAgentName();
         ObsProperty prop = this.getObsProperty("numMsg");
@@ -25,12 +25,12 @@ public class Env extends Artifact {
         display.addText("Message from "+agentName+": "+msg);
         display.updateNumMsgField(prop.intValue());
     }
-    
+
     @OPERATION void computePi(int numDigits, OpFeedbackParam<String> res){
         BigDecimal digits = CalcLib.computePiDigits(numDigits);
         res.set(digits.toPlainString());
     }
-    
+
     @OPERATION void lock(){
         await("notLocked");
         locked = true;
@@ -39,20 +39,20 @@ public class Env extends Artifact {
     @GUARD boolean notLocked(){
         return !locked;
     }
-    
+
     @OPERATION void unlock(){
         locked = false;
     }
-    
+
     @OPERATION void setupBarrier(int nParticipants){
         nBarrierParticipants = nParticipants;
     }
-    
+
     @OPERATION void synch(){
         nBarrierParticipants--;
         await("allArrived");
     }
-    
+
     @GUARD boolean allArrived(){
         return nBarrierParticipants == 0;
     }

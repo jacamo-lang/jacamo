@@ -1,6 +1,6 @@
 #+TITLE:    Comparison of the different solutions for coordination
 #+AUTHOR:   Jason Team
-#+EMAIL:    
+#+EMAIL:
 
 
 Some comparison criteria:

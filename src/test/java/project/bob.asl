@@ -3,8 +3,8 @@
 
 bel(a,b,10).
 
-+!start 
-   <- .print("starting..."); 
++!start
+   <- .print("starting...");
       inc;
       .print("end start!");
       .

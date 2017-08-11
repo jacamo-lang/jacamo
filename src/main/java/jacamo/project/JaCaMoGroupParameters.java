@@ -8,25 +8,25 @@ import jason.mas2j.AgentParameters;
 
 
 public class JaCaMoGroupParameters extends JaCaMoOrgParameters {
-    
+
     protected String type;
     protected List<JaCaMoGroupParameters>  subGroups = new ArrayList<JaCaMoGroupParameters>();
-    
+
     public JaCaMoGroupParameters(JaCaMoProject project) {
         super(project);
     }
-    
+
     public void setType(String t) { type = t; }
     public String getType()       { return type; }
-    
+
     public void addSubGroup(JaCaMoGroupParameters sg) {
         subGroups.add(sg);
     }
     public List<JaCaMoGroupParameters> getSubGroups() {
         return subGroups;
     }
-    
-    
+
+
     public JaCaMoGroupParameters find(String gId) {
         if (this.getName().equals(gId))
             return this;
@@ -37,7 +37,7 @@ public class JaCaMoGroupParameters extends JaCaMoOrgParameters {
         }
         return null;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("      group "+name+": "+type);
@@ -46,7 +46,7 @@ public class JaCaMoGroupParameters extends JaCaMoOrgParameters {
             s.append("         "+a+": "+parameters.get(a)+"\n");
         }
         if (hasDebug()) {
-            s.append("         debug: "+getDebugConf()+"\n");            
+            s.append("         debug: "+getDebugConf()+"\n");
         }
         String bgn = "         players: ";
         for (AgentParameters ap: project.getAgents()) {
@@ -64,5 +64,5 @@ public class JaCaMoGroupParameters extends JaCaMoOrgParameters {
         s.append("      }");
         return s.toString();
     }
-    
+
 }

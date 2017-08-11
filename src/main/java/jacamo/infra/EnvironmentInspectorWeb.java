@@ -24,14 +24,14 @@ import cartago.CartagoService;
 public class EnvironmentInspectorWeb {
 
     /** Http Server for GUI */
-    
+
     static HttpServer httpServer = null;
     static int        httpServerPort = 3273;
     static String     httpServerURL = "http://localhost:"+httpServerPort;
     static int        refreshInterval = 5;
-    
-    static Set<String> wrkps = new HashSet<String>(); 
-    
+
+    static Set<String> wrkps = new HashSet<String>();
+
     static Set<String> hidenArts = new HashSet<String>( Arrays.asList(new String[] {
         "node",
         "console",
@@ -39,7 +39,7 @@ public class EnvironmentInspectorWeb {
         "workspace",
         "manrepo",
     }));
-    
+
     public static synchronized String startHttpServer()  {
         if (httpServer == null) {
             try {
@@ -60,12 +60,12 @@ public class EnvironmentInspectorWeb {
         }
         return httpServerURL;
     }
-    
-    static void registerRootBrowserView() {        
+
+    static void registerRootBrowserView() {
         if (httpServer == null)
             return;
         try {
-            httpServer.createContext("/", new HttpHandler() {                                
+            httpServer.createContext("/", new HttpHandler() {
                 public void handle(HttpExchange exchange) throws IOException {
                     String requestMethod = exchange.getRequestMethod();
                     Headers responseHeaders = exchange.getResponseHeaders();
@@ -84,7 +84,7 @@ public class EnvironmentInspectorWeb {
                             so.append("</body></html>");
                         }
                         responseBody.write(so.toString().getBytes());
-                    }                                
+                    }
                     responseBody.close();
                 }
             });
@@ -92,17 +92,17 @@ public class EnvironmentInspectorWeb {
             e.printStackTrace();
         }
     }
-    
+
     public static void registerWorkspace(String w) {
         wrkps.add(w);
         registerWksBrowserView(w);
     }
-    
-    private static void registerWksListBrowserView() {        
+
+    private static void registerWksListBrowserView() {
         if (httpServer == null)
             return;
         try {
-            httpServer.createContext("/indexarts", new HttpHandler() {                                
+            httpServer.createContext("/indexarts", new HttpHandler() {
                 public void handle(HttpExchange exchange) throws IOException {
                     String requestMethod = exchange.getRequestMethod();
                     Headers responseHeaders = exchange.getResponseHeaders();
@@ -130,7 +130,7 @@ public class EnvironmentInspectorWeb {
                             }
                         }
                         responseBody.write( out.toString().getBytes());
-                    }                                
+                    }
                     responseBody.write("<hr/>by <a href=\"http://cartago.sourceforge.net\" target=\"_blank\">CArtAgO</a>".getBytes());
                     responseBody.write("</body></html>".getBytes());
                     responseBody.close();
@@ -140,12 +140,12 @@ public class EnvironmentInspectorWeb {
             e.printStackTrace();
         }
     }
-    
+
     static void registerWksBrowserView(final String id) {
         if (httpServer == null)
             return;
         try {
-            httpServer.createContext("/"+id, new HttpHandler() {                                
+            httpServer.createContext("/"+id, new HttpHandler() {
                 public void handle(HttpExchange exchange) throws IOException {
                     String requestMethod = exchange.getRequestMethod();
                     Headers responseHeaders = exchange.getResponseHeaders();
@@ -160,12 +160,12 @@ public class EnvironmentInspectorWeb {
                             path = path.substring(p+1);
 
                             ArtifactInfo info = CartagoService.getController(id).getArtifactInfo(path);
-                            
-                            responseBody.write(EnvironmentInspector.getArtHtml(id, info, refreshInterval).getBytes());                                            
+
+                            responseBody.write(EnvironmentInspector.getArtHtml(id, info, refreshInterval).getBytes());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }                                
+                    }
                     responseBody.close();
                 }
             });

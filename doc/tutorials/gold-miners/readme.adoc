@@ -30,7 +30,7 @@ Take a few minutes to understand the application. Read the PDF files in the `doc
 
 Run the application using environment id=1; 1 leader; 1 miner; 3 dummies (the .jcm file already encodes this configuration). The screen will be like
 
-Note: the type of environment id=1, 2, 3, ... is changed by changing the first parameter when creating the artifact `MiningPlanet` in the .jcm file: 
+Note: the type of environment id=1, 2, 3, ... is changed by changing the first parameter when creating the artifact `MiningPlanet` in the .jcm file:
 
 image::./screens/s4.png[]
 

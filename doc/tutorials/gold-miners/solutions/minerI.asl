@@ -1,12 +1,12 @@
 /* new plans for event +gold(_,_) */
 
 @pcell[atomic]           // atomic: so as not to handle another event until handle gold is initialised
-+gold(X,Y) 
++gold(X,Y)
    :  not carrying_gold & free
    <- -free;
       .print("Gold perceived: ",gold(X,Y));
       !init_handle(gold(X,Y)).
-     
+
 // if I see gold and I'm not free but also not carrying gold yet
 // (I'm probably going towards one), abort handle(gold) and pick up
 // this one which is nearer

@@ -254,7 +254,7 @@ Edit <code>src/java/tools/AuctionArt.java</code> and change the <code>init</code
 
 <pre class="example">
 @OPERATION public void init(String taskDs, int maxValue)  {
-    // observable properties   
+    // observable properties
     defineObsProperty("task",          taskDs);
     defineObsProperty("maxValue",      maxValue);
     defineObsProperty("currentBid",    maxValue);
@@ -286,7 +286,7 @@ and change the bid operation as follows:
     if (getObsProperty("state").getValue().equals("closed")) {
         return;
     }
-    ....        
+    ....
 </pre>
 
 <p>
@@ -313,13 +313,13 @@ instance, companyA's code becomes:
 In <code>giacamo.asl</code>, after showing the winners, close the auctions:
 </p>
 <pre class="example">
-+!show_winners     
++!show_winners
   &lt;- for ( currentWinner(Ag)[artifact_id(ArtId)] ) {
         ?currentBid(Price)[artifact_id(ArtId)]; // check the current bid
         ?task(Task)[artifact_id(ArtId)];          // and the task it is for
         .print("Winner of task ", Task," is ", Ag, " for ", Price);
         clearAuction[artifact_id(ArtId)]             /**** add this line ****/
-     }. 
+     }.
 </pre>
 </div>
 
@@ -355,7 +355,7 @@ closed. You can change the code of companyD for that:
       .print("** bid 1 for ",S);
       bid( 1 )[artifact_id(Art)].
                                      /*** to here ***/
-      
+
 +task(S)[artifact_id(Art)]
 ...
 </pre>
@@ -372,7 +372,7 @@ action, change the operation to:
         failed("auction closed!");        /**** this line fails the action ****/
         return;
     }
-    ...        
+    ...
 </pre>
 
 <p>
@@ -421,7 +421,7 @@ achievement in the execution.
 </p>
 
 <pre class="example">
-+!site_prepared      // the goal (introduced by the organisational obligation) 
++!site_prepared      // the goal (introduced by the organisational obligation)
   &lt;- .wait(3000);   // **** this line: delay the achievement of the goal ****
      prepareSite. // simulation of the action (in GUI artifact)
 
@@ -467,7 +467,7 @@ The following code changes the way companyD achieves the goal <code>site_prepare
 
 <pre class="example">
 ...
-+!site_prepared &lt;- 
++!site_prepared &lt;-
    .wait(10000);
    .print("I don't want to do that!");
    .fail.

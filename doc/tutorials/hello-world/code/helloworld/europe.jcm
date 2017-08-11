@@ -11,29 +11,29 @@ mas helloworld_europe {
         focus: italy.gui
         focus: jacamo.gui
     }
-    
+
     workspace jacamo {
-        artifact gui: display.GUIConsole("common") 
-    }      
-    workspace france {
-        artifact gui: display.GUIConsole("France") 
-    }    
-    workspace italy {
-        artifact gui: display.GUIConsole("Italy") 
+        artifact gui: display.GUIConsole("common")
     }
-        
+    workspace france {
+        artifact gui: display.GUIConsole("France")
+    }
+    workspace italy {
+        artifact gui: display.GUIConsole("Italy")
+    }
+
     organisation hello_org: o1.xml {
         group jacamo_team: team {
-            responsible-for: hello_eng 
-            players: francois rv,     
+            responsible-for: hello_eng
+            players: francois rv,
                      giacomo  rc
-            debug                     
-        }
-        scheme hello_eng: hello_sch { 
             debug
-        } 
+        }
+        scheme hello_eng: hello_sch {
+            debug
+        }
     }
-    
+
     // agent source path
     asl-path: src/agt
               src/agt/inc

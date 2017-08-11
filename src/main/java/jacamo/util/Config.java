@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 /**
  * JaCaMo configuration
- * 
+ *
  * @author jomi
  */
 public class Config extends jason.util.Config {
@@ -17,18 +17,18 @@ public class Config extends jason.util.Config {
     public static final String DOT_PATH       = "dotPath";
 
     public static final String JACAMO_JAR    = "jacamoJar";
-    
+
     static {
-        jason.util.Config.setClassFactory(Config.class.getName());        
+        jason.util.Config.setClassFactory(Config.class.getName());
     }
-    
+
     public static Config get() {
         return get(false);
     }
 
     public static Config get(boolean tryToFixConfig) {
-        if (singleton == null || !singleton.getClass().getName().equals(Config.class.getName())) {           
-            jason.util.Config.setClassFactory(Config.class.getName());        
+        if (singleton == null || !singleton.getClass().getName().equals(Config.class.getName())) {
+            jason.util.Config.setClassFactory(Config.class.getName());
             singleton = new Config();
             if (!singleton.load()) {
                 if (tryToFixConfig) {
@@ -39,7 +39,7 @@ public class Config extends jason.util.Config {
         }
         return (Config)singleton;
     }
-    
+
 
     public Config() {
         super();
@@ -54,20 +54,20 @@ public class Config extends jason.util.Config {
     protected String getHome() {
         return getJaCaMoHome();
     }
-    
+
     /** returns the file where the user preferences are stored */
     public File getUserConfFile() {
         return new File(System.getProperties().get("user.home") + File.separator + ".jacamo/user.properties");
     }
-    
+
     public File getMasterConfFile() {
         return new File("jacamo.properties");
     }
-    
+
     public String getFileConfComment() {
         return "JaCaMo user configuration";
     }
-    
+
     @Override
     protected String getEclipseInstallationDirectory() {
         return "jacamo";
@@ -86,14 +86,14 @@ public class Config extends jason.util.Config {
         }
         return null;
     }
-    
+
     public String getPresentation() {
         return "JaCaMo "+getJaCaMoVersion()+"\n"+
                "     built on "+getJasonBuiltDate()+"\n"+
-               "     installed at "+getJaCaMoHome();        
+               "     installed at "+getJaCaMoHome();
     }
-    
-    /** 
+
+    /**
      * @return the jacamo home (based on jacamo.jar)
      */
     public String getJaCaMoHome() {
@@ -136,7 +136,7 @@ public class Config extends jason.util.Config {
         if (getProperty(START_WEB_OI) == null) {
             put(START_WEB_OI, "true");
         }
-        
+
         if (get(ANT_LIB) == null || !checkAntLib(getAntLib())) {
             try {
                 String jjar = getJaCaMoHome();
@@ -152,7 +152,7 @@ public class Config extends jason.util.Config {
             }
         }
     }
-    
+
     @Override
     public String getAntLib() {
         String al = super.getAntLib();

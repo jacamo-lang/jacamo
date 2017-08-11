@@ -92,7 +92,7 @@ How to consult the Manual of an artifact of a certain type?
 An agent can use the operation *consultManual* of the *ManRepoArtifact*
 as follows:
 
------------------------------------------ 
+-----------------------------------------
   consultManual(String artifactModelName)
 -----------------------------------------
 
@@ -107,7 +107,7 @@ How to get the Id of a node?
 An agent can get the Id of a node by using the operation *getNodeId* of
 the _NodeArtifact_ where _param_ is the parameter receiving the Node Id.
 
------------------------------------------- 
+------------------------------------------
   getNodeId(OpFeedbackParam<NodeId> param)
 ------------------------------------------
 
@@ -135,7 +135,7 @@ in a graceful way
 An agent can shutdown a node by using the operation *shutdownNode* of
 the _NodeArtifact_ calling the dispose routines of all the artifacts.
 
----------------- 
+----------------
   shutdownNode()
 ----------------
 
@@ -145,7 +145,7 @@ and after one second shutdown the VM
 
 by using the operation *crash* of the _NodeArtifact_
 
---------- 
+---------
   crash()
 ---------
 
@@ -240,7 +240,7 @@ to use default one), and _res_ is the output parameter receiving the
 workspace id.
 
 ---------------------------------------------------------------------------------------------------------------
-joinRemoteWorkspace(String wspName, String address, String infraServiceType, OpFeedbackParam<WorkspaceId> res) 
+joinRemoteWorkspace(String wspName, String address, String infraServiceType, OpFeedbackParam<WorkspaceId> res)
 ---------------------------------------------------------------------------------------------------------------
 
 **Infrastructure options**:
@@ -266,7 +266,7 @@ How to quit workspace?
 An agent can qui a workspace by using the operation *quitWorkspace* of
 the _WorkspaceArtifact_ that it wants to quit
 
----------------------------------------- 
+----------------------------------------
   quitWorkspace(WorkspaceArtifact WspId)
 ----------------------------------------
 
@@ -703,7 +703,7 @@ mapped to *specification(….)* agent's belief - annotated with
 artifact(artifact id) (a prolog like representation)
 
 -----------------------------------------------------------------------------------
-  group_specification(group type id, list of role, list of sub-groups, properties) 
+  group_specification(group type id, list of role, list of sub-groups, properties)
 -----------------------------------------------------------------------------------
 
 Each role in the list is: __role(id,min cardinality, max cardinality,
@@ -755,7 +755,7 @@ group artifact id - *play* with _agent_ being the agent is playing the
 _role_ in the _group_
 
 ---------------------------
-  play(agent, role, group) 
+  play(agent, role, group)
 ---------------------------
 
 [[how-to-manage-social-scheme-responsibilities-of-a-group]]
@@ -771,7 +771,7 @@ using the operation *addScheme* on the GroupBoard in charge on the
 management of the group
 
 --------------------------
-  addScheme(String schId) 
+  addScheme(String schId)
 --------------------------
 
 [[how-to-stop-a-group-being-responsible-of-a-social-scheme]]
@@ -795,7 +795,7 @@ the observable property mapped to the agent's belief - annotated with
 artifact(artifact id) - *schemes*
 
 -------------------------
-  schemes(ListOfSchemes) 
+  schemes(ListOfSchemes)
 -------------------------
 
 [[how-to-manage-hierachies-of-groups]]
@@ -810,7 +810,7 @@ An agent can set a group becoming a subgroup of _parentGroupId_ by using
 the operation *setParentGroup*
 
 ---------------------------------------
-  setParentGroup(String parentGroupId) 
+  setParentGroup(String parentGroupId)
 ---------------------------------------
 
 [[how-to-get-the-hierarchy-of-a-group]]
@@ -932,7 +932,7 @@ How to set a goal of a social scheme as achieved?
 An agent can set a goal as achieved using the action *goalAchieved*
 
 --------------------------
-goalAchieved(String goal) 
+goalAchieved(String goal)
 --------------------------
 
 Note: verifications that the agent is committed to the goal and that the
@@ -947,7 +947,7 @@ An agent can set a _value_ for the _goal_ argument _var_ by using the
 action *setArgumentValue*
 
 --------------------------------------------------------
-setArgumentValue(String goal, String var, Object value) 
+setArgumentValue(String goal, String var, Object value)
 --------------------------------------------------------
 
 [[how-to-reset-a-goal-and-relaunch-its-achievement]]
@@ -969,7 +969,7 @@ mapped to the agent's belief - annotated with artifact(artifact id) -
 *goalState*
 
 ---------------------------------------------------------------------------------------------------
-  goalState(schId, goalId, list of committed agents, list of agents that achieved the goal, state) 
+  goalState(schId, goalId, list of committed agents, list of agents that achieved the goal, state)
 ---------------------------------------------------------------------------------------------------
 
 The _state_ refers to the goal status: __waiting__, __enabled__,
@@ -1002,7 +1002,7 @@ An agent can leave its misseion in the scheme by using the action
 *leaveMission*
 
 -------------------------------
-  leaveMission(String mission) 
+  leaveMission(String mission)
 -------------------------------
 
 __Note__: verification that the agent is committed to the mission and
@@ -1019,7 +1019,7 @@ id) - *commitment* telling that agent ag is committed to the mission in
 the scheme (we have as many obs prop as commitments)
 
 -------------------------------------
-  commitment(agent, mission, scheme) 
+  commitment(agent, mission, scheme)
 -------------------------------------
 
 [[how-can-an-agent-manage-norms-and-obligations]]
@@ -1035,7 +1035,7 @@ property mapped to an agent's belief - annotated with artifact(artifact
 id) - **obligation**:
 
 ---------------------------------------
-  obligation(agent,norm,goal,deadline) 
+  obligation(agent,norm,goal,deadline)
 ---------------------------------------
 
 [[how-to-get-the-status-of-a-norm]]
@@ -1053,7 +1053,7 @@ not hold anymore))
 oblCreated(o)
 oblFulfilled(o)
 oblUnfulfilled(o)
-oblInactive(o) 
+oblInactive(o)
 -----------------
 
 [[how-to-get-the-reason-why-a-norm-has-failed]]
@@ -1065,7 +1065,7 @@ violation) of a norm thanks thanks to organizational events mapped to
 agent's belief **normFailure**:
 
 ---------------
-normFailure(f) 
+normFailure(f)
 ---------------
 
 link:documentation.adoc[Back to JaCaMo Documentation]

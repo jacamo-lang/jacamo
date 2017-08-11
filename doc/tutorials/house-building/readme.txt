@@ -18,7 +18,7 @@ How to use:
    - console
    - mind inspector (how obs prop are included there, the annotations)
      usually at http://localhost:3272
-   
+
 6. exercises (see solutions.html)
    - describe
    - give some time
@@ -40,5 +40,5 @@ How to use:
 
 10. run and show the GUI of artifacts
     who GUI at http://localhost:3271
-   
+
 11. exercises

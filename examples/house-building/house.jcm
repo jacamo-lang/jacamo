@@ -7,7 +7,7 @@
 mas house_building {
 
    agent giacomo     // the agent that wants to build a house
-   
+
    agent companyA   // builder agents (see their code for details)
    agent companyB
    agent companyC {
@@ -17,6 +17,6 @@ mas house_building {
       instances: 13
    }
    agent companyE
-    
+
    asl-path:  src/agt, src/agt/inc
 }

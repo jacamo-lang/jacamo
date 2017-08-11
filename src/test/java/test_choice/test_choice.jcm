@@ -1,4 +1,4 @@
-/* 
+/*
 
 	Test moise plans with choice operator
 
@@ -9,11 +9,11 @@ mas test_choice {
 		debug: mindinspector(gui(2000,html,history))
 		roles: role0 in g1
 	}
-	
+
 	agent bob {
 		roles: role1 in g1
 	}
-	
+
 	agent alice {
 		roles: role2 in g1
 	}

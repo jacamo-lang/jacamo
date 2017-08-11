@@ -9,24 +9,24 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/** 
- * class used to create an initial jacamo project: 
- * 
+/**
+ * class used to create an initial jacamo project:
+ *
  *  directory structure and
  *  example of programs
- *  
+ *
  * @author jomi
  */
 public class CreateNewProject {
-    
+
     File main, path;
     String id;
     static Config c = Config.get();
-    
+
     public CreateNewProject(File m) {
         main = m;
         path = main.getAbsoluteFile(); //.getParentFile();
-        
+
         id = main.getName();
         id = id.substring(0,1).toLowerCase() + id.substring(1);
     }
@@ -38,20 +38,20 @@ public class CreateNewProject {
             System.out.println("usage must be:");
             System.out.println("      java "+CreateNewProject.class.getName()+" <id of new application>");
             return;
-        } 
-        
-        CreateNewProject p = new CreateNewProject(new File(args[0]));        
+        }
+
+        CreateNewProject p = new CreateNewProject(new File(args[0]));
         p.createDirs();
         p.copyFiles();
         p.usage();
     }
-    
+
     void usage() {
         System.out.println("\n\nYou can run your application with:");
         System.out.println("   $ jacamo "+path+"/"+id+".jcm");
         System.out.println("or");
         System.out.println("   $ cd "+path);
-        System.out.println("   $ gradle -q\n");        
+        System.out.println("   $ gradle -q\n");
         System.out.println("an eclipse project can be created with");
         System.out.println("   $ gradle eclipse\n");
     }
@@ -61,7 +61,7 @@ public class CreateNewProject {
             System.out.println("Creating path "+path);
             path.mkdirs();
         }
-        
+
         new File(path + "/doc").mkdirs();
         new File(path + "/lib").mkdirs();
         new File(path + "/log").mkdirs();
@@ -71,7 +71,7 @@ public class CreateNewProject {
         new File(path + "/src/org").mkdirs();
         new File(path + "/src/int").mkdirs();
     }
-    
+
     void copyFiles() {
         copyFile("project", new File( path+"/"+id+".jcm"));
         copyFile("agent", new File( path + "/src/agt/sample_agent.asl"));
@@ -95,20 +95,20 @@ public class CreateNewProject {
 
                 l = l.replace("<DEFAULT_AGENT>", "agent sample_agent");
                 l = l.replace("<AG_NAME>", "sample_agent");
-                
+
                 l = l.replace("<PCK>", "tools");
                 l = l.replace("<ARTIFACT_NAME>", "Counter");
                 l = l.replace("<SUPER_CLASS>", "Artifact");
-                
+
                 l = l.replace("<ORGANIZATION_NAME>", id);
-                
+
                 l = l.replace("handlers = jason.runtime.MASConsoleLogHandler", "#handlers = jason.runtime.MASConsoleLogHandler");
                 l = l.replace("#handlers= java.util.logging.ConsoleHandler", "handlers= java.util.logging.ConsoleHandler");
-                
+
                 out.append(l+"\n");
                 l = in.readLine();
             }
-            out.close();        
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

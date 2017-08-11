@@ -25,7 +25,7 @@ import javax.swing.event.ChangeListener;
 public class WorldView extends GridWorldView {
 
     MiningPlanet env = null;
-    
+
     public WorldView(WorldModel model) {
         super(model, "Mining World", 600);
         setVisible(true);
@@ -36,7 +36,7 @@ public class WorldView extends GridWorldView {
         this.env = env;
         //scenarios.setSelectedIndex(env.getSimId()-1);
     }
-    
+
     JLabel    jlMouseLoc;
     //JComboBox scenarios;
     JSlider   jSpeed;
@@ -51,12 +51,12 @@ public class WorldView extends GridWorldView {
         for (int i=1; i<=6; i++) {
             scenarios.addItem(i);
         }
-        
+
         JPanel sp = new JPanel(new FlowLayout(FlowLayout.LEFT));
         sp.setBorder(BorderFactory.createEtchedBorder());
         sp.add(new JLabel("Scenario:"));
         sp.add(scenarios);*/
-        
+
         jSpeed = new JSlider();
         jSpeed.setMinimum(0);
         jSpeed.setMaximum(400);
@@ -74,14 +74,14 @@ public class WorldView extends GridWorldView {
         JPanel p = new JPanel(new FlowLayout());
         p.setBorder(BorderFactory.createEtchedBorder());
         p.add(jSpeed);
-        
+
         //args.add(sp);
         args.add(p);
 
         JPanel msg = new JPanel();
         msg.setLayout(new BoxLayout(msg, BoxLayout.Y_AXIS));
         msg.setBorder(BorderFactory.createEtchedBorder());
-        
+
         p = new JPanel(new FlowLayout(FlowLayout.CENTER));
         p.add(new JLabel("Click on the cells to add new pieces of gold."));
         msg.add(p);
@@ -99,7 +99,7 @@ public class WorldView extends GridWorldView {
         JPanel s = new JPanel(new BorderLayout());
         s.add(BorderLayout.WEST, args);
         s.add(BorderLayout.CENTER, msg);
-        getContentPane().add(BorderLayout.SOUTH, s);        
+        getContentPane().add(BorderLayout.SOUTH, s);
 
         // Events handling
         jSpeed.addChangeListener(new ChangeListener() {
@@ -117,9 +117,9 @@ public class WorldView extends GridWorldView {
                     env.endSimulation();
                     env.initWorld(w);
                 }
-            }            
+            }
         });*/
-        
+
         getCanvas().addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
                 int col = e.getX() / cellSizeW;
@@ -146,13 +146,13 @@ public class WorldView extends GridWorldView {
                 if (col >= 0 && lin >= 0 && col < getModel().getWidth() && lin < getModel().getHeight()) {
                     jlMouseLoc.setText(col+","+lin+")");
                 }
-            }            
+            }
         });
     }
-    
+
     public void udpateCollectedGolds() {
         WorldModel wm = (WorldModel)model;
-        jGoldsC.setText(wm.getGoldsInDepot() + "/" + wm.getInitialNbGolds());    
+        jGoldsC.setText(wm.getGoldsInDepot() + "/" + wm.getInitialNbGolds());
     }
 
     @Override
@@ -206,5 +206,5 @@ public class WorldView extends GridWorldView {
         g.setColor(Color.red);
         g.fillOval(x * cellSizeW + 7, y * cellSizeH + 7, cellSizeW - 8, cellSizeH - 8);
     }
-    
+
 }

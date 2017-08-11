@@ -2,7 +2,7 @@
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 
-/* 
+/*
  * By Joao Leite
  * Based on implementation developed by Rafael Bordini, Jomi Hubner and Maicon Zatelli
  */

@@ -10,7 +10,7 @@ import cartago.OpFeedbackParam;
 public class RFTBoard extends Artifact {
 
     private int taskId;
-    
+
     void init() {
         taskId = 0;
     }
@@ -24,7 +24,7 @@ public class RFTBoard extends Artifact {
             id.set(artifactName);
         } catch (Exception ex){
             failed("announce_failed");
-        }       
+        }
     }
 
     @OPERATION void clear(String id){

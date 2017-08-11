@@ -2,15 +2,15 @@
 
 <?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
 
-<organisational-specification 
+<organisational-specification
     id="o"
     os-version="0.8"
-  
+
     xmlns='http://moise.sourceforge.net/os'
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
     xsi:schemaLocation='http://moise.sourceforge.net/os
                         http://moise.sourceforge.net/xml/os.xsd' >
-    
+
 <structural-specification>
 
 <role-definitions>
@@ -25,7 +25,7 @@
         <role id="role1" min="0" max="1"/>
         <role id="role2" min="0" max="1"/>
     </roles>
- 
+
     <formation-constraints>
        <compatibility from="role1" to="role2" />
     </formation-constraints>

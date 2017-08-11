@@ -15,14 +15,14 @@ import static org.junit.Assert.*;
 public class JaCamoProjectTest {
 
     JaCaMoProjectParser parser;
-     
+
     @Test
     public void testToString() {
         boolean ok = true;
         try {
             parser = new JaCaMoProjectParser(new FileReader("src/test/java/project/p3.jcm") );
             JaCaMoProject project = parser.parse(".");
-            assertEquals("product(\"banana\",\"this is a condition\",15000),rft(gui)", 
+            assertEquals("product(\"banana\",\"this is a condition\",15000),rft(gui)",
                     project.getAg("b").getAsSetts(false, false).getUserParameter("beliefs"));
             //System.out.println(project);
             parser = new JaCaMoProjectParser(new StringReader(project.toString()));
@@ -34,7 +34,7 @@ public class JaCamoProjectTest {
         }
         assertTrue(ok);
     }
-    
+
     @Test
     public void testParse1() throws FileNotFoundException, ParseException {
         parser = new JaCaMoProjectParser(new FileReader("src/test/java/project/p1.jcm") );

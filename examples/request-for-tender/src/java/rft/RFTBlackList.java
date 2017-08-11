@@ -16,13 +16,13 @@ import cartago.OPERATION;
 
 public class RFTBlackList extends Artifact {
 
-    
+
     static final String fileName = "rft-badlist.txt";
     static final String opId     = "bad_tender";
-    
-    
+
+
     BufferedWriter out;
-    
+
     void init() {
         try {
             File f = new File(fileName);
@@ -35,7 +35,7 @@ public class RFTBlackList extends Artifact {
                 }
                 in.close();
             }
-            out = new BufferedWriter(new FileWriter(fileName, true));            
+            out = new BufferedWriter(new FileWriter(fileName, true));
         } catch (IOException e) {
             e.printStackTrace();
         }

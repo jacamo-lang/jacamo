@@ -8,7 +8,7 @@ import java.util.Map;
 
 
 public class JaCaMoWorkspaceParameters {
-    
+
     protected JaCaMoProject project;
     protected String name;
     protected String node;
@@ -18,21 +18,21 @@ public class JaCaMoWorkspaceParameters {
     public JaCaMoWorkspaceParameters(JaCaMoProject project) {
         this.project = project;
     }
-    
+
     public void setName(String n) { name = n; }
     public String getName()       { return name; }
-    
+
     public void setNode(String h) { node = h; }
     public String getNode()       { return node; }
 
     public void addArtifact(String name, ClassParameters className) {
         artifacts.put(name,className);
     }
-    
+
     public Map<String,ClassParameters> getArtifacts() {
         return artifacts;
     }
-    
+
     public ClassParameters getArtifact(String artId) {
         return artifacts.get(artId);
     }
@@ -43,7 +43,7 @@ public class JaCaMoWorkspaceParameters {
     public boolean hasDebug() {
         return debug;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("   workspace "+name+" {\n");
@@ -69,13 +69,13 @@ public class JaCaMoWorkspaceParameters {
         s.append("   }");
         return s.toString();
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (! (o instanceof JaCaMoWorkspaceParameters)) return false;
         return this.name.equals( ((JaCaMoWorkspaceParameters)o).name );
     }
-    
+
     @Override
     public int hashCode() {
         return name.hashCode();

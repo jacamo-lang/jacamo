@@ -20,20 +20,20 @@ import jason.runtime.Settings;
 /**
  * This class provides an agent architecture when using JaCaMo
  * infrastructure to run the MAS inside Jason.
- * 
+ *
  * The communication and agent management comes from Centralised Infra and
  * Perceive and Act are delegated to Cartago.
- * 
+ *
  */
 public class JaCaMoAgArch extends AgArch {
-    
+
     Atom jcmAtom = new Atom("jcm");
 
     @Override
     public void init() throws Exception {
         // change the implementation of .create_agent for this agent, use jacamo create agent instead of jason create agent
         getTS().getAg().setIA("jason.stdlib.create_agent", new jacamo.create_agent());
-        
+
         JaCaMoAgentParameters ap = null;
         try {
             ap = (JaCaMoAgentParameters)getTS().getSettings().getUserParameters().get(Settings.PROJECT_PARAMETER);
@@ -41,10 +41,10 @@ public class JaCaMoAgArch extends AgArch {
             getTS().getLogger().warning("error getting parameters to init JaCaMoAgArch! "+e);
             return;
         }
-        
+
         if (ap == null)
             return;
-        
+
         getTS().getLogger().fine("Using parameters from project "+ap.getProject().getSocName()+" for agent "+ap.getAgName());
 
         ListTerm lart = new ListTermImpl();  // list used to produce a goal to join/focus on artifacts
@@ -56,7 +56,7 @@ public class JaCaMoAgArch extends AgArch {
                 JaCaMoWorkspaceParameters w = ap.getProject().getWorkspace(wId);
                 if (w == null) {
                     getTS().getLogger().warning("**** Workspace "+wId+" is not defined! The agent will not join it.");
-                    continue;                    
+                    continue;
                 }
                 String host = null;
                 // it seems that join (remote at least) here is not working....
@@ -74,13 +74,13 @@ public class JaCaMoAgArch extends AgArch {
                     host = "local";
                     //agent.getSession().doAction(new Op("joinWorkspace", w.getName(), res), null, -1);
                 }
-                Literal art = ASSyntax.createLiteral("art_env", 
+                Literal art = ASSyntax.createLiteral("art_env",
                         ASSyntax.createAtom(w.getName()),// workspace
                         ASSyntax.createString(host), // host
                         ASSyntax.createString("")); // art
-                if (!lart.contains(art)) 
-                    tail = tail.append(art);            
-                
+                if (!lart.contains(art))
+                    tail = tail.append(art);
+
 
                 // wait the join to finish
                 /*
@@ -91,15 +91,15 @@ public class JaCaMoAgArch extends AgArch {
                     wspId = res.get();
                 }
                 if (wspId != null) {
-                    getTS().getAg().addBel(ASSyntax.createLiteral("jcm__ws", 
-                            ASSyntax.createString(w.getName()), 
+                    getTS().getAg().addBel(ASSyntax.createLiteral("jcm__ws",
+                            ASSyntax.createString(w.getName()),
                             agent.getJavaLib().objectToTerm(wspId)));
                     getTS().getLogger().info("join "+w.getName()+" ok!");
-                } else { 
+                } else {
                     getTS().getLogger().warning("join "+w.getName()+"@"+w.getNode()+" ("+h+") failed!");
                 }
                 */
-                    
+
                 /*
 
                 // adopt roles, ....
@@ -111,7 +111,7 @@ public class JaCaMoAgArch extends AgArch {
                             getTS().getLogger().warning("artifac id for "+r[1]+" not found! I cannot adopt role "+r[2]);
                         } else {
                             agent.getSession().doAction(aid, new Op("adoptRole", new Object[] {r[2]} ), null, -1);
-                            
+
                             // focus on this groups (does not work, we used the goal)
                             //agent.getSession().doAction(aid.getWorkspaceId(), new Op("focus", aid), null, -1);
                         }
@@ -119,7 +119,7 @@ public class JaCaMoAgArch extends AgArch {
                 }
                 */
             } catch (Exception e) {
-                getTS().getLogger().log(Level.SEVERE,"error joining workspace "+wId,e);                
+                getTS().getLogger().log(Level.SEVERE,"error joining workspace "+wId,e);
             }
         }
 
@@ -128,14 +128,14 @@ public class JaCaMoAgArch extends AgArch {
             String host = ap.getProject().getWorkspaceHost(f[1]);
             if (host == null)
                 host = "local"; //InetAddress.getLocalHost().getHostAddress();
-            Literal art = ASSyntax.createLiteral("art_env", 
+            Literal art = ASSyntax.createLiteral("art_env",
                     ASSyntax.createAtom(f[1]),  // workspace
                     ASSyntax.createString(host),  // host
                     ASSyntax.createAtom(f[0])); // art
-            if (!lart.contains(art)) 
-                tail = tail.append(art);            
+            if (!lart.contains(art))
+                tail = tail.append(art);
         }
-            
+
         // focus on group artifacts and adopt roles
         ListTerm lroles = new ListTermImpl();
         tail = lroles;
@@ -148,32 +148,32 @@ public class JaCaMoAgArch extends AgArch {
             host = ap.getProject().getWorkspaceHost(r[0]);
             if (host == null)
                 host = "local";
-            Literal role = ASSyntax.createLiteral("role", 
+            Literal role = ASSyntax.createLiteral("role",
                     ASSyntax.createAtom(r[0]),   // org
                     ASSyntax.createString(host), // host
                     ASSyntax.createAtom(r[1]),   // art
                     ASSyntax.createAtom(r[2]));  // role
-            if (!lroles.contains(role)) { 
+            if (!lroles.contains(role)) {
                 tail = tail.append(role);
-                
+
                 // add auto focus for this group
-                Literal art = ASSyntax.createLiteral("art_env", 
+                Literal art = ASSyntax.createLiteral("art_env",
                         ASSyntax.createAtom(r[0]),    // workspace
                         ASSyntax.createString(host),  // host
                         ASSyntax.createAtom(r[1]));   // art
-                if (!lart.contains(art)) 
+                if (!lart.contains(art))
                     lart.append(art);
-                
+
                 // add auto focus on org board
-                art = ASSyntax.createLiteral("art_env", 
+                art = ASSyntax.createLiteral("art_env",
                         ASSyntax.createAtom(r[0]),    // workspace
                         ASSyntax.createString(host),  // host
                         ASSyntax.createAtom(r[0]));   // art
-                if (!lart.contains(art)) 
-                    lart.append(art);                
+                if (!lart.contains(art))
+                    lart.append(art);
             }
         }
-        
+
         if (! lart.isEmpty()) {
             if (getTS().getLogger().isLoggable(Level.FINE)) getTS().getLogger().fine("producing goal to focus on "+lart);
             Intention i = new Intention();
@@ -181,12 +181,12 @@ public class JaCaMoAgArch extends AgArch {
             getTS().getC().addAchvGoal( ASSyntax.createLiteral(jcmAtom, "focus_env_art", lart, ASSyntax.createNumber(3)), i);
         }
 
-        if (! lroles.isEmpty()) {    
+        if (! lroles.isEmpty()) {
             if (getTS().getLogger().isLoggable(Level.FINE)) getTS().getLogger().fine("producing goal for initial roles "+lroles);
             getTS().getC().addAchvGoal( ASSyntax.createLiteral(jcmAtom, "initial_roles", lroles, ASSyntax.createNumber(3)), Intention.EmptyInt);
         }
     }
-    
+
     @Override
     public void stop() {
         //getTS().getLogger().info("Stop -- JaCaMo Arch");
@@ -199,11 +199,11 @@ public class JaCaMoAgArch extends AgArch {
                 //getTS().getLogger().info("quit "+wid.getName());
             } catch (CartagoException e) {
                 e.printStackTrace();
-            }        
+            }
         }
     }
-    
-    
+
+
     protected CAgentArch getCartagoArch() {
         AgArch arch = getTS().getUserAgArch().getFirstAgArch();
         while (arch != null) {

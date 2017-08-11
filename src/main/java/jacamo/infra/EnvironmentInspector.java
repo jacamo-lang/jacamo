@@ -31,7 +31,7 @@ public class EnvironmentInspector {
     private static Map<String, JTextPane>        artsPane = new HashMap<String, JTextPane>();
     private static Map<String, String>           artsWrps = new HashMap<String, String>();
     private static Map<String, String>           artsLast = new HashMap<String, String>();
-        
+
     private static void initFrame() {
         frame = new JFrame("..:: Environment Inspector ::..");
         allArtsPane = new JTabbedPane(JTabbedPane.LEFT);
@@ -44,13 +44,13 @@ public class EnvironmentInspector {
         guiCount = guiCount+30;
         frame.setBounds(0, 0, 800, (int)(screenSize.height * 0.8));
         frame.setLocation(
-                (screenSize.width  / 2)-guiCount - frame.getWidth() / 2, 
-                (screenSize.height / 2)+guiCount - frame.getHeight() / 2);        
+                (screenSize.width  / 2)-guiCount - frame.getWidth() / 2,
+                (screenSize.height / 2)+guiCount - frame.getHeight() / 2);
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                frame.setVisible(true);            
+                frame.setVisible(true);
             }
-        });        
+        });
     }
 
     public static void addInGui(String wksName, ArtifactId aId) {
@@ -58,7 +58,7 @@ public class EnvironmentInspector {
             initFrame();
 
         JTextPane txtOP  = new JTextPane();
-        
+
         // state
         JPanel nsp = new JPanel(new BorderLayout());
         txtOP.setContentType("text/html");
@@ -70,8 +70,8 @@ public class EnvironmentInspector {
         //artsInfo.put(id, wks.getController().getArtifactInfo(aId.getName()));
         artsWrps.put(id, wksName);
         artsPane.put(id, txtOP);
-        allArtsPane.add(id, nsp);     
-        
+        allArtsPane.add(id, nsp);
+
         updater.scheduleAtFixedRate(new Runnable() {
             public void run() {
                 updateOP();
@@ -85,14 +85,14 @@ public class EnvironmentInspector {
                 String wks = artsWrps.get(k);
                 String aname = k.substring(k.indexOf(".")+1);
                 ArtifactInfo info = CartagoService.getController(wks).getArtifactInfo(aname);
-                
+
                 String sOut = getArtHtml(wks, info, 5);
-                
+
                 String lastOut = artsLast.get(k);
                 if (lastOut == null || !lastOut.endsWith(sOut)) {
-                    artsPane.get(k).setText(sOut);                    
+                    artsPane.get(k).setText(sOut);
                 }
-                
+
                 artsLast.put(k, sOut);
             } catch (CartagoException e) {
                 e.printStackTrace();
@@ -104,7 +104,7 @@ public class EnvironmentInspector {
         StringBuilder out = new StringBuilder("<html>");
         out.append("<head><meta http-equiv=\"refresh\" content=\""+refreshInterval+"\"></head>");
         out.append("<span style=\"color: red; font-family: arial\"><font size=\"+2\">");
-        out.append("Inspection of artifact <b>"+info.getId().getName()+"</b> in workspace "+wId+"</font></span>"); 
+        out.append("Inspection of artifact <b>"+info.getId().getName()+"</b> in workspace "+wId+"</font></span>");
         out.append("<table border=0 cellspacing=3 cellpadding=6 style='font-family:verdana'>");
         for (ArtifactObsProperty op: info.getObsProperties()) {
             out.append("<tr><td>"+op.getName()+"</td><td>"+op.getValue()+"</td></tr>");

@@ -13,7 +13,7 @@ my_price(300). // initial belief
       my_price(P) & P < V                // I can offer a better bid
    <- //.print("my bid in auction artifact ", Art, " is ",P);
       bid( P ).                          // place my bid offering a cheaper service
-   
+
 /* plans for execution phase */
 
 { include("org_code.asl") }
@@ -22,4 +22,4 @@ my_price(300). // initial belief
 
 +!plumbing_installed   // the organisational goal (created from an obligation)
    <- installPlumbing. // simulates the action (in GUI artifact)
-      
+

@@ -55,23 +55,23 @@ import ora4mas.nopl.SchemeBoard;
 
 /**
  * Runs MASProject using JaCaMo infrastructure.
- * 
- * This class reads the mas2j project and create the 
+ *
+ * This class reads the mas2j project and create the
  * corresponding environment, organisation, agents, ...
- * 
+ *
  * @author Jomi
  */
 public class JaCaMoLauncher extends RunCentralisedMAS {
-    
+
     protected CartagoEnvironment  env;
     protected CartagoContext      cartagoCtx;
-    
+
     protected Map<String, ArtifactId> artIds = new HashMap<String, ArtifactId>();
-    
+
     protected RunJadeMAS rJADE = null;
-    
+
     public static String defaultProjectFileName = "default.jcm";
-    
+
     public static void main(String[] args) throws JasonException {
         logger = Logger.getLogger(JaCaMoLauncher.class.getName());
         JaCaMoLauncher r = new JaCaMoLauncher();
@@ -93,16 +93,16 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         }
         return (JaCaMoProject)getProject();
     }
-    
+
     @Override
     public RuntimeServicesInfraTier getRuntimeServices() {
         return new JaCaMoRuntimeServices(runner);
     }
-    
+
     public ArtifactId getArtId(String artName) {
         return artIds.get(artName);
     }
-    
+
     @Override
     public int init(String[] args) {
         String projectFileName = null;
@@ -121,7 +121,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             Config.get(); // to setup the JaCaMo Config
             projectFileName = args[0];
         }
-        
+
         if (Config.get().getJaCaMoHome().isEmpty()) {
             System.out.println("JaCaMo is not configured, creating a default configuration.");
             Config.get().fix();
@@ -136,7 +136,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             }
         }
 
-        // discover the handler        
+        // discover the handler
         for (Handler h : Logger.getLogger("").getHandlers()) {
             // if there is a MASConsoleLogHandler, show it
             if (h.getClass().toString().equals(MASConsoleLogHandler.class.toString())) {
@@ -166,7 +166,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 inProject = file.openStream();
             }
             JaCaMoProjectParser parser = new JaCaMoProjectParser(inProject);
-            
+
             String directory = null;
             try {
                 directory = new File(projectFileName).getAbsoluteFile().getParentFile().toString();
@@ -191,7 +191,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             project.registerDirectives();
             // set the aslSrcPath in the include
             ((Include)DirectiveProcessor.getDirective("include")).setSourcePath(project.getSourcePaths());
-            
+
             if (MASConsoleGUI.hasConsole()) {
                 MASConsoleGUI.get().setTitle("MAS Console - " + project.getSocName());
 
@@ -210,7 +210,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             logger.log(Level.SEVERE, "Error!?: ", e);
             errorCode = 4;
         }
-        
+
         System.out.flush();
         System.err.flush();
 
@@ -219,7 +219,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         }
         return errorCode;
     }
-        
+
     @Override
     protected InputStream getDefaultLogProperties() throws IOException {
         return JaCaMoLauncher.class.getResource("/templates/" + logPropFile).openStream();
@@ -231,12 +231,12 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         createEnvironment();
         createOrganisation();
         createAgs();
-        //createController();        
+        //createController();
     }
 
     @Override
     public void createEnvironment() throws JasonException {
-        env = new CartagoEnvironment(); 
+        env = new CartagoEnvironment();
         String[] args = getJaCaMoProject().getPlatformParameters("cartago");
         if (args == null)
             args = new String[] {};
@@ -265,7 +265,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
 
                     cartagoCtx.joinWorkspace(wp.getName(), new AgentIdCredential("JaCaMoLauncherAg"));
                     WorkspaceId wid = cartagoCtx.getJoinedWspId(wp.getName());
-                    
+
                     for (String aName: wp.getArtifacts().keySet()) {
                         String m = null;
                         try {
@@ -279,7 +279,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                         } catch (CartagoException e) {
                             logger.log(Level.SEVERE, "error creating "+m,e);
                         }
-                    }    
+                    }
                     if (wp.hasDebug()) {
                         CartagoService.enableDebug(wp.getName());
                     }
@@ -300,20 +300,20 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                     }
                     // fix path for org
                     o.addParameter("source", getJaCaMoProject().getOrgPaths().fixPath(o.getParameter("source")));
-                    
+
                     CartagoService.createWorkspace(o.getName());
                     logger.info("Workspace "+o.getName()+" created.");
-                    
+
                     cartagoCtx.joinWorkspace(o.getName(), new AgentIdCredential("JaCaMoLauncherAg"));
                     WorkspaceId wid = cartagoCtx.getJoinedWspId(o.getName());
-                    
+
                     ArtifactId aid = cartagoCtx.makeArtifact(wid, o.getName(), OrgBoard.class.getName(), new Object[] { o.getParameter("source") } );
 
                     // schemes
                     for (JaCaMoSchemeParameters s: o.getSchemes()) {
                         createScheme(aid, s, o);
                     }
-    
+
                     // groups
                     for (JaCaMoGroupParameters g: o.getGroups()) {
                         createGroup(aid,null,g,o);
@@ -325,45 +325,45 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             }
         }
     }
-    
+
     protected void createGroup(ArtifactId orgB, JaCaMoGroupParameters parent, JaCaMoGroupParameters g, JaCaMoOrgParameters org) {
-        String m = g.getName()+": "+g.getType()+" using artifact "+GroupBoard.class.getName(); 
+        String m = g.getName()+": "+g.getType()+" using artifact "+GroupBoard.class.getName();
 
         try {
             OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<ArtifactId>();
             cartagoCtx.doAction(orgB, new Op("createGroup", new Object[] { g.getName(), g.getType(), fb} ));
             ArtifactId aid = fb.get();
-            
+
             artIds.put(g.getName(), aid);
             logger.info("group created: "+m);
             if (g.hasDebug())
                 cartagoCtx.doAction(aid, new Op("debug", new Object[] { g.getDebugConf() } ));
-                
+
             if (parent != null) {
                 cartagoCtx.doAction(aid, new Op("setParentGroup", new Object[] { parent.getName() } ));
             }
             String owner = g.getParameter("owner");
             if (owner != null) {
-                cartagoCtx.doAction(aid, new Op("setOwner", new Object[] { owner } ));                
+                cartagoCtx.doAction(aid, new Op("setOwner", new Object[] { owner } ));
             }
             for (JaCaMoGroupParameters sg: g.getSubGroups()) {
                 createGroup(orgB, g, sg, org);
             }
-            
+
             String respFor = g.getParameter("responsible-for"); // should be done after subgroup creation
             if (respFor != null) {
                 if (org.getScheme(respFor) == null)
                     logger.warning("** The scheme "+respFor+" does not existis in "+org.getName()+" so the group "+g.getName()+" cannot be responsible for it!");
-                cartagoCtx.doAction(aid, new Op("addSchemeWhenFormationOk", new Object[] { respFor } ));                                
+                cartagoCtx.doAction(aid, new Op("addSchemeWhenFormationOk", new Object[] { respFor } ));
             }
         } catch (CartagoException e) {
             logger.log(Level.SEVERE, "error creating group "+m,e);
         }
-        
+
     }
 
     protected void createScheme(ArtifactId orgB, JaCaMoSchemeParameters s, JaCaMoOrgParameters org) {
-        String m = s.getName()+": "+s.getType()+" using artifact "+SchemeBoard.class.getName(); 
+        String m = s.getName()+": "+s.getType()+" using artifact "+SchemeBoard.class.getName();
 
         try {
             OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<ArtifactId>();
@@ -374,14 +374,14 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             logger.info("scheme created: "+m);
             if (s.hasDebug())
                 cartagoCtx.doAction(aid, new Op("debug", new Object[] { s.getDebugConf() } ));
-            
+
             String owner = s.getParameter("owner");
             if (owner != null) {
-                cartagoCtx.doAction(aid, new Op("setOwner", new Object[] { owner } ));                
+                cartagoCtx.doAction(aid, new Op("setOwner", new Object[] { owner } ));
             }
         } catch (CartagoException e) {
             logger.log(Level.SEVERE, "error creating scheme "+m,e);
-        }        
+        }
     }
 
     @Override
@@ -398,7 +398,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 return;
             }
         }
-        
+
         // add jacamo archs
         List<AgentParameters> lags = new ArrayList<AgentParameters>();
         for (AgentParameters ap: getJaCaMoProject().getAgents()) {
@@ -411,7 +411,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 ap.insertArchClass( // so that the user ag arch is the first arch in the chain
                         new ClassParameters(CAgentArch.class.getName()),
                         new ClassParameters(JaCaMoAgArch.class.getName()));
-                
+
                 // includes mind inspector
                 String debug = ap.getOption("debug");
                 if (debug != null) {
@@ -423,18 +423,18 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                     }
                 }
             }
-        }            
+        }
         project.getAgents().clear(); // clear only after iterating the getAgInstances!
         project.getAgents().addAll(lags);
         project.fixAgentsSrc();
-        
+
         if (getProject().isJade()) {
             rJADE.createAgs();
         } else {
             super.createAgs();
         }
-    }    
-    
+    }
+
     @Override
     protected void startAgs() {
         if (getProject().isJade()) {
@@ -443,7 +443,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             super.startAgs();
         }
     }
-    
+
     @Override
     protected void createReplAg(String n) {
         CentralisedAgArch agArch = new CentralisedAgArch();
@@ -456,7 +456,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             agArch.createArchs(archs, ReplAgGUI.class.getName(), null, null, new Settings(), JaCaMoLauncher.this);
             Thread agThread = new Thread(agArch);
             agArch.setThread(agThread);
-            agThread.start();                            
+            agThread.start();
         } catch (JasonException e1) {
             e1.printStackTrace();
         }

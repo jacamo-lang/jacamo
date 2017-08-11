@@ -4,15 +4,15 @@
 //     agent francois : hello.asl {
 //      beliefs: message("Bonjour")
 //               sch_art(hello_eng, jacamo, gui)
-//               sch_art(your_sch, your_workspace, your_artifact_name) 
+//               sch_art(your_sch, your_workspace, your_artifact_name)
 //      focus: france.gui
 //      focus: italy.gui
 //      focus: jacamo.gui
 //     }
 
-+!print_h[scheme(SchId)] : sch_art(SchId,WId,ArtName)    
-   <- ?focused(WId,ArtName,ArtId); 
++!print_h[scheme(SchId)] : sch_art(SchId,WId,ArtName)
+   <- ?focused(WId,ArtName,ArtId);
       printMsg("H")[artifact_id(ArtId)];
       .wait(700).
 
-// ... similar for the other goals  
+// ... similar for the other goals

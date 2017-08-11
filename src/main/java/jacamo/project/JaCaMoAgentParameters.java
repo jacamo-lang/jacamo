@@ -20,16 +20,16 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class JaCaMoAgentParameters extends AgentParameters {
-    
+
     protected Set<String>    wks   = new TreeSet<String>();
     protected List<String[]> roles = new ArrayList<String[]>(); // each [org,group,role]
     protected List<String[]> focus = new ArrayList<String[]>(); // each [artId,wskId,host]
     protected JaCaMoProject  project;
-    
+
     public JaCaMoAgentParameters(JaCaMoProject project) {
         this.project = project;
     }
-    
+
     public JaCaMoAgentParameters(JaCaMoProject project, AgentParameters a) {
         super(a);
         this.project = project;
@@ -44,7 +44,7 @@ public class JaCaMoAgentParameters extends AgentParameters {
         op += l.toString();
         addOption(Settings.INIT_BELS, op);
     }
-    
+
     public void addInitGoal(Literal l) {
         String op = getOption(Settings.INIT_GOALS);
         if (op == null)
@@ -60,7 +60,7 @@ public class JaCaMoAgentParameters extends AgentParameters {
         this.copyTo(newap);
         return newap;
     }
-    
+
     protected void copyTo(JaCaMoAgentParameters newap) {
         super.copyTo(newap);
         newap.wks = new HashSet<String>(this.wks);
@@ -68,7 +68,7 @@ public class JaCaMoAgentParameters extends AgentParameters {
         newap.focus = new ArrayList<String[]>(this.focus);
         newap.project = this.project;
     }
-    
+
     public void addWorkspace(String w, String h) {
         wks.add(w);
         if (h != null) {
@@ -98,11 +98,11 @@ public class JaCaMoAgentParameters extends AgentParameters {
     public JaCaMoProject getProject() {
         return project;
     }
-    
-    
+
+
     public void addRole(String org, String g, String r) {
         roles.add(new String[] { org, g, r });
-    }   
+    }
     public void addRole(String g, String r) {
         int pdot = g.indexOf(".");
         if (pdot > 0) {
@@ -113,18 +113,18 @@ public class JaCaMoAgentParameters extends AgentParameters {
             addRole(null, g, r);
         }
     }
-    
+
     public List<String[]> getRoles() {
         return roles;
     }
-    
+
     public void addFocus(String artId, String w, String n) {
         if (w != null && !wks.contains(w))
             addWorkspace(w,n);
         focus.add(new String[] { artId, w } );
-        
+
     }
-    
+
     public void addFocus(String artId, String h) {
         int pdot = artId.indexOf(".");
         if (pdot > 0) {
@@ -152,15 +152,15 @@ public class JaCaMoAgentParameters extends AgentParameters {
                 if (o != null) {
                     r[0] = o.getName();
                     addWorkspace(o.getName(),o.getNode());
-                }                
+                }
             }
         }
     }
-    
+
     public List<String[]> getFocus() {
         return focus;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("agent "+name);
@@ -180,7 +180,7 @@ public class JaCaMoAgentParameters extends AgentParameters {
         if (bbClass != null && bbClass.getClassName().length() > 0 && !bbClass.getClassName().equals(DefaultBeliefBase.class.getName())) {
             s.append("      ag-bb-class: "+bbClass+"\n");
         }
-        
+
         boolean first = true;
         for (ClassParameters c: archClasses) {
             if (c.getClassName().length() > 0 && !c.getClassName().equals(AgArch.class.getName())) {
@@ -190,9 +190,9 @@ public class JaCaMoAgentParameters extends AgentParameters {
                 } else {
                     s.append("               "+c+"\n");
                 }
-            }            
+            }
         }
-                
+
         if (options != null && !options.isEmpty()) {
             Iterator<String> i = options.keySet().iterator();
             while (i.hasNext()) {
@@ -218,22 +218,22 @@ public class JaCaMoAgentParameters extends AgentParameters {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-            }            
+            }
         }
 
         String bgn = "\n      // join: ";
         for (String w: wks) {
             s.append(bgn+w);
-            JaCaMoWorkspaceParameters jw = project.getWorkspace(w); 
+            JaCaMoWorkspaceParameters jw = project.getWorkspace(w);
             if (jw != null && jw.getNode() != null)
                 s.append("@"+jw.getNode());
             bgn = ", ";
         }
-        
+
         bgn = "\n      // focus: ";
         for (String[] f: focus) {
             s.append(bgn+f[1]+"."+f[0]);
-            JaCaMoWorkspaceParameters jw = project.getWorkspace(f[1]); 
+            JaCaMoWorkspaceParameters jw = project.getWorkspace(f[1]);
             if (jw != null && jw.getNode() != null)
                 s.append("@"+jw.getNode());
             bgn = ", ";
@@ -246,6 +246,6 @@ public class JaCaMoAgentParameters extends AgentParameters {
         }
         return s.toString().trim() + "\n   }\n";
     }
-    
+
 
 }

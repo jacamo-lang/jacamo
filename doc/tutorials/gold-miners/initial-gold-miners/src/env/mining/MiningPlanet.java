@@ -13,16 +13,16 @@ import cartago.ObsProperty;
 public class MiningPlanet extends Artifact {
 
     private static Logger logger = Logger.getLogger(MiningPlanet.class.getName());
-    
+
     static WorldModel  model = null;
     static WorldView   view;
-    
+
     static int     simId    = 5; // type of environment
     static int     sleep    = 200;
     static boolean hasGUI   = true;
-    
-    int     agId     = -1; 
-    
+
+    int     agId     = -1;
+
     public enum Move {
         UP, DOWN, RIGHT, LEFT
     };
@@ -32,11 +32,11 @@ public class MiningPlanet extends Artifact {
         this.agId = agId;
         initWorld(scenario);
     }
-    
+
     public int getSimId() {
         return simId;
     }
-    
+
     public void setSleep(int s) {
         sleep = s;
     }
@@ -50,7 +50,7 @@ public class MiningPlanet extends Artifact {
         model.move(m, agId);
         updateAgPercept();
     }
-    
+
     @OPERATION void pick() throws Exception {
         if (sleep > 0) await_time(sleep);
         model.pick(agId);
@@ -61,12 +61,12 @@ public class MiningPlanet extends Artifact {
         model.drop(agId);
         view.udpateCollectedGolds();
         updateAgPercept();
-    }    
+    }
     @OPERATION void skip() {
         if (sleep > 0) await_time(sleep);
         updateAgPercept();
     }
-    
+
     public synchronized void initWorld(int w) {
         simId = w;
         try {
@@ -91,14 +91,14 @@ public class MiningPlanet extends Artifact {
             defineObsProperty("gsize", simId, model.getWidth(), model.getHeight());
             defineObsProperty("depot", simId, model.getDepot().x, model.getDepot().y);
             defineObsProperty("pos", -1, -1);
-            updateAgPercept();        
+            updateAgPercept();
             //informAgsEnvironmentChanged();
         } catch (Exception e) {
             logger.warning("Error creating world "+e);
             e.printStackTrace();
         }
     }
-    
+
     public void endSimulation() {
         defineObsProperty("end_of_simulation", simId, 0);
         //informAgsEnvironmentChanged();
@@ -130,13 +130,13 @@ public class MiningPlanet extends Artifact {
         updateAgPercept(l.x + 1, l.y - 1);
         updateAgPercept(l.x + 1, l.y);
         updateAgPercept(l.x + 1, l.y + 1);
-        
+
         //view.update();
     }
 
     private static Term gold     = new Atom("gold");
     private static Term obstacle = new Atom("obstacle");
-    
+
     private void updateAgPercept(int x, int y) {
         if (model == null || !model.inGrid(x,y)) return;
 
@@ -144,13 +144,13 @@ public class MiningPlanet extends Artifact {
         try {
             removeObsPropertyByTemplate("cell", null, null, null);
         } catch (IllegalArgumentException e) {}
-                
+
         if (model.hasObject(WorldModel.OBSTACLE, x, y)) {
             defineObsProperty("cell", x, y, obstacle);
         } else if (model.hasObject(WorldModel.GOLD, x, y)) {
             defineObsProperty("cell", x, y, gold);
-        } 
-        
+        }
+
         //if (model.hasObject(WorldModel.ENEMY, x, y))
         //    defineObsProperty("cell", x, y, "enemy");
         //if (model.hasObject(WorldModel.AGENT, x, y))

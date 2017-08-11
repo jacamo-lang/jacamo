@@ -1,11 +1,11 @@
 
-+!do_auction(Id,P) 
++!do_auction(Id,P)
    <- // creates a scheme to coordinate the auction
       .concat("sch_",Id,SchName);
       ?joined(aorg,OrgWks); // get the workspace id of the org
       createScheme(SchName, doAuction,SchArtId)[wid(OrgWks)];
-      setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)]; 
-      setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)]; 
+      setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)];
+      setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)];
       debug(inspector_gui(on))[artifact_id(SchArtId)];
       .my_name(Me); setOwner(Me)[artifact_id(SchArtId)];  // I am the owner of this scheme!
       focus(SchArtId)[wid(OrgWks)];
@@ -16,7 +16,7 @@
 
 /* plans for organisational goals */
 
-+!start[scheme(Sch)]                        // plan for the goal start defined in the scheme 
++!start[scheme(Sch)]                        // plan for the goal start defined in the scheme
    <- ?goalArgument(Sch,auction,"Id",Id);   // retrieve auction Id and service description S
       ?goalArgument(Sch,auction,"Service",S);
       .print("Start scheme ",Sch," for ",S);
@@ -24,37 +24,37 @@
       focus(ArtId);
       start(S)[artifact_id(ArtId)];
       .
-      
+
 +!decide[scheme(Sch)]
    <- ?goalArgument(Sch,auction,"Id",Id);
       stop[artifact_name(Id)].
-            
-+!bid[scheme(Sch)] 
+
++!bid[scheme(Sch)]
    <- ?goalArgument(Sch,auction,"Id",Id);
       lookupArtifact(Id,AId);
       focus(AId);
-      if (math.random  < 0.8) {              // bid in 80% of the cases 
-        .wait(math.random * 2000 + 500);     // to simulate some "decision" reasoning 
+      if (math.random  < 0.8) {              // bid in 80% of the cases
+        .wait(math.random * 2000 + 500);     // to simulate some "decision" reasoning
         bid(math.random * 100 + 10)[artifact_id(AId)];
       } else {
         .fail;                               // fail otherwise
       }.
 
 +winner(W) : .my_name(W) <- .print("I Won!").
-            
+
 +winner(W)[artifact_id(AId)]
    : W \== no_winner &
     .my_name(Me) & play(Me,auctioneer,_)  // announce if I am the auctioneer
    <- ?task(S)[artifact_id(AId)];
       ?best_bid(V)[artifact_id(AId)];
-      .print("Winner for ", S, " is ",W," with ", V).         
+      .print("Winner for ", S, " is ",W," with ", V).
 
 +oblUnfulfilled( obligation(Ag,_,done(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // it is the case that a bid was not achieved
    : .my_name(Me) & play(Me,auctioneer,_)  // handle unfulfilled obl if I am the auctioneer
    <- .print("Participant ",Ag," didn't bid on time! S/he will be placed in a blacklist");
        // TODO: implement an black list artifact
        admCommand("goalSatisfied(bid)")[artifact_id(AId)]. // go on in the scheme....
-   
+
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }

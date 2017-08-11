@@ -27,18 +27,18 @@ import java.util.logging.Logger;
 
 public class JaCaMoProject extends MAS2JProject {
 
-    
+
     protected static Logger logger = Logger.getLogger(JaCaMoProject.class.getName());
-    
+
     //protected Deployment dep = null;
     protected Map<String,JaCaMoWorkspaceParameters> workspaces = new HashMap<String,JaCaMoWorkspaceParameters>();
     protected List<JaCaMoOrgParameters>       orgs       = new ArrayList<JaCaMoOrgParameters>();
     protected Set<String> deplNodes = new HashSet<String>();
     protected Map<String,String> nodeHosts = new HashMap<String, String>();
     //protected Set<String> toDebug = new HashSet<String>();
-    
+
     protected SourcePath orgPaths = new SourcePath();
-    
+
     Map<String, String[]> platformParameters = new HashMap<String, String[]>();
 
     public JaCaMoProject() {
@@ -46,7 +46,7 @@ public class JaCaMoProject extends MAS2JProject {
         orgPaths.addPath(".");
         orgPaths.addPath("src/org");
     }
-    
+
     public JaCaMoProject(MAS2JProject project) {
         this();
         this.setSocName(project.getSocName());
@@ -58,12 +58,12 @@ public class JaCaMoProject extends MAS2JProject {
     public SourcePath getOrgPaths() {
         return orgPaths;
     }
-    
+
     public void setUrlPrefix(String url) {
         orgPaths.setUrlPrefix(url);
         super.getSourcePaths().setUrlPrefix(url);
     }
-    
+
     public void importProject(String directory, File f) throws ParseException {
         // import project
         try {
@@ -73,9 +73,9 @@ public class JaCaMoProject extends MAS2JProject {
               importProject(parser.parse(directory));
         } catch (FileNotFoundException e) {
               throw new ParseException("File not found "+f.getAbsolutePath()+"\n"+e);
-        }        
+        }
     }
-    
+
     public void importProject(MAS2JProject project) {
         // import from mas2j project
         // COPY all other parameters from project to this
@@ -83,10 +83,10 @@ public class JaCaMoProject extends MAS2JProject {
 
         for (String p: project.getClassPaths())
             this.addClassPath(p);
-        
+
         if (project instanceof JaCaMoProject) {
             JaCaMoProject jproject = (JaCaMoProject)project;
-            
+
             // also import JaCaMo part
             for (AgentParameters a: project.getAgents()) {
                 this.addAgent(a);
@@ -94,7 +94,7 @@ public class JaCaMoProject extends MAS2JProject {
             }
             for (JaCaMoOrgParameters o: jproject.orgs) {
                 this.addOrg(o);
-            }            
+            }
             for (JaCaMoWorkspaceParameters w: jproject.workspaces.values()) {
                 if (getOrg(w.getName()) == null)
                     this.addWorkspace(w);
@@ -102,34 +102,34 @@ public class JaCaMoProject extends MAS2JProject {
             this.deplNodes.addAll(jproject.deplNodes);
             this.nodeHosts.putAll(jproject.nodeHosts);
             this.platformParameters.putAll(jproject.platformParameters);
-            
+
         } else {
             for (AgentParameters a: project.getAgents()) {
                 this.addAgent(new JaCaMoAgentParameters(this,a));
             }
         }
     }
-    
+
     /*
     public Deployment getDeployment() {
-        return dep;       
+        return dep;
     }
     */
-    
+
     @Override
     public void setupDefault() {
     }
-    
+
     @Override
     public InfrastructureFactory getInfrastructureFactory() throws JasonException {
         return new JaCaMoInfrastructureFactory();
     }
-    
+
     @Override
     public boolean isJade() {
         return getPlatformParameters().keySet().contains("jade");
     }
-    
+
     /*
     public void addAgInstance(String agId, String sQty, String host) {
         AgentParameters ap = getAg(agId);
@@ -143,7 +143,7 @@ public class JaCaMoProject extends MAS2JProject {
         }
     }
     */
-    
+
     public void addAgFocus(String agId, String artId, JaCaMoWorkspaceParameters wks) {
         if (agId.equals("*")) {
             for (AgentParameters ap: getAgents()) {
@@ -157,10 +157,10 @@ public class JaCaMoProject extends MAS2JProject {
             } else {
                 JaCaMoAgentParameters jap = (JaCaMoAgentParameters)ap;
                 jap.addFocus(artId,wks.getName(),null);
-            } 
-        }        
+            }
+        }
     }
-    
+
     public JaCaMoWorkspaceParameters getArtifactWorkspace(String artId) {
         for (JaCaMoWorkspaceParameters w: workspaces.values()) {
             if (w.getArtifact(artId) != null)
@@ -168,7 +168,7 @@ public class JaCaMoProject extends MAS2JProject {
         }
         return null;
     }
-        
+
     public JaCaMoOrgParameters getGroupOrg(String gId) {
         for (JaCaMoOrgParameters o: orgs) {
             if (o.getGroup(gId) != null)
@@ -176,13 +176,13 @@ public class JaCaMoProject extends MAS2JProject {
         }
         return null;
     }
-    
+
     public void parserFinished() {
         for (AgentParameters a: getAgents()) {
             ((JaCaMoAgentParameters)a).fix();
         }
     }
-    
+
     /*
     public void addWksInstance(String wksId, String host) {
         JaCaMoWorkspaceParameters wp = workspaces.get(wksId);
@@ -193,7 +193,7 @@ public class JaCaMoProject extends MAS2JProject {
         wp.setHost(host);
     }
     */
-    
+
     public void addWorkspace(JaCaMoWorkspaceParameters w) {
         workspaces.put(w.getName(),w);
     }
@@ -210,7 +210,7 @@ public class JaCaMoProject extends MAS2JProject {
         }
         return w;
     }
-    
+
     public void setWorkspaceNode(String wid, String n) {
         JaCaMoWorkspaceParameters w = workspaces.get(wid);
         if (w == null) {
@@ -235,7 +235,7 @@ public class JaCaMoProject extends MAS2JProject {
         else
             return nodeHosts.get(wp.getNode());
     }
-    
+
     public void addOrg(JaCaMoOrgParameters o) {
         orgs.add(o);
     }
@@ -249,7 +249,7 @@ public class JaCaMoProject extends MAS2JProject {
         }
         return null;
     }
-    
+
     public void addAgWorkspace(String agId, JaCaMoWorkspaceParameters w) {
         if (agId.equals("*")) {
             for (AgentParameters ap: getAgents()) {
@@ -262,10 +262,10 @@ public class JaCaMoProject extends MAS2JProject {
                 logger.warning("Agent "+agId+" was not declared and so cannot be included in workspace "+w.getName());
             } else {
                 ap.addWorkspace(w.getName(), w.getNode());
-            } 
+            }
         }
     }
-    
+
     public void addAgRole(String agId, JaCaMoOrgParameters org, JaCaMoGroupParameters group, String role) {
         JaCaMoAgentParameters ap = (JaCaMoAgentParameters)getAg(agId);
         if (ap == null) {
@@ -273,7 +273,7 @@ public class JaCaMoProject extends MAS2JProject {
         } else {
             ap.addRole(org.getName(), group.getName(), role);
             addAgWorkspace(agId, org);
-        }         
+        }
     }
 
     public void resetPlatform() {
@@ -286,14 +286,14 @@ public class JaCaMoProject extends MAS2JProject {
         }
         platformParameters.put(cp.getClassName(), cp.getParametersArray());
     }
-    
+
     public Map<String,String[]> getPlatformParameters() {
         return platformParameters;
     }
     public String[] getPlatformParameters(String p) {
         return platformParameters.get(p);
     }
-        
+
     public void resetDeploymentNode() {
         deplNodes.clear();
     }
@@ -308,14 +308,14 @@ public class JaCaMoProject extends MAS2JProject {
     */
     public Collection<String> getAllCitedNodes() {
         Set<String> an = new HashSet<String>();
-        for (AgentParameters ap: getAgents()) 
-            if (ap.getHost() != null) 
+        for (AgentParameters ap: getAgents())
+            if (ap.getHost() != null)
                 an.add(ap.getHost());
-        for (JaCaMoWorkspaceParameters wp: getWorkspaces()) 
-            if (wp.getNode() != null) 
+        for (JaCaMoWorkspaceParameters wp: getWorkspaces())
+            if (wp.getNode() != null)
                 an.add(wp.getNode());
-        for (JaCaMoOrgParameters op: getOrgs()) 
-            if (op.getNode() != null) 
+        for (JaCaMoOrgParameters op: getOrgs())
+            if (op.getNode() != null)
                 an.add(op.getNode());
         return an;
     }
@@ -334,13 +334,13 @@ public class JaCaMoProject extends MAS2JProject {
     public void resetNodeHosts() {
         nodeHosts.clear();
     }
-    
+
     public void addNodeHost(String n, String h, boolean running) {
         if (!running)
             deplNodes.add(n);
         nodeHosts.put(n, h);
     }
-    
+
     /*
     private static int lastNode = 1;
     public String createNodeForHost(String h) {
@@ -349,11 +349,11 @@ public class JaCaMoProject extends MAS2JProject {
         return nodeId;
     }
     */
-    
+
     public String getNodeHost(String n) {
         return nodeHosts.get(n);
     }
-    
+
     /*
     public void addDebugFor(String n) {
         toDebug.add(n);
@@ -361,22 +361,22 @@ public class JaCaMoProject extends MAS2JProject {
     public boolean hasDebug(String n) {
         return toDebug.contains(n);
     }
-    
+
     public void addDebugParameter(String n, String k, String v) {
         //System.out.println("*** not used yet, debug "+n+"{"+k+":"+v+"}");
     }
     */
-    
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        
+
         s.append("/*\n");
         s.append("    JaCaMo Project\n\n");
         s.append("    -- created on "+new SimpleDateFormat("MMMM dd, yyyy").format(new Date())+"\n");
         s.append("*/\n\n");
         s.append("mas " + getSocName() + " {\n\n");
-        
+
         // agents
         Iterator<AgentParameters> i = getAgents().iterator();
         while (i.hasNext()) {
@@ -393,7 +393,7 @@ public class JaCaMoProject extends MAS2JProject {
         }
 
         // deployment
-        
+
         /*String bgn = "";
         for (String n: deplNodes) {
             s.append(bgn+n);
@@ -402,16 +402,16 @@ public class JaCaMoProject extends MAS2JProject {
         if (deplNodes.isEmpty()) {
             s.append("*");
         }
-        
+
         s.append(" {\n\n");
         */
-        
+
         String bgn = "   class-path: ";
         for (String p: getClassPaths()) {
             s.append(bgn+p+"\n");
             bgn = "               ";
         }
-        
+
         bgn = "   asl-path:   ";
         for (String p: getSourcePaths().getPaths()) {
             s.append(bgn+p+"\n");
@@ -435,7 +435,7 @@ public class JaCaMoProject extends MAS2JProject {
             s.append("\n");
             bgn = "                 ";
         }
-        
+
         bgn = "   wks-instances: ";
         for (JaCaMoWorkspaceParameters w: getWorkspaces()) {
             if (w.getHost() != null) {
@@ -444,7 +444,7 @@ public class JaCaMoProject extends MAS2JProject {
             }
         }
         */
-        
+
         bgn = "   platform:     ";
         for (String p: getPlatformParameters().keySet()) {
             s.append(bgn+p+"(");
@@ -453,12 +453,12 @@ public class JaCaMoProject extends MAS2JProject {
                 s.append(v+arg);
                 v = ", ";
             }
-            s.append(")\n");            
+            s.append(")\n");
             bgn = "                 ";
         }
 
         s.append("}");
-                
+
         return s.toString();
     }
 }

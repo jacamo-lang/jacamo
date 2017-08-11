@@ -15,9 +15,9 @@ mas auctionCent {
       focus: ww2.c1
              kk.c2 @ node45
              yy.c3
-      osfile: "a/x.xml"         // app domain argument 
-      events: discard         // app domain argument 
-      blabla: 3         // app domain argument 
+      osfile: "a/x.xml"         // app domain argument
+      events: discard         // app domain argument
+      blabla: 3         // app domain argument
       osarg: "the course"         // app domain argument
    }
 

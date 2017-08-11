@@ -1,5 +1,5 @@
 // This company bids for all tasks
-// Strategy: bids a random value 
+// Strategy: bids a random value
 
 { include("common.asl") }
 

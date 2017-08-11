@@ -1,9 +1,9 @@
-#+TITLE: OEOP Tutorial @ EASSS 2011 
+#+TITLE: OEOP Tutorial @ EASSS 2011
 #+SUBTITLE: Solution for (some) exercises
 #+AUTHOR:    JaCaMo Team
 #+EMAIL: http://jacamo.sf.net
 #+DATE: July 2011
-#+TEXT: 
+#+TEXT:
 #+LANGUAGE:  en
 # +OPTIONS: H:2 num:nil
 #+OPTIONS: email:t H:3 toc:4 num:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
@@ -21,7 +21,7 @@
 
 #+BEGIN_EXAMPLE
     @OPERATION public void init(String taskDs, int maxValue)  {
-        // observable properties   
+        // observable properties
         defineObsProperty("task",          taskDs);
         defineObsProperty("maxValue",      maxValue);
         defineObsProperty("currentBid",    maxValue);
@@ -42,7 +42,7 @@
 :        if (getObsProperty("state").getValue().equals("closed")) {
 :            return;
 :        }
-:        ....        
+:        ....
 
    Since agents don't know when the auction finishes, it could be nice
    if they only bid if the auction is still open. For that change the
@@ -54,16 +54,16 @@
 :      my_price(P) & P < V &              // I can offer a better bid
 :      state("open")[artifact_id(Art)]    // the acution is still open /**** this line ****/
 :   <- bid( P ).                          // place my bid offering a cheaper service
- 
+
 ** Exercise 2
    In =giacamo.asl=, after showing the winners, close the auctions:
-: +!show_winners     
+: +!show_winners
 :   <- for ( currentWinner(Ag)[artifact_id(ArtId)] ) {
 :         ?currentBid(Price)[artifact_id(ArtId)]; // check the current bid
 :         ?task(Task)[artifact_id(ArtId)];          // and the task it is for
 :         .print("Winner of task ", Task," is ", Ag, " for ", Price);
 :         clearAuction[artifact_id(ArtId)]             /**** add this line ****/
-:      }. 
+:      }.
 
 *** *Things to try*
 
@@ -88,7 +88,7 @@
       .print("** bid 1 for ",S);
       bid( 1 )[artifact_id(Art)].
                                      /*** to here ***/
-      
+
 +task(S)[artifact_id(Art)]
 ...
 #+END_EXAMPLE
@@ -102,12 +102,12 @@
 :            failed("auction closed!");        /**** this line fails the action ****/
 :            return;
 :        }
-:        ...        
+:        ...
 
    In the Jason side, you can catch that error adding the plan:
 : -!bid_later[error_msg(Msg)]
 :   <- .print("Failed to bid due to: ",Msg).
-   
+
 * Part II Programming Agent & Organisation
 ** Exercise 1(a)
 
@@ -128,7 +128,7 @@ achieved may interleave. To better observe that, change the code to
 achieve the goals (=org_goals.asl=) as follows and observe the order of
 achievement in the execution.
 
-: +!site_prepared      // the goal (introduced by the organisational obligation) 
+: +!site_prepared      // the goal (introduced by the organisational obligation)
 :   <- .wait(3000);   // **** this line: delay the achievement of the goal ****
 :      prepareSite. // simulation of the action (in GUI artifact)
 :
@@ -156,7 +156,7 @@ no error will be produced.
 The following code changes the way companyD achieves the goal =site_prepared=
 
 : ...
-: +!site_prepared <- 
+: +!site_prepared <-
 :    .wait(10000);
 :    .print("I don't want to do that!");
 :    .fail.

@@ -4,15 +4,15 @@
 
 { include("common.asl") }
 
-my_price(800). // minimum price for the 3 tasks 
+my_price(800). // minimum price for the 3 tasks
 
 // a rule to calculate the sum of the current bids place by this agent
-sum_of_my_offers(S) :- 
+sum_of_my_offers(S) :-
    .my_name(Me) & .term2string(Me,MeS) &
    .findall( V,      // artifacts/auctions I am currently winning
              currentWinner(MeS)[artifact_id(ArtId)] &
-             currentBid(V)[artifact_id(ArtId)], 
-             L) & 
+             currentBid(V)[artifact_id(ArtId)],
+             L) &
    S = math.sum(L).
 
 /* Plans for Auction phase */
@@ -30,7 +30,7 @@ sum_of_my_offers(S) :-
       P < Sum + V                     // I can still offer a better bid
    <- //.print("my bid in auction artifact ", Art, ", Task ", S,", is ",math.max(V-10,P));
       bid( math.max(V-10,P) )[ artifact_id(Art) ].  // place my bid offering a cheaper service
-   
+
 /* plans for execution phase */
 
 { include("org_code.asl") }

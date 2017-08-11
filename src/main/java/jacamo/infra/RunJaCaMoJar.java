@@ -9,24 +9,24 @@ import jason.infra.MASLauncherInfraTier;
 
 /**
  * Run a JaCaMo jar tasks
- * 
- * parameters: 
+ *
+ * parameters:
  *    /JaCaMo Project File/ application
- * 
+ *
  * @author jomi
  *
  */
 public class RunJaCaMoJar {
-    
+
     static JaCaMoMASLauncherAnt launcher;
-    
+
     // Run the parser
     public static void main (String args[]) {
 
       String name;
       JaCaMoProjectParser parser;
       JaCaMoProject project = new JaCaMoProject();
-      
+
       if (args.length == 0) {
           System.out.println(Config.get().getPresentation()+"\n");
           System.out.println("usage must be:");
@@ -42,7 +42,7 @@ public class RunJaCaMoJar {
               return;
           }
       }
-      
+
       String task = "run";
       if (args[1].equals("application"))
           task = "jar";
@@ -62,18 +62,18 @@ public class RunJaCaMoJar {
           }
           project.setProjectFile(file);
           System.out.println("file "+name+" parsed successfully!\n");
-          
+
           launcher = (JaCaMoMASLauncherAnt)project.getInfrastructureFactory().createMASLauncher();
           launcher.setProject(project);
           launcher.writeScripts(false, false);
           launcher.setTask(task);
-          
+
           new Thread(launcher, "MAS-Launcher").start();
       } catch(Exception e){
           System.err.println("parsing errors found... \n" + e);
       }
     }
-    
+
     public MASLauncherInfraTier getLauncher() {
         return launcher;
     }

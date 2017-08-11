@@ -26,7 +26,7 @@ public class GUIConsole extends Artifact {
         display = new Display(name);
         display.setVisible(true);
     }
-    
+
     // implements an operation available to the agents
     @OPERATION void printMsg(String msg){
         String agentName = this.getOpUserName();
@@ -34,21 +34,21 @@ public class GUIConsole extends Artifact {
         prop.updateValue(prop.intValue()+1);
         display.addText("Message at "+System.currentTimeMillis()+" from "+agentName+": "+msg);
         display.updateNumMsgField(prop.intValue());
-    }    
+    }
 
-    static class Display extends JFrame {       
-        
+    static class Display extends JFrame {
+
         private JTextArea text;
         private JLabel numMsg;
         private static int n = 0;
-        
+
         public Display(String name) {
             setTitle(".:: "+name+" console ::.");
-            
+
             JPanel panel = new JPanel();
             setContentPane(panel);
             panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-            
+
             numMsg = new JLabel("0");
             text = new JTextArea(15,40);
 
@@ -58,10 +58,10 @@ public class GUIConsole extends Artifact {
             pack();
             setLocation(n*40, n*80);
             setVisible(true);
-            
+
             n++;
         }
-        
+
         public void addText(final String s){
             SwingUtilities.invokeLater(new Runnable(){
                 public void run() {
@@ -69,7 +69,7 @@ public class GUIConsole extends Artifact {
                 }
             });
         }
-        
+
         public void updateNumMsgField(final int value){
             SwingUtilities.invokeLater(new Runnable(){
                 public void run() {

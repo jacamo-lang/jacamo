@@ -16,7 +16,7 @@ my_price(1500). // initial belief
 /* plans for execution phase */
 
 { include("org_code.asl") }
-  
-+!site_prepared 
+
++!site_prepared
    <- prepareSite. // simulates the action (in GUI artifact)
-      
+

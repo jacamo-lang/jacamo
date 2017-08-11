@@ -15,7 +15,7 @@ ifdef::env-github[:outfilesuffix: .adoc]
 
 By default, three inspectors are launched on a Web Browser when executing a JaCaMo application. The level of information and frequency of update can be managed for each agent, workspace or organisation (see below for details).
 
-Deactivation (resp. activation) of these inspectors can be realised by setting the following property to `false` (resp. `true`) in the `user.properties` of the jacamo platform: 
+Deactivation (resp. activation) of these inspectors can be realised by setting the following property to `false` (resp. `true`) in the `user.properties` of the jacamo platform:
 
 -----
 startWebMindInspector=false  // Agent inspector

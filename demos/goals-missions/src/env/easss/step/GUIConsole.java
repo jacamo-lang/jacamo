@@ -12,14 +12,14 @@ public class GUIConsole extends Artifact {
         display = new Display();
         display.setVisible(true);
     }
-    
+
     @OPERATION void printMsg(String msg){
         String agentName = this.getCurrentOpAgentId().getAgentName();
         ObsProperty prop = this.getObsProperty("numMsg");
         prop.updateValue(prop.intValue()+1);
         display.addText("Message from "+agentName+": "+msg);
         display.updateNumMsgField(prop.intValue());
-    }    
+    }
 }
 
 

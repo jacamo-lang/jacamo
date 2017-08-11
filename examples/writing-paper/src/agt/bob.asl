@@ -16,4 +16,4 @@
 
 // signals
 +normFailure(N)  <- .print("norm failure event: ", N).
-+destroyed(Art)  <- .print("Artifact ",Art," destroyed").      
++destroyed(Art)  <- .print("Artifact ",Art," destroyed").

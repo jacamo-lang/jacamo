@@ -2,16 +2,16 @@
 
 <?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
 
-<organisational-specification 
+<organisational-specification
 
     id="easss"
     os-version="0.8"
-  
+
     xmlns='http://moise.sourceforge.net/os'
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
     xsi:schemaLocation='http://moise.sourceforge.net/os
                         http://moise.sourceforge.net/xml/os.xsd' >
-    
+
     <structural-specification>
 
         <role-definitions>
@@ -74,15 +74,15 @@
                 <goal id="observe"/>
             </mission>
         </scheme>
-        
+
     </functional-specification>
 
     <normative-specification>
         <norm id="n1" type="obligation" role="greeter"
             mission="mGreeting" time-constraint="1 day" /><norm id="n2" type="obligation" role="observer" mission="mObserve" time-constraint="1 day" /><norm id="n3" type="obligation" role="computer" mission="mCompute" time-constraint="1 day" /><norm
             type="obligation" role="observer" mission="mEasss" id="n4" ></norm>
-        
-        
+
+
 
     </normative-specification>
 </organisational-specification>

@@ -21,12 +21,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
 
 public class ConfigGUI {
-    
+
     protected JTextField jacamoTF;
     protected JTextField javaTF;
     protected JTextField dotTF;
     //protected JCheckBox  alsoForJasonCB;
-    
+
     protected String initJacamoHome = null;
 
     protected static Config userProperties = Config.get();
@@ -34,23 +34,23 @@ public class ConfigGUI {
     public static void main(String[] args) {
         new ConfigGUI().run();
     }
-    
+
     protected static ConfigGUI getNewInstance() {
         return new ConfigGUI();
     }
-    
+
     public void run() {
         userProperties.resetSomeProps();
         userProperties.fix();
         final ConfigGUI jid = getNewInstance();
         JFrame f = new JFrame(jid.getWindowTitle());
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         JPanel pBt = new JPanel(new FlowLayout());
         //jid.alsoForJasonCB = new JCheckBox("save this configuration also for Jason");
         //jid.alsoForJasonCB.setSelected(true);
-        //pBt.add(jid.alsoForJasonCB);   
-       
+        //pBt.add(jid.alsoForJasonCB);
+
         JButton bQuit = new JButton("Exit without saving");
         bQuit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -71,7 +71,7 @@ public class ConfigGUI {
         JPanel p = new JPanel(new BorderLayout());
         p.add(BorderLayout.CENTER, jid.getJasonConfigPanel());
         p.add(BorderLayout.SOUTH, pBt);
-        
+
         f.getContentPane().add(p);
         f.pack();
         f.setVisible(true);
@@ -81,7 +81,7 @@ public class ConfigGUI {
         return "JaCaMo Configuration -- "+userProperties.getJaCaMoVersion();
     }
 
-    public JPanel getJasonConfigPanel() {    
+    public JPanel getJasonConfigPanel() {
         JPanel pop = new JPanel();
         pop.setLayout(new BoxLayout(pop, BoxLayout.Y_AXIS));
 
@@ -97,7 +97,7 @@ public class ConfigGUI {
         jacamoHomePanel.add(jacamoJarPanel);
 
         pop.add(jacamoHomePanel);
-        
+
 
         // java home
         JPanel javaHomePanel = new JPanel();
@@ -140,10 +140,10 @@ public class ConfigGUI {
         dotHomePanel.add(dotPanel);
 
         pop.add(dotHomePanel);
-        
+
         initJacamoHome = userProperties.getProperty(Config.JACAMO_JAR);
         jacamoTF.setText(initJacamoHome);
-        
+
         javaTF.setText(userProperties.getJavaHome());
         String v = userProperties.getDotPath();
         if (v == null) v = "";
@@ -179,7 +179,7 @@ public class ConfigGUI {
             String jh = jacamoTF.getText().trim();
             userProperties.put(Config.JACAMO_JAR, jh);
             if ( !jh.equals(initJacamoHome)) {
-                // change other paths accordingly 
+                // change other paths accordingly
                 userProperties.resetSomeProps();
                 userProperties.fix();
             }
@@ -188,7 +188,7 @@ public class ConfigGUI {
         if (Config.checkJavaHomePath(javaTF.getText()) || Config.checkJREHomePath(javaTF.getText())) {
             userProperties.setJavaHome(javaTF.getText().trim());
         }
-        
+
         File fDot = new File(dotTF.getText().trim());
         if (fDot.exists())
             userProperties.put(Config.DOT_PATH, fDot.getAbsolutePath());
@@ -196,7 +196,7 @@ public class ConfigGUI {
             System.out.println("The dot program does not exist at "+fDot+", ignoring the value.");
 
         userProperties.store();
-        
+
         // also store Jason conf if not installed
         /*
         File jasonConf = jason.jeditplugin.Config.get().getUserConfFile();
@@ -218,7 +218,7 @@ public class ConfigGUI {
                 return false;
             }
         }
-        
+
         public String getDescription() {
             return ds;
         }

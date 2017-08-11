@@ -9,26 +9,26 @@ import jason.infra.MASLauncherInfraTier;
 
 /**
  * Run a JaCaMo project
- * 
- * parameters: 
+ *
+ * parameters:
  *    /JaCaMo Project File/ [Deployment File] [norun]
- * 
+ *
  * "notrun" means that only the ant script will be create and the system will not start running
- * 
+ *
  * @author jomi
  *
  */
 public class RunJaCaMoProject {
-    
+
     static MASLauncherInfraTier launcher;
-    
+
     // Run the parser
     public static void main (String args[]) {
 
       String name;
       JaCaMoProjectParser parser;
       JaCaMoProject project = new JaCaMoProject();
-      
+
       if (args.length == 0) {
           System.out.println(Config.get().getPresentation()+"\n");
           System.out.println("usage must be:");
@@ -45,9 +45,9 @@ public class RunJaCaMoProject {
           }
       }
 
-      boolean       nrunmas = args.length >= 2 && args[1].equals("notrun"); 
-      if (!nrunmas) nrunmas = args.length >= 3 && args[2].equals("notrun"); 
-      
+      boolean       nrunmas = args.length >= 2 && args[1].equals("notrun");
+      if (!nrunmas) nrunmas = args.length >= 3 && args[2].equals("notrun");
+
 
       // parsing
       try {
@@ -60,11 +60,11 @@ public class RunJaCaMoProject {
           }
           project.setProjectFile(file);
           System.out.println("file "+name+" parsed successfully!\n");
-          
+
           launcher = project.getInfrastructureFactory().createMASLauncher();
           launcher.setProject(project);
           launcher.writeScripts(false, false);
-          
+
           if (nrunmas) {
               System.out.println("To run your MAS, just type \"ant -f bin/"+file.getName().substring(0,file.getName().length()-3)+"xml\"");
           } else {
@@ -74,7 +74,7 @@ public class RunJaCaMoProject {
           System.err.println("parsing errors found... \n" + e);
       }
     }
-    
+
     public MASLauncherInfraTier getLauncher() {
         return launcher;
     }

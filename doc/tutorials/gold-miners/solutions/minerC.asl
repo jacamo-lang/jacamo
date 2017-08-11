@@ -8,8 +8,8 @@ score(0).
 
 /* new plan for event +!handle(_) */
 
-+!handle(gold(X,Y)) 
-  :  not free 
++!handle(gold(X,Y))
+  :  not free
   <- .print("Handling ",gold(X,Y)," now.");
      !pos(X,Y);
      !ensure(pick,gold(X,Y));

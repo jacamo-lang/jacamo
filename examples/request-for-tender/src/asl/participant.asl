@@ -12,14 +12,14 @@ my_interest(AId) :- product("apple",_,_) & terms("apple")[artifact_id(AId)].
 
 /* Initial goals */
 
-!start. 
+!start.
 
 /* Plans */
 
 +!start : my_rft_wsp(RftWsp) & my_rft_board(RftBoard)
    <- !join_wsp(RftWsp);
       !lookup_focus(RftWsp,RftBoard,_).
-      
+
 +task(Terms,ArtName): my_rft_wsp(RftWsp)
    <- .print("new task ",Terms," at ",ArtName);
       !lookup_focus(RftWsp,ArtName,BidArtId);
@@ -33,9 +33,9 @@ my_interest(AId) :- product("apple",_,_) & terms("apple")[artifact_id(AId)].
       ?group(GrName)[artifact_id(AId)];
       !lookup_focus(OrgWsp,GrName,GrId);
       adoptRole(tender)[artifact_id(GrId)].
-   
+
 +!evaluate_rft(_,_).
-      
+
 +!bid_done[scheme(SchName)] : not behaviour(malicious) & scheme(SchName)[artifact_id(RFTBidArtId)]
    <- Value = math.random(400)+100;
       bid(Value,"me,my mam and my dad","I can deliver in 5 days")[artifact_id(RFTBidArtId)];

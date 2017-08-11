@@ -9,7 +9,7 @@ import java.util.Map;
 
 
 public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
-    
+
     protected List<JaCaMoGroupParameters>  groups     = new ArrayList<JaCaMoGroupParameters>();
     protected List<JaCaMoSchemeParameters> schemes    = new ArrayList<JaCaMoSchemeParameters>();
     protected Map<String,String>           parameters = new HashMap<String, String>(); // like source ....
@@ -18,21 +18,21 @@ public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
     public JaCaMoOrgParameters(JaCaMoProject project) {
         super(project);
     }
-    
+
     public void addParameter(String k, String v) {
         parameters.put(k, v);
     }
     public String getParameter(String k) {
         return parameters.get(k);
     }
-    
+
     public void addGroup(JaCaMoGroupParameters g) {
         groups.add(g);
     }
     public List<JaCaMoGroupParameters> getGroups() {
         return groups;
     }
-    
+
     public JaCaMoGroupParameters getGroup(String id) {
         for (JaCaMoGroupParameters g: groups) {
             JaCaMoGroupParameters gg = g.find(id);
@@ -42,7 +42,7 @@ public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
         }
         return null;
     }
-    
+
     public void addScheme(JaCaMoSchemeParameters s) {
         schemes.add(s);
     }
@@ -56,7 +56,7 @@ public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
         }
         return null;
     }
-    
+
     public void setDebug(String arg) {
         debug = arg;
     }
@@ -66,19 +66,19 @@ public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
     public String getDebugConf() {
         return debug;
     }
-    
-    
-   
+
+
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("   organisation "+name);
-        
+
         s.append(" : "+getParameter("source"));
         s.append(" {\n");
 
         for (String k: parameters.keySet()) {
-            if (! k.equals("source")) 
-                s.append("      "+k+": "+parameters.get(k)+"\n");            
+            if (! k.equals("source"))
+                s.append("      "+k+": "+parameters.get(k)+"\n");
         }
         String bgn = "      agents: ";
         for (AgentParameters ap: project.getAgents()) {
@@ -95,13 +95,13 @@ public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
             s.append("      node: "+getNode()+"\n");
         for (JaCaMoGroupParameters g: groups) {
             s.append(g+"\n");
-        }        
+        }
         s.append("\n");
         for (JaCaMoSchemeParameters sch: schemes) {
             s.append(sch+"\n");
-        }        
+        }
         s.append("\n   }");
         return s.toString();
     }
-    
+
 }

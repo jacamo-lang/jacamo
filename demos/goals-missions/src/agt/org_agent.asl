@@ -2,4 +2,4 @@
 { include("$jacamoJar/templates/common-moise.asl") }
 
 { include("goal-skills.asl") }
-   
+

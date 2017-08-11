@@ -11,10 +11,10 @@ public class MsgConsole extends Artifact {
         display = new MsgDisplay(name);
         display.setVisible(true);
     }
-    
+
     @OPERATION void printMsg(String msg){
         display.addText(msg);
-    }    
+    }
 }
 
 

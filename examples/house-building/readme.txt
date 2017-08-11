@@ -2,8 +2,8 @@ To run this example:
 
 1. import the project in
    JaCaMo eclipse plugin and then run it as usual.
-   
-2. just type in a terminal 
+
+2. just type in a terminal
          jacamo house.jcm
 
 Some documentation is found in scenario-exercises.pdf and doc folder.

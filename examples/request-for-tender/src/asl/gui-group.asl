@@ -13,8 +13,8 @@
     <-  .println("Going to delete ",SubGroup);
     //  lookupArtifact(Group,GroupId);
     //  adoptRole(Role)[artifact_id(GroupId)];
-        destroy[artifact_name(SubGroup)];  
-        lookupArtifact(SubGroup, G3);   
+        destroy[artifact_name(SubGroup)];
+        lookupArtifact(SubGroup, G3);
         disposeArtifact(G3);
         .println("SubGroup deleted").
 
@@ -30,7 +30,7 @@
         adoptRole(Role)[artifact_id(GroupId)];
         focus(GroupId);
         .println("Role adopted").
-                
+
 +cmd("leaveRole",Group,Role)
     <-  .println("Going to leave ",Role," in ",Group);
         lookupArtifact(Group,GroupId);
@@ -43,7 +43,7 @@
         lookupArtifact(Group,GroupId);
         focus(GroupId);
         .println("Focus done").
-    
+
 +cmd("unfocusGroup",Group)
     <-  .println("Going to unfocus of",Group);
         lookupArtifact(Group,GroupId);
@@ -55,27 +55,27 @@
         lookupArtifact(Scheme,SchemeId);
         focus(SchemeId);
         .println("Focus done").
-    
+
 +cmd("unfocusScheme",Scheme)
     <-  .println("Going to unfocus of",Scheme);
         lookupArtifact(Scheme,SchemeId);
         stopFocus(SchemeId);
         .println("Unfocus done").
-                
+
 +cmd("createScheme",Scheme,SchemeName) : my_org(Os)
     <-  .println("Going to create ",SchemeName," of ",Scheme);
         makeArtifact(SchemeName,"ora4mas.nopl.SchemeBoard",[Os, Scheme, false, true], SchArtId);
         focus(SchArtId);
         .println("Scheme created").
-        
+
 +cmd("deleteScheme",Scheme)
     <-  .println("Going to delete ",Scheme);
-        destroy[artifact_name(Scheme)];  
-        lookupArtifact(Scheme,SchId);   
+        destroy[artifact_name(Scheme)];
+        lookupArtifact(Scheme,SchId);
         disposeArtifact(SchId);
         .println("Scheme deleted").
-                        
-+cmd("addScheme",Group,Scheme) 
+
++cmd("addScheme",Group,Scheme)
     <-  .println("Going to add scheme ",Scheme," in ",Group);
         lookupArtifact(Scheme,SchemeId);
         lookupArtifact(Group,GroupId);

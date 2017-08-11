@@ -1,6 +1,6 @@
 +bid(S,_) : not .desire( bid(S) ) <- !bid(S).
 
-+!bid(S) 
++!bid(S)
    <- .wait(1000);
       .findall(V,bid(S,V),L);
       .min(L,MV);

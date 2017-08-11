@@ -5,14 +5,14 @@ MAS clientrft {
 	environment: c4jason.CartagoEnvironment
 
 	agents:
-	 
-		bob            [mindinspector="gui(2000,html,history)"] 
+
+		bob            [mindinspector="gui(2000,html,history)"]
 				agentArchClass c4jason.CAgentArch; // for testing
-                          
+
     classpath:
-        "../../lib/moise.jar"; 
+        "../../lib/moise.jar";
 
 	aslSourcePath:
 		"src/asl";
-		
+
 }

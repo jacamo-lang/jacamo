@@ -223,7 +223,7 @@ void agent() :              { Token agType; Token agName; Token qty; Token opt; 
 
     (
       (    <INSTANCES>   ":"  (LOOKAHEAD(4) oval=<INT>        (<EOL>|",")+       { ag.setNbInstances( new Integer(oval.toString())); }
-                              | (opt=<ATOM>                   (<EOL>|",")+       { instances.add(opt.image); }  )*
+                              | (LOOKAHEAD(4) opt=<ATOM>      (<EOL>|",")+       { instances.add(opt.image); }  )*
                               )
         |  <NODE>        ":"  opt=<ATOM>                      (<EOL>)+           { ag.setHost(opt.image); }
         |  <AGARCH>      ":"  (LOOKAHEAD(4) arch = classDef() (<EOL>|",")+       { ag.insertArchClass(arch); })+

@@ -293,6 +293,16 @@ public class JaCaMoProject extends MAS2JProject {
     public String[] getPlatformParameters(String p) {
         return platformParameters.get(p);
     }
+    public boolean hasPlatformParameter(String p, String arg) {
+        String[] args = platformParameters.get(p);
+        if (args != null) {
+            for (String pa: args) {
+                if (pa.contains(arg))
+                    return true;
+            }
+        }
+        return false;
+    }
 
     public void resetDeploymentNode() {
         deplNodes.clear();

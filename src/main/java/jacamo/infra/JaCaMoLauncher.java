@@ -429,6 +429,12 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         project.fixAgentsSrc();
 
         if (getProject().isJade()) {
+            if (getJaCaMoProject().hasPlatformParameter("jade", "-gui")) {
+                Config.get().setProperty(Config.JADE_RMA, "false");
+            }
+            if (getJaCaMoProject().hasPlatformParameter("jade", "-sniffer")) {
+                Config.get().setProperty(Config.JADE_SNIFFER, "false");
+            }
             rJADE.createAgs();
         } else {
             super.createAgs();

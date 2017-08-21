@@ -1,0 +1,16 @@
+/*
+
+from https://github.com/jacamo-lang/jacamo/issues/10
+
+should print:
+
+true
+
+*/
+mas example {
+
+    agent alice
+
+    // agent source path
+    asl-path: src/agt, src/agt/inc
+}

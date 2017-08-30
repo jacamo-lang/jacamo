@@ -17,6 +17,7 @@ public class Config extends jason.util.Config {
     public static final String DOT_PATH       = "dotPath";
 
     public static final String JACAMO_JAR    = "jacamoJar";
+    public static final String MOISE_JAR     = "moiseJar";
 
     static {
         jason.util.Config.setClassFactory(Config.class.getName());
@@ -129,7 +130,9 @@ public class Config extends jason.util.Config {
     /** Set most important parameters with default values */
     public void fix() {
         tryToFixJarFileConf(JACAMO_JAR, "jacamo",   5000);
+        tryToFixJarFileConf(MOISE_JAR,  "moise",   5000);
         super.fix();
+        
         if (getProperty(START_WEB_EI) == null) {
             put(START_WEB_EI, "true");
         }

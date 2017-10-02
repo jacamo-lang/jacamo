@@ -337,7 +337,7 @@ JaCaMoGroupParameters group(JaCaMoOrgParameters org) :
     (
        (
               sg = group(org)                        { g.addSubGroup(sg); }
-           |  <RESPFOR>     ":" t = <ATOM>  (<EOL>)+ { g.addParameter("responsible-for", t.image); }
+           |  <RESPFOR>     ":"  (t = <ATOM>  (<EOL>|",")+ { g.addResponsibleFor(t.image); } )+
            |  <DEBUG>  { oval = "inspector_gui(on)"; }   [ ":" oval=literal() ]  (<EOL>)+ { g.setDebug(oval.toString()); }
            |  opt=<ATOM>    ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { g.addParameter(opt.image,oval.toString()); }
            |  <PLAYERS>     ":"  (LOOKAHEAD(4) t = <ATOM> r = <ATOM> (<EOL>|",")+     { project.addAgRole(t.image, org, g, r.image); } )+

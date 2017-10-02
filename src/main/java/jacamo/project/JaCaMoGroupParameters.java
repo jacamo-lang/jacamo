@@ -10,8 +10,9 @@ import jason.mas2j.AgentParameters;
 public class JaCaMoGroupParameters extends JaCaMoOrgParameters {
 
     protected String type;
-    protected List<JaCaMoGroupParameters>  subGroups = new ArrayList<JaCaMoGroupParameters>();
-
+    protected List<JaCaMoGroupParameters>  subGroups = new ArrayList<>();
+    protected List<String> responsibleFor = new ArrayList<>();
+    
     public JaCaMoGroupParameters(JaCaMoProject project) {
         super(project);
     }
@@ -26,6 +27,13 @@ public class JaCaMoGroupParameters extends JaCaMoOrgParameters {
         return subGroups;
     }
 
+    public void addResponsibleFor(String s) {
+        responsibleFor.add(s);
+    }
+    
+    public List<String> getResponsibleFor() {
+        return responsibleFor;
+    }
 
     public JaCaMoGroupParameters find(String gId) {
         if (this.getName().equals(gId))
@@ -47,6 +55,14 @@ public class JaCaMoGroupParameters extends JaCaMoOrgParameters {
         }
         if (hasDebug()) {
             s.append("         debug: "+getDebugConf()+"\n");
+        }
+        if (!responsibleFor.isEmpty()) {
+            s.append("         responsible-for: ");
+            String v = "";
+            for (String srf: responsibleFor) {
+                s.append(v+srf);
+                v = ",";
+            }
         }
         String bgn = "         players: ";
         for (AgentParameters ap: project.getAgents()) {

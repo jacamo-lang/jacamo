@@ -350,8 +350,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 createGroup(orgB, g, sg, org);
             }
 
-            String respFor = g.getParameter("responsible-for"); // should be done after subgroup creation
-            if (respFor != null) {
+            //String respFor = g.getParameter("responsible-for"); // should be done after subgroup creation
+            //if (respFor != null) {
+            for (String respFor: g.getResponsibleFor()) {
                 if (org.getScheme(respFor) == null)
                     logger.warning("** The scheme "+respFor+" does not existis in "+org.getName()+" so the group "+g.getName()+" cannot be responsible for it!");
                 cartagoCtx.doAction(aid, new Op("addSchemeWhenFormationOk", new Object[] { respFor } ));

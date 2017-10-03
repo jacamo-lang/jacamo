@@ -2,7 +2,7 @@
    <- lookupArtifact(A,ToolId);
       focus(ToolId).
 
-+task(D)[artifact_id(AId)] : running(true)[artifact_id(AId)]
++task(D)[artifact_id(AId)] : running("yes")[artifact_id(AId)]
    <- bid(math.random * 100 + 10)[artifact_id(AId)].
 
 +winner(W) : .my_name(W) <- .print("I Won!").

@@ -9,6 +9,9 @@
         .fail;                               // fail otherwise
       }.
 
+-!bid[error(ia_failed)] <- .print("I didn't bid!").
+-!bid[error_msg(M)]     <- .print("Error bidding: ",M).
+
 +winner(W) : .my_name(W) <- .print("I Won!").
 
 { include("$jacamoJar/templates/common-cartago.asl") }

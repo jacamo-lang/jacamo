@@ -82,7 +82,7 @@ has the format `bib( <service description>, <price>)`.
 
 +bid(Service, _)     // receives bids and checks for new winner
    :  .findall(b(V,A),bid(Service,V)[source(A)],L) & // <1>
-      .length(L,4)  // <2>
+      .length(L,4)   // <2>
    <- .min(L,b(V,W));
       .print("Winner for ", Service, " is ",W," with ", V);
       .broadcast(tell, winner(Service,W)).
@@ -123,7 +123,7 @@ for the goal `start` to:
 
 [source,jasonagent]
 ------
-+!start : true
++!start
    <- .broadcast(tell, auction(service, flight_ticket(paris,athens,"15/12/2015")));
       .broadcast(tell, auction(service, flight_ticket(athens,paris,"18/12/2015"))).
 ------
@@ -298,7 +298,7 @@ and the `participant.asl` is:
 
 [source,jasonagent]
 --------------------------------------------------------
-+task(D) : running(true) <- bid(math.random * 100 + 10).
++task(D) : running("yes") <- bid(math.random * 100 + 10).
 
 +winner(W) : .my_name(W) <- .print("I Won!").
 
@@ -363,7 +363,7 @@ information is coming. For instance
 
 [source,jasonagent]
 ------------------------------------------------------------
-+task(D)[artifact_id(AId)] : running(true)[artifact_id(AId)]
++task(D)[artifact_id(AId)] : running("yes")[artifact_id(AId)]
    <- bid(math.random * 100 + 10)[artifact_id(AId)].
 ------------------------------------------------------------
 

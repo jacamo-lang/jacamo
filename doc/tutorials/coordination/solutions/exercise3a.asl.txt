@@ -16,7 +16,7 @@
       focus(AId);
       bid(math.random * 100 + 10)[artifact_id(AId)];
       goalAchieved(decide)[artifact_name(Sch)];
-      .
+   .
 
 // Produced error:
 // No failure event was generated for

@@ -15,7 +15,7 @@
       lookupArtifact(Id,AId);
       focus(AId);
       bid(math.random * 100 + 10)[artifact_id(AId)];
-      .
+   .
 
 +winner(W) : .my_name(W) <- .print("I Won!").
 

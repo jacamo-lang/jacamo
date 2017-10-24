@@ -19,10 +19,9 @@ targetCompatibility = 1.7
 repositories {
     mavenCentral()
 
-    maven {
-        url "http://jacamo.sourceforge.net/maven2"
-    }
-
+    maven { url "http://jacamo.sourceforge.net/maven2" }
+    maven { url "http://jade.tilab.com/maven/" }
+    
     flatDir {
        dirs 'lib'
     }

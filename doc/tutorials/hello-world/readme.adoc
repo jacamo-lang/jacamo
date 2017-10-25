@@ -414,12 +414,12 @@ image::./code/os-ss.png[width="70%", align=center]
 -----
     organisation hello_org: o1.xml {       // the organisational entity is hello_org from spec o1.xml
     	group jacamo_team: team {          // instance group (jacamo_team) from spec team
-    		responsible-for: hello_eng // that will be responsible for the execution of scheme hello_sch (defined below)
-    		players: francois rv,      // the roles of the agents in this group
+    		responsible-for: hello_eng     // that will be responsible for the execution of scheme hello_sch (defined below)
+    		players: francois rv,          // the roles of the agents in this group
     		         maria    rl,
     		         giacomo  rc,
     		         alice    rs
-    		debug                      // starts the organisational inspector
+    		debug                          // starts the organisational inspector
     	}
     	scheme hello_eng: hello_sch {      // instance scheme (hello_eng) from spec hello_sch
     		debug
@@ -427,7 +427,7 @@ image::./code/os-ss.png[width="70%", align=center]
     }
 -----
 
-NOTE: the `debug` in the definition of the group or of the scheme will start the corresponding organisational inspectors.
+NOTE: The keyword `debug` in the definition of the group and of the scheme will start the corresponding organisational inspectors. The url http://localhost:3271 can be used to inspect the organisation state.
 
 
 *3.* On the agents side, we need to include in their code plans so that they are capable to achieve their organisational goals and fulfil their duties. Change `hello.asl` to:
@@ -438,7 +438,7 @@ include::code/helloworld/src/agt/hello.asl[]
 ----
 
 
-As we can easily see, each organisational goal is implemented by a Jason plan. The plan discovers the artifact id of the common console and prints the corresponding letter there.  There is no more a `start` initial goal. All agent's goals come from the roles they play in the organisation. It is also the organisation that controls when those goals could be achieved, and thus coordinate the agent's actions as defined in the scheme.
+As we can easily see, each organisational goal is achieved by a Jason plan. The plan discovers the artifact id of the common console and prints the corresponding letter there.  There is no more a `start` initial goal. All agent's goals come from the roles they play in the organisation. It is also the organisation that controls when those goals could be achieved, and thus coordinate the agent's actions as defined in the scheme.
 
 Briefly, the agent has a role as defined in the project file (the `organisation/group` entry). By playing a role in the group `jacamo_team` (the group responsible for the scheme `hello_eng`), the agent is obliged to commit to the corresponding mission. Since it is  obedient (it includes "org-obedient.asl"), it commits to the mission. As soon as the mission goals become enabled in the scheme, the agent is obliged to achieve them. Once obliged, the Jason plans are used to achieve the goals.
 
@@ -492,8 +492,6 @@ You can use the Moise web interface to inspect the organisation at http://localh
 image::./screens/oi3.png[width="90%"]
 
 
-
-[[exercises-2]]
 Exercises
 ~~~~~~~~~
 

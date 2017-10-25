@@ -9,20 +9,16 @@
 
 mas helloworld {
 
-    agent francois : hello3.asl {
-        beliefs: message("Bonjour")
+    agent francois : hello-grid.asl {
         focus: jacamo.gui
     }
-    agent maria    : hello3.asl {
-        beliefs: message("Bom dia")
+    agent maria    : hello-grid.asl {
         focus: jacamo.gui
     }
-    agent giacomo  : hello3.asl {
-        beliefs: message("Buon giorno")
+    agent giacomo  : hello-grid.asl {
         focus: jacamo.gui
     }
-    agent alice    : hello3.asl {
-        beliefs: message("Good morning")
+    agent alice    : hello-grid.asl {
         focus: jacamo.gui
     }
 
@@ -43,7 +39,6 @@ mas helloworld {
             debug
         }
     }
-
 
     // agent source path
     asl-path: src/agt

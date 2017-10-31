@@ -189,7 +189,6 @@ public class JaCaMoAgArch extends AgArch {
 
     @Override
     public void stop() {
-        //getTS().getLogger().info("Stop -- JaCaMo Arch");
         super.stop();
 
         final CAgentArch agent = getCartagoArch();
@@ -198,6 +197,7 @@ public class JaCaMoAgArch extends AgArch {
                 agent.getSession().doAction(wid, new Op("quitWorkspace"), null, -1);
                 //getTS().getLogger().info("quit "+wid.getName());
             } catch (CartagoException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

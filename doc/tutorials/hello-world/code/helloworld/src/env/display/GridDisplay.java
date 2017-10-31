@@ -35,9 +35,9 @@ public class GridDisplay extends Artifact {
 
     static class Display extends JFrame {
 
-    	int lines = 3;
-    	int columns = 15;
-    	
+        int lines = 3;
+        int columns = 15;
+        
         private JTextArea[][] text = new JTextArea[lines][columns];
         private JLabel numMsg;
         private static int n = 0;
@@ -50,13 +50,13 @@ public class GridDisplay extends Artifact {
             panel.setLayout(new GridLayout(0,columns));
             
             for (int l=0;l<lines;l++) {
-            	for (int c=0; c<columns;c++) {
+                for (int c=0; c<columns;c++) {
                     text[l][c] = new JTextArea(1,1);
                     text[l][c].setFont(new Font("Courier", Font.PLAIN, 40));
                     text[l][c].setText(" ");
                     text[l][c].setEditable(false);
                     panel.add(text[l][c]);
-            	}
+                }
             }
             
             pack();

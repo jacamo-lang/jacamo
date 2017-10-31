@@ -43,7 +43,14 @@ public class ConfigGUI {
         userProperties.resetSomeProps();
         userProperties.fix();
         final ConfigGUI jid = getNewInstance();
-        JFrame f = new JFrame(jid.getWindowTitle());
+        JFrame f = null;
+        try {
+        	f = new JFrame(jid.getWindowTitle());
+        } catch (Exception e) {
+        	// uses console
+        	Config.main(new String[] {} );
+        	return;
+        }
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel pBt = new JPanel(new FlowLayout());

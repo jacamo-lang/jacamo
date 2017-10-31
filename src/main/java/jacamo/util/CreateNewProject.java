@@ -29,6 +29,7 @@ public class CreateNewProject {
 
         id = main.getName();
         id = id.substring(0,1).toLowerCase() + id.substring(1);
+        id = id.replace("-","_");
     }
 
 

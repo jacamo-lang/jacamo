@@ -3,7 +3,7 @@ JaCaMo Team
 :toc: right
 :date: June 2016
 :source-highlighter: pygments
-:pygments-style: autumn
+:pygments-style: jacamo
 :pygments-linenums-mode: inline
 :icons: font
 :prewrap!:
@@ -21,6 +21,7 @@ This file is composed of the following sections:
 -  execution configuration
 
 and looks like as follows:
+
 [source,jacamoproject]
 ----
 mas myjacamoapplication {
@@ -169,6 +170,33 @@ organisation o1 : os.xml {   // os.xml is the file with the organisational speci
 
 == Execution configuration
 
+=== Agent source path
+
+The `asl-path` entry sets the folder where `.asl` files are placed. The default configuration follows:
+
+[source,jacamoproject]
+------
+asl-path: ., src/agt, src/agt/inc
+------
+
+=== Organisation source path
+
+The `org-path` entry sets the folder where organisation specifications `.xml` files are placed. The default configuration follows:
+
+[source,jacamoproject]
+------
+org-path: ., src/org
+------
+
+=== Java source path
+
+The `pava-path` entry sets the folder where Java classes `.java` files are placed. The default configuration follows:
+
+[source,jacamoproject]
+------
+java-path: ., src/env, src/agt
+------
+
 === Java class path
 
 [source,jacamoproject]
@@ -177,13 +205,6 @@ class-path:  lib
              ../../../code/bin/classes  // reusing artifacts from that directory
 ------
 
-=== Agent source path
-
-[source,jacamoproject]
-------
-asl-path: src/agt
-          src/agt/inc
-------
 
 === Platform configuration
 
@@ -194,10 +215,11 @@ asl-path: src/agt
 *  parameters for Jade: any parameter we can use for jade.Boot. E.g.:
    - `jade("-gui -sniffer")`: starts Jade main-container with RMA and Sniffer already running
    - `jade("-container -host localhost -container-name c2")`: starts a Jade sub-container named `c2`
+
 [source,jacamoproject]
 ------
     platform: jade()
-              cartago(infrastructure)
+              cartago("infrastructure")
               centralised(pool,4)
 ------
 

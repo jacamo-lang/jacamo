@@ -45,11 +45,12 @@ public class ConfigGUI {
         final ConfigGUI jid = getNewInstance();
         JFrame f = null;
         try {
-        	f = new JFrame(jid.getWindowTitle());
+            f = new JFrame(jid.getWindowTitle());
         } catch (Exception e) {
-        	// uses console
-        	Config.main(new String[] {} );
-        	return;
+            // uses console
+            userProperties.store();
+            System.out.println("\nYou can edit the file "+userProperties.getUserConfFile()+" for your local configuration.");
+            return;
         }
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

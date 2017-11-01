@@ -39,12 +39,7 @@
     </target>
 
     <target name="compile" depends="init">
-        <javac srcdir="${basedir}/src/env" destdir="${build.dir}" debug="true" optimize="true" includeantruntime="false" >
-            <classpath refid="project.classpath"/>
-        </javac>
-        <javac srcdir="${basedir}/src/agt" destdir="${build.dir}" debug="true" optimize="true" includeantruntime="false" >
-            <classpath refid="project.classpath"/>
-        </javac>
+        <JAVAC>
     </target>
 
     <target name="run" depends="compile" >

@@ -15,7 +15,6 @@ ifdef::env-github[:outfilesuffix: .adoc]
 If you’re just getting to know JaCaMo or tackling programming your first multi-agent program, these guides are for you! All you need is a few minutes. The only prerequisites are a JaCaMo platform installed, a JDK and a text editor.
 
 * link:tutorials/hello-world/readme{outfilesuffix}[Hello World with JaCaMo]
-* link:tutorials/hello-world/shell-based{outfilesuffix}[Command line configuration of JaCaMo]
 
 == Tutorials
 
@@ -24,7 +23,6 @@ With the following tutorials you will experience deeper, in-context explorations
 
 * link:tutorials/coordination/readme{outfilesuffix}[Different approaches to implement coordination using JaCaMo]
 * link:tutorials/gold-miners/readme{outfilesuffix}[Agent programming in a contest scenario (Gold Miners)]
-* link:http://jason.sourceforge.net/mini-tutorial/hello-bdi/[Intentional Agent programming  (the BDI model)]
 
 == JaCaMo FAQ
 

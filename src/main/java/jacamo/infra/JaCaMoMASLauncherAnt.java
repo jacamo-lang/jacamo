@@ -2,6 +2,7 @@ package jacamo.infra;
 
 import java.io.File;
 
+import jacamo.project.JaCaMoProject;
 import jacamo.util.Config;
 import jason.infra.centralised.CentralisedMASLauncherAnt;
 
@@ -41,7 +42,15 @@ public class JaCaMoMASLauncherAnt extends CentralisedMASLauncherAnt {
 
         script = replace(script, "<PATH-LIB>", lib + "\n<PATH-LIB>");
 
-        //script = replace(script, "<OTHER-TASK>", startContainers);
+        // build javac entry
+        StringBuilder jc = new StringBuilder();
+        for (String p: ((JaCaMoProject)project).getJavaPaths().getPaths()) {
+            jc.append("<javac srcdir=\"${basedir}/"+p+"\" destdir=\"${build.dir}\" debug=\"true\" optimize=\"true\" includeantruntime=\"false\" >\n");
+            jc.append("            <classpath refid=\"project.classpath\"/>\n");
+            jc.append("        </javac>\n        ");
+        }
+        
+        script = replace(script, "<JAVAC>", jc.toString());
 
         return super.replaceMarks(script, debug);
     }

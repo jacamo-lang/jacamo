@@ -38,13 +38,23 @@ public class JaCaMoProject extends MAS2JProject {
     //protected Set<String> toDebug = new HashSet<String>();
 
     protected SourcePath orgPaths = new SourcePath();
+    protected SourcePath javaPaths = new SourcePath();
 
     Map<String, String[]> platformParameters = new HashMap<String, String[]>();
 
     public JaCaMoProject() {
-        // TODO: parse org-path
+        // default asl-path
+        addSourcePath("src/agt");
+        addSourcePath("src/agt/inc");
+        
+        // default org-path
         orgPaths.addPath(".");
         orgPaths.addPath("src/org");
+        
+        // default org-path
+        javaPaths.addPath(".");
+        javaPaths.addPath("src/env");
+        javaPaths.addPath("src/agt");
     }
 
     public JaCaMoProject(MAS2JProject project) {
@@ -57,6 +67,15 @@ public class JaCaMoProject extends MAS2JProject {
 
     public SourcePath getOrgPaths() {
         return orgPaths;
+    }
+    public void addOrgSourcePath(String s) {
+        orgPaths.addPath(s);
+    }
+    public SourcePath getJavaPaths() {
+        return javaPaths;
+    }
+    public void addJavaSourcePath(String s) {
+        javaPaths.addPath(s);
     }
 
     public void setUrlPrefix(String url) {

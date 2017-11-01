@@ -16,10 +16,6 @@ mas <PROJECT_NAME> {
 
     <DEFAULT_AGENT>
 
-    // agent source path
-    asl-path: src/agt
-              src/agt/inc
-
     <PLATFORM>
 
 }

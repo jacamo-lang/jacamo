@@ -90,6 +90,8 @@ TOKEN : {
 |  <USES:        "uses">
 |  <CLASSPATH:   "class-path">
 |  <ASLPATH:     "asl-path">
+|  <JAVAPATH:    "java-path">
+|  <ORGPATH:     "org-path">
 |  <PLATFORM:    "platform">
 |  <DEBUG:       "debug">
 |  <RUNNING:     "running">
@@ -185,8 +187,10 @@ JaCaMoProject parse(String directory) :           { Token masId; File f = null; 
 
   (
       (
-           <CLASSPATH>      ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f.toString());} ) +
-        |  <ASLPATH>        ":"  (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addSourcePath(f.toString());} ) +
+           <CLASSPATH>      ":"  { project.getClassPaths().clear();        } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f.toString());} ) +
+        |  <ASLPATH>        ":"  { project.getSourcePaths().clearPaths();  } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addSourcePath(f.toString());} ) +
+        |  <ORGPATH>        ":"  { project.getOrgPaths().clearPaths();     } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addOrgSourcePath(f.toString());} ) +
+        |  <JAVAPATH>       ":"  { project.getJavaPaths().clearPaths();    } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addJavaSourcePath(f.toString());} ) +
         |  <PLATFORM>       ":"                                                         { project.resetPlatform(); }
                                  (LOOKAHEAD(4) cp = classDef()             (<EOL>|",")+ { project.addPlatformParameters(cp);} ) +
         |  <NODE> id = <ATOM>

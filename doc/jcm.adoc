@@ -219,7 +219,9 @@ class-path:  lib
    - `startWebMindInspector("false")`: disable agent http mind inspector
    - `startWebEnvInspector("false")`: disable environment http inspector
    - `startWebOrgInspector("false")`: disable organisation http inspector
-`
+
+
+Example:
 
 [source,jacamoproject]
 ------

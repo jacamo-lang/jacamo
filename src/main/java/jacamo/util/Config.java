@@ -117,7 +117,8 @@ public class Config extends jason.util.Config {
                 String jarFile = findJarInDirectory(jasonjardir, "jason");
                 if (checkJar(jarFile, 800000)) {
                     put(JASON_JAR, jarFile);
-                    System.out.println("found at " + jarFile+" by JaCaMo HOME");
+                    if (showFixMsgs)
+                        System.out.println("found at " + jarFile+" by JaCaMo HOME");
                     jj = jarFile;
                 }
             } catch (Exception e) {

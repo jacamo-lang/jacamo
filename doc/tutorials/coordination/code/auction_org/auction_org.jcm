@@ -18,6 +18,5 @@ mas auction_org {
         }
     }
 
-    asl-path: src/agt, src/agt/inc
 }
 

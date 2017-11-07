@@ -20,7 +20,5 @@ mas writing_paper {
         scheme s1: writePaperSch
     }
 
-    asl-path: src/agt, src/agt/inc
-
 }
 

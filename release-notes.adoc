@@ -2,7 +2,9 @@
 
 == Version 0.7
 
-- new script to create a single jar with all application
+- new entries in the jcm files: `java-path` (for java sources) and `org-path` (for moise .xml files). See doc/jcm.html for more details.
+
+- a new shell script was created to produce a single jar with all application
 +
 ----
 jacamo-jar some.jcm

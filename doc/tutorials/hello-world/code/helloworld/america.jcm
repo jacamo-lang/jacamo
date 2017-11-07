@@ -20,9 +20,6 @@ mas helloworld_america {
         artifact gui: display.GUIConsole("USA")
     }
 
-    asl-path: src/agt
-              src/agt/inc
-
     platform: cartago()
 
     node europe running @ localhost

@@ -199,6 +199,17 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                     super.createButtons();
                 }
             }
+            
+            // setup start of web interfaces
+            String[] argsWI = getJaCaMoProject().getPlatformParameters("startWebMindInspector");
+            if (argsWI != null) 
+                Config.get().setProperty(Config.START_WEB_MI,argsWI[0]);
+            argsWI = getJaCaMoProject().getPlatformParameters("startWebEnvInspector");
+            if (argsWI != null) 
+                Config.get().setProperty(Config.START_WEB_EI,argsWI[0]);
+            argsWI = getJaCaMoProject().getPlatformParameters("startWebOrgInspector");
+            if (argsWI != null) 
+                Config.get().setProperty(Config.START_WEB_OI,argsWI[0]);
 
             //runner.waitEnd();
             errorCode = 0;

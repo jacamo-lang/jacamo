@@ -34,10 +34,6 @@ mas helloworld_europe {
         }
     }
 
-    // agent source path
-    asl-path: src/agt
-              src/agt/inc
-
     platform: cartago("infrastructure")
 }
 

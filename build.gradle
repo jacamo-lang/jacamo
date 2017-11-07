@@ -242,8 +242,11 @@ task copyRel {
 	        into 'build/jacamo-'+project.version
 	        include '*.html'
 	        include 'LICENSE'
-	        include 'scripts/**'
 	        include 'doc/**'
+	    }
+	    copy {
+	        from 'build/scripts'
+	        into 'build/jacamo-'+project.version+'/scripts'
 	    }
 	    copy {
 	        from libsDir

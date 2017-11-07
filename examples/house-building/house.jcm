@@ -17,6 +17,4 @@ mas house_building {
       instances: 13
    }
    agent companyE
-
-   asl-path:  src/agt, src/agt/inc
 }

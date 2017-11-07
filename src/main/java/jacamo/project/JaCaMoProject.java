@@ -44,14 +44,17 @@ public class JaCaMoProject extends MAS2JProject {
 
     public JaCaMoProject() {
         // default asl-path
+        addSourcePath(".");
         addSourcePath("src/agt");
         addSourcePath("src/agt/inc");
+        
+        addClassPath("lib");
         
         // default org-path
         orgPaths.addPath(".");
         orgPaths.addPath("src/org");
         
-        // default org-path
+        // default java-path
         javaPaths.addPath(".");
         javaPaths.addPath("src/env");
         javaPaths.addPath("src/agt");

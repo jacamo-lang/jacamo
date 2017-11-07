@@ -36,7 +36,5 @@ mas gold_miners {
     }
 
     class-path: lib                      // java class path
-
-    asl-path:   src/agt, src/agt/inc     // agent source path
 }
 

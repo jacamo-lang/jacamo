@@ -16,8 +16,6 @@ mas demo_distribution_2 {
             focus: rw1.table @ n1
        }
 
-       asl-path: src/agt, src/agt/inc
-
        platform: cartago()
                  jade("-container -host 127.0.0.1")
 

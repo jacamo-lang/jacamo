@@ -7,9 +7,6 @@ mas auction_ag {
     agent francois: participant.asl
     agent giacomo : winner_participant2.asl
 
-    asl-path: src/agt
-              src/agt/inc
-
     //platform: jade()
 }
 

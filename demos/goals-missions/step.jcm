@@ -28,13 +28,6 @@ mas step {
         instances:   1
     }
 
-    // java class path
-    class-path:  lib
-
-    // agent source path
-    asl-path: src/agt
-              src/agt/inc
-
     platform: cartago()
 
     node n1 running @ localhost

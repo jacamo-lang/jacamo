@@ -1,5 +1,8 @@
 = JaCaMo projects in the shell command
 for unix users
+:toc: right
+
+== Installation
 
 . Download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here] and unzip it.
 
@@ -8,6 +11,8 @@ for unix users
     export PATH=$JACAMO_HOME/scripts:$PATH
 
 . Ensure you have `JDK_HOME` properly set (this variable points to a Java Development Kit (JDK) directory)
+
+== Development
 
 . Create a new project with
 +
@@ -34,6 +39,10 @@ and create an eclipse project with
 
 
 If you use the https://atom.io[Atom] editor, the following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].
+
+image:./screens/atom1.png[]
+
+image:./screens/atom2.png[]
 
 == Other scripts
 

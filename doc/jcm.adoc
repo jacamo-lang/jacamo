@@ -215,12 +215,18 @@ class-path:  lib
 *  parameters for Jade: any parameter we can use for jade.Boot. E.g.:
    - `jade("-gui -sniffer")`: starts Jade main-container with RMA and Sniffer already running
    - `jade("-container -host localhost -container-name c2")`: starts a Jade sub-container named `c2`
+*  parameters for web inspectors
+   - `startWebMindInspector("false")`: disable agent http mind inspector
+   - `startWebEnvInspector("false")`: disable environment http inspector
+   - `startWebOrgInspector("false")`: disable organisation http inspector
+`
 
 [source,jacamoproject]
 ------
     platform: jade()
               cartago("infrastructure")
               centralised(pool,4)
+              startWebOrgInspector("false")
 ------
 
 === Include

@@ -22,8 +22,6 @@ mas demo_distribution_1 {
         artifact table: myenv.WhiteBoard("Remote Artifact (demo)")
     }
 
-    asl-path: src/agt, src/agt/inc
-
     platform: cartago(infrastructure)
               jade()
 }

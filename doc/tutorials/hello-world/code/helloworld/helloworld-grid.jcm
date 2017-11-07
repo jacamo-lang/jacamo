@@ -40,8 +40,4 @@ mas helloworld {
         }
     }
 
-    // agent source path
-    asl-path: src/agt
-              src/agt/inc
-
 }

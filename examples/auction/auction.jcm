@@ -30,7 +30,5 @@ mas auction {
             debug: inspector_gui(on)
         }
     }
-
-    asl-path: src/agt, src/agt/inc
 }
 

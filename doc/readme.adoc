@@ -1,6 +1,4 @@
 = JaCaMo Documentation
-(for JaCaMo 0.6)
-June 2016
 :toc: right
 :author: JaCaMo Team
 :source-highlighter: coderay

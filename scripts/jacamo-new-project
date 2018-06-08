@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source `dirname $0`/jacamo-setup
+source "`dirname "$0"`/jacamo-setup"
 
 echo Creating new JaCaMo project: $1
 
-java -classpath $JACAMO_JAR:$JASON_JAR jacamo.util.CreateNewProject $1
+java -classpath "$JACAMO_JAR":"$JASON_JAR" jacamo.util.CreateNewProject $1

@@ -3,11 +3,6 @@
 # this scripts transforms a moise specification (and .xml file) into
 # a .dot file and then into .svg, .pdf, ...
 
-source `find $JACAMO_HOME/ -name jacamo-setup`
+source "`dirname "$0"`/jacamo-setup"
 
-MOISE_JAR=`find $JACAMO_HOME/libs  -name moise*.jar`
-NPL_JAR=`find $JACAMO_HOME/libs  -name npl*.jar`
-CARTAGO_JAR=`find $JACAMO_HOME/libs  -name cartago*.jar`
-C4JASON_JAR=`find $JACAMO_HOME/libs  -name jaca-*.jar`
-
-java -cp $MOISE_JAR:$JASON_JAR:$NPL_JAR:$CARTAGO_JAR:$C4JASON_JAR moise.tools.os2dot $*
+java -cp "$JACAMO_HOME/libs/*" moise.tools.os2dot $*

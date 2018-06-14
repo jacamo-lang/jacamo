@@ -88,8 +88,11 @@ agent bob : participant.asl { // if source is omitted, bob.asl will be used by d
 
       // join the workspace w2 (w2 should be defined in environment section)
       join:        w2
+
       // focus on artifact a1 in workspace w1 (a1 should be defined in environment section)
       focus:       w1.a1
+                   ns::w1.a2      // focus on w1.a2 and place observable properties in namespace ns
+
       // adopt the role r1 in group g2 and role r2 in group g3 (g2, g3, o1 should be defined in organisation section)
       roles:       r1 in g2, r2 in o1.g3
 }
@@ -102,7 +105,7 @@ agent bob : participant.asl { // if source is omitted, bob.asl will be used by d
 ------
 <environment> ::= <workspace>*
 <workspace>   ::= workspace <name> { <artifact>* <agents> <debug> }
-<artifact>    ::= artifact  <name> : <type> [ { focused-by: <agents> } ]
+<artifact>    ::= artifact  <name> : <type> [ { focused-by: [<namespace> ::] <agents> } ]
 <agents>      ::= agents : <name> ( (, | EOL) <name> )* | "*"   // "*" means all agents
 <debug>       ::= debug
 ------
@@ -114,10 +117,14 @@ agent bob : participant.asl { // if source is omitted, bob.asl will be used by d
 workspace w1 {
      // creates an artifact named c1 as an instance of mylib.Counter initialised with (10)
      artifact c1: mylib.Counter(10)
-     artifact bll: mylist.BlackList()
+     artifact bll: mylist.BlackList() {
+         focused-by: bob        // bob will focus on this artifact using its default namespace
+                     nn::alice  // alice will focus on this artifact using its nn namespace
+     }
 
-     // starts a GUI for this workspace
-     debug
+     agents: carlos, marcos     // carlos and marcos will join this workspace
+
+     debug                      // starts a GUI for this workspace
 }
 ----
 

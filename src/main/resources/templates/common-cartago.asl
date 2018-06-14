@@ -9,15 +9,15 @@
    <- !jcm::focus_env_art(H,Try);
       !jcm::focus_env_art(T,Try).
 
-+!jcm::focus_env_art(art_env(W,H,""),Try)
++!jcm::focus_env_art(art_env(W,H,"",_),Try)
    <- //.print("joining workspace ",W);
       !join_workspace(W,H,_).
-+!jcm::focus_env_art(art_env(W,H,A),Try)
-   <- //.print("focusing on artifact ",A," (at workspace ",W,")");
++!jcm::focus_env_art(art_env(W,H,A,NS),Try)
+   <- .print("focusing on artifact ",A," (at workspace ",W,") using namespace ",NS);
       !join_workspace(W,H,WId);
       lookupArtifact(A,AId)[wid(WId)];
       //+jcm::focused(W,A,AId);
-      focus(AId)[wid(WId)].
+      NS::focus(AId)[wid(WId)].
 -!jcm::focus_env_art(L,Try)
    <- //.print("wait a bit to focus on ",L," try #",Try);
       .wait(100);

@@ -77,7 +77,9 @@ public class JaCaMoAgArch extends AgArch {
                 Literal art = ASSyntax.createLiteral("art_env",
                         ASSyntax.createAtom(w.getName()),// workspace
                         ASSyntax.createString(host), // host
-                        ASSyntax.createString("")); // art
+                        ASSyntax.createString(""), // art
+                        Literal.DefaultNS);           // namespace
+
                 if (!lart.contains(art))
                     tail = tail.append(art);
 
@@ -131,7 +133,8 @@ public class JaCaMoAgArch extends AgArch {
             Literal art = ASSyntax.createLiteral("art_env",
                     ASSyntax.createAtom(f[1]),  // workspace
                     ASSyntax.createString(host),  // host
-                    ASSyntax.createAtom(f[0])); // art
+                    ASSyntax.createAtom(f[0]), // art
+                    ASSyntax.parseTerm(f[2])); // namespace
             if (!lart.contains(art))
                 tail = tail.append(art);
         }
@@ -160,7 +163,8 @@ public class JaCaMoAgArch extends AgArch {
                 Literal art = ASSyntax.createLiteral("art_env",
                         ASSyntax.createAtom(r[0]),    // workspace
                         ASSyntax.createString(host),  // host
-                        ASSyntax.createAtom(r[1]));   // art
+                        ASSyntax.createAtom(r[1]),    // art
+                        Literal.DefaultNS);           // namespace
                 if (!lart.contains(art))
                     lart.append(art);
 
@@ -168,7 +172,8 @@ public class JaCaMoAgArch extends AgArch {
                 art = ASSyntax.createLiteral("art_env",
                         ASSyntax.createAtom(r[0]),    // workspace
                         ASSyntax.createString(host),  // host
-                        ASSyntax.createAtom(r[0]));   // art
+                        ASSyntax.createAtom(r[0]),    // art
+                        Literal.DefaultNS);           // namespace
                 if (!lart.contains(art))
                     lart.append(art);
             }

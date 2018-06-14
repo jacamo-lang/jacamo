@@ -6,6 +6,7 @@ import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.Term;
 import jason.asSyntax.parser.ParseException;
+import jason.bb.BeliefBase;
 import jason.bb.DefaultBeliefBase;
 import jason.mas2j.AgentParameters;
 import jason.mas2j.ClassParameters;
@@ -118,21 +119,22 @@ public class JaCaMoAgentParameters extends AgentParameters {
         return roles;
     }
 
-    public void addFocus(String artId, String w, String n) {
+    public void addFocus(String artId, String namespace, String w, String n) {
+        if (namespace == null)
+            namespace = Literal.DefaultNS.toString();
         if (w != null && !wks.contains(w))
             addWorkspace(w,n);
-        focus.add(new String[] { artId, w } );
-
+        focus.add(new String[] { artId, w, namespace } );
     }
 
-    public void addFocus(String artId, String h) {
+    public void addFocus(String artId, String namespace, String h) {
         int pdot = artId.indexOf(".");
         if (pdot > 0) {
             String workspaceId = artId.substring(0,pdot);
             artId = artId.substring(pdot+1);
-            addFocus(artId,workspaceId, h);
+            addFocus(artId,namespace,workspaceId, h);
         } else {
-            addFocus(artId,null,h);
+            addFocus(artId,namespace,null,h);
         }
     }
 

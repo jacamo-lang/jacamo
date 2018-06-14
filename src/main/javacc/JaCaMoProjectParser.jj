@@ -207,7 +207,7 @@ JaCaMoProject parse(String directory) :           { Token masId; File f = null; 
 
 
 
-void agent() :              { Token agType; Token agName; Token qty; Token opt; Token t; Object oval;
+void agent() :              { Token agType; Token agName; Token qty; Token opt; Token t; Object oval; String ns = null;
                               JaCaMoAgentParameters ag = new JaCaMoAgentParameters(project);
                               ClassParameters arch;
                               Literal l;
@@ -235,19 +235,20 @@ void agent() :              { Token agType; Token agName; Token qty; Token opt; 
         |  <AGBBCLASS>   ":"  ag.bbClass = classDef()         (<EOL>)+
         |  <BELIEF>      ":"  (LOOKAHEAD(4) l=literal()       (<EOL>|",")+       { ag.addInitBel(l); } )+
         |  <GOAL>        ":"  (LOOKAHEAD(4) l=literal()       (<EOL>|",")+       { ag.addInitGoal(l); } )+
-//        |  <GOAL>        ":"  (l=literal()                          { ag.addInitGoal(l); }
-//                                 ( (<EOL>|",")+ l=literal()     { ag.addInitGoal(l); }
-//                                 )*
-//                              )
-        |  <FOCUS>       ":"  (LOOKAHEAD(4) oval=<ATOM>                          { n = null; }
+        |  <FOCUS>       ":"  (   LOOKAHEAD(4)                                   { n = null; ns = null; }
+                                  oval=<ATOM>                                    
+                                  [ "::" t = <ATOM>                              { ns = oval.toString(); oval=t; } 
+                                  ]
                                   [ "@" t = <ATOM>                               { n = t.image; }
-                                  ]                           (<EOL>|",")+       { ag.addFocus(oval.toString(), n); } )+
+                                  ]                           (<EOL>|",")+       { ag.addFocus(oval.toString(), ns, n); } 
+                              )+
         |  <JOIN>        ":"  (LOOKAHEAD(4) oval=<ATOM>                          { n = null; }
                                   [ "@" t = <ATOM>                               { n = t.image; }
-                                  ]                           (<EOL>|",")+       { ag.addWorkspace(oval.toString(), n); } )+
+                                  ]                           (<EOL>|",")+       { ag.addWorkspace(oval.toString(), n); } 
+                              )+
         |  <ROLES>       ":"  (LOOKAHEAD(4) opt=<ATOM> <IN> oval=<ATOM>          { n = null; }
                                   [ "@" t = <ATOM>                               { n = t.image; }
-                                  ]                           (<EOL>|",")+       { if (n != null) ag.addFocus(oval.toString(), n);
+                                  ]                           (<EOL>|",")+       { if (n != null) ag.addFocus(oval.toString(), null, n);
                                                                                    ag.addRole(oval.toString(), opt.toString());
                                                                                  }
                               )*
@@ -287,13 +288,16 @@ void workspace() :          { Token t;
 }
 
 void artifact(JaCaMoWorkspaceParameters wks) :
-                            { Token t; Token a;
+                            { Token t; Token tns; Token a; String ns = null;
                               ClassParameters cp;
                             }
 {
   <ARTIFACT>  t = <ATOM> ":"  cp = classDef() { wks.addArtifact(t.image,cp); }
   ["{"  (<EOL>)*
-       [ <FOCUSED> ":"  ( (a = <ATOM> | a = <AST>) (<EOL>|",")+  { project.addAgFocus(a.image,t.image,wks); } )* ]
+       [ <FOCUSED> ":"  ( [LOOKAHEAD(10) tns = <ATOM> "::"       { ns = tns.image; } ]
+                          (a = <ATOM> | a = <AST>) (<EOL>|",")+  { project.addAgFocus(a.image,ns,t.image,wks); ns = null;} 
+                        )* 
+       ]
    "}"
   ]
   (<EOL>)*

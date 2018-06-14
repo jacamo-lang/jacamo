@@ -93,8 +93,10 @@ public class JaCaMoProject extends MAS2JProject {
               if (! f.exists()) f = new File(directory+"/"+f.toString());
               JaCaMoProjectParser parser = new JaCaMoProjectParser(new FileReader(f.getAbsolutePath()) );
               importProject(parser.parse(directory));
+        } catch (ParseException e) {
+            throw new ParseException("Error parsing included file "+f+"!\n"+e);
         } catch (FileNotFoundException e) {
-              throw new ParseException("File not found "+f.getAbsolutePath()+"\n"+e);
+            throw new ParseException("File not found "+f.getAbsolutePath()+"\n"+e);
         }
     }
 
@@ -166,11 +168,11 @@ public class JaCaMoProject extends MAS2JProject {
     }
     */
 
-    public void addAgFocus(String agId, String artId, JaCaMoWorkspaceParameters wks) {
+    public void addAgFocus(String agId, String nameSpace, String artId, JaCaMoWorkspaceParameters wks) {
         if (agId.equals("*")) {
             for (AgentParameters ap: getAgents()) {
                 JaCaMoAgentParameters jap = (JaCaMoAgentParameters)ap;
-                jap.addFocus(artId,wks.getName(),null);
+                jap.addFocus(artId,nameSpace,wks.getName(),null);
             }
         } else {
             JaCaMoAgentParameters ap = (JaCaMoAgentParameters)getAg(agId);
@@ -178,7 +180,7 @@ public class JaCaMoProject extends MAS2JProject {
                 logger.warning("Agent "+agId+" was not declared and so cannot focus on "+artId);
             } else {
                 JaCaMoAgentParameters jap = (JaCaMoAgentParameters)ap;
-                jap.addFocus(artId,wks.getName(),null);
+                jap.addFocus(artId,nameSpace,wks.getName(),null);
             }
         }
     }

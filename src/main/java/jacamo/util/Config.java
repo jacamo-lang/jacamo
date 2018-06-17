@@ -48,7 +48,7 @@ public class Config extends jason.util.Config {
 
     @Override
     public InputStream getDetaultResource(String templateName) throws IOException {
-        return Config.class.getResource("/templates/"+templateName).openStream();
+        return Config.class.getResource("/jcm/templates/"+templateName).openStream();
     }
 
     @Override

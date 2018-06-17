@@ -3,6 +3,7 @@ package jacamo.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * JaCaMo configuration
@@ -48,7 +49,7 @@ public class Config extends jason.util.Config {
 
     @Override
     public InputStream getDetaultResource(String templateName) throws IOException {
-        return Config.class.getResource("/templates/"+templateName).openStream();
+        return new URL("jar:file:"+getJaCaMoJar()+"!/templates/"+templateName).openStream();
     }
 
     @Override
@@ -107,6 +108,10 @@ public class Config extends jason.util.Config {
         return "";
     }
 
+    public String getJaCaMoJar() {
+        return getProperty(JACAMO_JAR);     
+    }
+    
     @Override
     public String getJasonJar() {
         String jj = super.getJasonJar();

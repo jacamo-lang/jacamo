@@ -235,6 +235,16 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     }
 
     @Override
+    public void finish() {
+        try {
+            CartagoService.shutdownNode();
+        } catch (CartagoException e) {
+            e.printStackTrace();
+        }
+        super.finish();
+    }
+    
+    @Override
     protected InputStream getDefaultLogProperties() throws IOException {
         return JaCaMoLauncher.class.getResource("/templates/" + logPropFile).openStream();
     }

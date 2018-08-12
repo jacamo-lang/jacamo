@@ -1,6 +1,6 @@
 # check user at sourceforge
 if [ -z $USERSF ] ; then
-    echo the var USERSF must be set with the username at source forge
+    echo the var USERSF must be set with your username at source forge
     exit
 fi
 
@@ -17,3 +17,4 @@ scp -r *.html $USERSF,jacamo@web.sf.net:$DEST
 #scp -r screens $USERSF,jacamo@web.sf.net:$DEST
 #scp -r solutions $USERSF,jacamo@web.sf.net:$DEST
 #scp -r code $USERSF,jacamo@web.sf.net:$DEST
+#scp code/es.png $USERSF,jacamo@web.sf.net:$DEST/code

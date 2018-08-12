@@ -235,7 +235,7 @@ and the following operations:
 
 The specification of this artifact is depicted below.
 
-image:./code/es.png[]
+image:./code/es.png[Environment Specification]
 
 The following steps will implement this MAS.
 
@@ -358,10 +358,6 @@ b) Run two sequential auctions using the same `a1` artifact.
 
 c) (*hard*) Run two parallel auctions.
 
-d) Instead of the participants keeping looking for auction artifacts,
-change the application so that Bob informs (by broadcast) the name of
-the artifact the participants should focus on.
-
 _Hint_: Annotations could be used to discover from which artifact the
 information is coming. For instance
 
@@ -377,14 +373,14 @@ the task was perceived.
 _Solution_: all the code of the project for this part of the tutorial is
 available link:./code/auction_env.zip[here].
 
-e) Change the auction protocol so that the bids are perceived by the
+d) Change the auction protocol so that the bids are perceived by the
 participants. In general, if we need to change the protocol, which part
 of the MAS implementation should we change?
 
-f) (*hard*) Develop an artifact that works as a kind of yellow pages
+e) (*hard*) Develop an artifact that works as a kind of yellow pages
 for the system.
 
-g) (*hard* ) Implement a version of the MAS as proposed in the JaCaMo
+f) (*hard* ) Implement a version of the MAS as proposed in the JaCaMo
 hello world
 http://jacamo.sourceforge.net/tutorial/hello-world/[tutorial] where the
 coordination required to properly print "hello world!" is implemented by

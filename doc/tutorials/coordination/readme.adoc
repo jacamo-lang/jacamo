@@ -222,16 +222,20 @@ defined.
 
 This auction artifact has the following observable properties:
 
-* the service description,
+* the service (or task) description,
 * the current best bid,
 * the current winner (shown only when the auction has finished),
 * whether the auction is running or not,
 
 and the following operations:
 
-* start,
+* start(task_description),
 * stop, and
-* bid.
+* bid(value).
+
+The specification of this artifact is depicted below.
+
+image:./code/es.png[]
 
 The following steps will implement this MAS.
 

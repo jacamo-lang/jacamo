@@ -20,7 +20,7 @@ import jason.infra.MASLauncherInfraTier;
  */
 public class RunJaCaMoProject {
 
-    static MASLauncherInfraTier launcher;
+    static JaCaMoMASLauncherAnt launcher;
 
     // Run the parser
     public static void main (String args[]) {
@@ -48,6 +48,9 @@ public class RunJaCaMoProject {
       boolean       nrunmas = args.length >= 2 && args[1].equals("notrun");
       if (!nrunmas) nrunmas = args.length >= 3 && args[2].equals("notrun");
 
+      String task = "run";
+      if (args.length >= 2 && args[1].equals("jar"))
+          task = "jar";
 
       // parsing
       try {
@@ -64,9 +67,10 @@ public class RunJaCaMoProject {
           project.setProjectFile(file);
           System.out.println("file "+name+" parsed successfully!\n");
 
-          launcher = project.getInfrastructureFactory().createMASLauncher();
+          launcher = (JaCaMoMASLauncherAnt)project.getInfrastructureFactory().createMASLauncher();
           launcher.setProject(project);
           launcher.writeScripts(false, false);
+          launcher.setTask(task);
 
           if (nrunmas) {
               System.out.println("To run your MAS, just type \"ant -f bin/"+file.getName().substring(0,file.getName().length()-3)+"xml\"");

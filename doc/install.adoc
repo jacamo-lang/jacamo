@@ -1,0 +1,62 @@
+= JaCaMo Installation
+:toc: right
+
+ifdef::env-github[:outfilesuffix: .adoc]
+
+We have different options to start using JaCaMo: using Eclipse or shell commands.
+
+== Eclipse Plugin
+
+To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create a new project.
+
+image:./tutorials/hello-world/screens/p1.png[]
+
+== Shell command
+
+You have to install https://gradle.org[Gradle] on your computer and then run the following command to create a new project:
+-----
+curl http://jacamo.sourceforge.net/lv/np.sh | sh
+-----
+
+If you use the https://atom.io[Atom] editor, the following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].
+
+image:./tutorials/hello-world/screens/atom1.png[]
+
+image:./tutorials/hello-world/screens/atom2.png[]
+
+=== Scripts
+
+You can download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here], unzip it, and use some useful scripts. To configure these scripts:
+
+
+. Make sure you have `JACAMO_HOME` properly set (this variable points to a directory with  subdirectories `libs` and `scripts` of JaCaMo), then setup the `PATH`:
+
+    export PATH=$JACAMO_HOME/scripts:$PATH
+
+. Ensure you have `JDK_HOME` properly set (this variable points to a Java Development Kit (JDK) directory)
+
+Available scripts:
+
+. Create a new project with
++
+----
+jacamo-new-project ../somewhere/helloworld
+----
+Examples of agent, artifact and organization are placed in the `src` folder.
+
+
+. And run it with
++
+    jacamo ../somewhere/helloworld/helloworld.jcm
+
+
+. Creates a single jar file with all resources to run the application
++
+----
+jacamo-jar some.jcm
+----
+the application can then be run by
++
+----
+java -jar some.jar
+----

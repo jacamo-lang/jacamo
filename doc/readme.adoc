@@ -12,6 +12,7 @@ ifdef::env-github[:outfilesuffix: .adoc]
 
 If you’re just getting to know JaCaMo or tackling programming your first multi-agent program, these guides are for you! All you need is a few minutes. The only prerequisites are a JaCaMo platform installed, a JDK and a text editor.
 
+* link:install{outfilesuffix}[Installation instructions]
 * link:tutorials/hello-world/readme{outfilesuffix}[Hello World with JaCaMo]
 
 == Tutorials

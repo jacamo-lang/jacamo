@@ -3,15 +3,25 @@
 
 ifdef::env-github[:outfilesuffix: .adoc]
 
-We have different options to start using JaCaMo: using Eclipse or shell commands.
+We have different options to start using JaCaMo: using Eclipse, shell commands, or Docker.
 
 == Eclipse Plugin
 
-To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create a new project.
+Requirements:
+
+- Java >= 8
+- Eclipse Java-EE or Committers >= Juno
+
+To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create and run a new project.
 
 image:./tutorials/hello-world/screens/p1.png[]
 
 == Shell command
+
+Requirements:
+
+- Java >= 8
+- Gradle
 
 You have to install https://gradle.org[Gradle] on your computer and then run the following commands to create a new project (JaCaMo will be downloaded by the script):
 -----
@@ -20,6 +30,8 @@ sh ./np.sh
 -----
 
 NOTE: `npss.sh` creates a project based on the JaCaMo SnapShot version. You can replace it by `np07.sh` to create a JaCaMo project based on version 0.7.
+
+You will be asked to enter the identification of the project and then instructions about how to run the application will be shown.
 
 If you use https://atom.io[Atom], the following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].
 
@@ -37,6 +49,13 @@ You can download JaCaMo from https://sourceforge.net/projects/jacamo/files/versi
     export PATH=$JACAMO_HOME/scripts:$PATH
 
 . Ensure you have `JDK_HOME` properly set (this variable points to a Java Development Kit (JDK) directory)
+
+. Configure JaCaMo with
++
+----
+    java -jar $JACAMO_HOME/libs/jacamo-XXXX.jar
+----
+replacing XXXX by the release number.
 
 Available scripts:
 
@@ -63,3 +82,11 @@ the application can then be run by
 ----
 java -jar some.jar
 ----
+
+== Docker
+
+Requirements:
+
+- https://github.com/jacamo-lang/docker[Docker] installed
+
+See link:https://github.com/jacamo-lang/docker[JaCaMo-Docker page] for instructions on how to create and run JaCaMo application using Docker images.

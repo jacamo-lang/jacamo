@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  * class used to create an initial jacamo project:
@@ -34,14 +35,27 @@ public class CreateNewProject {
 
 
     public static void main(String[] args) throws Exception {
+            String pId = null;
         if (args.length == 0) {
             System.out.println(Config.get().getPresentation()+"\n");
-            System.out.println("usage must be:");
+            /*System.out.println("usage must be:");
             System.out.println("      java "+CreateNewProject.class.getName()+" <id of new application>");
-            return;
+            return;*/
+            System.out.print("\n\nEnter the identification of the new project: ");
+            pId = new Scanner(System.in).nextLine();
+        } else {
+                pId = args[0];
         }
 
-        CreateNewProject p = new CreateNewProject(new File(args[0]));
+        if (Config.get().getJaCaMoHome().isEmpty()) {
+            if (Config.get().getUserConfFile().exists())
+                System.out.println("JaCaMo is not configured, creating a default configuration.");
+            else
+                Config.get().setShowFixMsgs(false);
+            Config.get().fix();
+        }
+
+        CreateNewProject p = new CreateNewProject(new File(pId));
         p.createDirs();
         p.copyFiles();
         p.usage();

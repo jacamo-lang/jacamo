@@ -11,12 +11,10 @@ Most of the JaCaMo documentation is available link:doc/readme{outfilesuffix}[in 
 
 == Installation
 
+
 === For JaCaMo users
 
-- get a release https://sourceforge.net/projects/jacamo/files/version-0[here]
-- install the eclipse plugin as described http://jacamo.sourceforge.net/eclipseplugin/tutorial[here] or configure your shell command as described link:doc/tutorials/hello-world/shell-based{outfilesuffix}[here]
-- follow the link:doc/tutorials/hello-world/readme{outfilesuffix}[Hello World tutorial]
-- more documentation http://jacamo.sf.net[here]
+Installation instructions and options for users are described link:doc/install{outfilesuffix}[here].
 
 === For JaCaMo developers
 

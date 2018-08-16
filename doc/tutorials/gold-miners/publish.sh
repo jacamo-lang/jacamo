@@ -8,7 +8,7 @@ rm -rf initial-gold-miners/log/*
 
 #scp -r *.zip jomifred,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/gold-miners
 
-scp -r *.html jomifred,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/gold-miners
+scp -r *.html $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/gold-miners
 
 #scp -r ../jcm.css jomifred,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial
 #scp -r screens jomifred,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/gold-miners

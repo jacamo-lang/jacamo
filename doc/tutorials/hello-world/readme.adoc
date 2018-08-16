@@ -19,7 +19,7 @@ application that considers agents, environment and organisation.
 
 == Part I (new project)
 
-Using either the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or a  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based{outfilesuffix}[shell command] (see link:./../../install{outfilesuffix}[installation instructions]), create a new project named `helloworld`. The file `helloworld.jcm` (the project file) describes the project and
+Using either the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or a  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based{outfilesuffix}[shell command] (see link:http://jacamo.sourceforge.net/doc/install.html[installation instructions]), create a new project named `helloworld`. The file `helloworld.jcm` (the project file) describes the project and
 will be the main focus of this tutorial. By openning this file, you will
 have a screen like the following:
 

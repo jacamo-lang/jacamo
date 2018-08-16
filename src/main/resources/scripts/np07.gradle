@@ -1,5 +1,6 @@
 /*
    Gradle build file to create new JaCaMo Applications
+   based on JaCaMo version 0.7
 */
 
 defaultTasks 'run'
@@ -13,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '0.7-SNAPSHOT'
+    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '0.7'
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {

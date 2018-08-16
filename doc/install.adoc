@@ -15,9 +15,11 @@ image:./tutorials/hello-world/screens/p1.png[]
 
 You have to install https://gradle.org[Gradle] on your computer and then run the following commands to create a new project (JaCaMo will be downloaded by the script):
 -----
-curl -s http://jacamo.sourceforge.net/lv/np.sh -o np.sh
+curl -s http://jacamo.sourceforge.net/nps/npss.sh -o np.sh
 sh ./np.sh
 -----
+
+NOTE: `npss.sh` creates a project based on the JaCaMo SnapShot version. You can replace it by `np07.sh` to create a JaCaMo project based on version 0.7.
 
 If you use https://atom.io[Atom], the following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].
 

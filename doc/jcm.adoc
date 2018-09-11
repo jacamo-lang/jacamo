@@ -228,7 +228,7 @@ This section of the file configures the platform(s) used to run the MAS. The mos
 
 Other possible entries for platform:
 
-* `jacamo.platform.AgentWebInspector("false")`: disable agent http mind
+* `jacamo.platform.AgentWebInspector("false")`: disable agent http mind inspector
 * `jacamo.platform.EnvironmentWebInspector("false")`: disable environment http inspector
 * `jacamo.platform.OrganisationWebInspector("false")`: disable organisation http inspector
 
@@ -241,6 +241,9 @@ Example:
               centralised(pool,4)
               jacamo.platform.AgentWebInspector("false")
 ------
+
+Users can add their own platforms by including their class name in the list. Your class must implement the `jacamo.platform.Platform` interface.
+
 
 === Include
 

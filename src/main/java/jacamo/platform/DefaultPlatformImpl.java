@@ -2,12 +2,12 @@ package jacamo.platform;
 
 import jacamo.project.JaCaMoProject;
 
-public class DefaultPlatform implements Platform {
+public class DefaultPlatformImpl implements Platform {
 
     protected JaCaMoProject project;
 
     @Override
-    public void init(String[] args) {
+    public void init(String[] args) throws Exception {
     }
 
     @Override

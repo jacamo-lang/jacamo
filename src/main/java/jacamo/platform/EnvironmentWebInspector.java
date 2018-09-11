@@ -4,7 +4,7 @@ import cartago.CartagoService;
 import jacamo.infra.EnvironmentInspectorWeb;
 import jacamo.util.Config;
 
-public class EnvironmentWebInspector extends DefaultPlatform {
+public class EnvironmentWebInspector extends DefaultPlatformImpl {
     
     boolean webOn = true;
 

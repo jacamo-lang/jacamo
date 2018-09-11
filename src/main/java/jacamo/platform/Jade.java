@@ -7,13 +7,13 @@ import jacamo.util.Config;
 import jason.JasonException;
 import jason.infra.jade.RunJadeMAS;
 
-public class Jade extends DefaultPlatform {
+public class Jade extends DefaultPlatformImpl {
     
     Logger logger = Logger.getLogger(Jade.class.getName());
     RunJadeMAS rJADE = null;
     
     @Override
-    public void init(String[] args) {
+    public void init(String[] args) throws JasonException {
         rJADE = new RunJadeMAS();
         rJADE.createButtons();
         rJADE.addInitArgs(args);
@@ -31,11 +31,7 @@ public class Jade extends DefaultPlatform {
             Config.get().setProperty(Config.JADE_SNIFFER, "false");
         }
         
-        try {
-            rJADE.createAgs();
-        } catch (JasonException e) {
-            e.printStackTrace();
-        }
+        rJADE.createAgs();
     }
         
     @Override

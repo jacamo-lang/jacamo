@@ -18,31 +18,19 @@ import ora4mas.nopl.GroupBoard;
 import ora4mas.nopl.OrgBoard;
 import ora4mas.nopl.SchemeBoard;
 
-public class Moise extends DefaultPlatform {
+public class Moise extends DefaultPlatformImpl {
     
     protected CartagoContext      cartagoCtx;
-
-    //protected Map<String, ArtifactId> artIds;
 
     Logger logger = Logger.getLogger(Moise.class.getName());
 
     @Override
-    public void init(String[] args) {
+    public void init(String[] args) throws CartagoException {
+        cartagoCtx = CartagoService.startSession(CartagoService.MAIN_WSP_NAME, new AgentIdCredential("JaCaMo_Org_Launcher"));
     }
-    
-    /*
-    public void setArtIdsMap(Map<String, ArtifactId> artIds) {
-        this.artIds = artIds;
-    }*/
     
     @Override
     public void start() {
-        try {
-            cartagoCtx = CartagoService.startSession(CartagoService.MAIN_WSP_NAME, new AgentIdCredential("JaCaMo_Org_Launcher"));
-        } catch (CartagoException e1) {
-            e1.printStackTrace();
-            return;
-        }
         for (JaCaMoOrgParameters o: project.getOrgs()) {
             try {
                 if (project.isInDeployment(o.getNode())) {

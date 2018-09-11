@@ -15,33 +15,22 @@ import jacamo.infra.EnvironmentInspectorWeb;
 import jacamo.project.JaCaMoWorkspaceParameters;
 import jason.mas2j.ClassParameters;
 
-public class Cartago extends DefaultPlatform {
+public class Cartago extends DefaultPlatformImpl {
     
     protected CartagoEnvironment  env;
     protected CartagoContext      cartagoCtx;
 
-    //protected Map<String, ArtifactId> artIds;
-
     Logger logger = Logger.getLogger(Cartago.class.getName());
 
     @Override
-    public void init(String[] args) {
+    public void init(String[] args) throws CartagoException {
         env = new CartagoEnvironment();
         env.init( args );
+        cartagoCtx = CartagoService.startSession(CartagoService.MAIN_WSP_NAME, new AgentIdCredential("JaCaMo_Launcher"));
     }
-    
-    /*public void setArtIdsMap(Map<String, ArtifactId> artIds) {
-        this.artIds = artIds;
-    }*/
     
     @Override
     public void start() {
-        try {
-            cartagoCtx = CartagoService.startSession(CartagoService.MAIN_WSP_NAME, new AgentIdCredential("JaCaMo_Launcher"));
-        } catch (CartagoException e1) {
-            e1.printStackTrace();
-            return;
-        }
         for (JaCaMoWorkspaceParameters wp: project.getWorkspaces()) {
             try {
                 if (project.isInDeployment(wp.getNode())) {

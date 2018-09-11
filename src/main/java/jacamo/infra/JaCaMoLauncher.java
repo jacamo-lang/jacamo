@@ -6,16 +6,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import cartago.ArtifactId;
 import jaca.CAgentArch;
 import jacamo.platform.Cartago;
 import jacamo.platform.EnvironmentWebInspector;
@@ -52,7 +49,7 @@ import jason.runtime.SourcePath;
  */
 public class JaCaMoLauncher extends RunCentralisedMAS {
 
-    protected Map<String, ArtifactId> artIds = new HashMap<String, ArtifactId>();
+    //protected Map<String, ArtifactId> artIds = new HashMap<String, ArtifactId>();
 
     protected List<Platform> platforms = new ArrayList<Platform>();
 
@@ -85,9 +82,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         return new JaCaMoRuntimeServices(runner);
     }
 
-    public ArtifactId getArtId(String artName) {
-        return artIds.get(artName);
-    }
+    //public ArtifactId getArtId(String artName) {
+    //    return artIds.get(artName);
+    //}
 
     @Override
     public int init(String[] args) {
@@ -273,17 +270,23 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     public void createEnvironment() throws JasonException {
         Cartago p = new Cartago();
         p.setJcmProject(getJaCaMoProject());
-        p.init(getJaCaMoProject().getPlatformParameters("cartago") );
-        //p.setArtIdsMap(artIds);
-        platforms.add(p);
+        try {
+            p.init(getJaCaMoProject().getPlatformParameters("cartago") );
+            platforms.add(p);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
         
     protected void createOrganisation() {
         Moise p = new Moise();
         p.setJcmProject(getJaCaMoProject());
-        p.init(getJaCaMoProject().getPlatformParameters("moise") );
-        //p.setArtIdsMap(artIds);
-        platforms.add(p);
+        try {
+            p.init(getJaCaMoProject().getPlatformParameters("moise") );
+            platforms.add(p);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
         
     @Override
@@ -321,8 +324,12 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         if (getProject().isJade()) {
             jadePlat = new Jade();
             jadePlat.setJcmProject(getJaCaMoProject());
-            jadePlat.init(getJaCaMoProject().getPlatformParameters("jade"));
-            platforms.add(jadePlat);
+            try {
+                jadePlat.init(getJaCaMoProject().getPlatformParameters("jade"));
+                platforms.add(jadePlat);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             super.createAgs();
         }

@@ -66,7 +66,7 @@ public class CreateNewProject {
         System.out.println("   $ jacamo "+path+"/"+id+".jcm");
         System.out.println("or");
         System.out.println("   $ cd "+path);
-        System.out.println("   $ gradle -q\n");
+        System.out.println("   $ gradle -q --console=plain\n");
         System.out.println("an eclipse project can be created with");
         System.out.println("   $ gradle eclipse\n");
     }

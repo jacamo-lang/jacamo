@@ -3,7 +3,7 @@
 
 ifdef::env-github[:outfilesuffix: .adoc]
 
-We have different options to start using JaCaMo: using Eclipse, shell commands, or Docker.
+We have different options to start using JaCaMo: using Eclipse, shell script commands, Gradle, or Docker. Eclipse and shell script options require that you download and install JaCaMo in your machine.
 
 == Eclipse Plugin
 
@@ -12,34 +12,11 @@ Requirements:
 - Java >= 8
 - Eclipse Java-EE or Committers >= Juno
 
-To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create and run a new project.
+To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create and run a new application.
 
 image:./tutorials/hello-world/screens/p1.png[]
 
-== Shell command
-
-Requirements:
-
-- Java >= 8
-- Gradle
-
-You have to install https://gradle.org[Gradle] on your computer and then run the following commands to create a new project (JaCaMo will be downloaded by the script):
------
-curl -s http://jacamo.sourceforge.net/nps/npss.sh -o np.sh
-sh ./np.sh
------
-
-NOTE: `npss.sh` creates a project based on the JaCaMo SnapShot version. You can replace it by `np07.sh` to create a JaCaMo project based on version 0.7.
-
-You will be asked to enter the identification of the project and then instructions about how to run the application will be shown.
-
-If you use https://atom.io[Atom], the following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].
-
-image:./tutorials/hello-world/screens/atom1.png[]
-
-image:./tutorials/hello-world/screens/atom2.png[]
-
-=== Scripts
+== Shell commands scripts
 
 You can download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here], unzip it, and use some useful scripts. To configure these scripts:
 
@@ -59,7 +36,7 @@ replacing XXXX by the release number.
 
 Available scripts:
 
-. Create a new project with
+. *Create* a new application identified by `helloworld` with
 +
 ----
 jacamo-new-project ../somewhere/helloworld
@@ -67,21 +44,43 @@ jacamo-new-project ../somewhere/helloworld
 Examples of agent, artifact and organization are placed in the `src` folder.
 
 
-. And run it with
+. And *run* it with
 +
     jacamo ../somewhere/helloworld/helloworld.jcm
 
 
-. Creates a single jar file with all resources to run the application
+. To create a single jar file with all resources to run the application:
 +
 ----
-jacamo-jar some.jcm
+jacamo-jar helloworld.jcm
 ----
-the application can then be run by
+that can be run by
 +
 ----
-java -jar some.jar
+java -jar helloworld.jar
 ----
+
+== Gradle
+
+Requirements:
+
+- Java >= 8
+- Gradle
+
+You have to install https://gradle.org[Gradle] on your computer and then run the following commands to create a new application (JaCaMo will be downloaded by the script):
+-----
+curl -s http://jacamo.sourceforge.net/nps/npss.sh -o np.sh
+sh ./np.sh
+-----
+
+NOTE: `npss.sh` creates an application based on the JaCaMo SnapShot version. You can replace it by `np07.sh` to create a JaCaMo application based on version 0.7.
+
+You will be asked to enter the identification of the application and then instructions about how to run the application will be shown.
+
+If you want to run a JaCaMo application that was not created with a `build.gradle` file, you can download a template from https://raw.githubusercontent.com/jacamo-lang/jacamo/master/src/main/resources/templates/build.gradle[here] and replace
+
+-  `<VERSION>` by the required JaCaMo release (e.g. `0.7-SNAPSHOT`)
+- `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
 
 == Docker
 
@@ -90,3 +89,11 @@ Requirements:
 - https://github.com/jacamo-lang/docker[Docker] installed
 
 See link:https://github.com/jacamo-lang/docker[JaCaMo-Docker page] for instructions on how to create and run JaCaMo application using Docker images.
+
+== Atom
+
+For an IDE lighter than Eclipse, we recommend https://atom.io[Atom]. The following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].
+
+image:./tutorials/hello-world/screens/atom1.png[]
+
+image:./tutorials/hello-world/screens/atom2.png[]

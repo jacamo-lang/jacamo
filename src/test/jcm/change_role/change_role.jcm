@@ -1,0 +1,17 @@
+/* output:
+
+changed
+
+*/
+
+mas change_role {
+
+    agent sample_agent
+
+    organisation o: org.xml {
+        group g: group1 {
+            players: sample_agent role1
+        }
+    }
+
+}

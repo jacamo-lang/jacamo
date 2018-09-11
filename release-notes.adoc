@@ -4,6 +4,8 @@
 
 - new entries in the jcm files: `java-path` (for java sources) and `org-path` (for moise .xml files). See doc/jcm.html for more details.
 
+- improved installation options (gradle, docker, ...), see doc/install.html
+
 - a new shell script was created to produce a single jar with all application
 +
 ----

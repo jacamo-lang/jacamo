@@ -75,7 +75,7 @@ public class JaCaMoAgArch extends AgArch {
                     //agent.getSession().doAction(new Op("joinWorkspace", w.getName(), res), null, -1);
                 }
                 Literal art = ASSyntax.createLiteral("art_env",
-                        ASSyntax.createAtom(w.getName()),// workspace
+                        ASSyntax.createAtom(w.getName()), // workspace
                         ASSyntax.createString(host), // host
                         ASSyntax.createString(""), // art
                         Literal.DefaultNS);           // namespace
@@ -183,12 +183,12 @@ public class JaCaMoAgArch extends AgArch {
             if (getTS().getLogger().isLoggable(Level.FINE)) getTS().getLogger().fine("producing goal to focus on "+lart);
             Intention i = new Intention();
             i.setAtomic(1); // force this event to be selected first
-            getTS().getC().addAchvGoal( ASSyntax.createLiteral(jcmAtom, "focus_env_art", lart, ASSyntax.createNumber(3)), i);
+            getTS().getC().addAchvGoal( ASSyntax.createLiteral(jcmAtom, "focus_env_art", lart, ASSyntax.createNumber(5)), i);
         }
 
         if (! lroles.isEmpty()) {
             if (getTS().getLogger().isLoggable(Level.FINE)) getTS().getLogger().fine("producing goal for initial roles "+lroles);
-            getTS().getC().addAchvGoal( ASSyntax.createLiteral(jcmAtom, "initial_roles", lroles, ASSyntax.createNumber(3)), Intention.EmptyInt);
+            getTS().getC().addAchvGoal( ASSyntax.createLiteral(jcmAtom, "initial_roles", lroles, ASSyntax.createNumber(5)), Intention.EmptyInt);
         }
     }
 

@@ -255,9 +255,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     }
 
     @Override
-    protected void start() {
-        super.start();
-        
+    protected void start() {       
         for (Platform p: platforms) {
             try {
                 p.start();
@@ -265,6 +263,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 e.printStackTrace();
             }
         }        
+        super.start(); // start agents after platforms 
     }
 
     public void createEnvironment() throws JasonException {

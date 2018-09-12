@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 /**
- * class used to create an initial jacamo project:
+ * class used to create an initial jacamo application:
  *
  *  directory structure and
  *  example of programs
@@ -41,10 +41,14 @@ public class CreateNewProject {
             /*System.out.println("usage must be:");
             System.out.println("      java "+CreateNewProject.class.getName()+" <id of new application>");
             return;*/
-            System.out.print("\n\nEnter the identification of the new project: ");
+            System.out.print("\n\nEnter the identification of the new application: ");
             pId = new Scanner(System.in).nextLine();
+            if (pId.length() == 0) {
+                System.out.println("      you should enter a project id!");
+                return;
+            }
         } else {
-                pId = args[0];
+            pId = args[0];
         }
 
         if (Config.get().getJaCaMoHome().isEmpty()) {

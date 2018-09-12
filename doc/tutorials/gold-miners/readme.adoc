@@ -21,7 +21,7 @@ The slides used at http://altissimo.cs.pub.ro[ALTISSIMO] are found http://jacamo
 
 == Part I
 
-To get started, you can install the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] and download the initial JaCaMo project from http://jacamo.sourceforge.net/tutorial/gold-miners/initial-gold-miners.zip[here]. Then, after unziping it into some directory, open Eclipse and import the downloaded project (File -> Import -> JaCaMo Project -> Pick directory -> Select Project GoldMiners). You will have a screen like
+To get started, you can install the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] (or other IDE http://jacamo.sourceforge.net/doc/install.html[option]) and download the initial JaCaMo project from http://jacamo.sourceforge.net/tutorial/gold-miners/initial-gold-miners.zip[here]. Then, after unziping it into some directory, open Eclipse and import the downloaded project (File -> Import -> JaCaMo Project -> Pick directory -> Select Project GoldMiners). You will have a screen like
 
 image::./screens/s2.png[]
 

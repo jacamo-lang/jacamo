@@ -300,6 +300,20 @@ public class JaCaMoProject extends MAS2JProject {
         }
     }
 
+    public Collection<String> getPlatforms() {
+        return platformParameters.keySet();
+    }
+
+    public Collection<String> getCustomPlatforms() {
+        ArrayList<String> l = new ArrayList<String>();
+        for (String pId: platformParameters.keySet()) {
+            if (pId.contains(".")) {
+                l.add(pId);
+            }           
+        }
+        return l;
+    }
+    
     public void resetPlatform() {
         platformParameters.clear();
     }
@@ -314,8 +328,15 @@ public class JaCaMoProject extends MAS2JProject {
     public Map<String,String[]> getPlatformParameters() {
         return platformParameters;
     }
+    
+    private static String[] emptyStringArray = {};
+    
     public String[] getPlatformParameters(String p) {
-        return platformParameters.get(p);
+        String a[] = platformParameters.get(p);
+        if (a == null)
+            return emptyStringArray;
+        else
+            return a;
     }
     public boolean hasPlatformParameter(String p, String arg) {
         String[] args = platformParameters.get(p);

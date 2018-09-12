@@ -6,30 +6,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import cartago.AgentIdCredential;
-import cartago.ArtifactId;
-import cartago.CartagoContext;
-import cartago.CartagoException;
-import cartago.CartagoService;
-import cartago.Op;
-import cartago.OpFeedbackParam;
-import cartago.WorkspaceId;
 import jaca.CAgentArch;
-import jaca.CartagoEnvironment;
-import jacamo.project.JaCaMoGroupParameters;
-import jacamo.project.JaCaMoOrgParameters;
+import jacamo.platform.Cartago;
+import jacamo.platform.EnvironmentWebInspector;
+import jacamo.platform.Jade;
+import jacamo.platform.Moise;
+import jacamo.platform.Platform;
 import jacamo.project.JaCaMoProject;
-import jacamo.project.JaCaMoSchemeParameters;
-import jacamo.project.JaCaMoWorkspaceParameters;
 import jacamo.project.parser.JaCaMoProjectParser;
 import jacamo.project.parser.ParseException;
 import jacamo.util.Config;
@@ -40,7 +30,6 @@ import jason.asSyntax.directives.DirectiveProcessor;
 import jason.asSyntax.directives.Include;
 import jason.infra.centralised.CentralisedAgArch;
 import jason.infra.centralised.RunCentralisedMAS;
-import jason.infra.jade.RunJadeMAS;
 import jason.infra.repl.ReplAgGUI;
 import jason.mas2j.AgentParameters;
 import jason.mas2j.ClassParameters;
@@ -49,9 +38,6 @@ import jason.runtime.MASConsoleLogHandler;
 import jason.runtime.RuntimeServicesInfraTier;
 import jason.runtime.Settings;
 import jason.runtime.SourcePath;
-import ora4mas.nopl.GroupBoard;
-import ora4mas.nopl.OrgBoard;
-import ora4mas.nopl.SchemeBoard;
 
 /**
  * Runs MASProject using JaCaMo infrastructure.
@@ -63,12 +49,9 @@ import ora4mas.nopl.SchemeBoard;
  */
 public class JaCaMoLauncher extends RunCentralisedMAS {
 
-    protected CartagoEnvironment  env;
-    protected CartagoContext      cartagoCtx;
+    //protected Map<String, ArtifactId> artIds = new HashMap<String, ArtifactId>();
 
-    protected Map<String, ArtifactId> artIds = new HashMap<String, ArtifactId>();
-
-    protected RunJadeMAS rJADE = null;
+    protected List<Platform> platforms = new ArrayList<Platform>();
 
     public static String defaultProjectFileName = "default.jcm";
 
@@ -99,9 +82,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         return new JaCaMoRuntimeServices(runner);
     }
 
-    public ArtifactId getArtId(String artName) {
-        return artIds.get(artName);
-    }
+    //public ArtifactId getArtId(String artName) {
+    //    return artIds.get(artName);
+    //}
 
     @Override
     public int init(String[] args) {
@@ -203,18 +186,6 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 }
             }
             
-            // setup start of web interfaces
-            String[] argsWI = getJaCaMoProject().getPlatformParameters("startWebMindInspector");
-            if (argsWI != null) 
-                Config.get().setProperty(Config.START_WEB_MI,argsWI[0]);
-            argsWI = getJaCaMoProject().getPlatformParameters("startWebEnvInspector");
-            if (argsWI != null) 
-                Config.get().setProperty(Config.START_WEB_EI,argsWI[0]);
-            argsWI = getJaCaMoProject().getPlatformParameters("startWebOrgInspector");
-            if (argsWI != null) 
-                Config.get().setProperty(Config.START_WEB_OI,argsWI[0]);
-
-            //runner.waitEnd();
             errorCode = 0;
 
         } catch (FileNotFoundException e1) {
@@ -234,14 +205,38 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         return errorCode;
     }
 
+    void createCustomPlatforms() {
+        boolean einsp = false;
+        for (String pId: getJaCaMoProject().getCustomPlatforms()) {
+            Platform p = null;
+            try {               
+                p = (Platform)Class.forName(pId).newInstance();
+                p.setJcmProject(getJaCaMoProject());
+                p.init( getJaCaMoProject().getPlatformParameters(pId) );
+                platforms.add(p);
+                einsp = einsp || pId.equals(EnvironmentWebInspector.class.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        // include our own platforms
+        if (!einsp) {
+            platforms.add(new EnvironmentWebInspector());
+        }
+    }
+    
     @Override
     public void finish() {
-        try {
-            CartagoService.shutdownNode();
-        } catch (CartagoException e) {
-            e.printStackTrace();
-        }
         super.finish();
+        
+        for (Platform p: platforms) {
+            try {
+                p.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
     
     @Override
@@ -252,178 +247,50 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     /** create environment, agents, controller */
     @Override
     public void create() throws JasonException {
+        createCustomPlatforms();
         createEnvironment();
         createOrganisation();
         createAgs();
-        //createController();
+        //createController();        
     }
 
     @Override
-    public void createEnvironment() throws JasonException {
-        env = new CartagoEnvironment();
-        String[] args = getJaCaMoProject().getPlatformParameters("cartago");
-        if (args == null)
-            args = new String[] {};
-        env.init(args);
-        if (! "false".equals(Config.get().getProperty(jason.util.Config.START_WEB_EI))) {
-            EnvironmentInspectorWeb.startHttpServer();
-            EnvironmentInspectorWeb.registerWorkspace(CartagoService.MAIN_WSP_NAME);
-        }
-
-        try {
-            cartagoCtx = CartagoService.startSession(CartagoService.MAIN_WSP_NAME, new AgentIdCredential("JaCaMo_Launcher"));
-        } catch (CartagoException e1) {
-            e1.printStackTrace();
-            return;
-        }
-        for (JaCaMoWorkspaceParameters wp: getJaCaMoProject().getWorkspaces()) {
+    protected void start() {
+        super.start();
+        
+        for (Platform p: platforms) {
             try {
-                if (getJaCaMoProject().isInDeployment(wp.getNode())) {
-                    if (getJaCaMoProject().getNodeHost(wp.getNode()) != null) {
-                        logger.warning("**** Remote workspace creation is not implemented yet! The workspace @ "+getJaCaMoProject().getNodeHost(wp.getNode())+" wasn't created");
-                        continue;
-                    }
-                    CartagoService.createWorkspace(wp.getName());
-                    logger.info("Workspace "+wp.getName()+" created.");
-                    EnvironmentInspectorWeb.registerWorkspace(wp.getName());
-
-                    cartagoCtx.joinWorkspace(wp.getName(), new AgentIdCredential("JaCaMoLauncherAg"));
-                    WorkspaceId wid = cartagoCtx.getJoinedWspId(wp.getName());
-
-                    for (String aName: wp.getArtifacts().keySet()) {
-                        String m = null;
-                        try {
-                            ClassParameters cp = wp.getArtifacts().get(aName);
-                            m = "artifact "+aName+": "+cp.getClassName()+"("+cp.getParametersStr(",")+") at "+wp.getName();
-                            ArtifactId aid = cartagoCtx.makeArtifact(wid, aName, cp.getClassName(), cp.getTypedParametersArray());
-                            artIds.put(aName, aid);
-                            logger.info(m+" created.");
-                            if (wp.hasDebug())
-                                EnvironmentInspector.addInGui(wp.getName(), aid);
-                        } catch (CartagoException e) {
-                            logger.log(Level.SEVERE, "error creating "+m,e);
-                        }
-                    }
-                    if (wp.hasDebug()) {
-                        CartagoService.enableDebug(wp.getName());
-                    }
-                }
-            } catch (CartagoException e) {
-                logger.log(Level.SEVERE, "error creating environmet, workspace:"+wp.getName(),e);
-            }
-        }
-    }
-
-    protected void createOrganisation() {
-        for (JaCaMoOrgParameters o: getJaCaMoProject().getOrgs()) {
-            try {
-                if (getJaCaMoProject().isInDeployment(o.getNode())) {
-                    if (getJaCaMoProject().getNodeHost(o.getNode()) != null) {
-                        logger.warning("**** Remote organisation creation is not implemented yet! The organisation @ "+getJaCaMoProject().getNodeHost(o.getNode())+" wasn't created");
-                        continue;
-                    }
-                    // fix path for org
-                    o.addParameter("source", getJaCaMoProject().getOrgPaths().fixPath(o.getParameter("source")));
-
-                    CartagoService.createWorkspace(o.getName());
-                    logger.info("Workspace "+o.getName()+" created.");
-
-                    cartagoCtx.joinWorkspace(o.getName(), new AgentIdCredential("JaCaMoLauncherAg"));
-                    WorkspaceId wid = cartagoCtx.getJoinedWspId(o.getName());
-
-                    ArtifactId aid = cartagoCtx.makeArtifact(wid, o.getName(), OrgBoard.class.getName(), new Object[] { o.getParameter("source") } );
-
-                    // schemes
-                    for (JaCaMoSchemeParameters s: o.getSchemes()) {
-                        createScheme(aid, s, o);
-                    }
-
-                    // groups
-                    for (JaCaMoGroupParameters g: o.getGroups()) {
-                        createGroup(aid,null,g,o);
-                    }
-                    //CartagoService.enableDebug(o.getName());
-                }
-            } catch (CartagoException e) {
+                p.start();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }        
     }
 
-    protected void createGroup(ArtifactId orgB, JaCaMoGroupParameters parent, JaCaMoGroupParameters g, JaCaMoOrgParameters org) {
-        String m = g.getName()+": "+g.getType()+" using artifact "+GroupBoard.class.getName();
-
+    public void createEnvironment() throws JasonException {
+        Cartago p = new Cartago();
+        p.setJcmProject(getJaCaMoProject());
         try {
-            OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<ArtifactId>();
-            cartagoCtx.doAction(orgB, new Op("createGroup", new Object[] { g.getName(), g.getType(), fb} ));
-            ArtifactId aid = fb.get();
-
-            artIds.put(g.getName(), aid);
-            logger.info("group created: "+m);
-            if (g.hasDebug())
-                cartagoCtx.doAction(aid, new Op("debug", new Object[] { g.getDebugConf() } ));
-
-            if (parent != null) {
-                cartagoCtx.doAction(aid, new Op("setParentGroup", new Object[] { parent.getName() } ));
-            }
-            String owner = g.getParameter("owner");
-            if (owner != null) {
-                cartagoCtx.doAction(aid, new Op("setOwner", new Object[] { owner } ));
-            }
-            for (JaCaMoGroupParameters sg: g.getSubGroups()) {
-                createGroup(orgB, g, sg, org);
-            }
-
-            //String respFor = g.getParameter("responsible-for"); // should be done after subgroup creation
-            //if (respFor != null) {
-            for (String respFor: g.getResponsibleFor()) {
-                if (org.getScheme(respFor) == null)
-                    logger.warning("** The scheme "+respFor+" does not existis in "+org.getName()+" so the group "+g.getName()+" cannot be responsible for it!");
-                cartagoCtx.doAction(aid, new Op("addSchemeWhenFormationOk", new Object[] { respFor } ));
-            }
-        } catch (CartagoException e) {
-            logger.log(Level.SEVERE, "error creating group "+m,e);
+            p.init(getJaCaMoProject().getPlatformParameters("cartago") );
+            platforms.add(p);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
-
-    protected void createScheme(ArtifactId orgB, JaCaMoSchemeParameters s, JaCaMoOrgParameters org) {
-        String m = s.getName()+": "+s.getType()+" using artifact "+SchemeBoard.class.getName();
-
+        
+    protected void createOrganisation() {
+        Moise p = new Moise();
+        p.setJcmProject(getJaCaMoProject());
         try {
-            OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<ArtifactId>();
-            cartagoCtx.doAction(orgB, new Op("createScheme", new Object[] { s.getName(), s.getType(), fb} ));
-            ArtifactId aid = fb.get();
-
-            artIds.put(s.getName(), aid);
-            logger.info("scheme created: "+m);
-            if (s.hasDebug())
-                cartagoCtx.doAction(aid, new Op("debug", new Object[] { s.getDebugConf() } ));
-
-            String owner = s.getParameter("owner");
-            if (owner != null) {
-                cartagoCtx.doAction(aid, new Op("setOwner", new Object[] { owner } ));
-            }
-        } catch (CartagoException e) {
-            logger.log(Level.SEVERE, "error creating scheme "+m,e);
+            p.init(getJaCaMoProject().getPlatformParameters("moise") );
+            platforms.add(p);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
+        
     @Override
     public void createAgs() throws JasonException {
-        if (getProject().isJade()) {
-            rJADE = new RunJadeMAS();
-            rJADE.setProject(project);
-            rJADE.addInitArgs( getJaCaMoProject().getPlatformParameters("jade"));
-            rJADE.createButtons();
-            if (rJADE.startContainer()) {
-                logger.info("Jade Container started.");
-            } else {
-                logger.log(Level.WARNING,"Error starting JADE container!");
-                return;
-            }
-        }
-
         // add jacamo archs
         List<AgentParameters> lags = new ArrayList<AgentParameters>();
         for (AgentParameters ap: getJaCaMoProject().getAgents()) {
@@ -453,14 +320,16 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         project.getAgents().addAll(lags);
         project.fixAgentsSrc();
 
+        Jade jadePlat = null;
         if (getProject().isJade()) {
-            if (getJaCaMoProject().hasPlatformParameter("jade", "-gui")) {
-                Config.get().setProperty(Config.JADE_RMA, "false");
+            jadePlat = new Jade();
+            jadePlat.setJcmProject(getJaCaMoProject());
+            try {
+                jadePlat.init(getJaCaMoProject().getPlatformParameters("jade"));
+                platforms.add(jadePlat);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            if (getJaCaMoProject().hasPlatformParameter("jade", "-sniffer")) {
-                Config.get().setProperty(Config.JADE_SNIFFER, "false");
-            }
-            rJADE.createAgs();
         } else {
             super.createAgs();
         }
@@ -468,9 +337,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
 
     @Override
     protected void startAgs() {
-        if (getProject().isJade()) {
-            rJADE.startAgs();
-        } else {
+        if (!getProject().isJade()) {
             super.startAgs();
         }
     }

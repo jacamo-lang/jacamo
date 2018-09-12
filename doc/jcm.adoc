@@ -215,18 +215,22 @@ class-path:  lib
 
 === Platform configuration
 
-*  parameters for cartago
+This section of the file configures the platform(s) used to run the MAS. The most common entries are: `cartago` (for the environment), `centralised` (for Jason agents), and `jade` (for distributed agents). The parameters for them are listed below.
+
+*  parameters for `cartago`
    - `infrastructure` (optional): starts the cartago node in the network
-*  parameters for centralised
+*  parameters for `centralised`
    - `pool,X` : where X is the number os threads used to run the agents (more options link:https://github.com/jason-lang/jason/blob/master/doc/tech/concurrency.adoc#synchronous-reasoning-cycle[here])
-*  parameters for Jade: any parameter we can use for jade.Boot. E.g.:
+*  parameters for `jade`: any parameter we can use for jade.Boot. E.g.:
    - `jade("-gui -sniffer")`: starts Jade main-container with RMA and Sniffer already running
    - `jade("-container -host localhost -container-name c2")`: starts a Jade sub-container named `c2`
-*  parameters for web inspectors
-   - `startWebMindInspector("false")`: disable agent http mind inspector
-   - `startWebEnvInspector("false")`: disable environment http inspector
-   - `startWebOrgInspector("false")`: disable organisation http inspector
 
+
+Other possible entries for platform:
+
+* `jacamo.platform.AgentWebInspector("false")`: disable agent http mind inspector
+* `jacamo.platform.EnvironmentWebInspector("false")`: disable environment http inspector
+* `jacamo.platform.OrganisationWebInspector("false")`: disable organisation http inspector
 
 Example:
 
@@ -235,8 +239,11 @@ Example:
     platform: jade()
               cartago("infrastructure")
               centralised(pool,4)
-              startWebOrgInspector("false")
+              jacamo.platform.AgentWebInspector("false")
 ------
+
+Users can add their own platforms by including their class name in the list. Your class must implement the `jacamo.platform.Platform` interface.
+
 
 === Include
 

@@ -18,7 +18,12 @@ image:./tutorials/hello-world/screens/p1.png[]
 
 == Shell commands scripts
 
-You can download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here], unzip it, and use some useful scripts. To configure these scripts:
+Requirements:
+
+- Java >= 8
+
+
+You can download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here], unzip it, and use then use scripts to create and run applications. To configure these scripts:
 
 
 . Make sure you have `JACAMO_HOME` properly set (this variable points to a directory with  subdirectories `libs` and `scripts` of JaCaMo), then setup the `PATH`:
@@ -27,12 +32,6 @@ You can download JaCaMo from https://sourceforge.net/projects/jacamo/files/versi
 
 . Ensure you have `JDK_HOME` properly set (this variable points to a Java Development Kit (JDK) directory)
 
-. Configure JaCaMo with
-+
-----
-    java -jar $JACAMO_HOME/libs/jacamo-XXXX.jar
-----
-replacing XXXX by the release number.
 
 Available scripts:
 
@@ -79,14 +78,14 @@ You will be asked to enter the identification of the application and then instru
 
 If you want to run a JaCaMo application that was not created with a `build.gradle` file, you can download a template from https://raw.githubusercontent.com/jacamo-lang/jacamo/master/src/main/resources/templates/build.gradle[here] and replace
 
--  `<VERSION>` by the required JaCaMo release (e.g. `0.7-SNAPSHOT`)
+- `<VERSION>` by the required JaCaMo release (e.g. `0.7-SNAPSHOT`)
 - `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
 
 == Docker
 
 Requirements:
 
-- https://github.com/jacamo-lang/docker[Docker] installed
+- https://github.com/jacamo-lang/docker[Docker] 
 
 See link:https://github.com/jacamo-lang/docker[JaCaMo-Docker page] for instructions on how to create and run JaCaMo application using Docker images.
 

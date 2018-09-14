@@ -42,6 +42,22 @@ public class Config extends jason.util.Config {
         return (Config)singleton;
     }
 
+    @Override
+    public boolean load() {
+        boolean r = super.load();
+        if (r) {
+            String jarFile = getJarFromClassPath("jacamo");
+            if (checkJar(jarFile, 100000)) {
+                if (!getJaCaMoJar().equals(jarFile)) {
+                    System.out.println("\n\n*** The jacamo.jar from classpath is different than jacamo.jar from configuration, consider to delete the configuration (file ~/.jacamo/user.properties or jacamo.properties.");
+                    System.out.println("Classpath is\n   "+jarFile+
+                                     "\nConfig    is\n   "+getJaCaMoJar()+"\n\n");
+                }
+                
+            }
+        }
+        return r;
+    }
 
     public Config() {
         super();
@@ -62,7 +78,8 @@ public class Config extends jason.util.Config {
         return new File(System.getProperties().get("user.home") + File.separator + ".jacamo/user.properties");
     }
 
-    public File getMasterConfFile() {
+    @Override
+    public File getLocalConfFile() {
         return new File("jacamo.properties");
     }
 
@@ -135,7 +152,7 @@ public class Config extends jason.util.Config {
 
     /** Set most important parameters with default values */
     public void fix() {
-        tryToFixJarFileConf(JACAMO_JAR, "jacamo",   5000);
+        tryToFixJarFileConf(JACAMO_JAR, "jacamo",   10000);
         tryToFixJarFileConf(MOISE_JAR,  "moise",   5000);
         super.fix();
         

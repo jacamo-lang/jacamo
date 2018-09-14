@@ -57,7 +57,7 @@
         <delete file="${ant.project.name}.jar" />
         <copy file="${jasonJar}" tofile="<PROJECT-FILE-NOEXT>.jar" />
         <copy file="${jacamo.project.file}" tofile="default.jcm" />
-        <jar update="yes" jarfile="<PROJECT-FILE-NOEXT>.jar" >
+        <jar update="yes" jarfile="jacamo-<PROJECT-FILE-NOEXT>.jar" >
             <fileset dir="${basedir}">
                 <include name="**/*.asl" />
                 <include name="**/*.jcm" />
@@ -78,7 +78,7 @@
         <delete file="default.jcm" />
         <echo>-----------------------</echo>
         <echo/>
-        <echo>To run your MAS, just type "java -jar <PROJECT-FILE-NOEXT>.jar"</echo>
+        <echo>To run your MAS, just type "java -jar jacamo-<PROJECT-FILE-NOEXT>.jar"</echo>
     </target>
 
     <target name="clean" >

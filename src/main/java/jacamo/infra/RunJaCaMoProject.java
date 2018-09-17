@@ -58,10 +58,10 @@ public class RunJaCaMoProject {
           File directory = file.getAbsoluteFile().getParentFile();
           project = parser.parse(directory.toString());
           if (Config.get().getJaCaMoHome().isEmpty()) {
-              if (Config.get().getUserConfFile().exists())
-                  System.out.println("JaCaMo is not configured, creating a default configuration.");
-              else
-                  Config.get().setShowFixMsgs(false);
+              //if (Config.get().getUserConfFile().exists())
+              //    System.out.println("JaCaMo is not configured, creating a default configuration.");
+              //else
+              Config.get().setShowFixMsgs(false);
               Config.get().fix();
           }
           project.setProjectFile(file);

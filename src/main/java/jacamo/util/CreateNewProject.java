@@ -23,6 +23,7 @@ public class CreateNewProject {
     File main, path;
     String id;
     static Config c = Config.get();
+    boolean consoleApp = false;
 
     public CreateNewProject(File m) {
         main = m;
@@ -35,8 +36,13 @@ public class CreateNewProject {
 
 
     public static void main(String[] args) throws Exception {
-            String pId = null;
-        if (args.length == 0) {
+        boolean consoleApp = false;
+        for (int i=0; i<args.length; i++)
+            if ("--console".equals(args[i])) 
+                consoleApp = true;
+        
+        String pId = null;
+        if (args.length == 0 || (args.length == 1 && consoleApp)) {
             System.out.println(Config.get().getPresentation()+"\n");
             /*System.out.println("usage must be:");
             System.out.println("      java "+CreateNewProject.class.getName()+" <id of new application>");
@@ -52,14 +58,15 @@ public class CreateNewProject {
         }
 
         if (Config.get().getJaCaMoHome().isEmpty()) {
-            if (Config.get().getUserConfFile().exists())
-                System.out.println("JaCaMo is not configured, creating a default configuration.");
-            else
-                Config.get().setShowFixMsgs(false);
+            //if (Config.get().getUserConfFile().exists())
+            //    System.out.println("JaCaMo is not configured, creating a default configuration.");
+            //else
+            Config.get().setShowFixMsgs(false);
             Config.get().fix();
         }
 
         CreateNewProject p = new CreateNewProject(new File(pId));
+        p.consoleApp = consoleApp;
         p.createDirs();
         p.copyFiles();
         p.usage();
@@ -72,7 +79,8 @@ public class CreateNewProject {
         System.out.println("   $ cd "+path);
         System.out.println("   $ gradle -q --console=plain\n");
         System.out.println("an eclipse project can be created with");
-        System.out.println("   $ gradle eclipse\n");
+        System.out.println("   $ gradle eclipse");
+        System.out.println("or 'Gradle Import Project' from Eclipse menu File/Import\n");
     }
 
     void createDirs() {
@@ -121,8 +129,10 @@ public class CreateNewProject {
 
                 l = l.replace("<ORGANIZATION_NAME>", id);
 
-                l = l.replace("handlers = jason.runtime.MASConsoleLogHandler", "#handlers = jason.runtime.MASConsoleLogHandler");
-                l = l.replace("#handlers= java.util.logging.ConsoleHandler", "handlers= java.util.logging.ConsoleHandler");
+                if (consoleApp) {
+                    l = l.replace("handlers = jason.runtime.MASConsoleLogHandler", "#handlers = jason.runtime.MASConsoleLogHandler");
+                    l = l.replace("#handlers= java.util.logging.ConsoleHandler", "handlers= java.util.logging.ConsoleHandler");
+                }
 
                 out.append(l+"\n");
                 l = in.readLine();

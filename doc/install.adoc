@@ -3,7 +3,10 @@
 
 ifdef::env-github[:outfilesuffix: .adoc]
 
-We have different options to start using JaCaMo: using Eclipse, shell script commands, Gradle, or Docker. Eclipse and shell script options require that you download and install JaCaMo in your machine.
+We have different options to start using JaCaMo: Eclipse, shell script commands, Gradle, or Docker.
+
+Eclipse and shell script options require that you download and install JaCaMo in your machine.
+Since the shell script, Gradle, and Docker options do not include an IDE, you can either import the project into an Eclipse workspace (instructions are shown by the creation script) or use some text editor (we suggest Atom, see below).
 
 == Eclipse Plugin
 
@@ -85,7 +88,7 @@ If you want to run a JaCaMo application that was not created with a `build.gradl
 
 Requirements:
 
-- https://github.com/jacamo-lang/docker[Docker] 
+- https://github.com/jacamo-lang/docker[Docker]
 
 See link:https://github.com/jacamo-lang/docker[JaCaMo-Docker page] for instructions on how to create and run JaCaMo application using Docker images.
 

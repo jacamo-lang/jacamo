@@ -107,14 +107,14 @@ clean {
     delete 'examples/writing-paper/bin'
 }
 
-task config (type: JavaExec, dependsOn: 'jar') {
-    main = 'jacamo.util.Config'
+task config (dependsOn: 'jar') {
+    /*main = 'jacamo.util.Config'
     classpath sourceSets.main.runtimeClasspath
     workingDir project.buildDir.absolutePath + '/libs'
 
     doFirst {
         delete System.getProperty("user.home")+'/.jacamo'
-    }
+    }*/
 
     doLast {
         println '------'

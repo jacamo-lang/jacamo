@@ -18,7 +18,7 @@ public class Config extends jason.util.Config {
     public static final String DOT_PATH       = "dotPath";
 
     public static final String JACAMO_JAR    = "jacamoJar";
-    public static final String MOISE_JAR     = "moiseJar";
+    //public static final String MOISE_JAR     = "moiseJar";
 
     static {
         jason.util.Config.setClassFactory(Config.class.getName());
@@ -48,8 +48,8 @@ public class Config extends jason.util.Config {
         if (r) {
             String jarFile = getJarFromClassPath("jacamo");
             if (checkJar(jarFile, 100000)) {
-                if (!getJaCaMoJar().equals(jarFile)) {
-                    System.out.println("\n\n*** The jacamo.jar from classpath is different than jacamo.jar from configuration, consider to delete the configuration (file ~/.jacamo/user.properties or jacamo.properties.");
+                if (getJaCaMoJar() != null && !getJaCaMoJar().equals(jarFile)) {
+                    System.out.println("\n\n*** The jacamo.jar from classpath is different than jacamo.jar from configuration, consider to delete the configuration (file ~/.jacamo/user.properties or jacamo.properties).");
                     System.out.println("Classpath is\n   "+jarFile+
                                      "\nConfig    is\n   "+getJaCaMoJar()+"\n\n");
                 }
@@ -153,7 +153,7 @@ public class Config extends jason.util.Config {
     /** Set most important parameters with default values */
     public void fix() {
         tryToFixJarFileConf(JACAMO_JAR, "jacamo",   10000);
-        tryToFixJarFileConf(MOISE_JAR,  "moise",   5000);
+        //tryToFixJarFileConf(MOISE_JAR,  "moise",   5000);
         super.fix();
         
         if (getProperty(START_WEB_EI) == null) {

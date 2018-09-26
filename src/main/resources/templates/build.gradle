@@ -13,15 +13,15 @@ apply plugin: 'eclipse'
 version '1.0'
 group   'org.jacamo'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
 
     maven { url "http://jacamo.sourceforge.net/maven2" }
     maven { url "http://jade.tilab.com/maven/" }
-    
+
     flatDir {
        dirs 'lib'
     }
@@ -44,6 +44,9 @@ sourceSets {
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {
+    doFirst {
+        mkdir 'log'
+    }
     description 'runs the application'
     main = 'jacamo.infra.JaCaMoLauncher'
     args '<PROJECT-FILE>'
@@ -53,5 +56,5 @@ task run (type: JavaExec, dependsOn: 'classes') {
 clean {
     delete 'bin'
     delete 'build'
+    delete 'log'
 }
-

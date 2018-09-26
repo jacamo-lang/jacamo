@@ -38,7 +38,7 @@ dependencies {
     compile group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
 
     runtime group: 'com.tilab.jade' , name: 'jade'    , version: '4.5.0'
-    runtime group: 'org.apache.ant' , name: 'ant'     , version: '1.10.1'
+    runtime group: 'org.apache.ant' , name: 'ant'     , version: '1.10.+'
 
     testCompile 'junit:junit:4.12'
 }

@@ -1,4 +1,4 @@
-package jacamo.infra;
+package jacamo.platform;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

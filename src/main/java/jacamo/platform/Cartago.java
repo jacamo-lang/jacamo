@@ -10,8 +10,6 @@ import cartago.CartagoException;
 import cartago.CartagoService;
 import cartago.WorkspaceId;
 import jaca.CartagoEnvironment;
-import jacamo.infra.EnvironmentInspector;
-import jacamo.infra.EnvironmentInspectorWeb;
 import jacamo.project.JaCaMoWorkspaceParameters;
 import jason.mas2j.ClassParameters;
 

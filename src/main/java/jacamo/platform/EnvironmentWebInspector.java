@@ -1,10 +1,9 @@
 package jacamo.platform;
 
 import cartago.CartagoService;
-import jacamo.infra.EnvironmentInspectorWeb;
 import jacamo.util.Config;
 
-public class EnvironmentWebInspector extends DefaultPlatformImpl {
+public class EnvironmentWebInspector implements Platform {
     
     boolean webOn = true;
 

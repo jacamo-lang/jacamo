@@ -570,13 +570,14 @@ List terms() :    { ArrayList listTerms = new ArrayList(); Term v; PlanBody o; }
 }
 
 
-Term term() :          { Object o=null; Token K; }
+Term term() :          { Object o=null; Token K; String sig = "+"; }
 {
   ( o=list()
   | o=literal()
   | o=string()
-  | K = <INT>          { return ASSyntax.parseNumber(K.image);  }
-  | K = <REAL>         { return ASSyntax.parseNumber(K.image);  }
+  | LOOKAHEAD(4) 
+    ["-" {sig = "-"; }] K = <INT>          { return ASSyntax.parseNumber(sig+K.image);  }
+  | ["-" {sig = "-"; }] K = <REAL>         { return ASSyntax.parseNumber(sig+K.image);  }
   )
                        { return changeToAtom(o); }
 }

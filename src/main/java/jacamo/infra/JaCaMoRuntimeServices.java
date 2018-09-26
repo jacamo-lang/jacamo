@@ -32,10 +32,4 @@ public class JaCaMoRuntimeServices extends CentralisedRuntimeServices {
         return super.createAgent(agName, agSource, agClass, archClasses, bbPars, stts, father);
     }
 
-    /*
-    @Override
-    protected CentralisedAgArch newAgInstance() {
-        return new JaCaMoAgArch();
-    }
-    */
 }

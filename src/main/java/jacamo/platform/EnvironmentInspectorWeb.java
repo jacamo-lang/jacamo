@@ -1,4 +1,4 @@
-package jacamo.infra;
+package jacamo.platform;
 
 import java.io.IOException;
 import java.io.OutputStream;

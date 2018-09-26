@@ -49,8 +49,6 @@ import jason.runtime.SourcePath;
  */
 public class JaCaMoLauncher extends RunCentralisedMAS {
 
-    //protected Map<String, ArtifactId> artIds = new HashMap<String, ArtifactId>();
-
     protected List<Platform> platforms = new ArrayList<Platform>();
 
     public static String defaultProjectFileName = "default.jcm";
@@ -81,10 +79,6 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     public RuntimeServicesInfraTier getRuntimeServices() {
         return new JaCaMoRuntimeServices(runner);
     }
-
-    //public ArtifactId getArtId(String artName) {
-    //    return artIds.get(artName);
-    //}
 
     @Override
     public int init(String[] args) {

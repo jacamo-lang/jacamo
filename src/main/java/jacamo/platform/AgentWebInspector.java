@@ -2,7 +2,7 @@ package jacamo.platform;
 
 import jacamo.util.Config;
 
-public class AgentWebInspector extends DefaultPlatformImpl {
+public class AgentWebInspector implements Platform {
 
     @Override
     public void init(String[] args) {

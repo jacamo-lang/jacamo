@@ -2,7 +2,7 @@ package jacamo.infra;
 
 import jason.infra.InfrastructureFactory;
 import jason.infra.MASLauncherInfraTier;
-import jason.runtime.RuntimeServicesInfraTier;
+import jason.runtime.RuntimeServices;
 
 public class JaCaMoInfrastructureFactory  implements InfrastructureFactory {
 
@@ -10,7 +10,7 @@ public class JaCaMoInfrastructureFactory  implements InfrastructureFactory {
         return new JaCaMoMASLauncherAnt();
     }
 
-    public RuntimeServicesInfraTier createRuntimeServices() {
+    public RuntimeServices createRuntimeServices() {
         return new JaCaMoRuntimeServices(JaCaMoLauncher.getRunner());
     }
 }

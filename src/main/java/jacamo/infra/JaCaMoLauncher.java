@@ -35,7 +35,7 @@ import jason.mas2j.AgentParameters;
 import jason.mas2j.ClassParameters;
 import jason.runtime.MASConsoleGUI;
 import jason.runtime.MASConsoleLogHandler;
-import jason.runtime.RuntimeServicesInfraTier;
+import jason.runtime.RuntimeServices;
 import jason.runtime.Settings;
 import jason.runtime.SourcePath;
 
@@ -76,7 +76,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     }
 
     @Override
-    public RuntimeServicesInfraTier getRuntimeServices() {
+    public RuntimeServices getRuntimeServices() {
         return new JaCaMoRuntimeServices(runner);
     }
 

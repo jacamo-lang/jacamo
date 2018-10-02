@@ -22,7 +22,7 @@ public class JaCaMoRuntimeServices extends CentralisedRuntimeServices {
     @Override
     public String createAgent(String agName, String agSource, String agClass, List<String> archClasses, ClassParameters bbPars, Settings stts, Agent father) throws Exception {
         if (archClasses == null)
-            archClasses = new ArrayList<String>();
+            archClasses = new ArrayList<>();
 
         if (!archClasses.contains(JaCaMoAgArch.class.getName()))
             archClasses.add(JaCaMoAgArch.class.getName());

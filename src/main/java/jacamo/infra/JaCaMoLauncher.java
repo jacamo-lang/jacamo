@@ -49,7 +49,7 @@ import jason.runtime.SourcePath;
  */
 public class JaCaMoLauncher extends RunCentralisedMAS {
 
-    protected List<Platform> platforms = new ArrayList<Platform>();
+    protected List<Platform> platforms = new ArrayList<>();
 
     public static String defaultProjectFileName = "default.jcm";
 
@@ -285,7 +285,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     @Override
     public void createAgs() throws JasonException {
         // add jacamo archs
-        List<AgentParameters> lags = new ArrayList<AgentParameters>();
+        List<AgentParameters> lags = new ArrayList<>();
         for (AgentParameters ap: getJaCaMoProject().getAgents()) {
             if (ap.getNbInstances() > 0 && getJaCaMoProject().isInDeployment(ap.getHost())) {
                 if (getJaCaMoProject().getNodeHost(ap.getHost()) != null) {
@@ -340,7 +340,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         CentralisedAgArch agArch = new CentralisedAgArch();
         try {
             agArch.setAgName(n);
-            List<String> archs = new ArrayList<String>();
+            List<String> archs = new ArrayList<>();
             archs.add(CAgentArch.class.getName());
             archs.add(JaCaMoAgArch.class.getName());
 

@@ -47,7 +47,7 @@ sourceSets {
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {
-    grou ' JaCaMo'
+    group      ' JaCaMo'
     description 'runs the JaCaMo application'
     doFirst {
         mkdir 'log'
@@ -55,6 +55,36 @@ task run (type: JavaExec, dependsOn: 'classes') {
     main 'jacamo.infra.JaCaMoLauncher'
     args '<PROJECT-FILE>'
     classpath sourceSets.main.runtimeClasspath
+}
+
+
+task uberJar(type: Jar, dependsOn: 'classes') {
+    group      ' JaCaMo'
+    description 'creates a single runnable jar file with all dependencies'
+
+    manifest {
+        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
+    }
+    baseName = 'jacamo-<PROJECT_NAME>' // the name must start with jacamo so that jacamo...jar is found in the classpath
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from (project.projectDir.absolutePath) { 
+        include '**/*.asl' 
+        include '**/*.xml' 
+        include '**/*.jcm' 
+        include '*.properties' 
+    } 
+    from (project.buildDir.absolutePath + '/jcm') { 
+        include '**/*' 
+    } 
+    with jar
+
+    doFirst {
+        copy {
+            from '<PROJECT-FILE>'
+            rename '<PROJECT-FILE>','default.jcm'
+            into project.buildDir.absolutePath + '/jcm'
+        }
+    }
 }
 
 clean {

@@ -116,7 +116,10 @@ public class CreateNewProject {
             String l = in.readLine();
             while (l != null) {
                 l = l.replace("<PROJECT_NAME>", id);
+                l = l.replace("<PROJECT_NAME>", id);
                 l = l.replace("<PLATFORM>", "");
+                l = l.replace("<PROJECT-FILE>", id+".jcm");
+                l = l.replace("<PROJECT-FILE>", id+".jcm");
                 l = l.replace("<PROJECT-FILE>", id+".jcm");
                 l = l.replace("<VERSION>", c.getJaCaMoVersion());
                 l = l.replace("<DATE>", new SimpleDateFormat("MMMM dd, yyyy - HH:mm:ss").format(new Date()));

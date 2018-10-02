@@ -1,7 +1,7 @@
 /*
    Project <PROJECT_NAME>
 
-   Gradle build file for JaCaMo Application
+   Gradle build file for JaCaMo Applications
    <DATE>
 */
 
@@ -47,11 +47,12 @@ sourceSets {
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {
+    grou ' JaCaMo'
+    description 'runs the JaCaMo application'
     doFirst {
         mkdir 'log'
     }
-    description 'runs the application'
-    main = 'jacamo.infra.JaCaMoLauncher'
+    main 'jacamo.infra.JaCaMoLauncher'
     args '<PROJECT-FILE>'
     classpath sourceSets.main.runtimeClasspath
 }

@@ -52,8 +52,8 @@ public class Config extends jason.util.Config {
                     System.out.println("\n\n*** The jacamo.jar from classpath is different than jacamo.jar from configuration, consider to delete the configuration (file ~/.jacamo/user.properties or jacamo.properties).");
                     System.out.println("Classpath is\n   "+jarFile+
                                      "\nConfig    is\n   "+getJaCaMoJar()+"\n\n");
-                }
-                
+                }                
+                put(JACAMO_JAR, jarFile); // always prefer classpath jar
             }
         }
         return r;
@@ -151,8 +151,8 @@ public class Config extends jason.util.Config {
 
     /** Set most important parameters with default values */
     public void fix() {
-        tryToFixJarFileConf(JACAMO_JAR, "jacamo",   10000);
-        tryToFixJarFileConf(MOISE_JAR,  "moise",   5000);
+        tryToFixJarFileConf(JACAMO_JAR, "jacamo", 10000); // this jar is required at runtime (e.g. for .include)
+        tryToFixJarFileConf(MOISE_JAR,  "moise",   5000); // this jar is required at runtime (e.g. for .include)
         super.fix();
         
         if (getProperty(START_WEB_EI) == null) {

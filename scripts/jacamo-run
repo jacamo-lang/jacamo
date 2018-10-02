@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source "`dirname "$0"`/jacamo-setup"
+
+# run a jacamo application
+
+java -classpath "$JACAMO_HOME/libs/*" jacamo.infra.JaCaMoLauncher $1 $2

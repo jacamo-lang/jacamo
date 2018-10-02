@@ -2,6 +2,6 @@
 
 source "`dirname "$0"`/jacamo-setup"
 
-# run jacamo application
+# compile and run a jacamo application
 
 java -classpath "$JACAMO_HOME/libs/*" jacamo.infra.RunJaCaMoProject $1 $2

@@ -10,7 +10,7 @@ if [ -z "$JACAMO_HOME" ] ; then
     cd "$CURDIR"
 fi
 
-echo JaCaMo home is $JACAMO_HOME
+#echo JaCaMo home is $JACAMO_HOME
 
 JACAMO_JAR="$JACAMO_HOME/libs/jacamo-$JacamoREL.jar"
 JASON_JAR="$JACAMO_HOME/libs/jason-2.3-SNAPSHOT.jar"

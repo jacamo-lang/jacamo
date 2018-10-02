@@ -71,17 +71,17 @@ Requirements:
 
 You have to install https://gradle.org[Gradle] on your computer and then run the following commands to create a new application (JaCaMo will be downloaded by the script):
 -----
-curl -s http://jacamo.sourceforge.net/nps/npss.sh -o np.sh
+curl -s http://jacamo.sourceforge.net/nps/np07.sh -o np.sh
 sh ./np.sh
 -----
 
-NOTE: `npss.sh` creates an application based on the JaCaMo SnapShot version. You can replace it by `np07.sh` to create a JaCaMo application based on version 0.7.
+NOTE: `npss.sh` creates an application based on JaCaMo 0.7. You can replace it by `npss.sh` to create a JaCaMo application based on the current snap shot version.
 
 You will be asked to enter the identification of the application and then instructions about how to run the application will be shown.
 
 If you want to run a JaCaMo application that was not created with a `build.gradle` file, you can download a template from https://raw.githubusercontent.com/jacamo-lang/jacamo/master/src/main/resources/templates/build.gradle[here] and replace
 
-- `<VERSION>` by the required JaCaMo release (e.g. `0.7-SNAPSHOT`)
+- `<VERSION>` by the required JaCaMo release (e.g. `0.7`)
 - `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
 
 == Docker

@@ -2,6 +2,6 @@
 
 source "`dirname "$0"`/jacamo-setup"
 
-echo Creating new JaCaMo project: $1
+echo Creating new JaCaMo application: $1
 
 java -classpath "$JACAMO_HOME/libs/*" jacamo.util.CreateNewProject $1 --console

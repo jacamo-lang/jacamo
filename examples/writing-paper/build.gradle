@@ -1,8 +1,8 @@
 /*
-   Project <PROJECT_NAME>
+   example: writting paper
 
    Gradle build file for JaCaMo Application
-   <DATE>
+   September 27, 2018 - 15:33:36
 */
 
 defaultTasks 'run'
@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '<VERSION>'
+    compile group: 'org.jacamo', name: 'jacamo', version: '0.7'
 }
 
 sourceSets {
@@ -36,9 +36,6 @@ sourceSets {
         java {
             srcDir 'src/env'
             srcDir 'src/agt'
-            srcDir 'src/org'
-            srcDir 'src/int'
-            srcDir 'src/java'
         }
         resources {
             srcDir 'src/resources'
@@ -47,17 +44,13 @@ sourceSets {
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {
-    doFirst {
-        mkdir 'log'
-    }
     description 'runs the application'
     main = 'jacamo.infra.JaCaMoLauncher'
-    args '<PROJECT-FILE>'
+    args 'writing_paper.jcm'
     classpath sourceSets.main.runtimeClasspath
 }
 
 clean {
     delete 'bin'
     delete 'build'
-    delete 'log'
 }

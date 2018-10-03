@@ -74,13 +74,14 @@ public class CreateNewProject {
 
     void usage() {
         System.out.println("\n\nYou can run your application with:");
-        System.out.println("   $ jacamo "+path+"/"+id+".jcm");
+        System.out.println("   cd "+path);
+        System.out.println("   gradle -q --console=plain\n");
+        System.out.println("or (if you have JaCaMo scripts installed)");
+        System.out.println("   jacamo "+path+"/"+id+".jcm\n");
+        System.out.println("an Eclipse project can be created using");
+        System.out.println("   'Gradle Import Project' from Eclipse menu File/Import\n");
         System.out.println("or");
-        System.out.println("   $ cd "+path);
-        System.out.println("   $ gradle -q --console=plain\n");
-        System.out.println("an eclipse project can be created with");
-        System.out.println("   $ gradle eclipse");
-        System.out.println("or 'Gradle Import Project' from Eclipse menu File/Import\n");
+        System.out.println("   gradle eclipse");
     }
 
     void createDirs() {

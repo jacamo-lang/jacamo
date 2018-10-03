@@ -19,6 +19,30 @@ To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/
 
 image:./tutorials/hello-world/screens/p1.png[]
 
+
+== Gradle
+
+Requirements:
+
+- Java >= 8
+- Gradle
+
+You have to install https://gradle.org[Gradle] on your computer and then run the following commands to create a new application (the first time you run them, it takes a while to finish since it downloads JaCaMo first):
+-----
+curl http://jacamo.sourceforge.net/nps/np07.gradle -s -o build.gradle
+gradle --console=plain
+-----
+
+NOTE: `np07.gradle` creates an application based on JaCaMo 0.7. You can replace it by `npss.gradle` to create a JaCaMo application based on the current snap shot version. `curl` is a program that simply downloads the `np07.gradle` file, you can use other programs to download the `np....gradle` file.
+
+You will be asked to enter the identification of the application and then instructions about how to run it will be shown.
+
+If you want to run a JaCaMo application that was not created with a `build.gradle` file, you can download a template from https://raw.githubusercontent.com/jacamo-lang/jacamo/master/src/main/resources/templates/build.gradle[here] and replace
+
+- `<VERSION>` by the required JaCaMo release (e.g. `0.7`)
+- `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
+
+
 == Shell commands scripts
 
 Requirements:
@@ -61,28 +85,6 @@ that can be run by
 ----
 java -jar helloworld.jar
 ----
-
-== Gradle
-
-Requirements:
-
-- Java >= 8
-- Gradle
-
-You have to install https://gradle.org[Gradle] on your computer and then run the following commands to create a new application (JaCaMo will be downloaded by the script):
------
-curl -s http://jacamo.sourceforge.net/nps/np07.sh -o np.sh
-sh ./np.sh
------
-
-NOTE: `npss.sh` creates an application based on JaCaMo 0.7. You can replace it by `npss.sh` to create a JaCaMo application based on the current snap shot version.
-
-You will be asked to enter the identification of the application and then instructions about how to run the application will be shown.
-
-If you want to run a JaCaMo application that was not created with a `build.gradle` file, you can download a template from https://raw.githubusercontent.com/jacamo-lang/jacamo/master/src/main/resources/templates/build.gradle[here] and replace
-
-- `<VERSION>` by the required JaCaMo release (e.g. `0.7`)
-- `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
 
 == Docker
 

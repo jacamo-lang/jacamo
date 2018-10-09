@@ -34,7 +34,10 @@ sourceSets {
     main {
         java {
             srcDir 'src/env'
-            srcDir 'src/agt/jia'
+            srcDir 'src/agt'
+            srcDir 'src/org'
+            srcDir 'src/int'
+            srcDir 'src/java'
         }
         resources {
             srcDir 'src/resources'
@@ -44,6 +47,7 @@ sourceSets {
 
 task run (type: JavaExec, dependsOn: 'classes') {
     description 'runs the application'
+    group ' JaCaMo'
     main = 'jacamo.infra.JaCaMoLauncher'
     args 'auction_org.jcm'
     classpath sourceSets.main.runtimeClasspath

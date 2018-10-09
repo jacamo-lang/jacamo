@@ -44,6 +44,7 @@ sourceSets {
 
 task run (type: JavaExec, dependsOn: 'classes') {
     description 'runs the application'
+    group ' JaCaMo'
     main = 'jacamo.infra.JaCaMoLauncher'
     args 'auction_ag.jcm'
     classpath sourceSets.main.runtimeClasspath

@@ -47,7 +47,7 @@ sourceSets {
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {
-    group      ' JaCaMo'
+    group       ' JaCaMo'
     description 'runs the JaCaMo application'
     doFirst {
         mkdir 'log'
@@ -67,15 +67,15 @@ task uberJar(type: Jar, dependsOn: 'classes') {
     }
     baseName = 'jacamo-<PROJECT_NAME>' // the name must start with jacamo so that jacamo...jar is found in the classpath
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    from (project.projectDir.absolutePath) { 
-        include '**/*.asl' 
-        include '**/*.xml' 
-        include '**/*.jcm' 
-        include '*.properties' 
-    } 
-    from (project.buildDir.absolutePath + '/jcm') { 
-        include '**/*' 
-    } 
+    from (project.projectDir.absolutePath) {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.jcm'
+        include '*.properties'
+    }
+    from (project.buildDir.absolutePath + '/jcm') {
+        include '**/*'
+    }
     with jar
 
     doFirst {

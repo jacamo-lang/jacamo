@@ -16,5 +16,5 @@ scp -r *.html $USERSF,jacamo@web.sf.net:$DEST
 #scp -r ../jcm.css $USERSF,jacamo@web.sf.net:$DEST/..
 #scp -r screens $USERSF,jacamo@web.sf.net:$DEST
 #scp -r solutions $USERSF,jacamo@web.sf.net:$DEST
-#scp -r code $USERSF,jacamo@web.sf.net:$DEST
+scp -r code $USERSF,jacamo@web.sf.net:$DEST
 #scp code/es.png $USERSF,jacamo@web.sf.net:$DEST/code

@@ -29,11 +29,11 @@ Requirements:
 
 You have to install https://gradle.org[Gradle] on your computer and then run the following commands to create a new application (the first time you run them, it takes a while to finish since it downloads JaCaMo first):
 -----
-curl http://jacamo.sourceforge.net/nps/np07.gradle -s -o build.gradle
-gradle --console=plain
+curl -s -O http://jacamo.sourceforge.net/nps/np07.gradle
+gradle -b np07.gradle --console=plain
 -----
 
-NOTE: `np07.gradle` creates an application based on JaCaMo 0.7. You can replace it by `npss.gradle` to create a JaCaMo application based on the current snap shot version. `curl` is a program that simply downloads the `np07.gradle` file, you can use other programs to download the `np....gradle` file.
+NOTE: `np07.gradle` creates an application based on JaCaMo 0.7. You can replace it by `npss.gradle` to create a JaCaMo application based on the current snap shot version. https://curl.haxx.se[`curl`] is a program that simply downloads the `np07.gradle` file from http://jacamo.sourceforge.net/nps/np07.gradle.
 
 You will be asked to enter the identification of the application and then instructions about how to run it will be shown.
 
@@ -50,7 +50,7 @@ Requirements:
 - Java >= 8
 
 
-You can download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here], unzip it, and use then use scripts to create and run applications. To configure these scripts:
+You can download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here], unzip it, and then use scripts to create and run applications. To configure these scripts:
 
 
 . Make sure you have `JACAMO_HOME` properly set (this variable points to a directory with  subdirectories `libs` and `scripts` of JaCaMo), then setup the `PATH`:
@@ -67,12 +67,16 @@ Available scripts:
 ----
 jacamo-new-project ../somewhere/helloworld
 ----
-Examples of agent, artifact and organization are placed in the `src` folder.
+Examples of agent, artifact and organization are placed in the `src` folder. If the application name is not informed, the user is asked to provide one. A second, optional, argument is `--console` and creates an application where the messages are printed in the console instead of opening the MAS Console GUI.
 
 
-. And *run* it with
+. *Compile* and *run* an application with
 +
     jacamo ../somewhere/helloworld/helloworld.jcm
+
+. *Run* an application with
++
+    jacamo-run ../somewhere/helloworld/helloworld.jcm
 
 
 . To create a single jar file with all resources to run the application:
@@ -85,6 +89,28 @@ that can be run by
 ----
 java -jar helloworld.jar
 ----
+
+[cols="<1,<1,<2",options="header"]
+|===
+| Script | Arguments | Examples
+
+| jacamo-new-project  | [_application name_]
+
+   [, `--console`]
+|  `jacamo-new-project`
+
+   `jacamo-new-project helloworld`
+
+   `jacamo-new-project helloworld --console`
+
+| jacamo              | _application name_  |  `jacamo helloworld.jcm`
+
+| jacamo-run          | _application name_  |  `jacamo-run helloworld.jcm`
+
+| jacamo-jar          | _application name_  |  `jacamo-jar helloworld.jcm`
+
+|===
+
 
 == Docker
 

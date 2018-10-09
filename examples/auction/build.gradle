@@ -45,6 +45,7 @@ sourceSets {
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {
+    group ' JaCaMo'
     description 'runs the application'
     main = 'jacamo.infra.JaCaMoLauncher'
     args 'auction.jcm'

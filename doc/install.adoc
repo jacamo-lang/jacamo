@@ -13,7 +13,7 @@ Since the shell script, Gradle, and Docker options do not include an IDE, you ca
 Requirements:
 
 - Java >= 8
-- Eclipse Java-EE or Committers >= Juno
+- Eclipse Java-EE or Committers >= Photon Release (4.8.0)
 
 To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create and run a new application.
 
@@ -36,6 +36,22 @@ gradle -b np07.gradle --console=plain
 NOTE: `np07.gradle` creates an application based on JaCaMo 0.7. You can replace it by `npss.gradle` to create a JaCaMo application based on the current snap shot version. https://curl.haxx.se[`curl`] is a program that simply downloads the `np07.gradle` file from http://jacamo.sourceforge.net/nps/np07.gradle.
 
 You will be asked to enter the identification of the application and then instructions about how to run it will be shown.
+
+Example of output:
+----
+> Task :run
+JaCaMo 0.7 built on Mon Oct 01 20:50:56 BRT 2018
+
+Enter the identification of the new application: bobob
+Creating path /Users/jomi/tmp/bobob
+
+You can run your application with:
+   $ cd /Users/jomi/tmp/bobob
+   $ gradle -q --console=plain
+
+an eclipse project can be created with
+'Gradle Import Project' from Eclipse menu File/Import
+----
 
 If you want to run a JaCaMo application that was not created with a `build.gradle` file, you can download a template from https://raw.githubusercontent.com/jacamo-lang/jacamo/master/src/main/resources/templates/build.gradle[here] and replace
 

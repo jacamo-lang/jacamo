@@ -198,10 +198,9 @@ public class ConfigGUI {
         }
 
         File fDot = new File(dotTF.getText().trim());
-        if (fDot.exists())
-            userProperties.put(Config.DOT_PATH, fDot.getAbsolutePath());
-        else
-            System.out.println("The dot program does not exist at "+fDot+", ignoring the value.");
+        userProperties.put(Config.DOT_PATH, fDot.getAbsolutePath());
+        if (!fDot.exists())
+            System.out.println("The dot program does not exist at "+fDot);
 
         userProperties.store();
 

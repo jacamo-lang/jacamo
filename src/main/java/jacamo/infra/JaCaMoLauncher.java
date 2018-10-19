@@ -103,7 +103,8 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             projectFileName = args[0];
         }
 
-        if (Config.get().getJaCaMoHome().isEmpty()) {
+        // jacamo.jar and moise.jar must be configured (for includes)
+        if (Config.get().getJaCaMoHome().isEmpty() || Config.get().get(Config.MOISE_JAR) == null) {
             //if (Config.get().getUserConfFile().exists())
             //    System.out.println("JaCaMo is not configured, creating a default configuration.");
             //else

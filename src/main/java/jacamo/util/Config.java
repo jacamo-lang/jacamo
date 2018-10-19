@@ -150,6 +150,7 @@ public class Config extends jason.util.Config {
     }
 
     /** Set most important parameters with default values */
+    @Override
     public void fix() {
         tryToFixJarFileConf(JACAMO_JAR, "jacamo", 10000); // this jar is required at runtime (e.g. for .include)
         tryToFixJarFileConf(MOISE_JAR,  "moise",   5000); // this jar is required at runtime (e.g. for .include)
@@ -174,6 +175,26 @@ public class Config extends jason.util.Config {
             } catch (Exception e) {
                 System.out.println("Error setting ant lib!");
                 e.printStackTrace();
+            }
+        }
+    }
+    
+    @Override
+    public void tryToFixJarFileConf(String jarEntry, String jarFilePrefix, int minSize) {
+        super.tryToFixJarFileConf(jarEntry, jarFilePrefix, minSize);
+        // for moise.jar we need to fix based on jacamohome, since when running Config or ConfigGUI it is not in the classpath
+        // latter, eclipse requires these jars
+        if (get(jarEntry) == null && getJaCaMoHome() != null) { // super didn't solve
+            String jarFile = findJarInDirectory(new File(getJaCaMoHome()+"/libs"), jarFilePrefix);
+            if (checkJar(jarFile, minSize)) {
+                try {
+                    put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
+                    if (showFixMsgs)
+                        System.out.println("found at " + jarFile);
+                    return;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

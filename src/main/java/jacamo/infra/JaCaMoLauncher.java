@@ -75,9 +75,13 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         return (JaCaMoProject)getProject();
     }
 
+    private RuntimeServices singRTS = null;
+    
     @Override
     public RuntimeServices getRuntimeServices() {
-        return new JaCaMoRuntimeServices(runner);
+    	if (singRTS == null)
+    		singRTS = new JaCaMoRuntimeServices(runner);
+    	return singRTS;
     }
 
     @Override

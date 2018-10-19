@@ -37,7 +37,6 @@ sourceSets {
             srcDir 'src/env'
             srcDir 'src/agt'
             srcDir 'src/org'
-            srcDir 'src/int'
             srcDir 'src/java'
         }
         resources {

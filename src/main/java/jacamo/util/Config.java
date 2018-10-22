@@ -107,7 +107,7 @@ public class Config extends jason.util.Config {
     }
 
     public String getPresentation() {
-        return "JaCaMo "+getJaCaMoVersion()+" built on "+getJasonBuiltDate()+"\n"; 
+        return "JaCaMo "+getJaCaMoVersion()+" built on "+getJaCaMoBuiltDate()+"\n"; 
                //"     installed at "+getJaCaMoHome();
     }
 
@@ -212,6 +212,14 @@ public class Config extends jason.util.Config {
         Package j = Package.getPackage("jacamo.util");
         if (j != null) {
             return j.getSpecificationVersion();
+        }
+        return "?";
+    }
+    
+    public String getJaCaMoBuiltDate() {
+        Package j = Package.getPackage("jacamo.util");
+        if (j != null) {
+            return j.getImplementationVersion();
         }
         return "?";
     }

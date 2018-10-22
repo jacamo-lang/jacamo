@@ -6,14 +6,18 @@ import jason.mas2j.ClassParameters;
 import java.util.HashMap;
 import java.util.Map;
 
+import cartago.WorkspaceId;
+
 
 public class JaCaMoWorkspaceParameters {
 
     protected JaCaMoProject project;
     protected String name;
     protected String node;
-    protected Map<String,ClassParameters> artifacts = new HashMap<String, ClassParameters>();
+    protected Map<String,ClassParameters> artifacts = new HashMap<>();
     protected boolean debug = false;
+    
+    protected WorkspaceId wId = null; // the workspace id for the created workspace
 
     public JaCaMoWorkspaceParameters(JaCaMoProject project) {
         this.project = project;
@@ -22,6 +26,9 @@ public class JaCaMoWorkspaceParameters {
     public void setName(String n) { name = n; }
     public String getName()       { return name; }
 
+    public void setWId(WorkspaceId wid) { this.wId = wid; }
+    public WorkspaceId getWId() { return this.wId; }
+    
     public void setNode(String h) { node = h; }
     public String getNode()       { return node; }
 

@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
 
-    protected List<JaCaMoGroupParameters>  groups     = new ArrayList<JaCaMoGroupParameters>();
-    protected List<JaCaMoSchemeParameters> schemes    = new ArrayList<JaCaMoSchemeParameters>();
-    protected Map<String,String>           parameters = new HashMap<String, String>(); // like source ....
+    protected List<JaCaMoGroupParameters>  groups     = new ArrayList<>();
+    protected List<JaCaMoSchemeParameters> schemes    = new ArrayList<>();
+    protected Map<String,String>           parameters = new HashMap<>(); // like source ....
     protected String                       debug      = null;
 
     public JaCaMoOrgParameters(JaCaMoProject project) {

@@ -108,6 +108,10 @@ TOKEN : {
 |  <SCHEME:      "scheme">
 |  <PLAYERS:     "players">
 
+|  <INST:         "institution">
+|  <WORKSPACES:   "workspaces">
+
+
 | <TK_TRUE:   "true">
 | <TK_FALSE:  "false">
 | <TK_NOT:    "not">
@@ -185,6 +189,7 @@ JaCaMoProject parse(String directory) :           { Token masId; File f = null; 
 
   (organisation())*
 
+  (institution())*
   (
       (
            <CLASSPATH>      ":"  { project.getClassPaths().clear();        } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f.toString());} ) +
@@ -374,6 +379,32 @@ void scheme(JaCaMoOrgParameters org) :
   ] (<EOL>)*
                             { org.addScheme(s); }
 }
+
+void institution() :       { Token t;  Token opt; Object oval;
+                              JaCaMoInstParameters inst = new JaCaMoInstParameters(project);
+                            }
+{
+  <INST> t = <ATOM>         { inst.setName(t.image);
+                             if (project.getInstitution(inst.getName()) != null) {
+                                throw new ParseException("Institution with id "+inst.getName()+" already exists in the project!");
+                             }
+                             inst.addParameter("source",t.image+".sai");
+                           }
+  [ ":" oval = fileName()  { inst.addParameter("source",oval.toString()); }
+  ]
+
+  "{"  (<EOL>)*
+    (
+       (
+             <WORKSPACES>  ":"  (LOOKAHEAD(4) t = <ATOM> (<EOL>|",")+  { inst.addWorkspace(t.image); } )+
+           | <DEBUG>                                  (<EOL>)+      { inst.setDebug(true); }
+           |  opt=<ATOM>   ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { inst.addParameter(opt.image,oval.toString()); }
+       )
+    )*
+  "}" (<EOL>)*
+                            { project.addInstitution(inst); }
+}
+
 
 /*
 void deployment(String directory):

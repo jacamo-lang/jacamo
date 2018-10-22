@@ -34,18 +34,13 @@ public class Moise extends DefaultPlatformImpl {
         for (JaCaMoOrgParameters o: project.getOrgs()) {
             try {
                 if (project.isInDeployment(o.getNode())) {
-                    if (project.getNodeHost(o.getNode()) != null) {
-                        logger.warning("**** Remote organisation creation is not implemented yet! The organisation @ "+project.getNodeHost(o.getNode())+" wasn't created");
-                        continue;
-                    }
                     // fix path for org
                     o.addParameter("source", project.getOrgPaths().fixPath(o.getParameter("source")));
 
                     CartagoService.createWorkspace(o.getName());
                     logger.info("Workspace "+o.getName()+" created.");
 
-                    cartagoCtx.joinWorkspace(o.getName(), new AgentIdCredential("JaCaMoLauncherAg"));
-                    WorkspaceId wid = cartagoCtx.getJoinedWspId(o.getName());
+                    WorkspaceId wid = cartagoCtx.joinWorkspace(o.getName(), new AgentIdCredential("JaCaMoLauncherAgOrg"));
 
                     ArtifactId aid = cartagoCtx.makeArtifact(wid, o.getName(), OrgBoard.class.getName(), new Object[] { o.getParameter("source") } );
 
@@ -70,7 +65,7 @@ public class Moise extends DefaultPlatformImpl {
         String m = g.getName()+": "+g.getType()+" using artifact "+GroupBoard.class.getName();
 
         try {
-            OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<ArtifactId>();
+            OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<>();
             cartagoCtx.doAction(orgB, new Op("createGroup", new Object[] { g.getName(), g.getType(), fb} ));
             ArtifactId aid = fb.get();
 
@@ -107,7 +102,7 @@ public class Moise extends DefaultPlatformImpl {
         String m = s.getName()+": "+s.getType()+" using artifact "+SchemeBoard.class.getName();
 
         try {
-            OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<ArtifactId>();
+            OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<>();
             cartagoCtx.doAction(orgB, new Op("createScheme", new Object[] { s.getName(), s.getType(), fb} ));
             ArtifactId aid = fb.get();
 

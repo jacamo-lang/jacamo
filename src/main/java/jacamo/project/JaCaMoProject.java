@@ -31,16 +31,17 @@ public class JaCaMoProject extends MAS2JProject {
     protected static Logger logger = Logger.getLogger(JaCaMoProject.class.getName());
 
     //protected Deployment dep = null;
-    protected Map<String,JaCaMoWorkspaceParameters> workspaces = new HashMap<String,JaCaMoWorkspaceParameters>();
-    protected List<JaCaMoOrgParameters>       orgs       = new ArrayList<JaCaMoOrgParameters>();
-    protected Set<String> deplNodes = new HashSet<String>();
-    protected Map<String,String> nodeHosts = new HashMap<String, String>();
+    protected Map<String,JaCaMoWorkspaceParameters> workspaces = new HashMap<>();
+    protected List<JaCaMoOrgParameters>       orgs       = new ArrayList<>();
+    protected List<JaCaMoInstParameters>      insts      = new ArrayList<>();
+    protected Set<String> deplNodes = new HashSet<>();
+    protected Map<String,String> nodeHosts = new HashMap<>();
     //protected Set<String> toDebug = new HashSet<String>();
 
     protected SourcePath orgPaths = new SourcePath();
     protected SourcePath javaPaths = new SourcePath();
 
-    Map<String, String[]> platformParameters = new HashMap<String, String[]>();
+    Map<String, String[]> platformParameters = new HashMap<>();
 
     public JaCaMoProject() {
         // default asl-path
@@ -274,6 +275,21 @@ public class JaCaMoProject extends MAS2JProject {
         return null;
     }
 
+
+    public void addInstitution(JaCaMoInstParameters o) {
+        insts.add(o);
+    }
+    public Collection<JaCaMoInstParameters> getInstitutions() {
+        return insts;
+    }
+    public JaCaMoInstParameters getInstitution(String iId) {
+        for (JaCaMoInstParameters o: insts) {
+            if (o.getName().equals(iId))
+                return o;
+        }
+        return null;
+    }
+
     public void addAgWorkspace(String agId, JaCaMoWorkspaceParameters w) {
         if (agId.equals("*")) {
             for (AgentParameters ap: getAgents()) {
@@ -305,7 +321,7 @@ public class JaCaMoProject extends MAS2JProject {
     }
 
     public Collection<String> getCustomPlatforms() {
-        ArrayList<String> l = new ArrayList<String>();
+        ArrayList<String> l = new ArrayList<>();
         for (String pId: platformParameters.keySet()) {
             if (pId.contains(".")) {
                 l.add(pId);
@@ -362,7 +378,7 @@ public class JaCaMoProject extends MAS2JProject {
     }
     */
     public Collection<String> getAllCitedNodes() {
-        Set<String> an = new HashSet<String>();
+        Set<String> an = new HashSet<>();
         for (AgentParameters ap: getAgents())
             if (ap.getHost() != null)
                 an.add(ap.getHost());
@@ -441,6 +457,10 @@ public class JaCaMoProject extends MAS2JProject {
 
         for (JaCaMoWorkspaceParameters w: workspaces.values()) {
             s.append(w.toString()+"\n\n");
+        }
+
+        for (JaCaMoWorkspaceParameters o: insts) {
+            s.append(o.toString()+"\n\n");
         }
 
         for (JaCaMoWorkspaceParameters o: orgs) {

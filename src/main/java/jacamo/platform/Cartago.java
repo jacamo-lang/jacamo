@@ -32,16 +32,12 @@ public class Cartago extends DefaultPlatformImpl {
         for (JaCaMoWorkspaceParameters wp: project.getWorkspaces()) {
             try {
                 if (project.isInDeployment(wp.getNode())) {
-                    if (project.getNodeHost(wp.getNode()) != null) {
-                        logger.warning("**** Remote workspace creation is not implemented yet! The workspace @ "+project.getNodeHost(wp.getNode())+" wasn't created");
-                        continue;
-                    }
                     CartagoService.createWorkspace(wp.getName());
                     logger.info("Workspace "+wp.getName()+" created.");
                     EnvironmentInspectorWeb.registerWorkspace(wp.getName());
 
-                    cartagoCtx.joinWorkspace(wp.getName(), new AgentIdCredential("JaCaMoLauncherAg"));
-                    WorkspaceId wid = cartagoCtx.getJoinedWspId(wp.getName());
+                    WorkspaceId wid = cartagoCtx.joinWorkspace(wp.getName(), new AgentIdCredential("JaCaMoLauncherAgEnv"));
+                    wp.setWId(wid);
 
                     for (String aName: wp.getArtifacts().keySet()) {
                         String m = null;

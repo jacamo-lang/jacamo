@@ -39,14 +39,14 @@ public class JaCamoProjectTest {
     public void testParse1() throws FileNotFoundException, ParseException {
         parser = new JaCaMoProjectParser(new FileReader("src/test/java/project/p1.jcm") );
         JaCaMoProject project = parser.parse(".");
-        //System.out.println(project);
+        System.out.println(project);
     }
 
     @Test
     public void testParse2() throws FileNotFoundException, ParseException {
         parser = new JaCaMoProjectParser(new FileReader("src/test/java/project/p2.jcm") );
         JaCaMoProject project = parser.parse("src/test/java/project");
-        //System.out.println(project);
+        System.out.println(project);
     }
 
     @Test

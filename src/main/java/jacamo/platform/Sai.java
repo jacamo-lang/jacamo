@@ -11,8 +11,6 @@ import cartago.Op;
 import cartago.OpFeedbackParam;
 import cartago.WorkspaceId;
 import jacamo.project.JaCaMoInstParameters;
-import sai.bridges.jacamo.ConstitutiveArt;
-import sai.bridges.jacamo.RuleEngine;
 
 public class Sai extends DefaultPlatformImpl {
     
@@ -38,26 +36,19 @@ public class Sai extends DefaultPlatformImpl {
 
                 WorkspaceId wid = cartagoCtx.joinWorkspace(inst.getName(), new AgentIdCredential("JaCaMoLauncherAgInst"));
 
-                // TODO: what is the first arf for const art?
                 saiArtId = cartagoCtx.makeArtifact(
-                        wid, inst.getName(), 
-                        ConstitutiveArt.class.getName(), 
+                        wid, inst.getName()+"_art", 
+                        "sai.bridges.jacamo.ConstitutiveArt", 
                         new Object[] { inst.getName(), inst.getParameter("source") } );
                 
                 // get listener object from SAI
-                OpFeedbackParam<RuleEngine> fbre = new OpFeedbackParam<>();
-                cartagoCtx.doAction(saiArtId, new Op("getRuleEngine", new Object[] { fbre} ));
-                System.out.println("=1"+fbre.get());
+                OpFeedbackParam<Object> fbre = new OpFeedbackParam<>();
+                cartagoCtx.doAction(saiArtId, new Op("getRuleEngine", new Object[] { fbre } ));
 
-                // add listeners in all worksapce
+                // add listeners in all workspace
                 for (String wn: inst.getWorkspaces()) {
                     wid = cartagoCtx.joinWorkspace(wn, new AgentIdCredential("JaCaMoLauncherAgInst"));
-                    //wid = cartagoCtx.getJoinedWspId(wn);
-                    //wid = project.getWorkspace(wn).getWId();
-                    //System.out.println(wn+" wid = "+wid);
-                    cartagoCtx.doAction(wid, new Op("setWSPRuleEngine", new Object[] {fbre.get()} ));
-                    System.out.println("=2="+wn);
-                     
+                    cartagoCtx.doAction(wid, new Op("setWSPRuleEngine", new Object[] { fbre.get() } ));
                 }
 
             } catch (CartagoException e) {

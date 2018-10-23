@@ -13,11 +13,6 @@
 
 <structural-specification>
 
-<role-definitions>
-    <role id="role1" />
-    <role id="role2" />
-</role-definitions>
-
 <group-specification id="group1">
     <roles>
         <role id="role1" min="1" max="1"/>
@@ -60,7 +55,7 @@
 
        when value = "fail", the platform ensures that the property is not broken (the property is thus regiment)
        when value = "prohibition", violations are produced when the property is not followed by the agents
-       when value = "ignore", no norm is produced 
+       when value = "ignore", no norm is produced
 
        possible properties are defined in https://github.com/moise-lang/moise/blob/master/src/main/java/ora4mas/nopl/tools/os2nopl.java
 

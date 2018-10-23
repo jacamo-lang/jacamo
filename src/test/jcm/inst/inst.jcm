@@ -14,7 +14,7 @@
 
 mas inst {
 
-    agent sample_agent
+    agent bob: sample_agent.asl
 
     workspace w1 {
     }
@@ -26,4 +26,10 @@ mas inst {
         workspaces: w1, w2
     }
 
+    organisation o1 : org.xml {
+        group g: group1 {
+            players: bob role1
+        }
+        situated: i1
+    }
 }

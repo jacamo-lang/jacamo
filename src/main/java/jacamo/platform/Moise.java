@@ -14,9 +14,6 @@ import cartago.WorkspaceId;
 import jacamo.project.JaCaMoGroupParameters;
 import jacamo.project.JaCaMoOrgParameters;
 import jacamo.project.JaCaMoSchemeParameters;
-import ora4mas.nopl.GroupBoard;
-import ora4mas.nopl.OrgBoard;
-import ora4mas.nopl.SchemeBoard;
 
 public class Moise extends DefaultPlatformImpl {
     
@@ -33,28 +30,39 @@ public class Moise extends DefaultPlatformImpl {
     public void start() {
         for (JaCaMoOrgParameters o: project.getOrgs()) {
             try {
-                if (project.isInDeployment(o.getNode())) {
-                    // fix path for org
-                    o.addParameter("source", project.getOrgPaths().fixPath(o.getParameter("source")));
+                // fix path for org
+                o.addParameter("source", project.getOrgPaths().fixPath(o.getParameter("source")));
 
-                    CartagoService.createWorkspace(o.getName());
-                    logger.info("Workspace "+o.getName()+" created.");
+                CartagoService.createWorkspace(o.getName());
+                logger.info("Workspace "+o.getName()+" created.");
 
-                    WorkspaceId wid = cartagoCtx.joinWorkspace(o.getName(), new AgentIdCredential("JaCaMoLauncherAgOrg"));
+                WorkspaceId wid = cartagoCtx.joinWorkspace(o.getName(), new AgentIdCredential("JaCaMoLauncherAgOrg"));
 
-                    ArtifactId aid = cartagoCtx.makeArtifact(wid, o.getName(), OrgBoard.class.getName(), new Object[] { o.getParameter("source") } );
-
-                    // schemes
-                    for (JaCaMoSchemeParameters s: o.getSchemes()) {
-                        createScheme(aid, s, o);
-                    }
-
-                    // groups
-                    for (JaCaMoGroupParameters g: o.getGroups()) {
-                        createGroup(aid,null,g,o);
-                    }
-                    //CartagoService.enableDebug(o.getName());
+                ArtifactId aid;
+                if (o.hasInstitution()) {
+                    System.out.println("antes join ");
+                    WorkspaceId instWid = cartagoCtx.joinWorkspace(o.getInstitution()); //, new AgentIdCredential("JaCaMoLauncherAgInst"));
+                    System.out.println("join!" + instWid);
+                    ArtifactId instAId = cartagoCtx.lookupArtifact(instWid, o.getInstitution()+"_art");
+                    System.out.println("antes criar "+instAId);
+                    aid = cartagoCtx.makeArtifact(wid, o.getName(), "jacamo.platform.OrgBoardSai", new Object[] { o.getParameter("source") } );
+                    System.out.println("antes set inst");
+                    cartagoCtx.doAction(aid, new Op("setInstitution", new Object[] { o.getInstitution(), instAId } ));
+                    
+                } else {
+                    aid = cartagoCtx.makeArtifact(wid, o.getName(), "ora4mas.nopl.OrgBoard", new Object[] { o.getParameter("source") } );
                 }
+                
+                // schemes
+                for (JaCaMoSchemeParameters s: o.getSchemes()) {
+                    createScheme(aid, s, o);
+                }
+
+                // groups
+                for (JaCaMoGroupParameters g: o.getGroups()) {
+                    createGroup(aid,null,g,o);
+                }
+                //CartagoService.enableDebug(o.getName());
             } catch (CartagoException e) {
                 e.printStackTrace();
             }
@@ -62,7 +70,7 @@ public class Moise extends DefaultPlatformImpl {
     }
 
     protected void createGroup(ArtifactId orgB, JaCaMoGroupParameters parent, JaCaMoGroupParameters g, JaCaMoOrgParameters org) {
-        String m = g.getName()+": "+g.getType()+" using artifact "+GroupBoard.class.getName();
+        String m = g.getName()+": "+g.getType()+" using artifact ora4mas.nopl.GroupBoard";
 
         try {
             OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<>();
@@ -99,7 +107,7 @@ public class Moise extends DefaultPlatformImpl {
     }
 
     protected void createScheme(ArtifactId orgB, JaCaMoSchemeParameters s, JaCaMoOrgParameters org) {
-        String m = s.getName()+": "+s.getType()+" using artifact "+SchemeBoard.class.getName();
+        String m = s.getName()+": "+s.getType()+" using artifact SchemeBoard";
 
         try {
             OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<>();

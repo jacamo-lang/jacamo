@@ -36,24 +36,24 @@ public class OrgBoardSai extends OrgBoard {
 
     @Override
     protected String getGroupBoardClass() {
-    	// TODO: use get class name
+        // TODO: use get class name
         return "sai.bridges.jacamo.GroupBoardSai";
     }
     
     @Override
     protected void grPostCreation(String id, ArtifactId artId) {
-    	setInstitution(id, artId);
+        setInstitution(id, artId);
     }
 
     @Override
     protected String getSchemeBoardClass() {
-    	// TODO: use get class name
+        // TODO: use get class name
         return "sai.bridges.jacamo.SchemeBoardSai";
     }
 
     @Override
     protected void schPostCreation(String id, ArtifactId artId) {
-    	setInstitution(id, artId);
+        setInstitution(id, artId);
     }
 
     protected void setInstitution(String id, ArtifactId artId) {

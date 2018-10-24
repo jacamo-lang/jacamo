@@ -1,15 +1,15 @@
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.StringReader;
 
 import org.junit.Test;
 
-import jacamo.infra.RunJaCaMoProject;
 import jacamo.project.JaCaMoProject;
 import jacamo.project.parser.JaCaMoProjectParser;
 import jacamo.project.parser.ParseException;
-
-import static org.junit.Assert.*;
 
 /** JUnit test case for syntax package */
 public class JaCamoProjectTest {
@@ -39,14 +39,21 @@ public class JaCamoProjectTest {
     public void testParse1() throws FileNotFoundException, ParseException {
         parser = new JaCaMoProjectParser(new FileReader("src/test/java/project/p1.jcm") );
         JaCaMoProject project = parser.parse(".");
-        //System.out.println(project);
+        System.out.println(project);
     }
 
     @Test
     public void testParse2() throws FileNotFoundException, ParseException {
         parser = new JaCaMoProjectParser(new FileReader("src/test/java/project/p2.jcm") );
         JaCaMoProject project = parser.parse("src/test/java/project");
-        //System.out.println(project);
+        System.out.println(project);
+    }
+
+    @Test
+    public void testParseInst() throws FileNotFoundException, ParseException {
+        parser = new JaCaMoProjectParser(new FileReader("src/test/java/project/p4.jcm") );
+        JaCaMoProject project = parser.parse("src/test/java/project");
+        System.out.println(project);
     }
 
 }

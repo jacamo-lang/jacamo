@@ -10,10 +10,12 @@ import java.util.Map;
 
 public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
 
-    protected List<JaCaMoGroupParameters>  groups     = new ArrayList<JaCaMoGroupParameters>();
-    protected List<JaCaMoSchemeParameters> schemes    = new ArrayList<JaCaMoSchemeParameters>();
-    protected Map<String,String>           parameters = new HashMap<String, String>(); // like source ....
+    protected List<JaCaMoGroupParameters>  groups     = new ArrayList<>();
+    protected List<JaCaMoSchemeParameters> schemes    = new ArrayList<>();
+    protected Map<String,String>           parameters = new HashMap<>(); // like source ....
     protected String                       debug      = null;
+    
+    protected String                       institutions = null;
 
     public JaCaMoOrgParameters(JaCaMoProject project) {
         super(project);
@@ -24,6 +26,16 @@ public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
     }
     public String getParameter(String k) {
         return parameters.get(k);
+    }
+    
+    public void setInstitution(String i) {
+        institutions = i;
+    }
+    public String getInstitution() {
+        return institutions;
+    }
+    public boolean hasInstitution() {
+        return institutions != null && !institutions.isEmpty();
     }
 
     public void addGroup(JaCaMoGroupParameters g) {

@@ -1,0 +1,17 @@
+mas test_inst {
+
+  workspace w1 {
+  }
+
+  workspace w5 {
+  }
+
+  institution i1 : x.sai {
+    workspaces: w1, w5      
+  }
+  
+  organisation o1 {
+    situated: i1
+  }
+  
+}

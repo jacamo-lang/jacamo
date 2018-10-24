@@ -19,6 +19,7 @@ import jacamo.platform.EnvironmentWebInspector;
 import jacamo.platform.Jade;
 import jacamo.platform.Moise;
 import jacamo.platform.Platform;
+import jacamo.platform.Sai;
 import jacamo.project.JaCaMoProject;
 import jacamo.project.parser.JaCaMoProjectParser;
 import jacamo.project.parser.ParseException;
@@ -249,6 +250,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     public void create() throws JasonException {
         createCustomPlatforms();
         createEnvironment();
+        createInstitution();
         createOrganisation();
         createAgs();
         //createController();        
@@ -276,15 +278,31 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             e.printStackTrace();
         }
     }
+
+    protected void createInstitution() {
+        if (!getJaCaMoProject().getInstitutions().isEmpty()) {
+            Sai p = new Sai();
+            p.setJcmProject(getJaCaMoProject());
+            try {
+                p.init(getJaCaMoProject().getPlatformParameters("moise") );
+                platforms.add(p);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
         
+
     protected void createOrganisation() {
-        Moise p = new Moise();
-        p.setJcmProject(getJaCaMoProject());
-        try {
-            p.init(getJaCaMoProject().getPlatformParameters("moise") );
-            platforms.add(p);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!getJaCaMoProject().getOrgs().isEmpty()) {
+            Moise p = new Moise();
+            p.setJcmProject(getJaCaMoProject());
+            try {
+                p.init(getJaCaMoProject().getPlatformParameters("moise") );
+                platforms.add(p);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
         

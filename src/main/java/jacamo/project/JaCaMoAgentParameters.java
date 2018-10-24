@@ -1,17 +1,5 @@
 package jacamo.project;
 
-import jason.architecture.AgArch;
-import jason.asSemantics.Agent;
-import jason.asSyntax.ASSyntax;
-import jason.asSyntax.Literal;
-import jason.asSyntax.Term;
-import jason.asSyntax.parser.ParseException;
-import jason.bb.BeliefBase;
-import jason.bb.DefaultBeliefBase;
-import jason.mas2j.AgentParameters;
-import jason.mas2j.ClassParameters;
-import jason.runtime.Settings;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,11 +8,22 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import jason.architecture.AgArch;
+import jason.asSemantics.Agent;
+import jason.asSyntax.ASSyntax;
+import jason.asSyntax.Literal;
+import jason.asSyntax.Term;
+import jason.asSyntax.parser.ParseException;
+import jason.bb.DefaultBeliefBase;
+import jason.mas2j.AgentParameters;
+import jason.mas2j.ClassParameters;
+import jason.runtime.Settings;
+
 public class JaCaMoAgentParameters extends AgentParameters {
 
-    protected Set<String>    wks   = new TreeSet<String>();
-    protected List<String[]> roles = new ArrayList<String[]>(); // each [org,group,role]
-    protected List<String[]> focus = new ArrayList<String[]>(); // each [artId,wskId,host]
+    protected Set<String>    wks   = new TreeSet<>();
+    protected List<String[]> roles = new ArrayList<>(); // each [org,group,role]
+    protected List<String[]> focus = new ArrayList<>(); // each [artId,wskId,host]
     protected JaCaMoProject  project;
 
     public JaCaMoAgentParameters(JaCaMoProject project) {
@@ -64,9 +63,9 @@ public class JaCaMoAgentParameters extends AgentParameters {
 
     protected void copyTo(JaCaMoAgentParameters newap) {
         super.copyTo(newap);
-        newap.wks = new HashSet<String>(this.wks);
-        newap.roles = new ArrayList<String[]>(this.roles);
-        newap.focus = new ArrayList<String[]>(this.focus);
+        newap.wks = new HashSet<>(this.wks);
+        newap.roles = new ArrayList<>(this.roles);
+        newap.focus = new ArrayList<>(this.focus);
         newap.project = this.project;
     }
 
@@ -77,8 +76,8 @@ public class JaCaMoAgentParameters extends AgentParameters {
         }
     }
     public Collection<String> getWorkspaces() {
-        List<String> wslocal = new ArrayList<String>();
-        List<String> wsrem   = new ArrayList<String>();
+        List<String> wslocal = new ArrayList<>();
+        List<String> wsrem   = new ArrayList<>();
         // add local workspace first
         for (String w: wks) {
             String n = project.getWorkspaceNode(w);

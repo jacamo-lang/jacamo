@@ -12,11 +12,11 @@ import java.io.*;
 import jacamo.project.*;
 import jason.mas2j.*;
 import jason.asSyntax.*;
-import jason.asSemantics.*;
-import jason.jeditplugin.*;
-import jason.asSyntax.ArithExpr.ArithmeticOp;
-import jason.asSyntax.LogExpr.LogicalOp;
-import jason.asSyntax.RelExpr.RelationalOp;
+//import jason.asSemantics.*;
+//import jason.jeditplugin.*;
+//import jason.asSyntax.ArithExpr.ArithmeticOp;
+//import jason.asSyntax.LogExpr.LogicalOp;
+//import jason.asSyntax.RelExpr.RelationalOp;
 
 public class JaCaMoProjectParser {
 
@@ -107,6 +107,11 @@ TOKEN : {
 |  <RESPFOR:     "responsible-for">
 |  <SCHEME:      "scheme">
 |  <PLAYERS:     "players">
+|  <SITUATED:    "situated">
+
+|  <INST:         "institution">
+|  <WORKSPACES:   "workspaces">
+
 
 | <TK_TRUE:   "true">
 | <TK_FALSE:  "false">
@@ -182,7 +187,9 @@ JaCaMoProject parse(String directory) :           { Token masId; File f = null; 
   (agent())*
 
   (workspace())*
-
+  
+  (institution())*
+  
   (organisation())*
 
   (
@@ -326,6 +333,7 @@ void organisation() :       { Token t;  Token opt; Object oval;
            |  scheme(org)
            |  <AGENTS>      ":"  (LOOKAHEAD(4) (t = <ATOM>  | t = <AST>) (<EOL>|",")+  { project.addAgWorkspace(t.image,org); } )+
            |  <NODE>        ":"  opt=<ATOM>                              (<EOL>)+      { org.setNode(opt.image); }
+           |  <SITUATED>    ":"  opt=<ATOM>                              (<EOL>)+      { org.setInstitution(opt.image); }
            |  opt=<ATOM>    ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { org.addParameter(opt.image,oval.toString()); }
        )
     )*
@@ -374,6 +382,32 @@ void scheme(JaCaMoOrgParameters org) :
   ] (<EOL>)*
                             { org.addScheme(s); }
 }
+
+void institution() :       { Token t;  Token opt; Object oval;
+                              JaCaMoInstParameters inst = new JaCaMoInstParameters(project);
+                            }
+{
+  <INST> t = <ATOM>         { inst.setName(t.image);
+                             if (project.getInstitution(inst.getName()) != null) {
+                                throw new ParseException("Institution with id "+inst.getName()+" already exists in the project!");
+                             }
+                             inst.addParameter("source",t.image+".sai");
+                           }
+  [ ":" oval = fileName()  { inst.addParameter("source",oval.toString()); }
+  ]
+
+  "{"  (<EOL>)*
+    (
+       (
+             <WORKSPACES>  ":"  (LOOKAHEAD(4) t = <ATOM> (<EOL>|",")+  { inst.addWorkspace(t.image); } )+
+           | <DEBUG>                                  (<EOL>)+      { inst.setDebug(true); }
+           |  opt=<ATOM>   ":"  (oval=<STRING> | oval=<REAL> | oval=<INT> | oval=literal() ) (<EOL>)+  { inst.addParameter(opt.image,oval.toString()); }
+       )
+    )*
+  "}" (<EOL>)*
+                            { project.addInstitution(inst); }
+}
+
 
 /*
 void deployment(String directory):

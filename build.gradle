@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version '0.7'
+version '0.8-SNAPSHOT'
 group   'org.jacamo'
 
 sourceCompatibility = 1.8
@@ -25,16 +25,21 @@ repositories {
 
     maven { url "http://jacamo.sourceforge.net/maven2/" }
     maven { url "http://jade.tilab.com/maven/" }
+    
+    //flatDir {       dirs 'lib'    }
 }
 
 
 dependencies {
-    compile group: 'org.jason-lang', name: 'jason'    , version: '2.3'  , changing: true , transitive: false
-    compile group: 'org.jacamo'     , name: 'moise'   , version: '0.11' , changing: true , transitive: false
-    compile group: 'org.jacamo'     , name: 'npl'     , version: '0.3'  , changing: true , transitive: false
+    compile group: 'org.jason-lang' , name: 'jason'   , version: '2.3'  , changing: true , transitive: false
     compile group: 'org.jacamo'     , name: 'cartago' , version: '2.3'  , changing: true
     compile group: 'org.jacamo'     , name: 'jaca'    , version: '2.3'  , changing: true
-    compile group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
+    
+    compile group: 'org.jacamo'     , name: 'moise'   , version: '0.12-SNAPSHOT' , changing: true , transitive: false
+    compile group: 'org.jacamo'     , name: 'npl'     , version: '0.3'  , changing: true , transitive: false
+    runtime group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
+
+    runtime group: 'org.jacamo'     , name: 'sai'     , version: '0.3-SNAPSHOT', changing: true
 
     runtime group: 'com.tilab.jade' , name: 'jade'    , version: '4.5.0'
     runtime group: 'org.apache.ant' , name: 'ant'     , version: '1.10.+'

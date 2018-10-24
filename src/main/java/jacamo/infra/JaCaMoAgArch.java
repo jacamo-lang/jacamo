@@ -2,10 +2,10 @@ package jacamo.infra;
 
 import java.util.logging.Level;
 
-import jaca.CAgentArch;
 import cartago.CartagoException;
 import cartago.Op;
 import cartago.WorkspaceId;
+import jaca.CAgentArch;
 import jacamo.project.JaCaMoAgentParameters;
 import jacamo.project.JaCaMoWorkspaceParameters;
 import jason.architecture.AgArch;
@@ -203,7 +203,9 @@ public class JaCaMoAgArch extends AgArch {
                 //getTS().getLogger().info("quit "+wid.getName());
             } catch (CartagoException e) {
             } catch (Exception e) {
-                e.printStackTrace();
+                if (! (e instanceof InterruptedException)) {
+                    e.printStackTrace();
+                }
             }
         }
     }

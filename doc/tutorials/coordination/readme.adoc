@@ -45,9 +45,6 @@ mas auction_ag {
     agent maria   : participant.asl
     agent francois: participant.asl
     agent giacomo : participant.asl
-
-    asl-path: src/agt
-              src/agt/inc
 }
 -----------------------------------
 
@@ -270,8 +267,6 @@ mas auction_env {
             focused-by: bob, alice, maria, francois, giacomo
         }
     }
-
-    asl-path: src/agt, src/agt/inc
 }
 ------------------------------------------------------------
 

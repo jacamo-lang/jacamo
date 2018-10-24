@@ -1,0 +1,62 @@
+/*
+   Application Hello World
+
+   Gradle build file for JaCaMo Application
+*/
+
+defaultTasks 'run'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+version '1.0'
+group   'org.jacamo'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+
+    maven { url "http://jacamo.sourceforge.net/maven2" }
+    maven { url "http://jade.tilab.com/maven/" }
+
+    flatDir {
+       dirs 'lib'
+    }
+}
+
+dependencies {
+    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '0.7'
+    compile name: 'search'
+    compile 'org.twitter4j:twitter4j-async:4.0.7'
+    compile 'org.twitter4j:twitter4j-stream:4.0.7' 
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/env'
+            srcDir 'src/agt'
+            srcDir 'src/org'
+            srcDir 'src/int'
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+}
+
+task run (type: JavaExec, dependsOn: 'classes') {
+    description 'runs the application'
+    group ' JaCaMo'
+    main = 'jacamo.infra.JaCaMoLauncher'
+    args 'gold_miners.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+clean {
+    delete 'bin'
+    delete 'build'
+}

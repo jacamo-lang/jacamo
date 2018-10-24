@@ -2,7 +2,7 @@
 <?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
 <organisational-specification
     id="auction"
-    os-version="0.7"
+    os-version="0.8"
 
     xmlns='http://moise.sourceforge.net/os'
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
@@ -10,11 +10,6 @@
                         http://moise.sourceforge.net/xml/os.xsd' >
 
 <structural-specification>
-
-<role-definitions>
- <role id="auctioneer" />
- <role id="participant" />
-</role-definitions>
 
 <group-specification id="auctionGroup">
  <roles>
@@ -51,4 +46,3 @@
 </normative-specification>
 
 </organisational-specification>
-

@@ -49,8 +49,8 @@ You can run your application with:
    $ cd /Users/jomi/tmp/bobob
    $ gradle -q --console=plain
 
-an eclipse project can be created with
-'Gradle Import Project' from Eclipse menu File/Import
+an eclipse project can be created from menu File/Import,
+option 'Existing Gradle Project'.
 ----
 
 If you want to run a JaCaMo application that was not created with a `build.gradle` file, you can download a template from https://raw.githubusercontent.com/jacamo-lang/jacamo/master/src/main/resources/templates/build.gradle[here] and replace

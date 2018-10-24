@@ -10,9 +10,14 @@
 
 +!start
    <- .print("hello world.");
-      // TODO: sem o evento, nao há disparo do count-as
+      // TODO: sem inc q segue, nao há disparo do count-as, estado inicial do Env nao dispara count-as
       inc;
-      .wait(5000);
+      //.wait(5000);
+      //inc;
+   .
+
++obligation(A,R,G,D) : .my_name(A)
+   <- .print("I am obliged to ",G," doing inc to fulfill");
       inc;
    .
 

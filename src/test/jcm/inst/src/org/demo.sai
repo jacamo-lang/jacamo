@@ -2,9 +2,10 @@ institution_id : test.
 
 status_functions:
 /* TODO: just ca didn't work */
-   states: c(a).
+   states: c(a), g(X).
 
 
 constitutive_rules:
 
 1: count(a,11) count-as c(a).
+2: count(a,12) count-as g(12).

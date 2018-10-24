@@ -58,6 +58,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         logger = Logger.getLogger(JaCaMoLauncher.class.getName());
         JaCaMoLauncher r = new JaCaMoLauncher();
         runner = r;
+        r.registerMBean();
         r.init(args);
         r.create();
         r.start();

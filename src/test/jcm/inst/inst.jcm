@@ -33,7 +33,10 @@ mas inst {
     organisation o1 : org.xml {
         group g: group1 {
             players: bob role1
+            responsible-for: s1
         }
+        scheme s1: scheme1
+        
         situated: i1
     }
 }

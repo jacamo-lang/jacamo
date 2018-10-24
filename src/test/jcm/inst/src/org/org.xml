@@ -16,7 +16,7 @@
 <group-specification id="group1">
     <roles>
         <role id="role1" min="1" max="1"/>
-        <role id="role2" min="1" max="1"/>
+        <role id="role2" min="0" max="1"/>
     </roles>
 
     <links>
@@ -69,6 +69,11 @@
 
     <!-- the norms of the application -->
     <norm id="norm1" type="obligation" role="role2" mission="mission1"/>
+
+    <npl-norms>
+        norm npl1: c(a) -> obligation(bob,true,g(X),`now`+`1 day`).
+    </npl-norms>
+
 </normative-specification>
 
 </organisational-specification>

@@ -8,7 +8,13 @@
 
 /* Plans */
 
-+!start : true <- .print("hello world.").
++!start
+   <- .print("hello world.");
+      // TODO: sem o evento, nao há disparo do count-as
+      inc;
+      .wait(5000);
+      inc;
+   .
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }

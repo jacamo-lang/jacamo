@@ -40,15 +40,11 @@ public class Moise extends DefaultPlatformImpl {
 
                 ArtifactId aid;
                 if (o.hasInstitution()) {
-                    System.out.println("antes join ");
                     WorkspaceId instWid = cartagoCtx.joinWorkspace(o.getInstitution()); //, new AgentIdCredential("JaCaMoLauncherAgInst"));
-                    System.out.println("join!" + instWid);
                     ArtifactId instAId = cartagoCtx.lookupArtifact(instWid, o.getInstitution()+"_art");
-                    System.out.println("antes criar "+instAId);
-                    aid = cartagoCtx.makeArtifact(wid, o.getName(), "jacamo.platform.OrgBoardSai", new Object[] { o.getParameter("source") } );
-                    System.out.println("antes set inst");
+                    aid = cartagoCtx.makeArtifact(wid, o.getName(), "sai.bridges.jacamo.OrgBoardSai", new Object[] { o.getParameter("source") } );
                     cartagoCtx.doAction(aid, new Op("setInstitution", new Object[] { o.getInstitution(), instAId } ));
-                    
+                    logger.info("OrgBoard(SAI) "+o.getName()+" created.");
                 } else {
                     aid = cartagoCtx.makeArtifact(wid, o.getName(), "ora4mas.nopl.OrgBoard", new Object[] { o.getParameter("source") } );
                 }

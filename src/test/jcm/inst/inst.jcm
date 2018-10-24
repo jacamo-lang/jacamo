@@ -14,12 +14,16 @@
 
 mas inst {
 
-    agent bob: sample_agent.asl
+    agent bob: sample_agent.asl {
+        focus: w1.a
+    }
 
     workspace w1 {
+        artifact a: tools.Counter(10)
     }
 
     workspace w2 {
+        artifact b: tools.Counter(5)
     }
 
     institution i1 : demo.sai {

@@ -1,15 +1,5 @@
 package jacamo.project;
 
-import jacamo.infra.JaCaMoInfrastructureFactory;
-import jacamo.project.parser.JaCaMoProjectParser;
-import jacamo.project.parser.ParseException;
-import jason.JasonException;
-import jason.infra.InfrastructureFactory;
-import jason.mas2j.AgentParameters;
-import jason.mas2j.ClassParameters;
-import jason.mas2j.MAS2JProject;
-import jason.runtime.SourcePath;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -24,6 +14,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+
+import jacamo.infra.JaCaMoInfrastructureFactory;
+import jacamo.project.parser.JaCaMoProjectParser;
+import jacamo.project.parser.ParseException;
+import jason.JasonException;
+import jason.infra.InfrastructureFactory;
+import jason.mas2j.AgentParameters;
+import jason.mas2j.ClassParameters;
+import jason.mas2j.MAS2JProject;
+import jason.runtime.SourcePath;
 
 public class JaCaMoProject extends MAS2JProject {
 

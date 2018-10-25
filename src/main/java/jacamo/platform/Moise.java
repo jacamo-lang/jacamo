@@ -58,6 +58,8 @@ public class Moise extends DefaultPlatformImpl {
                 for (JaCaMoGroupParameters g: o.getGroups()) {
                     createGroup(aid,null,g,o);
                 }
+                EnvironmentInspectorWeb.registerWorkspace(o.getName());
+
                 //CartagoService.enableDebug(o.getName());
             } catch (CartagoException e) {
                 e.printStackTrace();

@@ -28,11 +28,10 @@ public class EnvironmentInspectorWeb {
     static HttpServer httpServer = null;
     static int        httpServerPort = 3273;
     static String     httpServerURL = "http://localhost:"+httpServerPort;
-    static int        refreshInterval = 5;
 
-    static Set<String> wrkps = new HashSet<String>();
+    static Set<String> wrkps = new HashSet<>();
 
-    static Set<String> hidenArts = new HashSet<String>( Arrays.asList(new String[] {
+    static Set<String> hidenArts = new HashSet<>( Arrays.asList(new String[] {
         "node",
         "console",
         "blackboard",
@@ -111,7 +110,8 @@ public class EnvironmentInspectorWeb {
                     OutputStream responseBody = exchange.getResponseBody();
 
                     if (requestMethod.equalsIgnoreCase("GET")) {
-                        responseBody.write(("<html><head><title>CArtAgO (list of artifacts)</title><meta http-equiv=\"refresh\" content=\""+refreshInterval+"\" ></head><body>").getBytes());
+                        //responseBody.write(("<html><head><title>CArtAgO (list of artifacts)</title><meta http-equiv=\"refresh\" content=\""+refreshInterval+"\" ></head><body>").getBytes());
+                        responseBody.write(("<html><head><title>CArtAgO (list of artifacts)</title></head><body>").getBytes());
                         responseBody.write(("<font size=\"+2\"><span style='color: red; font-family: arial;'>workspaces</span></font><br/>").getBytes());
                         StringWriter out  = new StringWriter();
                         for (String wname: wrkps) {
@@ -152,7 +152,6 @@ public class EnvironmentInspectorWeb {
                     exchange.sendResponseHeaders(200, 0);
                     OutputStream responseBody = exchange.getResponseBody();
                     responseHeaders.set("Content-Type", "text/html");
-
                     if (requestMethod.equalsIgnoreCase("GET")) {
                         try {
                             String path = exchange.getRequestURI().getPath();
@@ -160,8 +159,7 @@ public class EnvironmentInspectorWeb {
                             path = path.substring(p+1);
 
                             ArtifactInfo info = CartagoService.getController(id).getArtifactInfo(path);
-
-                            responseBody.write(EnvironmentInspector.getArtHtml(id, info, refreshInterval).getBytes());
+                            responseBody.write(EnvironmentInspector.getArtHtml(id, info).getBytes());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

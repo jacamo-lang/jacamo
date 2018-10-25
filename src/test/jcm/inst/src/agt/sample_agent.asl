@@ -10,7 +10,6 @@
 
 +!start
    <- .print("hello world.");
-      // TODO: sem inc q segue, nao há disparo do count-as, estado inicial do Env nao dispara count-as
       inc;
       //.wait(5000);
       //inc;

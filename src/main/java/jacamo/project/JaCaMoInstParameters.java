@@ -11,6 +11,8 @@ public class JaCaMoInstParameters extends JaCaMoWorkspaceParameters {
     protected List<String>  wrks     = new ArrayList<>();
     protected Map<String,String>  parameters = new HashMap<>(); // like source ....
 
+    protected Object saiRuleEngine = null;
+            
     public JaCaMoInstParameters(JaCaMoProject project) {
         super(project);
     }
@@ -28,7 +30,17 @@ public class JaCaMoInstParameters extends JaCaMoWorkspaceParameters {
     public List<String> getWorkspaces() {
         return wrks;
     }
+    public boolean hasWorkspace(String wName) {
+        return wrks.contains(wName);
+    }
 
+    public void setRE(Object re) {
+        this.saiRuleEngine = re;
+    }
+    public Object getRE() {
+        return saiRuleEngine;
+    }
+    
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("   institution "+name);

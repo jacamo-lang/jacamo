@@ -1,4 +1,6 @@
-import cartago.*;
+import cartago.Artifact;
+import cartago.OPERATION;
+import cartago.ObsProperty;
 
 public class Counter extends Artifact {
 

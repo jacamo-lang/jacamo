@@ -1,12 +1,11 @@
 package jacamo.project;
 
-import jason.mas2j.AgentParameters;
-import jason.mas2j.ClassParameters;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import cartago.WorkspaceId;
+import jason.mas2j.AgentParameters;
+import jason.mas2j.ClassParameters;
 
 
 public class JaCaMoWorkspaceParameters {

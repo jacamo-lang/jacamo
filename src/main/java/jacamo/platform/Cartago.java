@@ -8,8 +8,10 @@ import cartago.ArtifactId;
 import cartago.CartagoContext;
 import cartago.CartagoException;
 import cartago.CartagoService;
+import cartago.Op;
 import cartago.WorkspaceId;
 import jaca.CartagoEnvironment;
+import jacamo.project.JaCaMoInstParameters;
 import jacamo.project.JaCaMoWorkspaceParameters;
 import jason.mas2j.ClassParameters;
 
@@ -38,7 +40,15 @@ public class Cartago extends DefaultPlatformImpl {
 
                     WorkspaceId wid = cartagoCtx.joinWorkspace(wp.getName(), new AgentIdCredential("JaCaMoLauncherAgEnv"));
                     wp.setWId(wid);
+                    
+                    // check institution
+                    for (JaCaMoInstParameters inst: project.getInstitutions()) {
+                        if (inst.hasWorkspace(wp.getName()) && inst.getRE() != null) {
+                            cartagoCtx.doAction(wid, new Op("setWSPRuleEngine", new Object[] { inst.getRE() } ));
+                        }
+                    }
 
+                    // create artifacts
                     for (String aName: wp.getArtifacts().keySet()) {
                         String m = null;
                         try {

@@ -28,9 +28,9 @@ public class EnvironmentInspector {
     private static ScheduledThreadPoolExecutor updater = new ScheduledThreadPoolExecutor(1);
     private static int guiCount = 60;
 
-    private static Map<String, JTextPane>        artsPane = new HashMap<String, JTextPane>();
-    private static Map<String, String>           artsWrps = new HashMap<String, String>();
-    private static Map<String, String>           artsLast = new HashMap<String, String>();
+    private static Map<String, JTextPane>        artsPane = new HashMap<>();
+    private static Map<String, String>           artsWrps = new HashMap<>();
+    private static Map<String, String>           artsLast = new HashMap<>();
 
     private static void initFrame() {
         frame = new JFrame("..:: Environment Inspector ::..");
@@ -86,7 +86,7 @@ public class EnvironmentInspector {
                 String aname = k.substring(k.indexOf(".")+1);
                 ArtifactInfo info = CartagoService.getController(wks).getArtifactInfo(aname);
 
-                String sOut = getArtHtml(wks, info, 5);
+                String sOut = getArtHtml(wks, info);
 
                 String lastOut = artsLast.get(k);
                 if (lastOut == null || !lastOut.endsWith(sOut)) {
@@ -100,14 +100,20 @@ public class EnvironmentInspector {
         }
     }
 
-    public static String getArtHtml(String wId, ArtifactInfo info, int refreshInterval) {
+    public static String getArtHtml(String wId, ArtifactInfo info) {
         StringBuilder out = new StringBuilder("<html>");
-        out.append("<head><meta http-equiv=\"refresh\" content=\""+refreshInterval+"\"></head>");
+        //out.append("<head><meta http-equiv=\"refresh\" content=\""+refreshInterval+"\"></head>");
         out.append("<span style=\"color: red; font-family: arial\"><font size=\"+2\">");
         out.append("Inspection of artifact <b>"+info.getId().getName()+"</b> in workspace "+wId+"</font></span>");
         out.append("<table border=0 cellspacing=3 cellpadding=6 style='font-family:verdana'>");
         for (ArtifactObsProperty op: info.getObsProperties()) {
-            out.append("<tr><td>"+op.getName()+"</td><td>"+op.getValue()+"</td></tr>");
+            StringBuilder vls = new StringBuilder();
+            String v = "";
+            for (Object vl: op.getValues()) {
+                vls.append(v+vl);
+                v = ",";
+            }
+            out.append("<tr><td>"+op.getName()+"</td><td>"+vls+"</td></tr>");
         }
         out.append("</table>");
         /*out.append("</br>Operations:<ul>");

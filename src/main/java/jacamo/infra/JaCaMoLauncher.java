@@ -223,7 +223,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         
         // include our own platforms
         if (!einsp) {
-            platforms.add(new EnvironmentWebInspector());
+            platforms.add(0,new EnvironmentWebInspector());
         }
     }
     
@@ -250,8 +250,8 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     public void create() throws JasonException {
         createCustomPlatforms();
         createEnvironment();
-        createInstitution();
         createOrganisation();
+        createInstitution();
         createAgs();
         //createController();        
     }
@@ -273,7 +273,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         p.setJcmProject(getJaCaMoProject());
         try {
             p.init(getJaCaMoProject().getPlatformParameters("cartago") );
-            platforms.add(p);
+            platforms.add(Math.min(platforms.size(), 2), p);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -285,7 +285,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             p.setJcmProject(getJaCaMoProject());
             try {
                 p.init(getJaCaMoProject().getPlatformParameters("moise") );
-                platforms.add(p);
+                platforms.add(1,p);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -299,7 +299,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             p.setJcmProject(getJaCaMoProject());
             try {
                 p.init(getJaCaMoProject().getPlatformParameters("moise") );
-                platforms.add(p);
+                platforms.add(1,p);
             } catch (Exception e) {
                 e.printStackTrace();
             }

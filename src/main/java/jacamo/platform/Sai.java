@@ -44,12 +44,18 @@ public class Sai extends DefaultPlatformImpl {
                 // get listener object from SAI
                 OpFeedbackParam<Object> fbre = new OpFeedbackParam<>();
                 cartagoCtx.doAction(saiArtId, new Op("getRuleEngine", new Object[] { fbre } ));
-
+                inst.setRE(fbre.get());
+                
+                /*
+                // moved to env code
                 // add listeners in all workspace
                 for (String wn: inst.getWorkspaces()) {
                     wid = cartagoCtx.joinWorkspace(wn, new AgentIdCredential("JaCaMoLauncherAgInst"));
                     cartagoCtx.doAction(wid, new Op("setWSPRuleEngine", new Object[] { fbre.get() } ));
                 }
+                */
+                
+                EnvironmentInspectorWeb.registerWorkspace(inst.getName());
 
             } catch (CartagoException e) {
                 e.printStackTrace();

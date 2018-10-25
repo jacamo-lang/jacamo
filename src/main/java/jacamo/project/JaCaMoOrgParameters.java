@@ -1,11 +1,11 @@
 package jacamo.project;
 
-import jason.mas2j.AgentParameters;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import jason.mas2j.AgentParameters;
 
 
 public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {

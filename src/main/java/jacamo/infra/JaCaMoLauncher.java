@@ -85,6 +85,10 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             singRTS = new JaCaMoRuntimeServices(runner);
         return singRTS;
     }
+    
+    public void setRuntimeServives(RuntimeServices rts) {
+        singRTS = rts;
+    }
 
     @Override
     public int init(String[] args) {

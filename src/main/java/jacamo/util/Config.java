@@ -180,7 +180,7 @@ public class Config extends jason.util.Config {
     }
     
     @Override
-    public void tryToFixJarFileConf(String jarEntry, String jarFilePrefix, int minSize) {
+    public boolean tryToFixJarFileConf(String jarEntry, String jarFilePrefix, int minSize) {
         super.tryToFixJarFileConf(jarEntry, jarFilePrefix, minSize);
         // for moise.jar we need to fix based on jacamohome, since when running Config or ConfigGUI it is not in the classpath
         // latter, eclipse requires these jars
@@ -191,12 +191,13 @@ public class Config extends jason.util.Config {
                     put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
                     if (showFixMsgs)
                         System.out.println("found at " + jarFile);
-                    return;
+                    return true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }
+        }        
+        return false;
     }
 
     @Override

@@ -32,7 +32,7 @@ public class JaCaMoAgArch extends AgArch {
     @Override
     public void init() throws Exception {
         // change the implementation of .create_agent for this agent, use jacamo create agent instead of jason create agent
-        getTS().getAg().setIA("jason.stdlib.create_agent", new jacamo.create_agent());
+        //getTS().getAg().setIA("jason.stdlib.create_agent", new jacamo.create_agent());
 
         JaCaMoAgentParameters ap = null;
         try {

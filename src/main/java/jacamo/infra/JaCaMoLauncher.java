@@ -77,8 +77,6 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         return (JaCaMoProject)getProject();
     }
 
-    private RuntimeServices singRTS = null;
-    
     @Override
     public RuntimeServices getRuntimeServices() {
         if (singRTS == null)
@@ -86,10 +84,6 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         return singRTS;
     }
     
-    public void setRuntimeServives(RuntimeServices rts) {
-        singRTS = rts;
-    }
-
     @Override
     public int init(String[] args) {
         String projectFileName = null;

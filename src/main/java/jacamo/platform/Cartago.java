@@ -36,7 +36,7 @@ public class Cartago extends DefaultPlatformImpl {
                 if (project.isInDeployment(wp.getNode())) {
                     CartagoService.createWorkspace(wp.getName());
                     logger.info("Workspace "+wp.getName()+" created.");
-                    EnvironmentWebInspector.registerWorkspace(wp.getName());
+                    EnvironmentWebInspector.get().registerWorkspace(wp.getName());
 
                     WorkspaceId wid = cartagoCtx.joinWorkspace(wp.getName(), new AgentIdCredential("JaCaMoLauncherAgEnv"));
                     wp.setWId(wid);

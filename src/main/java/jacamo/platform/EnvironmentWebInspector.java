@@ -29,11 +29,15 @@ import jacamo.util.Config;
 import ora4mas.nopl.WebInterface;
 
 public class EnvironmentWebInspector implements Platform {
-    
+
+	static EnvironmentWebInspector singleton = null;
+	public static EnvironmentWebInspector get() { return singleton; }
+	
     boolean webOn = true;
 
     @Override
     public void init(String[] args) {
+    	singleton = this;
         if (args.length == 1) {
             Config.get().setProperty(Config.START_WEB_EI, args[0]);
             webOn = !"false".equals(args[0]);
@@ -78,11 +82,11 @@ public class EnvironmentWebInspector implements Platform {
 
     /** Http Server for GUI */
 
-    static HttpServer httpServer = null;
-    static int        httpServerPort = 3273;
-    static String     httpServerURL = "http://localhost:"+httpServerPort;
+    HttpServer httpServer = null;
+    int        httpServerPort = 3273;
+    String     httpServerURL = "http://localhost:"+httpServerPort;
 
-    static Set<String> wrkps = new HashSet<>();
+    Set<String> wrkps = new HashSet<>();
 
     static Set<String> hidenArts = new HashSet<>( Arrays.asList(new String[] {
         "node",
@@ -92,7 +96,7 @@ public class EnvironmentWebInspector implements Platform {
         "manrepo",
     }));
 
-    public static synchronized String startHttpServer()  {
+    public synchronized String startHttpServer()  {
         if (httpServer == null) {
             try {
                 httpServer = HttpServer.create(new InetSocketAddress(httpServerPort), 0);
@@ -113,7 +117,7 @@ public class EnvironmentWebInspector implements Platform {
         return httpServerURL;
     }
 
-    static void registerRootBrowserView() {
+    protected void registerRootBrowserView() {
         if (httpServer == null)
             return;
         try {
@@ -145,12 +149,12 @@ public class EnvironmentWebInspector implements Platform {
         }
     }
 
-    public static void registerWorkspace(String w) {
+    public void registerWorkspace(String w) {
         wrkps.add(w);
         registerWksBrowserView(w);
     }
 
-    private static void registerWksListBrowserView() {
+    private void registerWksListBrowserView() {
         if (httpServer == null)
             return;
         try {
@@ -194,7 +198,7 @@ public class EnvironmentWebInspector implements Platform {
         }
     }
 
-    static void registerWksBrowserView(final String id) {
+    protected void registerWksBrowserView(final String id) {
         if (httpServer == null)
             return;
         try {
@@ -266,7 +270,7 @@ public class EnvironmentWebInspector implements Platform {
     }
 
 
-    static String getWksAsDot(String wksName) {
+    protected String getWksAsDot(String wksName) {
         // TODO: implement it
         return "digraph G {\n" + 
                 "\n" + 

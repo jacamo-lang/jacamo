@@ -17,7 +17,6 @@ import javax.swing.JTextPane;
 
 import cartago.ArtifactId;
 import cartago.ArtifactInfo;
-import cartago.ArtifactObsProperty;
 import cartago.CartagoException;
 import cartago.CartagoService;
 
@@ -86,7 +85,7 @@ public class EnvironmentInspector {
                 String aname = k.substring(k.indexOf(".")+1);
                 ArtifactInfo info = CartagoService.getController(wks).getArtifactInfo(aname);
 
-                String sOut = getArtHtml(wks, info);
+                String sOut = EnvironmentWebInspector.getArtHtml(wks, info);
 
                 String lastOut = artsLast.get(k);
                 if (lastOut == null || !lastOut.endsWith(sOut)) {
@@ -100,31 +99,4 @@ public class EnvironmentInspector {
         }
     }
 
-    public static String getArtHtml(String wId, ArtifactInfo info) {
-        StringBuilder out = new StringBuilder("<html>");
-        //out.append("<head><meta http-equiv=\"refresh\" content=\""+refreshInterval+"\"></head>");
-        out.append("<span style=\"color: red; font-family: arial\"><font size=\"+2\">");
-        out.append("Inspection of artifact <b>"+info.getId().getName()+"</b> in workspace "+wId+"</font></span>");
-        out.append("<table border=0 cellspacing=3 cellpadding=6 style='font-family:verdana'>");
-        for (ArtifactObsProperty op: info.getObsProperties()) {
-            StringBuilder vls = new StringBuilder();
-            String v = "";
-            for (Object vl: op.getValues()) {
-                vls.append(v+vl);
-                v = ",";
-            }
-            out.append("<tr><td>"+op.getName()+"</td><td>"+vls+"</td></tr>");
-        }
-        out.append("</table>");
-        /*out.append("</br>Operations:<ul>");
-        for (OperationInfo op: info.getOngoingOp()) {
-            out.append("<li>"+op.toString()+"</li>");
-        }
-        for (OpDescriptor op: info.getOperations()) {
-            out.append("<li>"+op.getOp().getName()+"</li>");
-        }
-        out.append("</ul>");*/
-        out.append("</html>");
-        return out.toString();
-    }
 }

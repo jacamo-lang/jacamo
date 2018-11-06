@@ -55,7 +55,7 @@ public class Sai extends DefaultPlatformImpl {
                 }
                 */
                 
-                EnvironmentInspectorWeb.registerWorkspace(inst.getName());
+                EnvironmentWebInspector.registerWorkspace(inst.getName());
 
             } catch (CartagoException e) {
                 e.printStackTrace();

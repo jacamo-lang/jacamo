@@ -35,7 +35,7 @@ dependencies {
     compile group: 'org.jacamo'     , name: 'cartago' , version: '2.4-SNAPSHOT' , changing: true, transitive: false
     compile group: 'org.jacamo'     , name: 'jaca'    , version: '2.4-SNAPSHOT' , changing: true, transitive: false
     
-    runtime group: 'org.jacamo'     , name: 'moise'   , version: '0.12-SNAPSHOT', changing: true, transitive: false
+    compile group: 'org.jacamo'     , name: 'moise'   , version: '0.12-SNAPSHOT', changing: true, transitive: false
     runtime group: 'org.jacamo'     , name: 'npl'     , version: '0.4-SNAPSHOT' , changing: true, transitive: false
     runtime group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
 

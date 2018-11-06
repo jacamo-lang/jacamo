@@ -1,5 +1,8 @@
 package jacamo.platform;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -10,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -22,6 +26,7 @@ import cartago.ArtifactObsProperty;
 import cartago.CartagoException;
 import cartago.CartagoService;
 import jacamo.util.Config;
+import ora4mas.nopl.WebInterface;
 
 public class EnvironmentWebInspector implements Platform {
     
@@ -164,7 +169,7 @@ public class EnvironmentWebInspector implements Platform {
                         StringWriter out  = new StringWriter();
                         for (String wname: wrkps) {
                             try {
-                                out.append("<br/><scan style='color: red; font-family: arial;'>"+wname+"</scan> <br/>");
+                                out.append("<br/><scan style='color: red; font-family: arial;'><a href='/"+wname+"/img.svg' target='arts'>"+wname+"</a></scan> <br/>");
                                 for (ArtifactId aid: CartagoService.getController(wname).getCurrentArtifacts()) {
                                     if (hidenArts.contains(aid.getName()))
                                         continue;
@@ -199,17 +204,57 @@ public class EnvironmentWebInspector implements Platform {
                     Headers responseHeaders = exchange.getResponseHeaders();
                     exchange.sendResponseHeaders(200, 0);
                     OutputStream responseBody = exchange.getResponseBody();
-                    responseHeaders.set("Content-Type", "text/html");
                     if (requestMethod.equalsIgnoreCase("GET")) {
-                        try {
-                            String path = exchange.getRequestURI().getPath();
-                            int p = path.lastIndexOf("/");
-                            path = path.substring(p+1);
+                        if (exchange.getRequestURI().getPath().endsWith("svg")) {
+                            // send WKS image
+                            responseHeaders.set("Content-Type", "image/svg+xml");
+                            String program = null;
+                            try {
+                                program = WebInterface.getDotPath();
+                            } catch (Exception e) {}
+                            //for (String s: exchange.getRequestHeaders().keySet())
+                            //    System.out.println("* "+s+" = "+exchange.getRequestHeaders().getFirst(s));
+                            if (program != null) {
+                                String dot = getWksAsDot(id);
+                                if (dot != null && !dot.isEmpty()) {
+                                    File fin         = File.createTempFile("jacamo-e-", ".dot");
+                                    File imgFile = File.createTempFile("jacamo-e-", ".svg");
 
-                            ArtifactInfo info = CartagoService.getController(id).getArtifactInfo(path);
-                            responseBody.write(getArtHtml(id, info).getBytes());
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                                    FileWriter out = new FileWriter(fin);
+                                    out.append(dot);
+                                    out.close();
+                                    Process p = Runtime.getRuntime().exec(program+" -Tsvg "+fin.getAbsolutePath()+" -o "+imgFile.getAbsolutePath());
+                                    try {
+                                        p.waitFor(2000,TimeUnit.MILLISECONDS);
+
+                                        byte[] imgData = new byte[(int)imgFile.length()];
+                                        FileInputStream in = new FileInputStream(imgFile);
+                                        in.read(imgData);
+                                        in.close();
+
+                                        //responseHeaders.set("Last-Modified", new Date( lastImgFile.lastModified()).toGMTString() );
+                                        //responseHeaders.set("Cache-control", "max-age=2" );
+                                        //responseHeaders.set("ETag", "x"+lastImgFile.hashCode());
+                                        //exchange.sendResponseHeaders(304, -1);
+                                        responseBody.write(imgData);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        } else {
+                            // send artifact HTML
+                            responseHeaders.set("Content-Type", "text/html");
+                            try {
+                                String path = exchange.getRequestURI().getPath();
+                                int p = path.lastIndexOf("/");
+                                path = path.substring(p+1);
+    
+                                ArtifactInfo info = CartagoService.getController(id).getArtifactInfo(path);
+                                responseBody.write(getArtHtml(id, info).getBytes());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     responseBody.close();
@@ -221,4 +266,35 @@ public class EnvironmentWebInspector implements Platform {
     }
 
 
+    static String getWksAsDot(String wksName) {
+        // TODO: implement it
+        return "digraph G {\n" + 
+                "\n" + 
+                "	subgraph cluster_0 {\n" + 
+                "		style=filled;\n" + 
+                "		color=lightgrey;\n" + 
+                "		node [style=filled,color=white];\n" + 
+                "		a0 -> a1 -> a2 -> a3;\n" + 
+                "		label = \"process #1\";\n" + 
+                "	}\n" + 
+                "\n" + 
+                "	subgraph cluster_1 {\n" + 
+                "		node [style=filled];\n" + 
+                "		b0 -> b1 -> b2 -> b3;\n" + 
+                "		label = \"process #2\";\n" + 
+                "		color=blue\n" + 
+                "	}\n" + 
+                "	start -> a0;\n" + 
+                "	start -> b0;\n" + 
+                "	a1 -> b3;\n" + 
+                "	b2 -> a3;\n" + 
+                "	a3 -> a0;\n" + 
+                "	a3 -> end;\n" + 
+                "	b3 -> end;\n" + 
+                "\n" + 
+                "	start [shape=Mdiamond];\n" + 
+                "	end [shape=Msquare];\n" + 
+                "}";
+    }
+    
 }

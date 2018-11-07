@@ -1,12 +1,10 @@
 package jacamo.platform;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.BindException;
 import java.net.InetAddress;
@@ -300,17 +298,6 @@ public class EnvironmentWebInspector implements Platform {
             }
             
             graph = gg.generateGraph();
-            
-            try (FileWriter fw = new FileWriter("graph.gv", false);
-                    BufferedWriter bw = new BufferedWriter(fw);
-                    PrintWriter out = new PrintWriter(bw)) {
-
-                out.print(graph);
-                out.flush();
-                out.close();
-            } catch (Exception ex) {
-                System.out.println(ex.toString());
-            }            
         } catch (CartagoException e) {
             e.printStackTrace();
         }

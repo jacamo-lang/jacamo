@@ -1,10 +1,12 @@
 package jacamo.platform;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.BindException;
 import java.net.InetAddress;
@@ -25,19 +27,21 @@ import cartago.ArtifactInfo;
 import cartago.ArtifactObsProperty;
 import cartago.CartagoException;
 import cartago.CartagoService;
+import jacamo.platform.graph.GraphGenerator;
+import jacamo.platform.graph.GraphNode;
 import jacamo.util.Config;
 import ora4mas.nopl.WebInterface;
 
 public class EnvironmentWebInspector implements Platform {
 
-	static EnvironmentWebInspector singleton = null;
-	public static EnvironmentWebInspector get() { return singleton; }
-	
+    static EnvironmentWebInspector singleton = null;
+    public static EnvironmentWebInspector get() { return singleton; }
+    
     boolean webOn = true;
 
     @Override
     public void init(String[] args) {
-    	singleton = this;
+        singleton = this;
         if (args.length == 1) {
             Config.get().setProperty(Config.START_WEB_EI, args[0]);
             webOn = !"false".equals(args[0]);
@@ -271,34 +275,46 @@ public class EnvironmentWebInspector implements Platform {
 
 
     protected String getWksAsDot(String wksName) {
-        // TODO: implement it
-        return "digraph G {\n" + 
-                "\n" + 
-                "	subgraph cluster_0 {\n" + 
-                "		style=filled;\n" + 
-                "		color=lightgrey;\n" + 
-                "		node [style=filled,color=white];\n" + 
-                "		a0 -> a1 -> a2 -> a3;\n" + 
-                "		label = \"process #1\";\n" + 
-                "	}\n" + 
-                "\n" + 
-                "	subgraph cluster_1 {\n" + 
-                "		node [style=filled];\n" + 
-                "		b0 -> b1 -> b2 -> b3;\n" + 
-                "		label = \"process #2\";\n" + 
-                "		color=blue\n" + 
-                "	}\n" + 
-                "	start -> a0;\n" + 
-                "	start -> b0;\n" + 
-                "	a1 -> b3;\n" + 
-                "	b2 -> a3;\n" + 
-                "	a3 -> a0;\n" + 
-                "	a3 -> end;\n" + 
-                "	b3 -> end;\n" + 
-                "\n" + 
-                "	start [shape=Mdiamond];\n" + 
-                "	end [shape=Msquare];\n" + 
+        String graph = "digraph G {\n" + 
+                "	error -> creating\n" + 
+                "	creating -> graph;\n" + 
                 "}";
+    
+        GraphGenerator gg = new GraphGenerator(wksName);
+        try {
+            for (ArtifactId aid: CartagoService.getController(wksName).getCurrentArtifacts()) {
+                ArtifactInfo info = CartagoService.getController(wksName).getArtifactInfo(aid.getName());
+                
+                GraphNode gn = new GraphNode();
+                gn.setName(info.getId().getName());
+                gn.setWorkspace(info.getId().getWorkspaceId().getName());
+                gn.setType(info.getId().getArtifactType());
+                info.getObservers().forEach(x -> gn.addNewObservingAgent(x.getAgentId().getAgentName()));
+                //info.getLinkedArtifacts().forEach(x -> gn.addNewLinkedArtifact(x.getName()));
+                info.getObsProperties().forEach(x -> gn.addNewObservableProperty(x.getName().split("/")[0]));
+                info.getOperations().forEach(x -> gn.addNewObservableProperty(x.getKeyId().split("/")[0]));
+
+                // general data use by main generator to build a graph with clusters
+                info.getObservers().forEach(x -> gg.addNewObservingAgent(x.getAgentId().getAgentName()));
+                gg.addNode(info.getId().getWorkspaceId().getName(), gn);
+            }
+            
+            graph = gg.generateGraph();
+            
+            try (FileWriter fw = new FileWriter("graph.gv", false);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    PrintWriter out = new PrintWriter(bw)) {
+
+                out.print(graph);
+                out.flush();
+                out.close();
+            } catch (Exception ex) {
+                System.out.println(ex.toString());
+            }            
+        } catch (CartagoException e) {
+            e.printStackTrace();
+        }
+        return graph;
     }
     
 }

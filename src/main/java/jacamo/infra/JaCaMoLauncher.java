@@ -206,8 +206,8 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
 
     void createCustomPlatforms() {
         boolean einsp = false;
+        Platform p = null;
         for (String pId: getJaCaMoProject().getCustomPlatforms()) {
-            Platform p = null;
             try {               
                 p = (Platform)Class.forName(pId).newInstance();
                 p.setJcmProject(getJaCaMoProject());
@@ -221,7 +221,13 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         
         // include our own platforms
         if (!einsp) {
-            platforms.add(0,new EnvironmentWebInspector());
+            p = new EnvironmentWebInspector();
+            try {
+                p.init(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            platforms.add(0,p);
         }
     }
     

@@ -40,18 +40,19 @@ public class EnvironmentWebInspector implements Platform {
     @Override
     public void init(String[] args) {
         singleton = this;
-        if (args.length == 1) {
+        if (args != null && args.length == 1) {
             Config.get().setProperty(Config.START_WEB_EI, args[0]);
             webOn = !"false".equals(args[0]);
+        }
+        
+        if (webOn) {
+            startHttpServer();
+            registerWorkspace(CartagoService.MAIN_WSP_NAME);
         }
     }
 
     @Override
     public void start() {
-        if (webOn) {
-            startHttpServer();
-            registerWorkspace(CartagoService.MAIN_WSP_NAME);
-        }
     }
     
     public static String getArtHtml(String wId, ArtifactInfo info) {

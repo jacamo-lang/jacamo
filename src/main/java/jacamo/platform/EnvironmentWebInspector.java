@@ -1,8 +1,5 @@
 package jacamo.platform;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -13,7 +10,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -25,10 +21,7 @@ import cartago.ArtifactInfo;
 import cartago.ArtifactObsProperty;
 import cartago.CartagoException;
 import cartago.CartagoService;
-import jacamo.platform.graph.GraphGenerator;
-import jacamo.platform.graph.GraphNode;
 import jacamo.util.Config;
-import ora4mas.nopl.WebInterface;
 
 public class EnvironmentWebInspector implements Platform {
 
@@ -176,7 +169,8 @@ public class EnvironmentWebInspector implements Platform {
                         StringWriter out  = new StringWriter();
                         for (String wname: wrkps) {
                             try {
-                                out.append("<br/><scan style='color: red; font-family: arial;'><a href='/"+wname+"/img.svg' target='cf'>"+wname+"</a></scan> <br/>");
+                                //out.append("<br/><scan style='color: red; font-family: arial; text-decoration: none'><a href='/"+wname+"/img.svg' target='cf'>"+wname+"</a></scan> <br/>");
+                                out.append("<br/><scan style='color: red; font-family: arial; text-decoration: none'>"+wname+"</scan> <br/>");
                                 for (ArtifactId aid: CartagoService.getController(wname).getCurrentArtifacts()) {
                                     if (hidenArts.contains(aid.getName()))
                                         continue;
@@ -212,7 +206,7 @@ public class EnvironmentWebInspector implements Platform {
                     exchange.sendResponseHeaders(200, 0);
                     OutputStream responseBody = exchange.getResponseBody();
                     if (requestMethod.equalsIgnoreCase("GET")) {
-                        if (exchange.getRequestURI().getPath().endsWith("svg")) {
+                        /*if (exchange.getRequestURI().getPath().endsWith("svg")) {
                             // send WKS image
                             responseHeaders.set("Content-Type", "image/svg+xml");
                             String program = null;
@@ -249,7 +243,7 @@ public class EnvironmentWebInspector implements Platform {
                                     }
                                 }
                             }
-                        } else {
+                        } else {*/
                             // send artifact HTML
                             responseHeaders.set("Content-Type", "text/html");
                             try {
@@ -262,7 +256,7 @@ public class EnvironmentWebInspector implements Platform {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                        }
+                        //}
                     }
                     responseBody.close();
                 }
@@ -272,11 +266,11 @@ public class EnvironmentWebInspector implements Platform {
         }
     }
 
-
+    /*
     protected String getWksAsDot(String wksName) {
         String graph = "digraph G {\n" + 
-                "	error -> creating\n" + 
-                "	creating -> graph;\n" + 
+                "   error -> creating\n" + 
+                "   creating -> graph;\n" + 
                 "}";
     
         GraphGenerator gg = new GraphGenerator(wksName);
@@ -304,5 +298,6 @@ public class EnvironmentWebInspector implements Platform {
         }
         return graph;
     }
+    */
     
 }

@@ -139,7 +139,7 @@ public class EnvironmentWebInspector implements Platform {
                         if (path.length() < 2) { // it is the root
                             so.append("<html><head><title>CArtAgO Web View</title></head><body>");
                             so.append("<iframe width=\"20%\" height=\"100%\" align=left src=\"/indexarts\" border=5 frameborder=0 ></iframe>");
-                            so.append("<iframe width=\"78%\" height=\"100%\" align=left src=\"/arts\" name=\"arts\" border=5 frameborder=0></iframe>");
+                            so.append("<iframe width=\"78%\" height=\"100%\" align=left name='cf' border=5 frameborder=0></iframe>");
                             so.append("</body></html>");
                         }
                         responseBody.write(so.toString().getBytes());
@@ -176,14 +176,14 @@ public class EnvironmentWebInspector implements Platform {
                         StringWriter out  = new StringWriter();
                         for (String wname: wrkps) {
                             try {
-                                out.append("<br/><scan style='color: red; font-family: arial;'><a href='/"+wname+"/img.svg' target='arts'>"+wname+"</a></scan> <br/>");
+                                out.append("<br/><scan style='color: red; font-family: arial;'><a href='/"+wname+"/img.svg' target='cf'>"+wname+"</a></scan> <br/>");
                                 for (ArtifactId aid: CartagoService.getController(wname).getCurrentArtifacts()) {
                                     if (hidenArts.contains(aid.getName()))
                                         continue;
                                     if (aid.getName().endsWith("-body"))
                                         continue;
                                     String addr = wname+"/"+aid.getName();
-                                    out.append(" - <a href=\""+addr+"\" target=\"arts\" style=\"font-family: arial; text-decoration: none\">"+aid.getName()+"</a><br/>");
+                                    out.append(" - <a href=\""+addr+"\" target='cf' style=\"font-family: arial; text-decoration: none\">"+aid.getName()+"</a><br/>");
                                 }
                             } catch (CartagoException e) {
                                 e.printStackTrace();

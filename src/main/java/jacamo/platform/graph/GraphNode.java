@@ -15,10 +15,10 @@ public class GraphNode {
     private String name;
     private String workspace;
     private String type;
-    private List<String> observingAgents = new ArrayList<String>();
-    private List<String> linkedArtifacts = new ArrayList<String>();
-    private List<String> operations = new ArrayList<String>();
-    private List<String> observableProperties = new ArrayList<String>();
+    private List<String> observingAgents = new ArrayList<>();
+    private List<String> linkedArtifacts = new ArrayList<>();
+    private List<String> operations = new ArrayList<>();
+    private List<String> observableProperties = new ArrayList<>();
 
     /**
      * get name of related artifact

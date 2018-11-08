@@ -2,12 +2,12 @@ package jacamo.platform.graph;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -18,8 +18,8 @@ import java.util.Map.Entry;
  */
 public class GraphGenerator {
 
-    private HashMap<String, Collection<GraphNode>> nodesByWorkspace = new HashMap<String, Collection<GraphNode>>();
-    private List<String> observingAgents = new ArrayList<String>();
+    private Map<String, Collection<GraphNode>> nodesByWorkspace = new HashMap<>();
+    private List<String> observingAgents = new ArrayList<>();
     private String workspaceFilter; // if empty, filtering is off
     private static PrintWriter out;
 
@@ -61,7 +61,7 @@ public class GraphGenerator {
     public void addNode(String workspace, GraphNode item) {
         Collection<GraphNode> values = nodesByWorkspace.get(workspace);
         if (values == null) {
-            values = new ArrayList<GraphNode>();
+            values = new ArrayList<>();
             nodesByWorkspace.put(workspace, values);
         }
         values.add(item);
@@ -70,7 +70,6 @@ public class GraphGenerator {
     /**
      * Generate a graphviz creating a file called "graph.gv" where the 
      * application is running
-     * @throws IOException
      */
     public String generateGraph() {
         StringBuilder sb = new StringBuilder();

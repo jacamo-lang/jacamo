@@ -218,6 +218,23 @@ task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) {
 	}
 }
 
+javadoc {
+    options.showAll()
+    options.encoding('UTF-8')
+    options.setUse(true)
+    options.author(true)
+    options.version(true)
+    options.windowTitle('JaCaMo API')
+    options.docTitle('JaCaMo API')
+    options.footer('<a href=http://jacamo.sf.net>JaCaMo Site</a>')
+    destinationDir = file("${buildDir}/../doc/api")
+    doFirst {
+        javadoc.title = 'JaCaMo API'
+        javadoc.options.docTitle = javadoc.title
+    }
+}
+
+
 // Builds the distribution, documentation and a new release
 task doc(dependsOn: [ 'jjdoc', 'javadoc', 'renderAsciiDocs']) {
 }

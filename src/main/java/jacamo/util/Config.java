@@ -15,6 +15,8 @@ public class Config extends jason.util.Config {
     private static final long  serialVersionUID = 1L;
 
     public static final String jacamoHomeProp = "JaCaMoHome";
+
+    @Deprecated
     public static final String DOT_PATH       = "dotPath";
 
     public static final String JACAMO_JAR    = "jacamoJar";
@@ -92,6 +94,7 @@ public class Config extends jason.util.Config {
         return "jacamo";
     }
 
+    @Deprecated
     public String getDotPath() {
         String r = super.getProperty(DOT_PATH);
         if (r == null)

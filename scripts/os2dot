@@ -5,4 +5,4 @@
 
 source "`dirname "$0"`/jacamo-setup"
 
-java -cp "$JACAMO_HOME/libs/*" moise.tools.os2dot $*
+java -cp "$JACAMO_HOME/libs/*" moise.tools.os2dotGUI $*

@@ -24,7 +24,7 @@ public class ConfigGUI {
 
     protected JTextField jacamoTF;
     protected JTextField javaTF;
-    protected JTextField dotTF;
+    //protected JTextField dotTF;
     //protected JCheckBox  alsoForJasonCB;
 
     protected String initJacamoHome = null;
@@ -137,25 +137,26 @@ public class ConfigGUI {
         pop.add(javaHomePanel);
 
         // dot path
-        dotTF = new JTextField(35);
-        dotTF.setToolTipText("Dot is used to produce graphical representation of the organization. It can be installed from http://www.graphviz.org.");
+        //dotTF = new JTextField(35);
+        //dotTF.setToolTipText("Dot is used to produce graphical representation of the organization. It can be installed from http://www.graphviz.org.");
         JPanel dotHomePanel = new JPanel(new GridLayout(0,1));
         dotHomePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
                 .createEtchedBorder(), "dot (optional)", TitledBorder.LEFT, TitledBorder.TOP));
-        JPanel dotPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
+        /*JPanel dotPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         dotPanel.add(new JLabel("program location"));
         dotPanel.add(dotTF);
         dotHomePanel.add(dotPanel);
 
-        pop.add(dotHomePanel);
+        pop.add(dotHomePanel);*/
 
         initJacamoHome = userProperties.getProperty(Config.JACAMO_JAR);
         jacamoTF.setText(initJacamoHome);
 
         javaTF.setText(userProperties.getJavaHome());
-        String v = userProperties.getDotPath();
+        /*String v = userProperties.getDotPath();
         if (v == null) v = "";
-        dotTF.setText(v);
+        dotTF.setText(v);*/
         return pop;
     }
 
@@ -197,11 +198,12 @@ public class ConfigGUI {
             userProperties.setJavaHome(javaTF.getText().trim());
         }
 
-        File fDot = new File(dotTF.getText().trim());
+        /*File fDot = new File(dotTF.getText().trim());
         userProperties.put(Config.DOT_PATH, fDot.getAbsolutePath());
         if (!fDot.exists())
             System.out.println("The dot program does not exist at "+fDot);
-
+        */
+        
         userProperties.store();
 
         // also store Jason conf if not installed

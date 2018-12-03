@@ -185,6 +185,10 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 }
             }
             
+            // register jacamo archs
+            getRuntimeServices().registerDefaultAgArch(JaCaMoAgArch.class.getName());
+            getRuntimeServices().registerDefaultAgArch(CAgentArch.class.getName());
+            
             errorCode = 0;
 
         } catch (FileNotFoundException e1) {
@@ -321,10 +325,10 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                     continue;
                 }
                 lags.add(ap);
-                ap.insertArchClass( // so that the user ag arch is the first arch in the chain
+                /*ap.insertArchClass( // so that the user ag arch is the first arch in the chain
                         new ClassParameters(CAgentArch.class.getName()),
-                        new ClassParameters(JaCaMoAgArch.class.getName()));
-
+                        new ClassParameters(JaCaMoAgArch.class.getName()));*/
+    
                 // includes mind inspector
                 String debug = ap.getOption("debug");
                 if (debug != null) {

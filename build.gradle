@@ -77,6 +77,18 @@ task copyJarsToBuild {
     }
 }
 
+compileJavacc {
+    inputDirectory = file('src/main/javacc')
+    outputDirectory = file(project.buildDir.absolutePath + '/generated/javacc/jacamo/project/parser')
+}
+
+
+jjdoc {
+    outputDirectory = file(project.projectDir.absolutePath + '/doc')
+    //arguments = [text: 'true']
+}
+
+
 jar {
     baseName 'jacamo'
     manifest {
@@ -189,17 +201,6 @@ eclipse {
 	        }
 	   }
     }
-}
-
-compileJavacc {
-    inputDirectory = file('src/main/javacc')
-    outputDirectory = file(project.buildDir.absolutePath + '/generated/javacc/jacamo/project/parser')
-}
-
-
-jjdoc {
-    outputDirectory = file(project.projectDir.absolutePath + '/doc')
-    //arguments = [text: 'true']
 }
 
 // transfer local maven artifact to our maven2 repository at sourceforge

@@ -4,4 +4,4 @@ source "`dirname "$0"`/jacamo-setup"
 
 # run a jacamo application
 
-java -classpath "$JACAMO_HOME/libs/*" jacamo.infra.JaCaMoLauncher $1 $2
+java -classpath "$JACAMO_HOME/libs/*:bin/classes" jacamo.infra.JaCaMoLauncher $1 $2

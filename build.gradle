@@ -24,7 +24,7 @@ repositories {
     mavenCentral()
 
     maven { url "http://jacamo.sourceforge.net/maven2/" }
-    maven { url "http://jade.tilab.com/maven/" }
+    //maven { url "http://jade.tilab.com/maven/" }
 
     //flatDir {       dirs 'lib'    }
 }
@@ -45,7 +45,8 @@ dependencies {
     runtime group: 'org.jacamo'     , name: 'sai'     , version: '0.3-SNAPSHOT', changing: true , transitive: false
     runtime "org.antlr:antlr4:4.7"
 
-    runtime group: 'com.tilab.jade' , name: 'jade'    , version: '4.5.0'
+    //runtime group: 'com.tilab.jade' , name: 'jade'    , version: '4.5.0'
+    runtime group: 'net.sf.ingenias', name: 'jade'    , version: '4.3'
     runtime group: 'org.apache.ant' , name: 'ant'     , version: '1.10.+'
 
     testCompile 'junit:junit:4.12'

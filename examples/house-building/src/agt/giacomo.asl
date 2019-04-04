@@ -77,6 +77,7 @@ number_of_tasks(NS) :- .findall( S, task(S), L) & .length(L,NS).
       createWorkspace("ora4mas");
       joinWorkspace("ora4mas",WOrg);
 
+      // NB.: we (have to) use the same id for OrgBoard and Workspace (ora4mas in this example)
       makeArtifact(ora4mas, "ora4mas.nopl.OrgBoard", ["src/org/house-os.xml"], OrgArtId)[wid(WOrg)];
       focus(OrgArtId);
       createGroup(hsh_group, house_group, GrArtId);

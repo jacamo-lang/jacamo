@@ -2,8 +2,5 @@ mas main_container_jade {
 
     agent alice
 
-    asl-path: src/agt, src/agt/inc
-
     platform: jade("-gui -sniffer")
 }
-

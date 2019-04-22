@@ -1,3 +1,6 @@
 !start.
 
-+!start : true <- .send(alice,tell,hello).
++!start <- .send(alice,tell,hello).
+
++hello[source(A)]
+   <- .print("Hello form ", A).

@@ -208,7 +208,7 @@ eclipse {
 task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) {
 	doLast {
 	    def wdir = System.getProperty("user.home")+'/.m2/repository/org/jacamo/jacamo'
-	    def tdir = 'jomifred,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/maven2/org/jacamo/jacamo'
+	    def tdir = System.getenv('USERSF')+',jacamo@web.sf.net:/home/project-web/jacamo/htdocs/maven2/org/jacamo/jacamo'
 	    exec {
 	        commandLine 'scp', '-r', project.version, tdir
 	        workingDir wdir

@@ -87,6 +87,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     @Override
     public int init(String[] args) {
         String projectFileName = null;
+        
         if (args.length < 1) {
             if (RunCentralisedMAS.class.getResource("/"+defaultProjectFileName) != null) {
                 projectFileName = defaultProjectFileName;

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import ora4mas.nopl.GroupBoard;
+
 /**
  * JaCaMo configuration
  *
@@ -155,8 +157,8 @@ public class Config extends jason.util.Config {
     /** Set most important parameters with default values */
     @Override
     public void fix() {
-        tryToFixJarFileConf(JACAMO_JAR, "jacamo", 10000); // this jar is required at runtime (e.g. for .include)
-        tryToFixJarFileConf(MOISE_JAR,  "moise",   5000); // this jar is required at runtime (e.g. for .include)
+        tryToFixJarFileConf(JACAMO_JAR, "jacamo", 100000); // this jar is required at runtime (e.g. for .include)
+        tryToFixJarFileConf(MOISE_JAR,  "moise",    5000); // this jar is required at runtime (e.g. for .include)
         super.fix();
         
         if (getProperty(START_WEB_EI) == null) {
@@ -181,6 +183,16 @@ public class Config extends jason.util.Config {
             }
         }
     }
+    
+    @Override
+    @SuppressWarnings("rawtypes")
+    public Class getClassForClassLoaderTest(String jarEntry) {
+        if (jarEntry == MOISE_JAR)
+            return GroupBoard.class;
+        return this.getClass();
+    }
+  
+
     
     @Override
     public boolean tryToFixJarFileConf(String jarEntry, String jarFilePrefix, int minSize) {

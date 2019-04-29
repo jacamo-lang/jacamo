@@ -33,7 +33,6 @@ import jason.infra.centralised.CentralisedAgArch;
 import jason.infra.centralised.RunCentralisedMAS;
 import jason.infra.repl.ReplAgGUI;
 import jason.mas2j.AgentParameters;
-import jason.mas2j.ClassParameters;
 import jason.runtime.MASConsoleGUI;
 import jason.runtime.MASConsoleLogHandler;
 import jason.runtime.RuntimeServices;
@@ -87,20 +86,23 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     @Override
     public int init(String[] args) {
         String projectFileName = null;
-        if (args.length < 1) {
-            if (RunCentralisedMAS.class.getResource("/"+defaultProjectFileName) != null) {
-                projectFileName = defaultProjectFileName;
-                readFromJAR = true;
-                Config.get(false); // to void to call fix/store the configuration in this case everything is read from a jar/jnlp file
-            } else {
+        if (RunCentralisedMAS.class.getResource("/"+defaultProjectFileName) != null) {
+            projectFileName = defaultProjectFileName;
+            readFromJAR = true;
+            Config.get(false); // to void to call fix/store the configuration in this case everything is read from a jar/jnlp file
+            if (args.length == 1) {
+                projectFileName = args[0];              
+            }
+        } else {
+            if (args.length < 1) {
                 System.out.println("JaCaMo "+Config.get().getJaCaMoVersion());
                 System.err.println("You should inform the project file.");
                 JOptionPane.showMessageDialog(null,"You should inform the project file as a parameter.\n\nJaCaMo version "+Config.get().getJaCaMoVersion(),"JaCaMo", JOptionPane.INFORMATION_MESSAGE);
                 System.exit(0);
+            } else {
+                Config.get(); // to setup the JaCaMo Config
+                projectFileName = args[0];
             }
-        } else {
-            Config.get(); // to setup the JaCaMo Config
-            projectFileName = args[0];
         }
 
         // jacamo.jar and moise.jar must be configured (for includes)
@@ -135,7 +137,11 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         try {
             InputStream inProject;
             if (readFromJAR) {
-                inProject = RunCentralisedMAS.class.getResource("/"+defaultProjectFileName).openStream();
+                if (projectFileName == null) {
+                    inProject = RunCentralisedMAS.class.getResource("/"+defaultProjectFileName).openStream();
+                } else {
+                    inProject = RunCentralisedMAS.class.getResource("/"+projectFileName).openStream();                  
+                }
                 urlPrefix = SourcePath.CRPrefix + "/";
             } else {
                 URL file;

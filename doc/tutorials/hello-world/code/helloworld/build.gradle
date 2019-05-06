@@ -19,15 +19,15 @@ repositories {
     mavenCentral()
 
     maven { url "http://jacamo.sourceforge.net/maven2" }
-    maven { url "http://jade.tilab.com/maven/" }
-    
+    //maven { url "https://jade.tilab.com/maven/" }
+
     flatDir {
        dirs 'lib'
     }
 }
 
 dependencies {
-    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '0.7'
+    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '0.8-SNAPSHOT'
 }
 
 sourceSets {
@@ -57,4 +57,3 @@ clean {
     delete 'bin'
     delete 'build'
 }
-

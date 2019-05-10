@@ -42,7 +42,7 @@ import jason.runtime.SourcePath;
 /**
  * Runs MASProject using JaCaMo infrastructure.
  *
- * This class reads the mas2j project and create the
+ * This class reads the JCM project and creates the
  * corresponding environment, organisation, agents, ...
  *
  * @author Jomi

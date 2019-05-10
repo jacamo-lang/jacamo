@@ -19,6 +19,7 @@ To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/
 
 image:./tutorials/hello-world/screens/p1.png[]
 
+To include existing projects in your eclipse workspace, preferably use the option "file/import/import gradle project". 
 
 == Gradle
 

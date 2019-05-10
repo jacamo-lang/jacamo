@@ -188,8 +188,10 @@ public class Config extends jason.util.Config {
     @SuppressWarnings("rawtypes")
     public Class getClassForClassLoaderTest(String jarEntry) {
         if (jarEntry == MOISE_JAR)
-            return GroupBoard.class;
-        return this.getClass();
+            try {
+                return GroupBoard.class;
+            } catch (Throwable e) {}; // class not found
+        return super.getClassForClassLoaderTest(jarEntry);
     }
   
 
@@ -205,7 +207,7 @@ public class Config extends jason.util.Config {
                 try {
                     put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
                     if (showFixMsgs)
-                        System.out.println("found at " + jarFile);
+                        System.out.println("found at " + jarFile + " based on location of jacamo.jar");
                     return true;
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -1,5 +1,13 @@
 = Release notes for JaCaMo
 
+== Version 0.8
+
+- This version uses Jason 2.4, Moise 0.12 and Cartago 2.4
+
+- Adds support for user defined *platforms*, example of projects using this feature are:
+    . https://github.com/jacamo-lang/jacamo-web
+    . https://github.com/jacamo-lang/camel-jason
+
 == Version 0.7
 
 - new entries in the jcm files: `java-path` (for java sources) and `org-path` (for moise .xml files). See doc/jcm.html for more details.

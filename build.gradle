@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version '0.8'
+version '0.9-SNAPSHOT'
 group   'org.jacamo'
 
 sourceCompatibility = 1.8
@@ -35,7 +35,7 @@ dependencies {
     compile group: 'org.jacamo'     , name: 'cartago' , version: '2.4' , changing: true, transitive: false
     compile group: 'org.jacamo'     , name: 'jaca'    , version: '2.4' , changing: true, transitive: false
 
-    compile group: 'org.jacamo'     , name: 'moise'   , version: '0.12', changing: true, transitive: false
+    compile group: 'org.jacamo'     , name: 'moise'   , version: '0.13-SNAPSHOT', changing: true, transitive: false
 
     compile group: 'guru.nidi'      , name: 'graphviz-java', version: '0.7.0'
 

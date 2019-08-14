@@ -1,0 +1,23 @@
+/*
+    custom_comm
+    ---------------------------
+
+    JaCaMo Application File
+
+    example of custom communication agent architecture
+    
+    each agent has a directory where messages sent to it are stored 
+*/
+
+mas custom_comm {
+
+    agent bob {
+    	ag-arch: comm.FileComm
+    }
+
+    agent alice {
+    	ag-arch: comm.FileComm
+    }
+
+}
+

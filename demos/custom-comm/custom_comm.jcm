@@ -12,11 +12,11 @@
 mas custom_comm {
 
     agent bob {
-    	ag-arch: comm.FileComm
+        ag-arch: comm.FileComm
     }
 
     agent alice {
-    	ag-arch: comm.FileComm
+        ag-arch: comm.FileComm
     }
 
 }

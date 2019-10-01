@@ -19,7 +19,8 @@ repositories {
     mavenCentral()
 
     maven { url "http://jacamo.sourceforge.net/maven2" }
-    maven { url "http://jade.tilab.com/maven/" }
+    maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
+    //maven { url "https://jade.tilab.com/maven/" }
 
     flatDir {
        dirs 'lib'
@@ -27,10 +28,10 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '0.7'
+    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '0.8'
     compile name: 'search'
     compile 'org.twitter4j:twitter4j-async:4.0.7'
-    compile 'org.twitter4j:twitter4j-stream:4.0.7' 
+    compile 'org.twitter4j:twitter4j-stream:4.0.7'
 }
 
 sourceSets {
@@ -51,6 +52,9 @@ sourceSets {
 task run (type: JavaExec, dependsOn: 'classes') {
     description 'runs the application'
     group ' JaCaMo'
+    doFirst {
+        mkdir 'log'
+    }
     main = 'jacamo.infra.JaCaMoLauncher'
     args 'gold_miners.jcm'
     classpath sourceSets.main.runtimeClasspath

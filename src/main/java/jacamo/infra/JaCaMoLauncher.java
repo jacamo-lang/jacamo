@@ -51,6 +51,10 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
 
     protected List<Platform> platforms = new ArrayList<>();
 
+    public List<Platform> getPlatforms() {
+        return platforms;
+    }
+
     public static String defaultProjectFileName = "default.jcm";
 
     public static void main(String[] args) throws JasonException {

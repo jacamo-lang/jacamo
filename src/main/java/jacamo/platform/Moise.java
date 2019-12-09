@@ -1,5 +1,7 @@
 package jacamo.platform;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,13 +19,14 @@ import jacamo.project.JaCaMoSchemeParameters;
 
 public class Moise extends DefaultPlatformImpl {
     
-    protected CartagoContext      cartagoCtx;
+    protected Map<String,CartagoContext> cartagoCtxs = new HashMap<>();
 
     Logger logger = Logger.getLogger(Moise.class.getName());
 
     @Override
     public void init(String[] args) throws CartagoException {
-        cartagoCtx = CartagoService.startSession(CartagoService.MAIN_WSP_NAME, new AgentIdCredential("JaCaMo_Org_Launcher"));
+        CartagoContext cartagoCtx = CartagoService.startSession(CartagoService.MAIN_WSP_NAME, new AgentIdCredential("JaCaMo_Org_Launcher"));
+        cartagoCtxs.put(CartagoService.MAIN_WSP_NAME, cartagoCtx);
     }
     
     @Override
@@ -33,41 +36,58 @@ public class Moise extends DefaultPlatformImpl {
                 // fix path for org
                 o.addParameter("source", project.getOrgPaths().fixPath(o.getParameter("source")));
 
-                CartagoService.createWorkspace(o.getName());
-                logger.info("Workspace "+o.getName()+" created.");
+                // TODO: Just checking if the org wks exists is not a good solution, it must check if is already joined
+                if (!CartagoService.getNode().getWorkspaces().contains(o.getName())) {
+                    CartagoService.createWorkspace(o.getName());
 
-                WorkspaceId wid = cartagoCtx.joinWorkspace(o.getName(), new AgentIdCredential("JaCaMoLauncherAgOrg"));
+                    logger.info("Workspace "+o.getName()+" created.");
 
-                ArtifactId aid;
-                if (o.hasInstitution()) {
-                    WorkspaceId instWid = cartagoCtx.joinWorkspace(o.getInstitution()); //, new AgentIdCredential("JaCaMoLauncherAgInst"));
-                    ArtifactId instAId = cartagoCtx.lookupArtifact(instWid, o.getInstitution()+"_art");
-                    aid = cartagoCtx.makeArtifact(wid, o.getName(), "sai.bridges.jacamo.OrgBoardSai", new Object[] { o.getParameter("source") } );
-                    cartagoCtx.doAction(aid, new Op("setInstitution", new Object[] { o.getInstitution(), instAId } ));
-                    logger.info("OrgBoard(SAI) "+o.getName()+" created.");
-                } else {
-                    aid = cartagoCtx.makeArtifact(wid, o.getName(), "ora4mas.nopl.OrgBoard", new Object[] { o.getParameter("source") } );
-                }
+                    CartagoContext cartagoCtx = null;
+                    if (cartagoCtxs.containsKey(o.getName())) {
+                        cartagoCtx = cartagoCtxs.get(o.getName());
+                    } else {
+                        cartagoCtx = CartagoService.startSession(o.getName(), new AgentIdCredential("JaCaMo_Org_Launcher"));
+                        cartagoCtxs.put(o.getName(), cartagoCtx);
+                    }
                 
-                // schemes
-                for (JaCaMoSchemeParameters s: o.getSchemes()) {
-                    createScheme(aid, s, o);
-                }
+                    logger.info("getJoinedWorkspaces: " + cartagoCtx.getJoinedWorkspaces().toString());
 
-                // groups
-                for (JaCaMoGroupParameters g: o.getGroups()) {
-                    createGroup(aid,null,g,o);
-                }
-                //EnvironmentWebInspector.get().registerWorkspace(o.getName());
+                    WorkspaceId wid = cartagoCtx.joinWorkspace(o.getName(), new AgentIdCredential("JaCaMoLauncherAgOrg"));
+                    
+                    ArtifactId aid;
+                    if (o.hasInstitution()) {
+                        WorkspaceId instWid = cartagoCtx.joinWorkspace(o.getInstitution()); //, new AgentIdCredential("JaCaMoLauncherAgInst"));
+                        ArtifactId instAId = cartagoCtx.lookupArtifact(instWid, o.getInstitution()+"_art");
+                        aid = cartagoCtx.makeArtifact(wid, o.getName(), "sai.bridges.jacamo.OrgBoardSai", new Object[] { o.getParameter("source") } );
+                        cartagoCtx.doAction(aid, new Op("setInstitution", new Object[] { o.getInstitution(), instAId } ));
+                        logger.info("OrgBoard(SAI) "+o.getName()+" created.");
+                    } else {
+                        aid = cartagoCtx.makeArtifact(wid, o.getName(), "ora4mas.nopl.OrgBoard", new Object[] { o.getParameter("source") } );
 
-                //CartagoService.enableDebug(o.getName());
+                    }
+
+                    // schemes
+                    for (JaCaMoSchemeParameters s: o.getSchemes()) {
+                        createScheme(aid, s, o, cartagoCtx);
+                    }
+
+                    // groups
+                    for (JaCaMoGroupParameters g: o.getGroups()) {
+                        createGroup(aid,null,g,o, cartagoCtx);
+                    }
+                    //EnvironmentWebInspector.get().registerWorkspace(o.getName());
+
+                    //CartagoService.enableDebug(o.getName());
+                } else {
+                    logger.info("Workspace "+o.getName()+" already exists, organisation will not be created.");
+                }
             } catch (CartagoException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    protected void createGroup(ArtifactId orgB, JaCaMoGroupParameters parent, JaCaMoGroupParameters g, JaCaMoOrgParameters org) {
+    protected void createGroup(ArtifactId orgB, JaCaMoGroupParameters parent, JaCaMoGroupParameters g, JaCaMoOrgParameters org, CartagoContext cartagoCtx) {
         String m = g.getName()+": "+g.getType()+" using artifact ora4mas.nopl.GroupBoard";
 
         try {
@@ -88,7 +108,7 @@ public class Moise extends DefaultPlatformImpl {
                 cartagoCtx.doAction(aid, new Op("setOwner", new Object[] { owner } ));
             }
             for (JaCaMoGroupParameters sg: g.getSubGroups()) {
-                createGroup(orgB, g, sg, org);
+                createGroup(orgB, g, sg, org, cartagoCtx);
             }
 
             //String respFor = g.getParameter("responsible-for"); // should be done after subgroup creation
@@ -104,7 +124,7 @@ public class Moise extends DefaultPlatformImpl {
 
     }
 
-    protected void createScheme(ArtifactId orgB, JaCaMoSchemeParameters s, JaCaMoOrgParameters org) {
+    protected void createScheme(ArtifactId orgB, JaCaMoSchemeParameters s, JaCaMoOrgParameters org, CartagoContext cartagoCtx) {
         String m = s.getName()+": "+s.getType()+" using artifact SchemeBoard";
 
         try {

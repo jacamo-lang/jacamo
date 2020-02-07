@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import jacamo.infra.RunJaCaMoProject;
 import ora4mas.nopl.GroupBoard;
 
 /**
@@ -51,7 +52,7 @@ public class Config extends jason.util.Config {
         boolean r = super.load();
         if (r) {
             String jarFile = getJarFromClassPath("jacamo");
-            if (checkJar(jarFile, 100000)) {
+            if (checkJar(jarFile, getJarFileForFixTest(JACAMO_JAR))) {
                 if (getJaCaMoJar() != null && !getJaCaMoJar().equals(jarFile)) {
                     System.out.println("\n\n*** The jacamo.jar from classpath is different than jacamo.jar from configuration, consider to delete the configuration (file ~/.jacamo/user.properties or jacamo.properties).");
                     System.out.println("Classpath is\n   "+jarFile+
@@ -141,7 +142,7 @@ public class Config extends jason.util.Config {
             try {
                 File jasonjardir = new File(getJaCaMoHome()+"/libs").getAbsoluteFile().getCanonicalFile();
                 String jarFile = findJarInDirectory(jasonjardir, "jason");
-                if (checkJar(jarFile, 800000)) {
+                if (checkJar(jarFile, getJarFileForFixTest(JASON_JAR))) {
                     put(JASON_JAR, jarFile);
                     if (showFixMsgs)
                         System.out.println("found at " + jarFile+" by JaCaMo HOME");
@@ -157,8 +158,8 @@ public class Config extends jason.util.Config {
     /** Set most important parameters with default values */
     @Override
     public void fix() {
-        tryToFixJarFileConf(JACAMO_JAR, "jacamo", 100000); // this jar is required at runtime (e.g. for .include)
-        tryToFixJarFileConf(MOISE_JAR,  "moise",    5000); // this jar is required at runtime (e.g. for .include)
+        tryToFixJarFileConf(JACAMO_JAR, "jacamo"); // this jar is required at runtime (e.g. for .include)
+        tryToFixJarFileConf(MOISE_JAR,  "moise"); // this jar is required at runtime (e.g. for .include)
         super.fix();
         
         if (getProperty(START_WEB_EI) == null) {
@@ -187,6 +188,10 @@ public class Config extends jason.util.Config {
     @Override
     @SuppressWarnings("rawtypes")
     public Class getClassForClassLoaderTest(String jarEntry) {
+        if (jarEntry == JACAMO_JAR)
+            try {
+                return RunJaCaMoProject.class;
+            } catch (Throwable e) {}; // class not found
         if (jarEntry == MOISE_JAR)
             try {
                 return GroupBoard.class;
@@ -195,15 +200,27 @@ public class Config extends jason.util.Config {
     }
   
 
+    @Override
+    public String getJarFileForFixTest(String jarEntry) {
+        if (jarEntry == JACAMO_JAR)
+            try {
+                return "jacamo/infra/RunJaCaMoProject.class";
+            } catch (Throwable e) {}; // class not found
+        if (jarEntry == MOISE_JAR)
+            try {
+                return "ora4mas/nopl/GroupBoard.class";
+            } catch (Throwable e) {}; // class not found
+        return super.getJarFileForFixTest(jarEntry);
+    }
     
     @Override
-    public boolean tryToFixJarFileConf(String jarEntry, String jarFilePrefix, int minSize) {
-        super.tryToFixJarFileConf(jarEntry, jarFilePrefix, minSize);
+    public boolean tryToFixJarFileConf(String jarEntry, String jarFilePrefix) {
+        super.tryToFixJarFileConf(jarEntry, jarFilePrefix);
         // for moise.jar we need to fix based on jacamohome, since when running Config or ConfigGUI it is not in the classpath
         // latter, eclipse requires these jars
         if (get(jarEntry) == null && getJaCaMoHome() != null) { // super didn't solve
             String jarFile = findJarInDirectory(new File(getJaCaMoHome()+"/libs"), jarFilePrefix);
-            if (checkJar(jarFile, minSize)) {
+            if (checkJar(jarFile, getJarFileForFixTest(jarEntry))) {
                 try {
                     put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
                     if (showFixMsgs)

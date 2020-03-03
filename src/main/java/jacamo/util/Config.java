@@ -51,7 +51,7 @@ public class Config extends jason.util.Config {
     public boolean load() {
         boolean r = super.load();
         if (r) {
-            String jarFile = getJarFromClassPath("jacamo");
+            String jarFile = getJarFromClassPath("jacamo", getJarFileForFixTest(JACAMO_JAR));
             if (checkJar(jarFile, getJarFileForFixTest(JACAMO_JAR))) {
                 if (getJaCaMoJar() != null && !getJaCaMoJar().equals(jarFile)) {
                     System.out.println("\n\n*** The jacamo.jar from classpath is different than jacamo.jar from configuration, consider to delete the configuration (file ~/.jacamo/user.properties or jacamo.properties).");

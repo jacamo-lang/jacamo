@@ -247,8 +247,6 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     
     @Override
     public void finish(int deadline) {
-        super.finish(deadline);
-        
         for (Platform p: platforms) {
             try {
                 p.stop();
@@ -256,6 +254,8 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 e.printStackTrace();
             }
         }
+
+        super.finish(deadline);
     }
     
     @Override

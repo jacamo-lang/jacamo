@@ -78,10 +78,14 @@ public class Cartago extends DefaultPlatformImpl {
                         try {
                             if (!artifactExists(wp.getName(), aName)) {
                                 ClassParameters cp = wp.getArtifacts().get(aName);
-                                m = "artifact " + aName + ": " + cp.getClassName() + "(" + cp.getParametersStr(",")
+                                m = "artifact " 
+                                        + aName + ": " + cp.getClassName() + "(" + cp.getParametersStr(",")             
                                         + ") at " + wp.getName();
-                                ArtifactId aid = cartagoCtx.makeArtifact(wid, aName, cp.getClassName(),
-                                        cp.getTypedParametersArray());
+                                ArtifactId aid = cartagoCtx
+                                        .makeArtifact(wid, 
+                                                aName, 
+                                                cp.getClassName(),
+                                                cp.getTypedParametersArray());
                                 // artIds.put(aName, aid);
                                 logger.info(m + " created.");
                                 if (wp.hasDebug())
@@ -115,7 +119,8 @@ public class Cartago extends DefaultPlatformImpl {
     
     public boolean artifactExists(String wksName, String artName) throws CartagoException {
         for (ArtifactId aid : CartagoService.getController(wksName).getCurrentArtifacts()) {
-            if (aid.getName().equals(artName)) return true;
+            if (aid.getName().equals(artName)) 
+                return true;
         }
         return false;
     }

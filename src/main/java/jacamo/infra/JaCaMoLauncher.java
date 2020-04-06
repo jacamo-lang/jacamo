@@ -30,12 +30,14 @@ import jason.asSyntax.Literal;
 import jason.asSyntax.directives.DirectiveProcessor;
 import jason.asSyntax.directives.Include;
 import jason.infra.centralised.CentralisedAgArch;
+import jason.infra.centralised.CentralisedRuntimeServices;
 import jason.infra.centralised.RunCentralisedMAS;
 import jason.infra.repl.ReplAgGUI;
 import jason.mas2j.AgentParameters;
 import jason.runtime.MASConsoleGUI;
 import jason.runtime.MASConsoleLogHandler;
 import jason.runtime.RuntimeServices;
+import jason.runtime.RuntimeServicesFactory;
 import jason.runtime.Settings;
 import jason.runtime.SourcePath;
 
@@ -61,6 +63,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         logger = Logger.getLogger(JaCaMoLauncher.class.getName());
         JaCaMoLauncher r = new JaCaMoLauncher();
         runner = r;
+        RuntimeServicesFactory.set( new JaCaMoRuntimeServices(runner) );
         r.registerMBean();
         r.init(args);
         r.create();
@@ -68,7 +71,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         r.waitEnd();
         r.finish(0);
     }
-
+    
     public static JaCaMoLauncher getJaCaMoRunner() {
         return (JaCaMoLauncher)runner;
     }
@@ -80,6 +83,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         return (JaCaMoProject)getProject();
     }
 
+    /** 
+     * deprecated use RuntimeServicesFactory.get() instead
+     */
     @Override
     public RuntimeServices getRuntimeServices() {
         if (singRTS == null)
@@ -196,8 +202,8 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             }
             
             // register jacamo archs
-            getRuntimeServices().registerDefaultAgArch(JaCaMoAgArch.class.getName());
-            getRuntimeServices().registerDefaultAgArch(CAgentArch.class.getName());
+            RuntimeServicesFactory.get().registerDefaultAgArch(JaCaMoAgArch.class.getName());
+            RuntimeServicesFactory.get().registerDefaultAgArch(CAgentArch.class.getName());
             
             errorCode = 0;
 
@@ -223,7 +229,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         Platform p = null;
         for (String pId: getJaCaMoProject().getCustomPlatforms()) {
             try {               
-                p = (Platform)Class.forName(pId).newInstance();
+                p = (Platform)Class.forName(pId).getConstructor().newInstance();
                 p.setJcmProject(getJaCaMoProject());
                 p.init( getJaCaMoProject().getPlatformParameters(pId) );
                 platforms.add(p);
@@ -386,7 +392,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             archs.add(CAgentArch.class.getName());
             archs.add(JaCaMoAgArch.class.getName());
 
-            agArch.createArchs(archs, ReplAgGUI.class.getName(), null, null, new Settings(), JaCaMoLauncher.this);
+            agArch.createArchs(archs, ReplAgGUI.class.getName(), null, null, new Settings());
             Thread agThread = new Thread(agArch);
             agArch.setThread(agThread);
             agThread.start();

@@ -69,7 +69,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         r.create();
         r.start();
         r.waitEnd();
-        r.finish(0);
+        r.finish(0, true);
     }
     
     public static JaCaMoLauncher getJaCaMoRunner() {
@@ -83,16 +83,6 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         return (JaCaMoProject)getProject();
     }
 
-    /** 
-     * deprecated use RuntimeServicesFactory.get() instead
-     */
-    @Override
-    public RuntimeServices getRuntimeServices() {
-        if (singRTS == null)
-            singRTS = new JaCaMoRuntimeServices(runner);
-        return singRTS;
-    }
-    
     @Override
     public int init(String[] args) {
         String projectFileName = null;
@@ -252,7 +242,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     }
     
     @Override
-    public void finish(int deadline) {
+    public void finish(int deadline, boolean stopJVM) {
         for (Platform p: platforms) {
             try {
                 p.stop();
@@ -261,7 +251,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             }
         }
 
-        super.finish(deadline);
+        super.finish(deadline, stopJVM);
     }
     
     @Override

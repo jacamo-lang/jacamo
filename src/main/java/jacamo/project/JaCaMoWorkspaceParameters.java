@@ -1,5 +1,6 @@
 package jacamo.project;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +9,9 @@ import jason.mas2j.AgentParameters;
 import jason.mas2j.ClassParameters;
 
 
-public class JaCaMoWorkspaceParameters {
+public class JaCaMoWorkspaceParameters implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     protected JaCaMoProject project;
     protected String name;

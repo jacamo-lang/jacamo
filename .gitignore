@@ -31,3 +31,4 @@ src/test/java/project/log
 
 .classpath
 .project
+demos/snapshot/sn.ser

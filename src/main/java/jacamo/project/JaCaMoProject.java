@@ -3,6 +3,7 @@ package jacamo.project;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,8 +26,9 @@ import jason.mas2j.ClassParameters;
 import jason.mas2j.MAS2JProject;
 import jason.runtime.SourcePath;
 
-public class JaCaMoProject extends MAS2JProject {
+public class JaCaMoProject extends MAS2JProject implements Serializable {
 
+    private static final long serialVersionUID = 1L;
 
     protected static Logger logger = Logger.getLogger(JaCaMoProject.class.getName());
 

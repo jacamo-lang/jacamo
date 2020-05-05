@@ -19,22 +19,39 @@ To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/
 
 image:./tutorials/hello-world/screens/p1.png[]
 
-To include existing projects in your eclipse workspace, preferably use the option "file/import/import gradle project". 
+To include existing projects in your eclipse workspace, preferably use the option "file/import/import gradle project".
 
 == Gradle
 
 Requirements:
 
 - Java >= 8
-- Gradle
 
-You have to install https://gradle.org[Gradle] on your computer and then run the following commands to create a new application (the first time you run them, it takes a while to finish since it downloads JaCaMo first):
------
-curl -s -O http://jacamo.sourceforge.net/nps/np07.gradle
-gradle -b np07.gradle --console=plain
------
+Follow the steps below to create a new application (the first time you run them, it takes a while to finish since it downloads JaCaMo first):
 
-NOTE: `np07.gradle` creates an application based on JaCaMo 0.7. You can replace it by `npss.gradle` to create a JaCaMo application based on the current snap shot version. https://curl.haxx.se[`curl`] is a program that simply downloads the `np07.gradle` file from http://jacamo.sourceforge.net/nps/np07.gradle.
+[cols="2",frame=topbot]
+|===
+|Unix|Windows
+
+a|
+----------------
+curl -s -O http://jacamo.sourceforge.net/nps/np07.zip
+unzip np07.zip
+./gradlew --console=plain
+----------------
+
+a|
+1. Download http://jacamo.sourceforge.net/nps/np07.zip
+2. Unzip
+3. Run `gradlew.bat`
+
+|===
+
+
+NOTE: The file `np07.zip` implies the creation of an application based on JaCaMo 0.7.
+You can replace it by `npss.zip` to create a JaCaMo application based on the current snapshot version.
+
+//https://curl.haxx.se[`curl`] is a program that simply downloads the `np07.zip` file from http://jacamo.sourceforge.net/nps/np07.zip.
 
 You will be asked to enter the identification of the application and then instructions about how to run it will be shown.
 
@@ -48,7 +65,7 @@ Creating path /Users/jomi/tmp/bobob
 
 You can run your application with:
    $ cd /Users/jomi/tmp/bobob
-   $ gradle -q --console=plain
+   $ ./gradlew -q --console=plain
 
 an eclipse project can be created from menu File/Import,
 option 'Existing Gradle Project'.

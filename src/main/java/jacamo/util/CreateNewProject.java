@@ -10,6 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+import org.gradle.tooling.GradleConnector;
+import org.gradle.tooling.ProjectConnection;
+
 /**
  * class used to create an initial jacamo application:
  *
@@ -69,28 +72,32 @@ public class CreateNewProject {
         p.consoleApp = consoleApp;
         p.createDirs();
         p.copyFiles();
+        p.runGradleWrapper();
         p.usage();
-        p.createPathFile();
+        //p.createPathFile();
     }
 
     void usage() {
         System.out.println("\n\nYou can run your application with:");
         System.out.println("   cd "+path);
-        System.out.println("   gradle -q --console=plain\n");
+        System.out.println("   ./gradlew -q --console=plain\n");
         System.out.println("or (if you have JaCaMo scripts installed)");
         System.out.println("   jacamo "+path+"/"+id+".jcm\n");
         System.out.println("an Eclipse project can be created using");
         System.out.println("   'Existing Gradle Project' from Eclipse menu File/Import\n");
         System.out.println("or");
-        System.out.println("   gradle eclipse");
+        System.out.println("   ./gradlew eclipse");
     }
     
-    void createPathFile() {
-    	try (BufferedWriter out = new BufferedWriter(new FileWriter(".f"))) {
-    		out.append(path.toString());
-    	} catch (Exception e) {
-    		e.printStackTrace();
-		}
+    void runGradleWrapper() {
+        ProjectConnection connection = GradleConnector
+                .newConnector()
+                .forProjectDirectory(path)
+                .connect();
+        connection.newBuild()
+            .forTasks("wrapper")
+            .run();
+        connection.close();
     }
 
     void createDirs() {

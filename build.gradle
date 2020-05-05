@@ -24,6 +24,7 @@ repositories {
     mavenCentral()
 
     maven { url "http://jacamo.sourceforge.net/maven2/" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
     //maven { url "https://jade.tilab.com/maven/" }
 
     //flatDir {       dirs 'lib'    }
@@ -37,17 +38,21 @@ dependencies {
 
     compile group: 'org.jacamo'     , name: 'moise'   , version: '0.13-SNAPSHOT', changing: true, transitive: false
 
-    compile group: 'guru.nidi'      , name: 'graphviz-java', version: '0.7.0'
-
+    compile group: 'guru.nidi'      , name: 'graphviz-java',      version: '0.7.0'
+    compile group: 'org.gradle'     , name: 'gradle-tooling-api', version: '5.6.4'
+    
     runtime group: 'org.jacamo'     , name: 'npl'     , version: '0.5-SNAPSHOT' , changing: true, transitive: false
     runtime group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
 
     runtime group: 'org.jacamo'     , name: 'sai'     , version: '0.3', changing: true , transitive: false
     runtime "org.antlr:antlr4:4.7"
+    
+	runtime group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.30'
 
     //runtime group: 'com.tilab.jade' , name: 'jade'    , version: '4.5.0'
     runtime group: 'net.sf.ingenias', name: 'jade'    , version: '4.3'
     runtime group: 'org.apache.ant' , name: 'ant'     , version: '1.10.5'
+    
 
     testCompile 'junit:junit:4.12'
 }

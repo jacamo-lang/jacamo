@@ -70,6 +70,7 @@ public class CreateNewProject {
         p.createDirs();
         p.copyFiles();
         p.usage();
+        p.createPathFile();
     }
 
     void usage() {
@@ -82,6 +83,14 @@ public class CreateNewProject {
         System.out.println("   'Existing Gradle Project' from Eclipse menu File/Import\n");
         System.out.println("or");
         System.out.println("   gradle eclipse");
+    }
+    
+    void createPathFile() {
+    	try (BufferedWriter out = new BufferedWriter(new FileWriter(".f"))) {
+    		out.append(path.toString());
+    	} catch (Exception e) {
+    		e.printStackTrace();
+		}
     }
 
     void createDirs() {

@@ -17,8 +17,6 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    mavenCentral()
-
     maven { url "http://jacamo.sourceforge.net/maven2" }
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
     maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
@@ -28,6 +26,8 @@ repositories {
     flatDir {
        dirs 'lib'
     }
+
+    mavenCentral()    
 }
 
 dependencies {

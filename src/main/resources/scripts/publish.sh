@@ -1,5 +1,7 @@
 #scp np* $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/nps
 
+rm *.zip
+
 cd jacamo-project-0.7
 rm -rf .gradle
 zip -r ../np07.zip *

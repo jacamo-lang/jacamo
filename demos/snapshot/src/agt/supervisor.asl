@@ -2,15 +2,15 @@
 !inc.
 
 +!createNew(A,F)
-   <- .wait(2000);
+   <- .wait(3000);
       .print("resuming ",A, " from ",F);
       ia.create_ag_sst(newbob,"sn.ser");
 .
 
 +!inc
    <- inc;
-      .wait(1000);
+      .wait(500);
       !inc.
-      
+
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }

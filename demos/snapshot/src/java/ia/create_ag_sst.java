@@ -2,17 +2,21 @@ package ia;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
-import java.util.Set;
 
-import cartago.Op;
-import cartago.WorkspaceId;
+import cartago.ArtifactId;
 import jaca.CAgentArch;
+import jacamo.infra.JaCaMoAgArch;
 import jason.architecture.AgArch;
+import jason.architecture.MindInspectorAgArch;
 import jason.asSemantics.Agent;
 import jason.asSemantics.DefaultInternalAction;
+import jason.asSemantics.Intention;
 import jason.asSemantics.TransitionSystem;
 import jason.asSemantics.Unifier;
 import jason.asSyntax.ASSyntax;
+import jason.asSyntax.ListTerm;
+import jason.asSyntax.ListTermImpl;
+import jason.asSyntax.Literal;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
 import jason.infra.centralised.CentralisedAgArch;
@@ -32,43 +36,54 @@ public class create_ag_sst extends DefaultInternalAction {
 
             // find cent & cartago archs
             CentralisedAgArch carch = null;
-            CAgentArch        cartagoArch = null;;
+            CAgentArch        cartagoArch = null;
+            MindInspectorAgArch mindInspArch = null;
+            
             AgArch arch =  ag.getTS().getUserAgArch().getFirstAgArch();
             while (arch != null) {
                 if (arch instanceof CentralisedAgArch)
                     carch = (CentralisedAgArch)arch;
                 if (arch instanceof CAgentArch)
                     cartagoArch = (CAgentArch)arch;
+                if (arch instanceof MindInspectorAgArch) {
+                    mindInspArch = (MindInspectorAgArch)arch;
+                }
                 arch = arch.getNextAgArch();                
             }
 
-            //ag.getTS().getUserAgArch().setTS(ag.getTS());
-
-            carch.setAgName(agName);
+                        carch.setAgName(agName);
             carch.getTS().setLogger(carch);
             carch.setLogger();
             ag.setLogger(carch);
             ag.initAg(); // to add it into web inspector
-            
+
+            // manage cartago stuff
             if (cartagoArch != null) {
-                // remove focused and joined
-                ts.getAg().abolish(ASSyntax.parseLiteral("joined(_,_)"), null);
-                ts.getAg().abolish(ASSyntax.parseLiteral("focused(_,_,_)"), null);
-                
-                System.out.println(":::"+ts.getAg().getBB());
-                // re-join
-                Set<WorkspaceId> prevW = cartagoArch.getAllJoinedWsps();
-                System.out.println("antes "+prevW);
                 cartagoArch.init();
-                System.out.println("depois "+cartagoArch.getAllJoinedWsps());
-                for (WorkspaceId w: prevW) {
-                    if (!w.getName().equals("main")) {
-                        cartagoArch.getEnvSession().doAction(new Op("joinWorkspace", w.getName(), "K"), null, Long.MAX_VALUE);
-                        System.err.println("ok for "+w.getName());
-                    }
-                }
+
+                // remove from BB all from cartago
+                ag.abolish(ASSyntax.parseLiteral("focused(_,_,_)"), null);
+                ag.abolish(ASSyntax.parseLiteral("_[percept_type(obs_prop)]"), null);
                 
                 // re-focus
+                ListTerm lart = new ListTermImpl();
+                for (ArtifactId aid: cartagoArch.getFocusedArtsBeforeSerialization()) {
+                    if (!aid.getName().endsWith("-body")) {
+                        Literal art = ASSyntax.createLiteral("art_env",
+                                ASSyntax.createAtom(aid.getWorkspaceId().getName()),  // workspace
+                                ASSyntax.createString("local"),  // host
+                                ASSyntax.createAtom(aid.getName()), // art
+                                ASSyntax.parseTerm("default")); // TODO: store and reuse namespace
+                        lart.add(art);
+                    }
+                }
+                Intention i = new Intention();
+                i.setAtomic(1); // force this event to be selected first
+                ag.getTS().getC().addAchvGoal( ASSyntax.createLiteral(JaCaMoAgArch.jcmAtom, "focus_env_art", lart, ASSyntax.createNumber(5)), i);
+            }
+            
+            if (mindInspArch != null) {
+                mindInspArch.init();
             }
             
             RunCentralisedMAS.getRunner().addAg(carch);

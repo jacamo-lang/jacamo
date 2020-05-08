@@ -24,7 +24,7 @@ import jason.runtime.Settings;
  */
 public class JaCaMoAgArch extends AgArch {
 
-    Atom jcmAtom = new Atom("jcm");
+    public static Atom jcmAtom = new Atom("jcm");
 
     @Override
     public void init() throws Exception {

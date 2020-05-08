@@ -14,8 +14,15 @@
 
 mas snapshot {
 
-    agent bob
-    agent supervisor
+    agent bob {
+      focus: w.c
+    }
 
+    agent supervisor {
+      focus: w.c
+    }
 
+    workspace w {
+      artifact c: tools.Counter(10)
+    }
 }

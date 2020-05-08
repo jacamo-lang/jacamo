@@ -2,9 +2,6 @@ package jacamo.infra;
 
 import java.util.logging.Level;
 
-import cartago.CartagoException;
-import cartago.Op;
-import cartago.WorkspaceId;
 import jaca.CAgentArch;
 import jacamo.project.JaCaMoAgentParameters;
 import jacamo.project.JaCaMoWorkspaceParameters;
@@ -192,6 +189,7 @@ public class JaCaMoAgArch extends AgArch {
         }
     }
 
+    /*// moved to cagarch
     @Override
     public void stop() {
         super.stop();
@@ -208,7 +206,7 @@ public class JaCaMoAgArch extends AgArch {
                 }
             }
         }
-    }
+    }*/
 
 
     protected CAgentArch getCartagoArch() {

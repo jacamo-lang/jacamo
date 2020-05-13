@@ -1,0 +1,24 @@
+mas test_5 {
+
+  agent bob
+
+  workspace w1 {
+    artifact c1: project.Counter("counter", 10)
+  }
+  
+  workspace w2 {
+    artifact c2: project.Counter("counter", 100)
+  }
+
+  workspace w5 {
+      artifact counter_for_all: project.Counter("universal counter", 100) {
+        focused-by: *
+    }
+  }
+  
+  asl-path: src/test/java/project
+  			src/main/resources/templates
+  java-path: src/test/java/project 
+  			 src/test/java
+  
+}

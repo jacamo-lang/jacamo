@@ -65,12 +65,6 @@ public class WorkspaceCreationTest {
             e.printStackTrace();
         }
     }
-        
-    @Test
-    public void test999Shutdown() {
-        System.out.println("Shutdown jacamo.");
-        TestUtils.stopSystem();
-    }
     
     public Object[] getObsPropValue(String wrksName, String artName, String obsPropId) throws CartagoException {
         ArtifactInfo info = CartagoService.getController(wrksName).getArtifactInfo(artName);

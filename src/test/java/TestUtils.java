@@ -38,7 +38,7 @@ public final class TestUtils {
                 e.printStackTrace();
             }
             systemRunning = true;
-            //Runtime.getRuntime().addShutdownHook(new Thread(() -> stopSystem()));
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> stopSystem()));
         }
     }
     

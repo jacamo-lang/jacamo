@@ -30,14 +30,6 @@ public class WorkspaceCreationTest {
     
     @Test
     public void test101GetWorkspaces() {
-        while (CartagoService.getNode() == null) {
-            try {
-                System.out.println("waiting for cartago...");
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
         System.out.println("Testing if workspaces from jcm were really created.");
         Collection<String> workspaces = CartagoService.getNode().getWorkspaces();
         System.out.println("Existing workspaces: "+workspaces);

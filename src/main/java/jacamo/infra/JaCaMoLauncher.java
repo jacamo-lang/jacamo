@@ -30,13 +30,11 @@ import jason.asSyntax.Literal;
 import jason.asSyntax.directives.DirectiveProcessor;
 import jason.asSyntax.directives.Include;
 import jason.infra.centralised.CentralisedAgArch;
-import jason.infra.centralised.CentralisedRuntimeServices;
 import jason.infra.centralised.RunCentralisedMAS;
 import jason.infra.repl.ReplAgGUI;
 import jason.mas2j.AgentParameters;
 import jason.runtime.MASConsoleGUI;
 import jason.runtime.MASConsoleLogHandler;
-import jason.runtime.RuntimeServices;
 import jason.runtime.RuntimeServicesFactory;
 import jason.runtime.Settings;
 import jason.runtime.SourcePath;
@@ -53,6 +51,8 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
 
     protected List<Platform> platforms = new ArrayList<>();
 
+    protected boolean startFinished = false;
+    
     public List<Platform> getPlatforms() {
         return platforms;
     }
@@ -254,9 +254,14 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         super.finish(deadline, stopJVM);
     }
     
+    private static String defaultLogProperties = "/templates/" + logPropFile;
+    public static void setDefaultLogProperties(String lp) {
+        defaultLogProperties = lp;
+    }
+    
     @Override
     protected InputStream getDefaultLogProperties() throws IOException {
-        return JaCaMoLauncher.class.getResource("/templates/" + logPropFile).openStream();
+        return JaCaMoLauncher.class.getResource(defaultLogProperties).openStream();
     }
 
     /** create environment, agents, controller */
@@ -279,9 +284,14 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 e.printStackTrace();
             }
         }        
-        super.start(); // start agents after platforms 
+        super.start(); // start agents after platforms
+        startFinished = true;
     }
 
+    public boolean hasStartFinished() {
+        return startFinished;
+    }
+    
     public void createEnvironment() throws JasonException {
         Cartago p = new Cartago();
         p.setJcmProject(getJaCaMoProject());

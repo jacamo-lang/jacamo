@@ -20,7 +20,7 @@ import cartago.CartagoException;
 import cartago.CartagoService;
 import cartago.Op;
 import cartago.WorkspaceId;
-import jacamo.test.TestUtils;
+import jacamo.util.TestUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WorkspaceCreationTest {

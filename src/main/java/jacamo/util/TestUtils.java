@@ -1,13 +1,12 @@
-package jacamo.test;
+package jacamo.util;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import jacamo.infra.JaCaMoLauncher;
 import jason.JasonException;
 
-public final class TestUtils {
+public class TestUtils {
     protected static AtomicBoolean  systemLaunched = new AtomicBoolean(false);
-    protected static JaCaMoLauncher runner = null;
     
     public static boolean launchSystem(String jcm) {
         if (!systemLaunched.getAndSet(true)) {
@@ -26,21 +25,20 @@ public final class TestUtils {
                 }.start();
 
                 // get runner
-                while (runner == null) {
+                while (JaCaMoLauncher.getJaCaMoRunner() == null) {
                     System.out.println("waiting for the runner...");
-                    runner = JaCaMoLauncher.getJaCaMoRunner();
                     Thread.sleep(200);
                 }
                 // wait for start to finish
-                while (!runner.hasStartFinished()) {
+                while (!JaCaMoLauncher.getJaCaMoRunner().hasStartFinished()) {
                     System.out.println("waiting for jcm to start...");
                     Thread.sleep(200);
                 }
                 
                 // wait some agent to become idle
-                if (!runner.getAgs().isEmpty()) {
-                    while (! runner.getAgs().values().iterator().next().canSleep()) {
-                        System.out.println("waiting agent to sleep...");
+                if (!JaCaMoLauncher.getJaCaMoRunner().getAgs().isEmpty()) {
+                    while (JaCaMoLauncher.getJaCaMoRunner().getAgs().values().iterator().next().getCycleNumber() < 2) {
+                        System.out.println("waiting agent to start...");
                         Thread.sleep(200);                      
                     }
                 }
@@ -56,16 +54,18 @@ public final class TestUtils {
     
     public static void stopSystem() {
         if (systemLaunched.getAndSet(false)) {
-            runner.finish(0, false); // do not stop the JVM
-            while (JaCaMoLauncher.getRunner() != null) {
-                System.out.println("waiting for jacamo to STOP ....");
+            int i=0;
+            JaCaMoLauncher.getJaCaMoRunner().finish(0, false); // do not stop the JVM
+            while (JaCaMoLauncher.getRunner() != null && i++ < 20) {
+                System.out.println("waiting for jacamo to stop ....");
                 try {
                     Thread.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-            System.out.println("JaCaMo stopped");
+            if (i < 20)
+                System.out.println("JaCaMo stopped");
         }
     }
 

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import cartago.CartagoException;
 import cartago.CartagoService;
 import cartago.Op;
 import cartago.WorkspaceId;
+import jacamo.test.TestUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WorkspaceCreationTest {
@@ -27,7 +29,12 @@ public class WorkspaceCreationTest {
     public static void launchSystem() {
         TestUtils.launchSystem("src/test/java/project/p5.jcm");
     }
-    
+
+    @AfterClass
+    public static void stopSystem() {
+        TestUtils.stopSystem();
+    } 
+
     @Test
     public void test101GetWorkspaces() {
         System.out.println("Testing if workspaces from jcm were really created.");

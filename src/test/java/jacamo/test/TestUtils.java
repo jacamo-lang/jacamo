@@ -1,3 +1,4 @@
+package jacamo.test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -5,10 +6,10 @@ import jacamo.infra.JaCaMoLauncher;
 import jason.JasonException;
 
 public final class TestUtils {
-    static AtomicBoolean  systemLaunched = new AtomicBoolean(false);
-    static JaCaMoLauncher runner = null;
+    protected static AtomicBoolean  systemLaunched = new AtomicBoolean(false);
+    protected static JaCaMoLauncher runner = null;
     
-    public static void launchSystem(String jcm) {
+    public static boolean launchSystem(String jcm) {
         if (!systemLaunched.getAndSet(true)) {
             try {
                 JaCaMoLauncher.setDefaultLogProperties("/templates/logging-console.properties");
@@ -47,20 +48,25 @@ public final class TestUtils {
                 e.printStackTrace();
             }
             Runtime.getRuntime().addShutdownHook(new Thread(() -> stopSystem()));
+            return true;
+        } else {
+            return false;
         }
     }
     
     public static void stopSystem() {
-        runner.finish(0, false); // do not stop the JVM
-        while (JaCaMoLauncher.getRunner() != null) {
-            System.out.println("waiting for jacamo to STOP ....");
-            try {
-                Thread.sleep(400);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if (systemLaunched.getAndSet(false)) {
+            runner.finish(0, false); // do not stop the JVM
+            while (JaCaMoLauncher.getRunner() != null) {
+                System.out.println("waiting for jacamo to STOP ....");
+                try {
+                    Thread.sleep(400);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            System.out.println("JaCaMo stopped");
         }
-        System.out.println("JaCaMo stopped");
     }
 
 }

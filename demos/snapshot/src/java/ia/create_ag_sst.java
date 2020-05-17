@@ -51,7 +51,7 @@ public class create_ag_sst extends DefaultInternalAction {
                 arch = arch.getNextAgArch();                
             }
 
-                        carch.setAgName(agName);
+            carch.setAgName(agName);
             carch.getTS().setLogger(carch);
             carch.setLogger();
             ag.setLogger(carch);

@@ -240,7 +240,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     }
     
     @Override
-    public void finish(int deadline, boolean stopJVM) {
+    public void finish(int deadline, boolean stopJVM) {     
+        stopAgs(deadline); // stop the agents before shutting down the platforms
+        
         for (Platform p: platforms) {
             try {
                 p.stop();
@@ -249,7 +251,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             }
         }
 
-        super.finish(deadline, stopJVM);
+        super.finish(deadline, stopJVM); // call to stop JVM
     }
     
     private static String defaultLogProperties = "/templates/" + logPropFile;

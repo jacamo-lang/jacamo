@@ -30,7 +30,7 @@ public class TestUtils {
                     Thread.sleep(200);
                 }
                 // wait for start to finish
-                while (!JaCaMoLauncher.getJaCaMoRunner().hasStartFinished()) {
+                while (!JaCaMoLauncher.getJaCaMoRunner().isRunning()) {
                     System.out.println("waiting for jcm to start...");
                     Thread.sleep(200);
                 }

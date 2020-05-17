@@ -51,8 +51,6 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
 
     protected List<Platform> platforms = new ArrayList<>();
 
-    protected boolean startFinished = false;
-    
     public List<Platform> getPlatforms() {
         return platforms;
     }
@@ -285,13 +283,8 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             }
         }        
         super.start(); // start agents after platforms
-        startFinished = true;
     }
 
-    public boolean hasStartFinished() {
-        return startFinished;
-    }
-    
     public void createEnvironment() throws JasonException {
         Cartago p = new Cartago();
         p.setJcmProject(getJaCaMoProject());

@@ -23,7 +23,8 @@ import jason.runtime.Settings;
  *
  */
 public class JaCaMoAgArch extends AgArch {
-
+    private static final long serialVersionUID = 1L;
+    
     public static Atom jcmAtom = new Atom("jcm");
 
     @Override
@@ -208,9 +209,8 @@ public class JaCaMoAgArch extends AgArch {
         }
     }*/
 
-
     protected CAgentArch getCartagoArch() {
-        AgArch arch = getTS().getUserAgArch().getFirstAgArch();
+        AgArch arch = getTS().getAgArch().getFirstAgArch();
         while (arch != null) {
             if (arch instanceof CAgentArch) {
                 return (CAgentArch)arch;

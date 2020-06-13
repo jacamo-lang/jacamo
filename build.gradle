@@ -24,7 +24,9 @@ repositories {
     mavenCentral()
 
     maven { url "http://jacamo.sourceforge.net/maven2/" }
+    maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
     maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
+    
     //maven { url "https://jade.tilab.com/maven/" }
 
     //flatDir {       dirs 'lib'    }
@@ -44,8 +46,8 @@ dependencies {
     runtime group: 'org.jacamo'     , name: 'npl'     , version: '0.5-SNAPSHOT' , changing: true, transitive: false
     runtime group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
 
-    runtime group: 'org.jacamo'     , name: 'sai'     , version: '0.3', changing: true , transitive: false
-    runtime "org.antlr:antlr4:4.7"
+    runtime group: 'org.jacamo'     , name: 'sai'     , version: '0.4', changing: true , transitive: false
+    runtime "org.antlr:antlr4:4.8"
 
 	runtime group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.30'
 

@@ -29,23 +29,18 @@ Requirements:
 
 Follow the steps below to create a new application (the first time you run them, it takes a while to finish since it downloads JaCaMo first):
 
-[cols="2",frame=topbot]
-|===
-|Unix|Windows
-
-a|
+Unix::
++
 ----------------
 curl -s -O http://jacamo.sourceforge.net/nps/np07.zip
 unzip np07.zip
 ./gradlew --console=plain
 ----------------
 
-a|
+Windows::
 1. Download http://jacamo.sourceforge.net/nps/np07.zip
 2. Unzip
 3. Run `gradlew.bat`
-
-|===
 
 
 NOTE: The file `np07.zip` implies the creation of an application based on JaCaMo 0.7.

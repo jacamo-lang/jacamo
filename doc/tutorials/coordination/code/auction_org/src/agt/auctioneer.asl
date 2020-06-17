@@ -36,8 +36,8 @@
       .print("Winner for ", S, " is ",W," with ", V).
 
 +oblUnfulfilled( obligation(Ag,_,done(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // it is the case that a bid was not achieved
-   <- .print("Participant ",Ag," didn't bid on time! S/he will be placed in a blacklist");
-       // TODO: implement an black list artifact
+   <- .print("Participant ",Ag," didn't bid on time! S/he will be placed in a blocklist");
+       // TODO: implement a block list artifact
        admCommand("goalSatisfied(bid)")[artifact_id(AId)].
 
 { include("$jacamoJar/templates/common-cartago.asl") }

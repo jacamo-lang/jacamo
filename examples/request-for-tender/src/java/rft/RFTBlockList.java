@@ -14,7 +14,7 @@ import java.io.IOException;
 import cartago.Artifact;
 import cartago.OPERATION;
 
-public class RFTBlackList extends Artifact {
+public class RFTBlockList extends Artifact {
 
 
     static final String fileName = "rft-badlist.txt";

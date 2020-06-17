@@ -117,7 +117,7 @@ agent bob : participant.asl { // if source is omitted, bob.asl will be used by d
 workspace w1 {
      // creates an artifact named c1 as an instance of mylib.Counter initialised with (10)
      artifact c1: mylib.Counter(10)
-     artifact bll: mylist.BlackList() {
+     artifact bll: mylist.BlockList() {
          focused-by: bob        // bob will focus on this artifact using its default namespace
                      nn::alice  // alice will focus on this artifact using its nn namespace
      }

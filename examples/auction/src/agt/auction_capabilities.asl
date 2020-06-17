@@ -51,8 +51,8 @@
 
 +oblUnfulfilled( obligation(Ag,_,done(Sch,bid,Ag),_ ) )[artifact_id(AId)]  // it is the case that a bid was not achieved
    : .my_name(Me) & play(Me,auctioneer,_)  // handle unfulfilled obl if I am the auctioneer
-   <- .print("Participant ",Ag," didn't bid on time! S/he will be placed in a blacklist");
-       // TODO: implement an black list artifact
+   <- .print("Participant ",Ag," didn't bid on time! S/he will be placed in a block list");
+       // TODO: implement a block list artifact
        admCommand("goalSatisfied(bid)")[artifact_id(AId)]. // go on in the scheme....
 
 { include("$jacamoJar/templates/common-cartago.asl") }

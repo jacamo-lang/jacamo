@@ -11,7 +11,7 @@
    <- createWorkspace(RftWsp);
       !join_wsp(RftWsp);
       makeArtifact(RftBoard, "rft.RFTBoard",[],_);
-      makeArtifact(RftBL, "rft.RFTBlackList",[],_).
+      makeArtifact(RftBL, "rft.RFTBlockList",[],_).
 
 +!create_group : my_org_wsp(OrgWsp) & my_org_spec(OS)
    <- .print("Using the organisation ",OS);

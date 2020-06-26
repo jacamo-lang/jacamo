@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version '0.9-SNAPSHOT'
+version '0.9'
 group   'org.jacamo'
 
 sourceCompatibility = 1.8
@@ -25,8 +25,7 @@ repositories {
 
     maven { url "http://jacamo.sourceforge.net/maven2/" }
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
-    maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
-    
+    //maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
     //maven { url "https://jade.tilab.com/maven/" }
 
     //flatDir {       dirs 'lib'    }
@@ -34,16 +33,16 @@ repositories {
 
 
 dependencies {
-    compile group: 'org.jason-lang' , name: 'jason'   , version: '2.5' , changing: true, transitive: false
+    compile group: 'org.jason-lang' , name: 'jason'   , version: '2.5.1' , changing: true, transitive: false
     compile group: 'org.jacamo'     , name: 'cartago' , version: '2.5' , changing: true, transitive: false
     compile group: 'org.jacamo'     , name: 'jaca'    , version: '2.5' , changing: true, transitive: false
 
-    compile group: 'org.jacamo'     , name: 'moise'   , version: '0.13-SNAPSHOT', changing: true, transitive: false
+    compile group: 'org.jacamo'     , name: 'moise'   , version: '0.13', changing: true, transitive: false
 
     compile group: 'guru.nidi'      , name: 'graphviz-java',      version: '0.7.0'
     compile group: 'org.gradle'     , name: 'gradle-tooling-api', version: '6.2.2'
 
-    runtime group: 'org.jacamo'     , name: 'npl'     , version: '0.5-SNAPSHOT' , changing: true, transitive: false
+    runtime group: 'org.jacamo'     , name: 'npl'     , version: '0.5' , changing: true, transitive: false
     runtime group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
 
     runtime group: 'org.jacamo'     , name: 'sai'     , version: '0.4', changing: true , transitive: false
@@ -54,7 +53,6 @@ dependencies {
     //runtime group: 'com.tilab.jade' , name: 'jade'    , version: '4.5.0'
     runtime group: 'net.sf.ingenias', name: 'jade'    , version: '4.3'
     runtime group: 'org.apache.ant' , name: 'ant'     , version: '1.10.5'
-
 
     testCompile 'junit:junit:4.12'
 }
@@ -212,7 +210,7 @@ eclipse {
 }
 
 // transfer local maven artifact to our maven2 repository at sourceforge
-task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) {
+/*task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) {
     doLast {
         def wdir = System.getProperty("user.home")+'/.m2/repository/org/jacamo/jacamo'
         def tdir = System.getenv('USERSF')+',jacamo@web.sf.net:/home/project-web/jacamo/htdocs/maven2/org/jacamo/jacamo'
@@ -229,6 +227,33 @@ task publishMavenSF(dependsOn: [ 'build', 'publishToMavenLocal']) {
             workingDir wdir
         }
     }
+}*/
+
+task publishMavenGitHub(dependsOn: [ 'build', 'publishToMavenLocal']) {
+  doLast {
+    def wdir = System.getProperty("user.home")+'/.m2/repository/org/jacamo/jacamo'
+    def rdir = '../jacamo-mvn-repo'
+    exec {
+        commandLine 'git', 'pull'
+        workingDir rdir
+    }
+    copy {
+        from wdir
+        into rdir + '/org/jacamo/jacamo'
+    }
+    exec {
+        commandLine 'git', 'add', '*'
+        workingDir rdir
+    }
+    exec {
+        commandLine 'git', 'commit', '-a', '-m', 'new version of jacamo '+project.version
+        workingDir rdir
+    }
+    exec {
+        commandLine 'git', 'push'
+        workingDir rdir
+    }
+  }
 }
 
 javadoc {

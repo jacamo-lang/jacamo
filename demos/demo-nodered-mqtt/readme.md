@@ -20,8 +20,6 @@ A central entity to this scenario is the [Node-RED](https://nodered.org/), an in
 
 - when bob send a message to NodeRed, it publish the message's content at _mqtt/jacamo/bob_.
 
-
-
 ## Steps to execute
 
 Crete a docker image for the JaCaMo application:
@@ -73,3 +71,9 @@ Open the NodeRed server [web page](http://127.0.0.1:1880) and click on the icon 
 In the MQTT web page you will notice:
 
 ![MQTT](figures/mqtt2.png)
+
+## Implementation
+
+__under construction__
+
+For now, see the source code.

@@ -64,6 +64,11 @@ bob_1      | [bob] Source: mqtt
 
 ## Bob sending a message to MQTT
 
+In the HiveMQ client web page, subscribe to notification on the topic _mqtt/jacamo/bob_:
+
+![MQTT](figures/mqtt3.png)
+
+
 Open the NodeRed server [web page](http://127.0.0.1:1880) and click on the icon indicated bellow:
 
 ![NodeRed](figures/node-red.png)
@@ -71,6 +76,8 @@ Open the NodeRed server [web page](http://127.0.0.1:1880) and click on the icon 
 In the MQTT web page you will notice:
 
 ![MQTT](figures/mqtt2.png)
+
+Note: You can inspect bob's mind at [http://localhost:3272](http://localhost:3272).
 
 ## Implementation
 

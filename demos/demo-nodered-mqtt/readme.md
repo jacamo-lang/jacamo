@@ -1,6 +1,6 @@
-# Demo JaCaMo + NodeRed + MQTT
+# Demo JaCaMo + Node-RED + MQTT
 
-This demo presents an integration scenario where one agent leverage the MQTT protocol using ACL messages.
+This demo presents an integration scenario where one agent leverages the MQTT protocol using ACL messages.
 
 
 ## Understanding the demo
@@ -12,13 +12,13 @@ The scenario consists of four entities:
 * MQTT Broker
 * You
 
-In this scenario, the agents interact with an _MQTT broker_. [MQTT](http://mqtt.org/) is a lightweight protocol for messaging transport in a publish/subscribe pattern, and an MQTT broker is a server that receives messages from _publishers_ and routes them to the appropriate _subscribers_. MQTT clients publish and subscribe to so-called _topics_. In this demo we use the topic __mqtt/jacamo/bob__.
+In this scenario, the agent interacts with an _MQTT broker_. [MQTT](http://mqtt.org/) is a lightweight protocol for messaging transport in a publish/subscribe pattern, and an MQTT broker is a server that receives messages from _publishers_ and routes them to the appropriate _subscribers_. MQTT clients publish and subscribe to so-called _topics_. In this demo we use the topic __mqtt/jacamo/bob__.
 
-A central entity to this scenario is the [Node-RED](https://nodered.org/), an integration tool that provides a browser-based editor to wire together hardware devices, APIs, and online services using a wide range of _nodes_. Here, it is responsible for integrating the JaCaMo apps and the MQTT broker. Its job is in this demo is:
+A central entity to this scenario is the [Node-RED](https://nodered.org/), an integration tool that provides a browser-based editor to wire together hardware devices, APIs, and online services using a wide range of _nodes_. Here, it is responsible for integrating the JaCaMo app and the MQTT broker. Its job in this demo is:
 
 - send an ACL message to Bob whenever something is published at _mqtt/jacamo/bob_.
 
-- when bob send a message to NodeRed, it publish the message's content at _mqtt/jacamo/bob_.
+- when bob sends a message to Node-RED, it publishes the message's content at _mqtt/jacamo/bob_.
 
 ## Steps to execute
 
@@ -29,7 +29,7 @@ cd jacamo
 ./gradlew clean copyToLib
 docker build -t jacamo-rest/demo/nodered1:0.1 .
 ```
-Run the JaCaMo application and NodeRed usuing docker compose:
+Run the JaCaMo application and Node-RED using docker compose:
 
 ```
 cd ..
@@ -56,7 +56,7 @@ Open the [HiveMQ client web page](http://www.hivemq.com/demos/websocket-client) 
 
 ![MQTT](figures/mqtt1.png)
 
-When you click on *Publish*, a message is shown in bob console::
+When you click on *Publish*, a message is shown in bob console:
 ```
 bob_1      | [bob] New message: Hi from test
 bob_1      | [bob] Source: mqtt

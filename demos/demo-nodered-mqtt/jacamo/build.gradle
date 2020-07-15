@@ -1,0 +1,52 @@
+// Gradle build file for JaCaMo Applications
+
+defaultTasks 'run'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "http://jacamo.sourceforge.net/maven2" }
+    maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
+}
+
+dependencies {
+    // ------------- main dependencies -------------
+    compile group: 'org.jacamo', name: 'jacamo', version: '0.9'
+    compile 'org.jacamo:jacamo-rest:0.6-SNAPSHOT'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/agt'
+            srcDir 'src/jcm'
+        }
+    }
+}
+
+task run (type: JavaExec, dependsOn: 'classes') {
+    group      ' JaCaMo'
+    description 'runs the JaCaMo platform'
+    doFirst {
+        mkdir 'log'
+    }
+    main 'jacamo.infra.JaCaMoLauncher'
+    args 'src/jcm/main.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/libs"
+    from(configurations.compile)
+}
+
+clean {
+    delete 'bin'
+    delete 'build'
+    delete 'log'
+}

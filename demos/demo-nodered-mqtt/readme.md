@@ -22,7 +22,7 @@ A central entity to this scenario is the [Node-RED](https://nodered.org/), an in
 
 ## Steps to execute
 
-Crete a docker image for the JaCaMo application:
+Create a docker image for the JaCaMo application:
 
 ```
 cd jacamo

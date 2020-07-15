@@ -7,12 +7,12 @@ uri("http://nodered:1880/mqtt").
 +!start <- .print("Bob is running").
 
 /* Plans */
-+!send_msg : uri(U) // envia msg pro node-red
++!send_msg : uri(U) // send msg to node-red
   <- .print("Sending a greeting message to the MQTT broker");
      .send(U, tell, publish_mqtt("Hi from bob"));
   .
 
-+message(M)[source(S)] // recebe msgs do node-red
++message(M)[source(S)] // receive msgs from node-red
   <- .print("New message: ", M);
      .print("Source: ", S);
   .

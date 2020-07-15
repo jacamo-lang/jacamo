@@ -26,8 +26,7 @@ services:
       - TZ=America/Sao_Paulo
     ports:
       - "8080:8080"
-      - "3275:3272"
-      - "3276:3273"
+      - "3272:3272"
     networks:
       - jacamo-nodered-net
     depends_on:

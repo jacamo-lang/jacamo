@@ -1,61 +1,52 @@
-/*
-   example: auction
-
-   Gradle build file for JaCaMo Application
-   September 27, 2018 - 15:33:36
-*/
+// Gradle build file for JaCaMo Applications
 
 defaultTasks 'run'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-version '1.0'
-group   'org.jacamo'
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    mavenCentral()
     maven { url "http://jacamo.sourceforge.net/maven2" }
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
-    maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
-
-    //maven { url "https://jade.tilab.com/maven/" }
-
-    flatDir {
-       dirs 'lib'
-    }
-
-    mavenCentral()
 }
 
 dependencies {
+    // ------------- main dependencies -------------
     compile group: 'org.jacamo', name: 'jacamo', version: '0.9'
+    compile 'org.jacamo:jacamo-rest:0.6-SNAPSHOT'
 }
 
 sourceSets {
     main {
         java {
-            srcDir 'src/env'
-            srcDir 'src/agt/jia'
             srcDir 'src/agt'
-        }
-        resources {
-            srcDir 'src/resources'
+            srcDir 'src/jcm'
         }
     }
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {
-    group ' JaCaMo'
-    description 'runs the application'
-    main = 'jacamo.infra.JaCaMoLauncher'
-    args 'auction.jcm'
+    group      ' JaCaMo'
+    description 'runs the JaCaMo platform'
+    doFirst {
+        mkdir 'log'
+    }
+    main 'jacamo.infra.JaCaMoLauncher'
+    args 'src/jcm/main.jcm'
     classpath sourceSets.main.runtimeClasspath
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/libs"
+    from(configurations.compile)
 }
 
 clean {
     delete 'bin'
     delete 'build'
+    delete 'log'
 }

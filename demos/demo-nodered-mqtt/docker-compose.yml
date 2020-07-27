@@ -1,0 +1,38 @@
+################################################################################
+# JaCaMo-REST: Integration Demo (Node-RED + MQTT)
+################################################################################
+# docker-compose up
+################################################################################
+version: "3.7"
+
+services:
+  nodered:
+    image: nodered/node-red:latest
+    hostname: nodered
+    environment:
+      - TZ=America/Sao_Paulo
+      - FLOWS=flows/flows.json
+    ports:
+      - "1880:1880"
+    networks:
+      - jacamo-nodered-net
+    volumes:
+      - "./node-red:/data"
+
+  bob:
+    image: jacamo-rest/demo/nodered1:0.1
+    hostname: bob
+    environment:
+      - TZ=America/Sao_Paulo
+    ports:
+      - "8080:8080"
+      - "3272:3272"
+    networks:
+      - jacamo-nodered-net
+    depends_on:
+      - nodered
+    volumes:
+      - "./jacamo/src:/app/src"
+
+networks:
+  jacamo-nodered-net:

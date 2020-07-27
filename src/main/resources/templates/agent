@@ -15,7 +15,3 @@
 
 // uncomment the include below to have an agent compliant with its organisation
 //{ include("$moiseJar/asl/org-obedient.asl") }
-
-// uncomment the plan below to handle failures in organisational goals
-// -!fulfill_obligation(Scheme,Goal,ArtId,Mission)[error(Error_id), error_msg(Error_msg)] 
-//    <- .print("Error achieving ",Goal, " ", Error_id).

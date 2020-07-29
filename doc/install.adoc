@@ -87,12 +87,14 @@ Requirements:
 You can download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here], unzip it, and then use scripts to create and run applications. To configure these scripts:
 
 
-. Make sure you have `JACAMO_HOME` properly set (this variable points to a directory with  subdirectories `libs` and `scripts` of JaCaMo), then setup the `PATH`:
+. Make sure you have `JACAMO_HOME` properly set (this variable points to a directory with  subdirectories `libs` and `scripts` of JaCaMo), then setup the `PATH`, for instance:
 
+    export JACAMO_HOME=/home/bob/jacamo
     export PATH=$JACAMO_HOME/scripts:$PATH
 
-. Ensure you have `JDK_HOME` properly set (this variable points to a Java Development Kit (JDK) directory)
+. Ensure you have `JAVA_HOME` properly set (this variable points to a Java Development Kit (JDK) directory), for instance:
 
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home
 
 Available scripts:
 

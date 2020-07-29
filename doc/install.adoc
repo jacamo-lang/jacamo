@@ -29,6 +29,8 @@ Requirements:
 
 Follow the steps below to create a new application:
 
+NOTE: The first time you run takes longer since it downloads JaCaMo.
+
 Unix::
 +
 ----------------
@@ -42,7 +44,7 @@ Windows::
 2. Unzip
 3. Run `gradlew.bat`
 
-NOTE: The first time you run them, it takes a while to finish since it downloads JaCaMo first
+TIP: Instead of `np09.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
 
 //https://curl.haxx.se[`curl`] is a program that simply downloads the `np07.zip` file from http://jacamo.sourceforge.net/nps/np07.zip.
 
@@ -74,9 +76,6 @@ If you want to run a JaCaMo application that was not created with a `build.gradl
 
 - `<VERSION>` by the required JaCaMo release (e.g. `0.9`)
 - `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
-
-NOTE: The file `np09.zip` implies the creation of an application based on JaCaMo 0.9.
-You can replace it by `npss.zip` to create a JaCaMo application based on the current snapshot version.
 
 == Shell commands scripts
 

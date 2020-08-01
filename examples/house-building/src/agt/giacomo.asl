@@ -17,8 +17,8 @@ number_of_tasks(NS) :- .findall( S, task(S), L) & .length(L,NS).
 
 +!have_a_house
    <- !contract; // hire the companies that will build the house
-      !execute.  // (simulates) the execution of the construction
-
+      !execute;  // (simulates) the execution of the construction
+   .
 -!have_a_house[error(E),error_msg(Msg),code(Cmd),code_src(Src),code_line(Line)]
    <- .print("Failed to build a house due to: ",Msg," (",E,"). Command: ",Cmd, " on ",Src,":", Line).
 

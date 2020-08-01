@@ -21,7 +21,8 @@
    <- !jcm::initial_roles(H,Try);
       !jcm::initial_roles(T,Try).
 +!jcm::initial_roles(role(O,G,R),Try)
-   <- joinWorkspace(O,WId);
+   <- .concat("/main/",O,FullO);
+      joinWorkspace(FullO,WId);
       !jcm::focus_orgBoard(O,WId); // ensures the org board is also focused
       lookupArtifact(G,GId)[wid(WId)];
       focus(GId)[wid(WId)];
@@ -30,7 +31,7 @@
    .
 -!jcm::initial_roles(L,Try)
    <- //.print("wait a bit to focus on ",L);
-      .wait(100);
+      .wait(200);
       !jcm::initial_roles(L,Try-1).
 
 +!jcm::focus_orgBoard(O,WId) : focused(_,O,_).

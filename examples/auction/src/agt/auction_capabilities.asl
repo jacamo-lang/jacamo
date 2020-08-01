@@ -2,7 +2,7 @@
 +!do_auction(Id,P)
    <- // creates a scheme to coordinate the auction
       .concat("sch_",Id,SchName);
-      ?joined(aorg,OrgWks); // get the workspace id of the org
+      ?joined("/main/aorg",OrgWks); // get the workspace id of the org
       createScheme(SchName, doAuction,SchArtId)[wid(OrgWks)];
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)];
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)];

@@ -11,11 +11,13 @@
 
 +!jcm::focus_env_art(art_env(W,"",_),Try)
    <- //.print("joining workspace ",W);
-      joinWorkspace(W,_);
-      .print("joinned workspace ",W).
+      .concat("/main/",W,FullW);
+      joinWorkspace(FullW,_);
+      .print("joinned workspace ",FullW).
 +!jcm::focus_env_art(art_env(W,A,NS),Try)
-   <- .print("focusing on artifact ",A," (at workspace ",W,") using namespace ",NS);
-      joinWorkspace(W,WId);
+   <- .concat("/main/",W,FullW);
+      .print("focusing on artifact ",A," (at workspace ",FullW,") using namespace ",NS);
+      joinWorkspace(FullW,WId);
       lookupArtifact(A,AId)[wid(WId)];
       NS::focus(AId)[wid(WId)].
 -!jcm::focus_env_art(L,Try)

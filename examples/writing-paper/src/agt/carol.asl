@@ -7,7 +7,7 @@
 /* organisational plans for obligations (this agent does not use the obedient plans) */
 
 // only commits to mColaborator!
-+obligation(Ag,Norm,committed(Ag,mColaborator,Scheme),DeadLine)[workspace(_,_,W)] : .my_name(Ag)
++obligation(Ag,Norm,committed(Ag,mColaborator,Scheme),DeadLine)[workspace(_,W)] : .my_name(Ag)
    <- commitMission(mColaborator)[artifact_name(Scheme),wid(W)].
 +obligation(Ag,Norm,committed(Ag,_,Scheme),DeadLine).
 
@@ -18,4 +18,3 @@
       !Goal[scheme(Scheme)];
       //.print(" <--- done");
       goalAchieved(Goal)[artifact_id(ArtId)].
-

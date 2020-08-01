@@ -40,7 +40,7 @@ public class EnvironmentWebInspector implements Platform {
         
         if (webOn) {
             startHttpServer();
-            registerWorkspace(CartagoEnvironment.ROOT_WSP_DEFAULT_NAME);
+            //registerWorkspace(CartagoEnvironment.ROOT_WSP_DEFAULT_NAME);
         }
     }
 
@@ -174,7 +174,7 @@ public class EnvironmentWebInspector implements Platform {
                                 for (ArtifactId aid: CartagoEnvironment.getInstance().getController(wname).getCurrentArtifacts()) {
                                     if (hidenArts.contains(aid.getName()))
                                         continue;
-                                    if (aid.getName().endsWith("-body"))
+                                    if (aid.getName().startsWith(("body_")) || aid.getName().equals(("system")))
                                         continue;
                                     String addr = wname+"/"+aid.getName();
                                     out.append(" - <a href=\""+addr+"\" target='cf' style=\"font-family: arial; text-decoration: none\">"+aid.getName()+"</a><br/>");
@@ -199,7 +199,7 @@ public class EnvironmentWebInspector implements Platform {
         if (httpServer == null)
             return;
         try {
-            httpServer.createContext("/"+id, new HttpHandler() {
+            httpServer.createContext(id, new HttpHandler() {
                 public void handle(HttpExchange exchange) throws IOException {
                     String requestMethod = exchange.getRequestMethod();
                     Headers responseHeaders = exchange.getResponseHeaders();

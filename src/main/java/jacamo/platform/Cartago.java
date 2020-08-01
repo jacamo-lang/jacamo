@@ -42,7 +42,7 @@ public class Cartago extends DefaultPlatformImpl {
                     if (main.getChildWSP(wp.getName()).equals(Optional.empty())) {
                         current = main.createWorkspace(wp.getName()).getWorkspace();
                         logger.info("Workspace " + wp.getName() + " created.");
-                        EnvironmentWebInspector.get().registerWorkspace(wp.getName());
+                        EnvironmentWebInspector.get().registerWorkspace(current.getId().getFullName());
                     } else {
                         logger.info("Workspace " + wp.getName() + " already exists.");
                     }
@@ -75,7 +75,6 @@ public class Cartago extends DefaultPlatformImpl {
                                                 cp.getClassName(),
                                                 new ArtifactConfig(
                                                         cp.getTypedParametersArray()));
-                                // artIds.put(aName, aid);
                                 logger.info(m + " created.");
                                 if (wp.hasDebug())
                                     EnvironmentInspector.addInGui(wp.getName(), aid);

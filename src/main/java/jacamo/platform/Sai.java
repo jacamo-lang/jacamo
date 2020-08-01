@@ -1,19 +1,9 @@
 package jacamo.platform;
 
-import java.util.logging.Logger;
-
-import cartago.AgentIdCredential;
-import cartago.ArtifactId;
-import cartago.CartagoContext;
-import cartago.CartagoException;
-import cartago.CartagoService;
-import cartago.Op;
-import cartago.OpFeedbackParam;
-import cartago.WorkspaceId;
-import jacamo.project.JaCaMoInstParameters;
-
 public class Sai extends DefaultPlatformImpl {
     
+    // TODO: reimplement for cartago 3
+/*
     protected CartagoContext      cartagoCtx;
     protected ArtifactId          saiArtId = null;
     
@@ -45,16 +35,7 @@ public class Sai extends DefaultPlatformImpl {
                 OpFeedbackParam<Object> fbre = new OpFeedbackParam<>();
                 cartagoCtx.doAction(saiArtId, new Op("getRuleEngine", new Object[] { fbre } ));
                 inst.setRE(fbre.get());
-                
-                /*
-                // moved to env code
-                // add listeners in all workspace
-                for (String wn: inst.getWorkspaces()) {
-                    wid = cartagoCtx.joinWorkspace(wn, new AgentIdCredential("JaCaMoLauncherAgInst"));
-                    cartagoCtx.doAction(wid, new Op("setWSPRuleEngine", new Object[] { fbre.get() } ));
-                }
-                */
-                
+                                
                 EnvironmentWebInspector.get().registerWorkspace(inst.getName());
 
             } catch (CartagoException e) {
@@ -62,4 +43,5 @@ public class Sai extends DefaultPlatformImpl {
             }
         }
     }
+    */
 }

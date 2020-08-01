@@ -19,8 +19,8 @@ import com.sun.net.httpserver.HttpServer;
 import cartago.ArtifactId;
 import cartago.ArtifactInfo;
 import cartago.ArtifactObsProperty;
+import cartago.CartagoEnvironment;
 import cartago.CartagoException;
-import cartago.CartagoService;
 import jacamo.util.Config;
 
 public class EnvironmentWebInspector implements Platform {
@@ -40,7 +40,7 @@ public class EnvironmentWebInspector implements Platform {
         
         if (webOn) {
             startHttpServer();
-            registerWorkspace(CartagoService.MAIN_WSP_NAME);
+            registerWorkspace(CartagoEnvironment.ROOT_WSP_DEFAULT_NAME);
         }
     }
 
@@ -171,7 +171,7 @@ public class EnvironmentWebInspector implements Platform {
                             try {
                                 //out.append("<br/><scan style='color: red; font-family: arial; text-decoration: none'><a href='/"+wname+"/img.svg' target='cf'>"+wname+"</a></scan> <br/>");
                                 out.append("<br/><scan style='color: red; font-family: arial; text-decoration: none'>"+wname+"</scan> <br/>");
-                                for (ArtifactId aid: CartagoService.getController(wname).getCurrentArtifacts()) {
+                                for (ArtifactId aid: CartagoEnvironment.getInstance().getController(wname).getCurrentArtifacts()) {
                                     if (hidenArts.contains(aid.getName()))
                                         continue;
                                     if (aid.getName().endsWith("-body"))
@@ -251,7 +251,7 @@ public class EnvironmentWebInspector implements Platform {
                                 int p = path.lastIndexOf("/");
                                 path = path.substring(p+1);
     
-                                ArtifactInfo info = CartagoService.getController(id).getArtifactInfo(path);
+                                ArtifactInfo info = CartagoEnvironment.getInstance().getController(id).getArtifactInfo(path);
                                 responseBody.write(getArtHtml(id, info).getBytes());
                             } catch (Exception e) {
                                 e.printStackTrace();

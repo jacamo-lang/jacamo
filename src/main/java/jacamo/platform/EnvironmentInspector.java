@@ -17,8 +17,8 @@ import javax.swing.JTextPane;
 
 import cartago.ArtifactId;
 import cartago.ArtifactInfo;
+import cartago.CartagoEnvironment;
 import cartago.CartagoException;
-import cartago.CartagoService;
 
 public class EnvironmentInspector {
 
@@ -83,7 +83,7 @@ public class EnvironmentInspector {
             try {
                 String wks = artsWrps.get(k);
                 String aname = k.substring(k.indexOf(".")+1);
-                ArtifactInfo info = CartagoService.getController(wks).getArtifactInfo(aname);
+                ArtifactInfo info = CartagoEnvironment.getInstance().getController(wks).getArtifactInfo(aname);
 
                 String sOut = EnvironmentWebInspector.getArtHtml(wks, info);
 

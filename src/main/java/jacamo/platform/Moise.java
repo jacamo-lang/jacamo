@@ -1,24 +1,9 @@
 package jacamo.platform;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import cartago.AgentIdCredential;
-import cartago.ArtifactId;
-import cartago.CartagoContext;
-import cartago.CartagoException;
-import cartago.CartagoService;
-import cartago.Op;
-import cartago.OpFeedbackParam;
-import cartago.WorkspaceId;
-import jacamo.project.JaCaMoGroupParameters;
-import jacamo.project.JaCaMoOrgParameters;
-import jacamo.project.JaCaMoSchemeParameters;
-
 public class Moise extends DefaultPlatformImpl {
     
+    // TODO: reimplement for cartago 3
+ /*   
     protected Map<String,CartagoContext> cartagoCtxs = new HashMap<>();
 
     Logger logger = Logger.getLogger(Moise.class.getName());
@@ -146,5 +131,5 @@ public class Moise extends DefaultPlatformImpl {
         }
     }
 
-
+*/
 }

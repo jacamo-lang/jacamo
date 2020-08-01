@@ -15,7 +15,6 @@ public class JaCaMoWorkspaceParameters implements Serializable {
 
     protected JaCaMoProject project;
     protected String name;
-    protected String node;
     protected Map<String,ClassParameters> artifacts = new HashMap<>();
     protected boolean debug = false;
     
@@ -31,9 +30,6 @@ public class JaCaMoWorkspaceParameters implements Serializable {
     public void setWId(WorkspaceId wid) { this.wId = wid; }
     public WorkspaceId getWId() { return this.wId; }
     
-    public void setNode(String h) { node = h; }
-    public String getNode()       { return node; }
-
     public void addArtifact(String name, ClassParameters className) {
         artifacts.put(name,className);
     }
@@ -70,8 +66,6 @@ public class JaCaMoWorkspaceParameters implements Serializable {
             }
         }
         s.append("\n");
-        if (getNode() != null)
-            s.append("      node: "+getNode()+"\n");
 
         if (hasDebug())
             s.append("\n      debug\n");

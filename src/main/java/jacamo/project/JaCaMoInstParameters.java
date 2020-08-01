@@ -7,7 +7,8 @@ import java.util.Map;
 
 
 public class JaCaMoInstParameters extends JaCaMoWorkspaceParameters {
-
+    private static final long serialVersionUID = 1L;
+    
     protected List<String>  wrks     = new ArrayList<>();
     protected Map<String,String>  parameters = new HashMap<>(); // like source ....
 

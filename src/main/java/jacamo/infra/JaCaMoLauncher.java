@@ -330,11 +330,11 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         // add jacamo archs
         List<AgentParameters> lags = new ArrayList<>();
         for (AgentParameters ap: getJaCaMoProject().getAgents()) {
-            if (ap.getNbInstances() > 0 && getJaCaMoProject().isInDeployment(ap.getHost())) {
-                if (getJaCaMoProject().getNodeHost(ap.getHost()) != null) {
+            if (ap.getNbInstances() > 0) {
+                /*if (getJaCaMoProject().getNodeHost(ap.getHost()) != null) {
                     logger.warning("**** Remote agent creation is not implemented yet! The agent "+ap.getAgName()+" @ "+getJaCaMoProject().getNodeHost(ap.getHost())+" wasn't created");
                     continue;
-                }
+                }*/
                 lags.add(ap);
                 /*ap.insertArchClass( // so that the user ag arch is the first arch in the chain
                         new ClassParameters(CAgentArch.class.getName()),

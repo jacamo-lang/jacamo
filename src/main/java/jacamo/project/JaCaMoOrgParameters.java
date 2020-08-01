@@ -10,6 +10,8 @@ import jason.mas2j.AgentParameters;
 
 public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
 
+    private static final long serialVersionUID = 1L;
+    
     protected List<JaCaMoGroupParameters>  groups     = new ArrayList<>();
     protected List<JaCaMoSchemeParameters> schemes    = new ArrayList<>();
     protected Map<String,String>           parameters = new HashMap<>(); // like source ....
@@ -103,8 +105,6 @@ public class JaCaMoOrgParameters extends JaCaMoWorkspaceParameters {
             }
         }
         s.append("\n");
-        if (getNode() != null)
-            s.append("      node: "+getNode()+"\n");
         for (JaCaMoGroupParameters g: groups) {
             s.append(g+"\n");
         }

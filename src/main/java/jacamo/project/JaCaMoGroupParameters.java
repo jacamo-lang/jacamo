@@ -9,6 +9,8 @@ import jason.mas2j.AgentParameters;
 
 public class JaCaMoGroupParameters extends JaCaMoOrgParameters {
 
+    private static final long serialVersionUID = 1L;
+    
     protected String type;
     protected List<JaCaMoGroupParameters>  subGroups = new ArrayList<>();
     protected List<String> responsibleFor = new ArrayList<>();

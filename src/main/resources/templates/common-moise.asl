@@ -2,7 +2,7 @@
 
 // keep focused on schemes that my groups are responsible for
 @l_focus_on_my_scheme[atomic]
-+schemes(L)[artifact_name(_,GroupName), workspace(_,_,W)]
++schemes(L)[artifact_name(GroupName), workspace(_,W)]
    <- //cartago.set_current_wsp(W);
       for ( .member(S,L) ) {
          lookupArtifact(S,ArtId)[wid(W)];
@@ -20,8 +20,8 @@
 +!jcm::initial_roles([H|T],Try)
    <- !jcm::initial_roles(H,Try);
       !jcm::initial_roles(T,Try).
-+!jcm::initial_roles(role(O,H,G,R),Try)
-   <- !join_workspace(O,H,WId);
++!jcm::initial_roles(role(O,G,R),Try)
+   <- joinWorkspace(O,WId);
       !jcm::focus_orgBoard(O,WId); // ensures the org board is also focused
       lookupArtifact(G,GId)[wid(WId)];
       focus(GId)[wid(WId)];

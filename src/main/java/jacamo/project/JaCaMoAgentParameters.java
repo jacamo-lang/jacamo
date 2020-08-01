@@ -21,6 +21,8 @@ import jason.runtime.Settings;
 
 public class JaCaMoAgentParameters extends AgentParameters {
 
+    private static final long serialVersionUID = 1L;
+    
     protected Set<String>    wks   = new TreeSet<>();
     protected List<String[]> roles = new ArrayList<>(); // each [org,group,role]
     protected List<String[]> focus = new ArrayList<>(); // each [artId,wskId,host]
@@ -69,27 +71,11 @@ public class JaCaMoAgentParameters extends AgentParameters {
         newap.project = this.project;
     }
 
-    public void addWorkspace(String w, String h) {
+    public void addWorkspace(String w) {
         wks.add(w);
-        if (h != null) {
-            project.setWorkspaceNode(w, h);
-        }
     }
     public Collection<String> getWorkspaces() {
-        List<String> wslocal = new ArrayList<>();
-        List<String> wsrem   = new ArrayList<>();
-        // add local workspace first
-        for (String w: wks) {
-            String n = project.getWorkspaceNode(w);
-            if (n == null)
-                wslocal.add(w);
-            else if (project.getNodeHost(n) == null)
-                wslocal.add(w);
-            else
-                wsrem.add(w);
-        }
-        wslocal.addAll(wsrem);
-        return wslocal;
+        return wks;     
     }
 
     public void setProject(JaCaMoProject p) {
@@ -118,22 +104,22 @@ public class JaCaMoAgentParameters extends AgentParameters {
         return roles;
     }
 
-    public void addFocus(String artId, String namespace, String w, String n) {
+    public void addFocus(String artId, String namespace, String w) {
         if (namespace == null)
             namespace = Literal.DefaultNS.toString();
         if (w != null && !wks.contains(w))
-            addWorkspace(w,n);
+            addWorkspace(w);
         focus.add(new String[] { artId, w, namespace } );
     }
 
-    public void addFocus(String artId, String namespace, String h) {
+    public void addFocus(String artId, String namespace) {
         int pdot = artId.indexOf(".");
         if (pdot > 0) {
             String workspaceId = artId.substring(0,pdot);
             artId = artId.substring(pdot+1);
-            addFocus(artId,namespace,workspaceId, h);
+            addFocus(artId,namespace,workspaceId);
         } else {
-            addFocus(artId,namespace,null,h);
+            addFocus(artId,namespace,null);
         }
     }
 
@@ -143,7 +129,7 @@ public class JaCaMoAgentParameters extends AgentParameters {
                 JaCaMoWorkspaceParameters w = project.getArtifactWorkspace(f[0]);
                 if (w != null) {
                     f[1] = w.getName();
-                    addWorkspace(w.getName(), w.getNode());
+                    addWorkspace(w.getName());
                 }
             }
         }
@@ -152,7 +138,7 @@ public class JaCaMoAgentParameters extends AgentParameters {
                 JaCaMoOrgParameters o = project.getGroupOrg(r[1]);
                 if (o != null) {
                     r[0] = o.getName();
-                    addWorkspace(o.getName(),o.getNode());
+                    addWorkspace(o.getName());
                 }
             }
         }
@@ -225,18 +211,12 @@ public class JaCaMoAgentParameters extends AgentParameters {
         String bgn = "\n      // join: ";
         for (String w: wks) {
             s.append(bgn+w);
-            JaCaMoWorkspaceParameters jw = project.getWorkspace(w);
-            if (jw != null && jw.getNode() != null)
-                s.append("@"+jw.getNode());
             bgn = ", ";
         }
 
         bgn = "\n      // focus: ";
         for (String[] f: focus) {
             s.append(bgn+f[1]+"."+f[0]);
-            JaCaMoWorkspaceParameters jw = project.getWorkspace(f[1]);
-            if (jw != null && jw.getNode() != null)
-                s.append("@"+jw.getNode());
             bgn = ", ";
         }
 

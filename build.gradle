@@ -37,12 +37,13 @@ dependencies {
     compile group: 'org.jacamo'     , name: 'cartago' , version: '3.0-SNAPSHOT' , changing: true, transitive: false
     compile group: 'org.jacamo'     , name: 'jaca'    , version: '3.0-SNAPSHOT' , changing: true, transitive: false
 
-    compile group: 'org.jacamo'     , name: 'moise'   , version: '0.13', changing: true, transitive: false
+    compile group: 'org.jacamo'     , name: 'moise'   , version: '0.14-SNAPSHOT', changing: true, transitive: false
+    compile group: 'org.jacamo'     , name: 'npl'     , version: '0.5', changing: true
+
 
     compile group: 'guru.nidi'      , name: 'graphviz-java',      version: '0.7.0'
     compile group: 'org.gradle'     , name: 'gradle-tooling-api', version: '6.2.2'
 
-    runtime group: 'org.jacamo'     , name: 'npl'     , version: '0.5' , changing: true, transitive: false
     runtime group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
 
     runtime group: 'org.jacamo'     , name: 'sai'     , version: '0.4', changing: true , transitive: false

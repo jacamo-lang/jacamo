@@ -10,10 +10,10 @@ mas auctionCent {
               go(home)
       beliefs: product("banana","this is a condition",15000)
                rft(gui)
-      join: ww2 @ node1
-            anotherw @ node2
+      join: ww2
+            anotherw
       focus: ww2.c1
-             kk.c2 @ node45
+             kk.c2
              yy.c3
       osfile: "a/x.xml"         // app domain argument
       events: discard         // app domain argument

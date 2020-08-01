@@ -32,11 +32,10 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
 
     protected static Logger logger = Logger.getLogger(JaCaMoProject.class.getName());
 
-    //protected Deployment dep = null;
     protected Map<String,JaCaMoWorkspaceParameters> workspaces = new HashMap<>();
     protected List<JaCaMoOrgParameters>       orgs       = new ArrayList<>();
     protected List<JaCaMoInstParameters>      insts      = new ArrayList<>();
-    protected Set<String> deplNodes = new HashSet<>();
+    //protected Set<String> deplNodes = new HashSet<>();
     protected Map<String,String> nodeHosts = new HashMap<>();
     //protected Set<String> toDebug = new HashSet<String>();
 
@@ -126,7 +125,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
                 if (getOrg(w.getName()) == null)
                     this.addWorkspace(w);
             }
-            this.deplNodes.addAll(jproject.deplNodes);
+            //this.deplNodes.addAll(jproject.deplNodes);
             this.nodeHosts.putAll(jproject.nodeHosts);
             this.platformParameters.putAll(jproject.platformParameters);
 
@@ -175,7 +174,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         if (agId.equals("*")) {
             for (AgentParameters ap: getAgents()) {
                 JaCaMoAgentParameters jap = (JaCaMoAgentParameters)ap;
-                jap.addFocus(artId,nameSpace,wks.getName(),null);
+                jap.addFocus(artId,nameSpace,wks.getName());
             }
         } else {
             JaCaMoAgentParameters ap = (JaCaMoAgentParameters)getAg(agId);
@@ -183,7 +182,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
                 logger.warning("Agent "+agId+" was not declared and so cannot focus on "+artId);
             } else {
                 JaCaMoAgentParameters jap = (JaCaMoAgentParameters)ap;
-                jap.addFocus(artId,nameSpace,wks.getName(),null);
+                jap.addFocus(artId,nameSpace,wks.getName());
             }
         }
     }
@@ -238,31 +237,6 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         return w;
     }
 
-    public void setWorkspaceNode(String wid, String n) {
-        JaCaMoWorkspaceParameters w = workspaces.get(wid);
-        if (w == null) {
-              w = new JaCaMoWorkspaceParameters(this);
-              w.setName(wid);
-              addWorkspace(w);
-        }
-        w.setNode(n);
-    }
-    public String getWorkspaceNode(String wid) {
-        JaCaMoWorkspaceParameters w = workspaces.get(wid);
-        if (w == null) {
-            return null;
-        } else {
-            return w.getNode();
-        }
-    }
-    public String getWorkspaceHost(String wName) {
-        JaCaMoWorkspaceParameters wp = workspaces.get(wName);
-        if (wp == null || wp.getNode() == null)
-            return null;
-        else
-            return nodeHosts.get(wp.getNode());
-    }
-
     public void addOrg(JaCaMoOrgParameters o) {
         orgs.add(o);
     }
@@ -296,14 +270,14 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         if (agId.equals("*")) {
             for (AgentParameters ap: getAgents()) {
                 JaCaMoAgentParameters jap = (JaCaMoAgentParameters)ap;
-                jap.addWorkspace(w.getName(), w.getNode());
+                jap.addWorkspace(w.getName());
             }
         } else {
             JaCaMoAgentParameters ap = (JaCaMoAgentParameters)getAg(agId);
             if (ap == null) {
                 logger.warning("Agent "+agId+" was not declared and so cannot be included in workspace "+w.getName());
             } else {
-                ap.addWorkspace(w.getName(), w.getNode());
+                ap.addWorkspace(w.getName());
             }
         }
     }
@@ -367,10 +341,10 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         return false;
     }
 
+    /*
     public void resetDeploymentNode() {
         deplNodes.clear();
     }
-    /*
     public void addDeploymentNode(String n) {
         if (n.equals("*")) {
             deplNodes.addAll( getAllCitedNodes() );
@@ -379,7 +353,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         }
     }
     */
-    public Collection<String> getAllCitedNodes() {
+    /*public Collection<String> getAllCitedNodes() {
         Set<String> an = new HashSet<>();
         for (AgentParameters ap: getAgents())
             if (ap.getHost() != null)
@@ -392,12 +366,14 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
                 an.add(op.getNode());
         return an;
     }
-    public Collection<String> getDeploymentNodes() {
+    */
+    /*public Collection<String> getDeploymentNodes() {
         return deplNodes;
     }
+    */
 
 
-    public boolean isInDeployment(String node) {
+    /*public boolean isInDeployment(String node) {
         return node == null ||
                //deplNodes.isEmpty() ||
                deplNodes.contains(node) ||
@@ -407,11 +383,14 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     public void resetNodeHosts() {
         nodeHosts.clear();
     }
-
+    */
     public void addNodeHost(String n, String h, boolean running) {
-        if (!running)
-            deplNodes.add(n);
+        //if (!running)
+        //    deplNodes.add(n);
         nodeHosts.put(n, h);
+    }
+    public String getNodeHost(String n) {
+        return nodeHosts.get(n);
     }
 
     /*
@@ -421,13 +400,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         addNodeHost(nodeId, h);
         return nodeId;
     }
-    */
 
-    public String getNodeHost(String n) {
-        return nodeHosts.get(n);
-    }
-
-    /*
     public void addDebugFor(String n) {
         toDebug.add(n);
     }

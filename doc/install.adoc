@@ -84,12 +84,23 @@ Requirements:
 - Java >= 8
 
 
-You can download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here], unzip it, and then use scripts to create and run applications. To configure these scripts:
+To use scripts to create and run JaCaMo applications, you can either
+download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here]
+or https://github.com/jacamo-lang/jacamo[clone] from GitHub.
+To configure these scripts:
 
-
-. Make sure you have `JACAMO_HOME` properly set (this variable points to a directory with  subdirectories `libs` and `scripts` of JaCaMo), then setup the `PATH`, for instance:
+. Make sure you have `JACAMO_HOME` properly set (this variable points to a directory with  subdirectories `libs` and `scripts` of JaCaMo), then setup the `PATH`.
+In the case you have downloaded and unzipped JaCaMo into a local folder, say `/home/bob/jacamo`, the configuration is done by the following commands:
 
     export JACAMO_HOME=/home/bob/jacamo
+    export PATH=$JACAMO_HOME/scripts:$PATH
+
+in the case you opted to clone JaCaMo from GitHub:
+
+    git clone https://github.com/jacamo-lang/jacamo.git
+    cd jacamo
+    ./gradlew config
+    export JACAMO_HOME=`pwd`/build
     export PATH=$JACAMO_HOME/scripts:$PATH
 
 . Ensure you have `JAVA_HOME` properly set (this variable points to a Java Development Kit (JDK) directory), for instance:

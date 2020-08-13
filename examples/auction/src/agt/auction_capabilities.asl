@@ -2,7 +2,7 @@
 +!do_auction(Id,P)
    <- // creates a scheme to coordinate the auction
       .concat("sch_",Id,SchName);
-      ?joined("/main/aorg",OrgWks); // get the workspace id of the org
+      ?joined(aorg,OrgWks); // get the workspace id of the org
       createScheme(SchName, doAuction,SchArtId)[wid(OrgWks)];
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)];
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)];
@@ -33,7 +33,7 @@
    <- ?goalArgument(Sch,auction,"Id",Id);
       lookupArtifact(Id,AId);
       focus(AId);
-      if (math.random  < 0.8) {              // bid in 80% of the cases
+      if (math.random  < 0.9) {              // bid in 80% of the cases
         .wait(math.random * 2000 + 500);     // to simulate some "decision" reasoning
         bid(math.random * 100 + 10)[artifact_id(AId)];
       } else {

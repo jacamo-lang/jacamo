@@ -24,3 +24,9 @@
    <- .print("waiting a bit to focus on ",L," try #",Try);
       .wait(200);
       !jcm::focus_env_art(L,Try-1).
+
+// rules to make old code compatible with cartago 3.0
+focused(W,AName[artifact_type(Type)],Aid) :-
+   focusing(Aid,AName,Type,_,W,_).
+joined(W,Wid) :-   
+   joinedWsp(Wid,W,_).

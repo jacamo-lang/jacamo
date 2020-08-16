@@ -1,0 +1,8 @@
+mas unit_tests {
+
+    agent test_manager
+
+    asl-path: "src/test/jacamo/inc"
+              "$jacamoJar/test/jacamo/inc"
+              "$jasonJar/test/jason/inc"
+}

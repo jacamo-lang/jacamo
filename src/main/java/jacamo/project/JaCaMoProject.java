@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import jacamo.infra.JaCaMoInfrastructureFactory;
@@ -83,22 +81,18 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         javaPaths.addPath(s);
     }
 
-    public void setUrlPrefix(String url) {
-        orgPaths.setUrlPrefix(url);
-        super.getSourcePaths().setUrlPrefix(url);
-    }
-
-    public void importProject(String directory, File f) throws ParseException {
+    public void importProject(String directory, String fileName) throws ParseException {
         // import project
         try {
-              if (! f.toString().endsWith(".jcm")) f = new File(f+".jcm");
-              if (! f.exists()) f = new File(directory+"/"+f.toString());
-              JaCaMoProjectParser parser = new JaCaMoProjectParser(new FileReader(f.getAbsolutePath()) );
+              if (! fileName.endsWith(".jcm")) fileName = fileName+".jcm";
+              
+              if (! new File(fileName).exists()) fileName = directory+"/"+fileName.toString();
+              JaCaMoProjectParser parser = new JaCaMoProjectParser(new FileReader(fileName) );
               importProject(parser.parse(directory));
         } catch (ParseException e) {
-            throw new ParseException("Error parsing included file "+f+"!\n"+e);
+            throw new ParseException("Error parsing included file "+fileName+"!\n"+e);
         } catch (FileNotFoundException e) {
-            throw new ParseException("File not found "+f.getAbsolutePath()+"\n"+e);
+            throw new ParseException("File not found "+fileName+"\n"+e);
         }
     }
 

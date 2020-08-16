@@ -151,7 +151,7 @@ public class JaCaMoAgentParameters extends AgentParameters {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("agent "+name);
-        if (asSource != null && !asSource.getName().startsWith(name)) {
+        if (asSource != null && !getSourceAsFile().getName().startsWith(name)) {
             s.append(" : "+asSource);
         }
         s.append(" {\n");

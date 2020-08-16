@@ -1,5 +1,15 @@
 = Release notes for JaCaMo
 
+== Version 1.0
+
+- This version uses Jason 2.6, Moise 0.14 and Cartago 3.0
+
+
+== Version 0.9
+
+- This version uses Jason 2.5
+- Add node red demo
+
 == Version 0.8
 
 - This version uses Jason 2.4, Moise 0.12 and Cartago 2.4

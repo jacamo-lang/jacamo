@@ -45,6 +45,8 @@ public class JaCaMoMASLauncherAnt extends CentralisedMASLauncherAnt {
         // build javac entry
         StringBuilder jc = new StringBuilder();
         for (String p: ((JaCaMoProject)project).getJavaPaths().getPaths()) {
+            if (p.startsWith("file:"))
+                p = p.substring(5);
             jc.append("<javac srcdir=\"${basedir}/"+p+"\" destdir=\"${build.dir}\" debug=\"true\" optimize=\"true\" includeantruntime=\"false\" >\n");
             jc.append("            <classpath refid=\"project.classpath\"/>\n");
             jc.append("        </javac>\n        ");

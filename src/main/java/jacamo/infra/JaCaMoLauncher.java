@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,7 +68,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         r.create();
         r.start();
         r.waitEnd();
-        r.finish(0, true);
+        r.finish(0, true, 0);
     }
     
     public static JaCaMoLauncher getJaCaMoRunner() {
@@ -86,7 +87,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         String projectFileName = null;
         if (RunCentralisedMAS.class.getResource("/"+defaultProjectFileName) != null) {
             projectFileName = defaultProjectFileName;
-            readFromJAR = true;
+            appFromClassPath = true;
             Config.get(false); // to void to call fix/store the configuration in this case everything is read from a jar/jnlp file
             if (args.length == 1) {
                 projectFileName = args[0];              
@@ -112,13 +113,13 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             Config.get().fix();             
         }
 
-        setupLogger();
+        Map<String,Object> mArgs = parseArgs(args);
 
-        if (args.length >= 2) {
-            if (args[1].equals("-debug")) {
-                debug = true;
-                Logger.getLogger("").setLevel(Level.FINE);
-            }
+        setupLogger((String)mArgs.get("log-conf"));
+
+        if ((boolean)(mArgs.getOrDefault("debug", false))) {
+            debug = true;
+            Logger.getLogger("").setLevel(Level.FINE);
         }
 
         // discover the handler
@@ -133,21 +134,24 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
         int errorCode = 0;
 
         try {
+            String urlPrefix = null;
+
             InputStream inProject;
-            if (readFromJAR) {
+            if (appFromClassPath) {
                 if (projectFileName == null) {
                     inProject = RunCentralisedMAS.class.getResource("/"+defaultProjectFileName).openStream();
                 } else {
                     inProject = RunCentralisedMAS.class.getResource("/"+projectFileName).openStream();                  
                 }
-                urlPrefix = SourcePath.CRPrefix + "/";
+                urlPrefix = SourcePath.CRPrefix;
             } else {
                 URL file;
                 // test if the argument is an URL
                 try {
+                    projectFileName = new SourcePath().fixPath(projectFileName); // replace $jasonJar, if necessary
                     file = new URL(projectFileName);
                     if (projectFileName.startsWith("jar")) {
-                        urlPrefix = projectFileName.substring(0,projectFileName.indexOf("!")+1) + "/";
+                        urlPrefix = projectFileName.substring(0,projectFileName.indexOf("!")+1);
                     }
                 } catch (Exception e) {
                     file = new URL("file:"+projectFileName);
@@ -176,7 +180,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
                 }
             }
             project.setupDefault();
-            getJaCaMoProject().setUrlPrefix(urlPrefix);
+            getJaCaMoProject().addSourcePath(urlPrefix);
             project.registerDirectives();
             // set the aslSrcPath in the include
             ((Include)DirectiveProcessor.getDirective("include")).setSourcePath(project.getSourcePaths());
@@ -240,7 +244,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     }
     
     @Override
-    public void finish(int deadline, boolean stopJVM) {     
+    public void finish(int deadline, boolean stopJVM, int exitValue) {     
         stopAgs(deadline); // stop the agents before shutting down the platforms
         
         for (Platform p: platforms) {
@@ -251,7 +255,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             }
         }
 
-        super.finish(deadline, stopJVM); // call to stop JVM
+        super.finish(deadline, stopJVM, exitValue); // call to stop JVM
     }
     
     private static String defaultLogProperties = "/templates/" + logPropFile;

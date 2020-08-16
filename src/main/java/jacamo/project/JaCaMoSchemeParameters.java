@@ -4,6 +4,7 @@ package jacamo.project;
 
 
 public class JaCaMoSchemeParameters extends JaCaMoOrgParameters {
+    private static final long serialVersionUID = 1L;
 
     protected String type;
 

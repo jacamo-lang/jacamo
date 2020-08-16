@@ -55,7 +55,7 @@ public class TestUtils {
     public static void stopSystem() {
         if (systemLaunched.getAndSet(false)) {
             int i=0;
-            JaCaMoLauncher.getJaCaMoRunner().finish(0, false); // do not stop the JVM
+            JaCaMoLauncher.getJaCaMoRunner().finish(0, false, 0); // do not stop the JVM
             while (JaCaMoLauncher.getRunner().isRunning() && i++ < 20) {
                 System.out.println("waiting for jacamo to stop ....");
                 try {

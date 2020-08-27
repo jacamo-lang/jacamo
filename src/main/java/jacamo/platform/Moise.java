@@ -39,31 +39,38 @@ public class Moise extends DefaultPlatformImpl {
 
                 // TODO: Just checking if the org wks exists is not a good solution, it must check if is already joined
                 if (main.getChildWSP(o.getName()).equals(Optional.empty())) {
-                    Workspace currentWks = null;
-                    currentWks = main.createWorkspace(o.getName()).getWorkspace();
-
-                    logger.info("Org Workspace "+o.getName()+" created.");
-
-                    ICartagoContext context = currentWks.joinWorkspace(new AgentIdCredential("JaCaMoLauncherAgOrg"), new ICartagoCallback() {
-                        public void notifyCartagoEvent(CartagoEvent a) {    }
-                    });
-                    o.setWId(currentWks.getId());
+                    Workspace currentWks;
+                    ICartagoContext context;                    
+                    ArtifactId aid;
+                    String boardClass;
                     
-                    ArtifactId aid = null;
                     if (o.hasInstitution()) {
-                        // TODO: consider cartago 3 for SAI
                         /*WorkspaceId instWid = cartagoCtx.joinWorkspace(o.getInstitution()); //, new AgentIdCredential("JaCaMoLauncherAgInst"));
                         ArtifactId instAId = cartagoCtx.lookupArtifact(instWid, o.getInstitution()+"_art");
                         aid = cartagoCtx.makeArtifact(wid, o.getName(), "sai.bridges.jacamo.OrgBoardSai", new Object[] { o.getParameter("source") } );
                         cartagoCtx.doAction(aid, new Op("setInstitution", new Object[] { o.getInstitution(), instAId } ));
-                        logger.info("OrgBoard(SAI) "+o.getName()+" created.");
                         */
+                        currentWks = main.getChildWSP(o.getInstitution()).get().getWorkspace();
+                        boardClass = "sai.bridges.jacamo.OrgBoardSai";
                     } else {
-                        aid = currentWks.makeArtifact(
-                                context.getAgentId(), 
-                                o.getName(), 
-                                "ora4mas.nopl.OrgBoard", 
-                                new ArtifactConfig( new Object[] { o.getParameter("source") } ));
+                        currentWks = main.createWorkspace(o.getName()).getWorkspace();
+                        boardClass = "ora4mas.nopl.OrgBoard";
+                    }
+                    context = currentWks.joinWorkspace(new AgentIdCredential("JaCaMoLauncherAgOrg"), new ICartagoCallback() {
+                        public void notifyCartagoEvent(CartagoEvent a) {    }
+                    });
+                    aid = currentWks.makeArtifact(
+                            context.getAgentId(), 
+                            o.getName(), 
+                            boardClass, 
+                            new ArtifactConfig( new Object[] { o.getParameter("source") } ));
+                    o.setWId(currentWks.getId());
+                    if (o.hasInstitution()) {
+                        ArtifactId instAId = currentWks.getArtifact(o.getInstitution()+"_art");
+                        context.doAction(1, aid.getName(), new Op("setInstitution", new Object[] { o.getInstitution(), instAId } ), null, -1);
+                        logger.info("OrgBoard(SAI) "+o.getName()+" created.");
+                    } else {
+                        logger.info("OrgBoard "+o.getName()+" created.");
                     }
 
                     // schemes
@@ -76,8 +83,6 @@ public class Moise extends DefaultPlatformImpl {
                         createGroup(aid,null,g,o, context);
                     }
                     //EnvironmentWebInspector.get().registerWorkspace(o.getName());
-
-                    //CartagoService.enableDebug(o.getName());
                 } else {
                     logger.info("Workspace "+o.getName()+" already exists, organisation will not be created.");
                 }
@@ -94,9 +99,14 @@ public class Moise extends DefaultPlatformImpl {
             OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<>();
             cartagoCtx.doAction(1, orgB.getName(), new Op("createGroup", new Object[] { g.getName(), g.getType(), fb} ), null, -1);
             ArtifactId aid = fb.get();
-            while (aid == null) {
+            int i=0;
+            while (aid == null && i++ < 30) {
                 Thread.sleep(50);
                 aid = fb.get();
+            }
+            if (aid == null) { 
+                logger.warning("ERROR creating group "+m);
+                return;
             }
 
             logger.info("group created: "+m);
@@ -121,9 +131,9 @@ public class Moise extends DefaultPlatformImpl {
                     logger.warning("** The scheme "+respFor+" does not existis in "+org.getName()+" so the group "+g.getName()+" cannot be responsible for it!");
                 cartagoCtx.doAction(1, aid.getName(), new Op("addSchemeWhenFormationOk", new Object[] { respFor } ), null, -1);
             }
-        } catch (CartagoException e) {
-            logger.log(Level.SEVERE, "error creating group "+m,e);
         } catch (InterruptedException e) {
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "error creating group "+m,e);
         }
 
     }
@@ -135,9 +145,14 @@ public class Moise extends DefaultPlatformImpl {
             OpFeedbackParam<ArtifactId> fb = new OpFeedbackParam<>();
             cartagoCtx.doAction(1, orgB.getName(), new Op("createScheme", new Object[] { s.getName(), s.getType(), fb} ), null, -1);
             ArtifactId aid = fb.get();
-            while (aid == null) {
+            int i = 0;
+            while (aid == null && i++ < 30) {
                 Thread.sleep(50);
                 aid = fb.get();
+            }
+            if (aid == null) { 
+                logger.warning("ERROR creating scheme "+m);
+                return;
             }
 
             logger.info("scheme created: "+m);
@@ -148,9 +163,9 @@ public class Moise extends DefaultPlatformImpl {
             if (owner != null) {
                 cartagoCtx.doAction(1, aid.getName(), new Op("setOwner", new Object[] { owner } ), null, -1);
             }
-        } catch (CartagoException e) {
-            logger.log(Level.SEVERE, "error creating scheme "+m,e);
         } catch (InterruptedException e) {
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "error creating scheme "+m,e);
         }
     }
 }

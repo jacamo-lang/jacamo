@@ -11,6 +11,7 @@ import cartago.CartagoEvent;
 import cartago.CartagoException;
 import cartago.ICartagoCallback;
 import cartago.ICartagoContext;
+import cartago.Op;
 import cartago.Workspace;
 import jaca.CartagoEnvironment;
 import jacamo.project.JaCaMoInstParameters;
@@ -53,7 +54,8 @@ public class Cartago extends DefaultPlatformImpl {
                 // check institution
                 for (JaCaMoInstParameters inst : project.getInstitutions()) {
                     if (inst.hasWorkspace(wp.getName()) && inst.getRE() != null) {
-                        // TODO: cartagoSession.doAction(curwid, new Op("setWSPRuleEngine", new Object[] { inst.getRE() }));      
+                        context.doAction(1, new Op("setWSPRuleEngine", new Object[] { inst.getRE() }), null, -1);  
+                        logger.info("institution "+inst.getName()+" linked to "+wp.getName());
                     }
                 }
 

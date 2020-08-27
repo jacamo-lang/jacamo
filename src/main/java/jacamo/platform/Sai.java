@@ -1,47 +1,80 @@
 package jacamo.platform;
 
+import java.util.logging.Logger;
+
+import cartago.AgentIdCredential;
+import cartago.ArtifactConfig;
+import cartago.ArtifactId;
+import cartago.CartagoEvent;
+import cartago.CartagoException;
+import cartago.ICartagoCallback;
+import cartago.ICartagoContext;
+import cartago.Op;
+import cartago.OpFeedbackParam;
+import cartago.Workspace;
+import jacamo.project.JaCaMoInstParameters;
+
 public class Sai extends DefaultPlatformImpl {
     
-    // TODO: reimplement for cartago 3
-/*
-    protected CartagoContext      cartagoCtx;
     protected ArtifactId          saiArtId = null;
     
     Logger logger = Logger.getLogger(Sai.class.getName());
 
     @Override
     public void init(String[] args) throws CartagoException {
-        cartagoCtx = CartagoService.startSession(CartagoService.MAIN_WSP_NAME, new AgentIdCredential("JaCaMo_Inst_Launcher"));
     }
     
     @Override
     public void start() {
+        cartago.CartagoEnvironment cenv = cartago.CartagoEnvironment.getInstance(); 
+        Workspace main = cenv.getRootWSP().getWorkspace();
+        
         for (JaCaMoInstParameters inst: project.getInstitutions()) {
             try {
                 // fix path for org
-                inst.addParameter("source", project.getOrgPaths().fixPath(inst.getParameter("source")));
+                String file = project.getOrgPaths().fixPath(inst.getParameter("source"));
+                if (file.startsWith("file:"))
+                    file = file.substring(5);
+                inst.addParameter("source", file);
 
-                CartagoService.createWorkspace(inst.getName());
-                logger.info("Workspace "+inst.getName()+" created.");
+                // create the SAI workspace
+                Workspace currentWks = main.createWorkspace(inst.getName()).getWorkspace();
 
-                WorkspaceId wid = cartagoCtx.joinWorkspace(inst.getName(), new AgentIdCredential("JaCaMoLauncherAgInst"));
+                ICartagoContext context = currentWks.joinWorkspace(new AgentIdCredential("JaCaMoLauncherAgInst"), new ICartagoCallback() {
+                    public void notifyCartagoEvent(CartagoEvent a) {    }
+                });
+                inst.setWId(currentWks.getId());
 
-                saiArtId = cartagoCtx.makeArtifact(
-                        wid, inst.getName()+"_art", 
+                // create the sai artifact
+                saiArtId = currentWks.makeArtifact(
+                        context.getAgentId(), 
+                        inst.getName()+"_art", 
                         "sai.bridges.jacamo.ConstitutiveArt", 
-                        new Object[] { inst.getName(), inst.getParameter("source") } );
+                        new ArtifactConfig( new Object[] { inst.getName(), inst.getParameter("source") } ));
                 
-                // get listener object from SAI
+                // get listener object from SAI                
                 OpFeedbackParam<Object> fbre = new OpFeedbackParam<>();
-                cartagoCtx.doAction(saiArtId, new Op("getRuleEngine", new Object[] { fbre } ));
-                inst.setRE(fbre.get());
-                                
-                EnvironmentWebInspector.get().registerWorkspace(inst.getName());
+                context.doAction(1, saiArtId.getName(), new Op("getRuleEngine", new Object[] { fbre } ), null, -1);
+                Object fbrer = fbre.get();
+                // wait for completion
+                int i=0;
+                while (fbrer == null && i++ < 30) {
+                    Thread.sleep(50);
+                    fbrer = fbre.get();
+                }
+                if (fbrer == null) {
+                    logger.warning("ERROR getting getRuleEngine ");
+                } else {
+                    inst.setRE(fbrer);
+                }
 
-            } catch (CartagoException e) {
+                logger.info("Institutional Workspace "+inst.getName()+" created.");
+
+                //EnvironmentWebInspector.get().registerWorkspace(inst.getName());
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-    */
 }

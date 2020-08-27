@@ -17,16 +17,16 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
     mavenCentral()
 
-    maven { url "http://jacamo.sourceforge.net/maven2" }
-    maven { url "http://jade.tilab.com/maven/" }
+    //maven { url "http://jacamo.sourceforge.net/maven2" }
+    //maven { url "http://jade.tilab.com/maven/" }
 
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '0.8-SNAPSHOT'
-    //compile "org.antlr:antlr4:4.7"
+    compile group: 'org.jacamo', name: 'jacamo', version: '1.0-SNAPSHOT'
 }
 
 sourceSets {

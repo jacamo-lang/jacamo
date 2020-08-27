@@ -39,7 +39,7 @@ public class create_ag_sst extends DefaultInternalAction {
             CAgentArch        cartagoArch = null;
             MindInspectorAgArch mindInspArch = null;
             
-            AgArch arch =  ag.getTS().getUserAgArch().getFirstAgArch();
+            AgArch arch =  ag.getTS().getAgArch();
             while (arch != null) {
                 if (arch instanceof CentralisedAgArch)
                     carch = (CentralisedAgArch)arch;
@@ -62,18 +62,18 @@ public class create_ag_sst extends DefaultInternalAction {
                 cartagoArch.init();
 
                 // remove from BB all from cartago
-                ag.abolish(ASSyntax.parseLiteral("focused(_,_,_)"), null);
+                //ag.abolish(ASSyntax.parseLiteral("focused(_,_,_)"), null);
                 ag.abolish(ASSyntax.parseLiteral("_[percept_type(obs_prop)]"), null);
                 
                 // re-focus
                 ListTerm lart = new ListTermImpl();
                 for (ArtifactId aid: cartagoArch.getFocusedArtsBeforeSerialization()) {
-                    if (!aid.getName().endsWith("-body")) {
+                    if (!aid.getName().startsWith("body_") && !aid.getName().startsWith("session_")) {
                         Literal art = ASSyntax.createLiteral("art_env",
                                 ASSyntax.createAtom(aid.getWorkspaceId().getName()),  // workspace
-                                ASSyntax.createString("local"),  // host
                                 ASSyntax.createAtom(aid.getName()), // art
                                 ASSyntax.parseTerm("default")); // TODO: store and reuse namespace
+                        System.out.println("   >> re focus on "+art);
                         lart.add(art);
                     }
                 }

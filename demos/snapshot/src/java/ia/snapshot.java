@@ -30,6 +30,8 @@ public class snapshot extends DefaultInternalAction {
         ts.runAtBeginOfNextCycle(() -> {
                 try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fname))) {
                     out.writeObject(ag);
+                    System.out.println("   >> snapshot of "+ag.getTS().getAgArch().getAgName()+" created in file "+fname);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -19,7 +19,7 @@ targetCompatibility = 1.8
 repositories {
     mavenCentral()
 
-    maven { url "http://jacamo.sourceforge.net/maven2" }
+    //maven { url "http://jacamo.sourceforge.net/maven2" }
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
     //maven { url "https://jade.tilab.com/maven/" }
 
@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '0.9-SNAPSHOT'
+    compile group: 'org.jacamo', name: 'jacamo', version: '1.0-SNAPSHOT'
 }
 
 sourceSets {
@@ -47,7 +47,7 @@ sourceSets {
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {
-    group       ' JaCaMo'
+    group       ' SnapShotDemo'
     description 'runs the JaCaMo application'
     doFirst {
         mkdir 'log'

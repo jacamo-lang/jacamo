@@ -19,8 +19,8 @@ targetCompatibility = 1.8
 repositories {
     mavenCentral()
 
-    maven { url "http://jacamo.sourceforge.net/maven2" }
-    maven { url "https://jade.tilab.com/maven/" }
+    //maven { url "http://jacamo.sourceforge.net/maven2" }
+    //maven { url "https://jade.tilab.com/maven/" }
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
 
     flatDir {
@@ -29,8 +29,8 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '0.9'
-    implementation 'org.jacamo:jacamo-web:0.5-SNAPSHOT'
+    compile group: 'org.jacamo', name: 'jacamo', version: '1.0-SNAPSHOT'
+    //implementation 'org.jacamo:jacamo-web:0.5-SNAPSHOT'
 }
 
 sourceSets {

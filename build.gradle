@@ -145,6 +145,7 @@ clean {
     delete 'examples/auction/bin'
     delete 'examples/house-building/bin'
     delete 'examples/writing-paper/bin'
+    delete 'demos/demo-nodered-mqtt/jacamo/build'
 }
 
 task config (dependsOn: 'jar') {

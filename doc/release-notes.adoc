@@ -2,8 +2,12 @@
 
 == Version 1.0
 
-- This version uses Jason 2.6, Moise 0.14 and Cartago 3.0
+- This version uses Jason 2.6, Moise 1.0 and Cartago 3.0
+- This is the version to be used with link:https://mitpress.mit.edu/books/multi-agent-oriented-programming[JaCaMo book].
 
+== Version 0.10
+
+- This version uses Jason 2.6 and Cartago 2.5
 
 == Version 0.9
 

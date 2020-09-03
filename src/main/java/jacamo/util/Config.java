@@ -230,7 +230,25 @@ public class Config extends jason.util.Config {
                     e.printStackTrace();
                 }
             }
-        }        
+        }
+        
+        // try with $JACAMO_HOME
+        if (get(jarEntry) == null && getJaCaMoHome() != null) { // super didn't solve
+            String jh = System.getenv().get("JACAMO_HOME");
+            if (jh != null) {
+                String jarFile = findJarInDirectory(new File(jh+"/libs"), jarFilePrefix);
+                if (checkJar(jarFile, getJarFileForFixTest(jarEntry))) {
+                    try {
+                        put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
+                        if (showFixMsgs)
+                            System.out.println("found at " + jarFile + " based on JACAMO_HOME");
+                        return true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }               
+            }
+        }
         return false;
     }
 

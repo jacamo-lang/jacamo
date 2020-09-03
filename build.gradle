@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version '1.0-SNAPSHOT'
+version '1.0'
 group   'org.jacamo'
 
 sourceCompatibility = 1.8
@@ -34,10 +34,10 @@ repositories {
 
 dependencies {
     compile group: 'org.jason'      , name: 'jason'   , version: '2.6-SNAPSHOT' , changing: true, transitive: false
-    compile group: 'org.jacamo'     , name: 'cartago' , version: '3.0-SNAPSHOT' , changing: true, transitive: false
-    compile group: 'org.jacamo'     , name: 'jaca'    , version: '3.0-SNAPSHOT' , changing: true, transitive: false
+    compile group: 'org.jacamo'     , name: 'cartago' , version: '3.0' , changing: true, transitive: false
+    compile group: 'org.jacamo'     , name: 'jaca'    , version: '3.0' , changing: true, transitive: false
 
-    compile group: 'org.jacamo'     , name: 'moise'   , version: '0.14-SNAPSHOT', changing: true, transitive: false
+    compile group: 'org.jacamo'     , name: 'moise'   , version: '1.0', changing: true, transitive: false
     compile group: 'org.jacamo'     , name: 'npl'     , version: '0.5'          , changing: true, transitive: false
 
 
@@ -355,3 +355,11 @@ task zipRel(type: Zip, dependsOn: copyRel) {
     from 'build/jacamo-'+project.version
     baseName 'jacamo'
 }
+
+task runauction (type: JavaExec, dependsOn: 'classes') {
+    workingDir 'examples/auction'
+    main = 'jacamo.infra.JaCaMoLauncher'
+    args 'auction.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+

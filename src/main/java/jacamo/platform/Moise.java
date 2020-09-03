@@ -50,12 +50,12 @@ public class Moise extends DefaultPlatformImpl {
                         aid = cartagoCtx.makeArtifact(wid, o.getName(), "sai.bridges.jacamo.OrgBoardSai", new Object[] { o.getParameter("source") } );
                         cartagoCtx.doAction(aid, new Op("setInstitution", new Object[] { o.getInstitution(), instAId } ));
                         */
-                        currentWks = main.getChildWSP(o.getInstitution()).get().getWorkspace();
+                        //currentWks = main.getChildWSP(o.getInstitution()).get().getWorkspace();
                         boardClass = "sai.bridges.jacamo.OrgBoardSai";
                     } else {
-                        currentWks = main.createWorkspace(o.getName()).getWorkspace();
                         boardClass = "ora4mas.nopl.OrgBoard";
                     }
+                    currentWks = main.createWorkspace(o.getName()).getWorkspace();
                     context = currentWks.joinWorkspace(new AgentIdCredential("JaCaMoLauncherAgOrg"), new ICartagoCallback() {
                         public void notifyCartagoEvent(CartagoEvent a) {    }
                     });

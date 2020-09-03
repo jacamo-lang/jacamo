@@ -17,9 +17,9 @@ Requirements:
 
 To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create and run a new application.
 
-image:./tutorials/hello-world/screens/p1.png[]
-
 To include existing projects in your eclipse workspace, preferably use the option "file/import/import gradle project".
+
+image:./tutorials/hello-world/screens/p1.png[]
 
 == Gradle
 
@@ -82,7 +82,6 @@ If you want to run a JaCaMo application that was not created with a `build.gradl
 Requirements:
 
 - Java >= 8
-
 
 To use scripts to create and run JaCaMo applications, you can either
 download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here]

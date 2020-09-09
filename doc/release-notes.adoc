@@ -7,7 +7,7 @@
 
 == Version 0.10
 
-- This version uses Jason 2.6 and Cartago 2.5
+- This version uses Jason 2.6, Moise 0.13 and Cartago 2.5
 
 == Version 0.9
 

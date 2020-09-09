@@ -36,7 +36,12 @@ public class Cartago extends DefaultPlatformImpl {
         Workspace main = cenv.getRootWSP().getWorkspace();
         for (JaCaMoWorkspaceParameters wp : project.getWorkspaces()) {
             try {
-                Workspace currentWks = null;
+                Workspace currentWks = null; // reference for the workspace being created               
+                String host = wp.getHost();
+                if (host != null && !host.isEmpty()) {
+                    logger.warning("remote workspace creation not implemented yet!");
+                    // TODO: implement it
+                }
                 
                 if (main.getChildWSP(wp.getName()).equals(Optional.empty())) {
                     currentWks = main.createWorkspace(wp.getName()).getWorkspace();
@@ -61,11 +66,11 @@ public class Cartago extends DefaultPlatformImpl {
 
                 // create artifacts
                 for (String aName : wp.getArtifacts().keySet()) {
-                    String m = aName;
+                    String msg = aName;
                     try {
                         if (currentWks.getArtifact(aName) == null) {
                             ClassParameters cp = wp.getArtifacts().get(aName);
-                            m = "artifact " 
+                            msg = "artifact " 
                                     + aName + ": " + cp.getClassName() + "(" + cp.getParametersStr(",")             
                                     + ") at " + wp.getName();
                             ArtifactId aid = currentWks
@@ -73,9 +78,8 @@ public class Cartago extends DefaultPlatformImpl {
                                             context.getAgentId(),
                                             aName, 
                                             cp.getClassName(),
-                                            new ArtifactConfig(
-                                                    cp.getTypedParametersArray()));
-                            logger.info(m + " created.");
+                                            new ArtifactConfig(cp.getTypedParametersArray()));
+                            logger.info(msg + " created.");
                             if (wp.hasDebug())
                                 EnvironmentInspector.addInGui(wp.getName(), aid);
                         } else {
@@ -83,7 +87,7 @@ public class Cartago extends DefaultPlatformImpl {
 
                         }
                     } catch (CartagoException e) {
-                        logger.log(Level.SEVERE, "error creating " + m, e);
+                        logger.log(Level.SEVERE, "error creating " + msg, e);
                     }
                 }
                 if (wp.hasDebug()) {

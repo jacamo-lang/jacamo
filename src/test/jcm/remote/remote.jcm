@@ -1,0 +1,17 @@
+mas remote {
+
+    agent bob {
+       focus: w1.c
+              ns1::w2.c
+    }
+
+    workspace w1 {
+      artifact c: tools.Counter(1)
+      host: host1
+    }
+
+    workspace w2 {
+      artifact c: tools.Counter(1)
+      host: host2
+    }
+}

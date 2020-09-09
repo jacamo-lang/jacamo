@@ -82,6 +82,7 @@ TOKEN : {
 |  <BELIEF:      "beliefs">
 |  <GOAL:        "goals">
 |  <NODE:        "node">
+|  <HOST:        "host">
 |  <FOCUS:       "focus">
 |  <JOIN:        "join">
 |  <ROLES:       "roles">
@@ -253,10 +254,10 @@ void agent() :              { Token agType; Token agName; Token qty; Token opt; 
                                   oval=<ATOM>                                    
                                   [ "::" t = <ATOM>                              { ns = oval.toString(); oval=t; } 
                                   ]
-                                                             (<EOL>|",")+       { ag.addFocus(oval.toString(), ns); } 
+                                                             (<EOL>|",")+        { ag.addFocus(oval.toString(), ns); } 
                               )+
         |  <JOIN>        ":"  (LOOKAHEAD(4) oval=<ATOM>                          { n = null; }
-                                                             (<EOL>|",")+       { ag.addWorkspace(oval.toString()); } 
+                                                             (<EOL>|",")+        { ag.addWorkspace(oval.toString()); } 
                               )+
         |  <ROLES>       ":"  (LOOKAHEAD(4) opt=<ATOM> <IN> oval=<ATOM>          { n = null; }
                                   [ "@" t = <ATOM>                               { n = t.image; }
@@ -292,7 +293,7 @@ void workspace() :          { Token t;
     (
       artifact(wks)
     | <AGENTS> ":"  ( (t = <ATOM> | t = <AST>) (<EOL>|",")+  { project.addAgWorkspace(t.image,wks); } )+
-    //| <NODE>   ":"  t=<ATOM>                   (<EOL>)+      { wks.setNode(t.image); }
+    | <HOST>   ":"  t=<ATOM>                   (<EOL>)+      { wks.setHost(t.image); }
     | <DEBUG>                                  (<EOL>)+      { wks.setDebug(true); }
     )*
   "}" (<EOL>)*

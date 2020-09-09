@@ -17,6 +17,7 @@ public class JaCaMoWorkspaceParameters implements Serializable {
     protected String name;
     protected Map<String,ClassParameters> artifacts = new HashMap<>();
     protected boolean debug = false;
+    protected String host;
     
     protected WorkspaceId wId = null; // the workspace id for the created workspace
 
@@ -48,6 +49,7 @@ public class JaCaMoWorkspaceParameters implements Serializable {
     public boolean hasDebug() {
         return debug;
     }
+    
 
     @Override
     public String toString() {
@@ -82,5 +84,13 @@ public class JaCaMoWorkspaceParameters implements Serializable {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 }

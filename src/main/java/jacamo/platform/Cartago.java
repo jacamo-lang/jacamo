@@ -43,7 +43,7 @@ public class Cartago extends DefaultPlatformImpl {
                     if (hostName == null) {
                         logger.warning("deployment host for "+hostId+" was not informed!");                     
                     } else {
-                        logger.info("creating workspace for "+hostId+" at "+hostName);
+                        logger.info("creating workspace for "+wp.getName()+" at "+hostName);
                     }
                     logger.warning("remote workspace creation not implemented yet!");
                     

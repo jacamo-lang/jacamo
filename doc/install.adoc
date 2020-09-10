@@ -152,7 +152,7 @@ java -jar helloworld.jar
 
 Requirements:
 
-- https://github.com/jacamo-lang/docker[Docker]
+- https://www.docker.com/[Docker]
 
 See link:https://github.com/jacamo-lang/docker[JaCaMo-Docker page] for instructions on how to create and run JaCaMo application using Docker images.
 

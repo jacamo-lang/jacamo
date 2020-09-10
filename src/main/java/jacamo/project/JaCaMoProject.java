@@ -1,8 +1,10 @@
 package jacamo.project;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import jacamo.infra.JaCaMoInfrastructureFactory;
@@ -33,7 +36,6 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     protected Map<String,JaCaMoWorkspaceParameters> workspaces = new HashMap<>();
     protected List<JaCaMoOrgParameters>       orgs       = new ArrayList<>();
     protected List<JaCaMoInstParameters>      insts      = new ArrayList<>();
-    //protected Set<String> deplNodes = new HashSet<>();
     protected Map<String,String> nodeHosts = new HashMap<>();
     //protected Set<String> toDebug = new HashSet<String>();
 
@@ -41,6 +43,10 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     protected SourcePath javaPaths = new SourcePath();
 
     Map<String, String[]> platformParameters = new HashMap<>();
+    
+    protected Properties deployHosts = new Properties();
+    
+    protected String runArgs;
 
     public JaCaMoProject() {
         // default asl-path
@@ -505,4 +511,28 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
 
         return s.toString();
     }
+    
+    public void setDeployHosts(String fileName) {
+        try {
+            deployHosts.load(new FileInputStream(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public String getDeployHost(String id) {
+        if (deployHosts != null && deployHosts.get(id) != null) {
+            return deployHosts.get(id).toString();
+        }
+        return null;
+    }
+
+    public String getRunArgs() {
+        return runArgs;
+    }
+
+    public void setRunArgs(String runArgs) {
+        this.runArgs = runArgs;
+    }
+
 }

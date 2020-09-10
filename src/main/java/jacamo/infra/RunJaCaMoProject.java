@@ -67,6 +67,11 @@ public class RunJaCaMoProject {
           project.setProjectFile(file);
           System.out.println("file "+name+" parsed successfully!\n");
 
+          String runArgs = "";
+          for (int i=1; i<args.length; i++) // do not include the name of the project
+              runArgs += args[i] + " ";
+          project.setRunArgs(runArgs);
+          
           launcher = (JaCaMoMASLauncherAnt)project.getInfrastructureFactory().createMASLauncher();
           launcher.setProject(project);
           launcher.writeScripts(false, false);

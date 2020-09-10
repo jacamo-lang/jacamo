@@ -37,9 +37,16 @@ public class Cartago extends DefaultPlatformImpl {
         for (JaCaMoWorkspaceParameters wp : project.getWorkspaces()) {
             try {
                 Workspace currentWks = null; // reference for the workspace being created               
-                String host = wp.getHost();
-                if (host != null && !host.isEmpty()) {
+                String hostId = wp.getHost(); // the host as in JCM
+                if (hostId != null && !hostId.isEmpty()) {
+                    String hostName = project.getDeployHost(hostId); // the host as in the deployment file
+                    if (hostName == null) {
+                        logger.warning("deployment host for "+hostId+" was not informed!");                     
+                    } else {
+                        logger.info("creating workspace for "+hostId+" at "+hostName);
+                    }
                     logger.warning("remote workspace creation not implemented yet!");
+                    
                     // TODO: implement it
                 }
                 

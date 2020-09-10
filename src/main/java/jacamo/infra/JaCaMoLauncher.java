@@ -197,6 +197,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             RuntimeServicesFactory.get().registerDefaultAgArch(JaCaMoAgArch.class.getName());
             RuntimeServicesFactory.get().registerDefaultAgArch(CAgentArch.class.getName());
             
+            if (mArgs.get("deploy-hosts") != null)
+                getJaCaMoProject().setDeployHosts((String)mArgs.get("deploy-hosts"));
+            
             errorCode = 0;
 
         } catch (FileNotFoundException e1) {
@@ -214,6 +217,21 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             System.exit(errorCode);
         }
         return errorCode;
+    }
+    
+    @Override
+    protected Map<String, Object> parseArgs(String[] args) {
+        Map<String, Object> mapArgs = super.parseArgs(args);
+        if (args.length > 0) {
+            String la = "";
+            for (String arg: args) {
+                if (la.equals("--deploy-hosts")) {
+                    mapArgs.put("deploy-hosts", arg);                    
+                }
+                la = arg;
+            }
+        }
+        return mapArgs;
     }
 
     void createCustomPlatforms() {

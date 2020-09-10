@@ -54,6 +54,10 @@ public class JaCaMoMASLauncherAnt extends CentralisedMASLauncherAnt {
         
         script = replace(script, "<JAVAC>", jc.toString());
 
+        String runArgs = ((JaCaMoProject)project).getRunArgs();
+        if (runArgs != null)
+            script = replace(script, "<RUN-ARGS>", runArgs);
+
         return super.replaceMarks(script, debug);
     }
 

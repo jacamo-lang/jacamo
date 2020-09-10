@@ -1,10 +1,3 @@
-/*
-   Project remote
-
-   Gradle build file for JaCaMo Applications
-   September 09, 2020 - 18:45:31
-*/
-
 defaultTasks 'run'
 
 apply plugin: 'java'
@@ -27,7 +20,7 @@ repositories {
        dirs 'lib'
     }
 
-    mavenCentral()    
+    mavenCentral()
 }
 
 dependencies {
@@ -55,38 +48,8 @@ task run (type: JavaExec, dependsOn: 'classes') {
         mkdir 'log'
     }
     main 'jacamo.infra.JaCaMoLauncher'
-    args 'remote.jcm'
+    args = ['remote.jcm', '--deploy-hosts', 'smart_home.properties']
     classpath sourceSets.main.runtimeClasspath
-}
-
-
-task uberJar(type: Jar, dependsOn: 'classes') {
-    group      ' JaCaMo'
-    description 'creates a single runnable jar file with all dependencies'
-
-    manifest {
-        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
-    }
-    baseName = 'jacamo-remote' // the name must start with jacamo so that jacamo...jar is found in the classpath
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    from (project.projectDir.absolutePath) {
-        include '**/*.asl'
-        include '**/*.xml'
-        include '**/*.jcm'
-        include '*.properties'
-    }
-    from (project.buildDir.absolutePath + '/jcm') {
-        include '**/*'
-    }
-    with jar
-
-    doFirst {
-        copy {
-            from 'remote.jcm'
-            rename 'remote.jcm','default.jcm'
-            into project.buildDir.absolutePath + '/jcm'
-        }
-    }
 }
 
 clean {

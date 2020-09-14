@@ -17,11 +17,7 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
-
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
-    //maven { url "http://jacamo.sourceforge.net/maven2" }
-    //maven { url "https://jade.tilab.com/maven/" }
-    //flatDir {  dirs 'lib' }
 }
 
 dependencies {
@@ -43,19 +39,32 @@ sourceSets {
     }
 }
 
-task run1 (type: JavaExec, dependsOn: 'classes') {
-    description 'runs the application'
-    group ' JaCaMo'
+task run (type: JavaExec, dependsOn: 'classes') {
+    description 'runs the Hello World application based on organisation'
     main = 'jacamo.infra.JaCaMoLauncher'
     args 'helloworld.jcm'
     classpath sourceSets.main.runtimeClasspath
 }
 
-task run (type: JavaExec, dependsOn: 'classes') {
-    description 'runs the application'
-    group ' JaCaMo'
+task grid (type: JavaExec, dependsOn: 'classes') {
+    description 'the environment has a improved display'
     main = 'jacamo.infra.JaCaMoLauncher'
     args 'helloworld-grid.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task europe (type: JavaExec, dependsOn: 'classes') {
+    description 'runs part of the application on host europe'
+    group ' JaCaMo'
+    main = 'jacamo.infra.JaCaMoLauncher'
+    args 'europe.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task america (type: JavaExec, dependsOn: 'classes') {
+    description 'runs part of the application on host america'
+    main = 'jacamo.infra.JaCaMoLauncher'
+    args 'america.jcm'
     classpath sourceSets.main.runtimeClasspath
 }
 

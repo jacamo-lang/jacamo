@@ -21,6 +21,7 @@ We suppose you have already followed some more introductory tutorials as http://
 == Part I (message oriented coordination)
 
 The coordination in a market place can follow different protocols, here we will consider a simple _auction protocol_ and its implementation based on message exchanges:
+
 1.  An auctioneer broadcasts a message with his requirements,
 2.  Participants send him back messages with the prices, and
 3.  The auctioneer broadcasts the winner.

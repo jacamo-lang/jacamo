@@ -3,14 +3,14 @@ mas helloworld_america {
     agent maria    : hello.asl {
         beliefs: message("Bom dia")
         focus: brazil.gui
-        focus: jacamo.gui @ europe
-        roles: rl in hello_org.jacamo_team @ europe
+        focus: jacamo.gui //@ europe
+        roles: rl in hello_org.jacamo_team //@ europe
     }
     agent alice    : hello.asl {
         beliefs: message("Good morning")
         focus: usa.gui
-        focus: jacamo.gui @ europe
-        roles: rs in hello_org.jacamo_team @ europe
+        focus: jacamo.gui //@ europe
+        roles: rs in hello_org.jacamo_team //@ europe
     }
 
     workspace brazil {
@@ -20,7 +20,7 @@ mas helloworld_america {
         artifact gui: display.GUIConsole("USA")
     }
 
-    platform: cartago()
+    //platform: cartago()
 
-    node europe running @ localhost
+    //node europe running @ localhost
 }

@@ -4,8 +4,8 @@
 +!do_auction(Id,P)
    <- // creates a scheme to coordinate the auction
       .concat("sch_",Id,SchName);
-      makeArtifact(SchName, "ora4mas.nopl.SchemeBoard",["src/org/auction-os.xml", doAuction],SchArtId);
-      debug(inspector_gui(on))[artifact_id(SchArtId)];
+      createScheme(SchName, doAuction, SchArtId);
+      //debug(inspector_gui(on))[artifact_id(SchArtId)];
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)];
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)];
       .my_name(Me); setOwner(Me)[artifact_id(SchArtId)];  // I am the owner of this scheme!

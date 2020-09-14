@@ -7,7 +7,9 @@ fi
 DEST=/home/project-web/jacamo/htdocs/tutorial/coordination
 find . -name .DS_Store -exec rm {} \;
 
-asciidoctor -r ../../../src/main/resources/pygments_init.rb readme.adoc
+IMAGE=jomifred/adoc
+docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$PWD":/app "$IMAGE" asciidoctor -r /pygments_init.rb readme.adoc
+
 mv readme.html index.html
 
 scp -r *.html $USERSF,jacamo@web.sf.net:$DEST

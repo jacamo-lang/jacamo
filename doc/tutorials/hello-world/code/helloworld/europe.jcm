@@ -27,13 +27,9 @@ mas helloworld_europe {
             responsible-for: hello_eng
             players: francois rv,
                      giacomo  rc
-            debug
         }
-        scheme hello_eng: hello_sch {
-            debug
-        }
+        scheme hello_eng: hello_sch
     }
 
-    platform: cartago("infrastructure")
+    //platform: cartago("infrastructure")
 }
-

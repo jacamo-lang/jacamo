@@ -14,7 +14,6 @@ mas auction_org {
                      maria    participant
                      francois participant
                      giacomo  participant
-            debug
         }
     }
 }

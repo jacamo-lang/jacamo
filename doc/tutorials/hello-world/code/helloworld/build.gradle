@@ -18,16 +18,14 @@ targetCompatibility = 1.8
 repositories {
     mavenCentral()
 
-    maven { url "http://jacamo.sourceforge.net/maven2" }
+    maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
+    //maven { url "http://jacamo.sourceforge.net/maven2" }
     //maven { url "https://jade.tilab.com/maven/" }
-
-    flatDir {
-       dirs 'lib'
-    }
+    //flatDir {  dirs 'lib' }
 }
 
 dependencies {
-    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '0.8-SNAPSHOT'
+    implementation group: 'org.jacamo',     name: 'jacamo' ,   version: '1.0'
 }
 
 sourceSets {
@@ -45,11 +43,19 @@ sourceSets {
     }
 }
 
-task run (type: JavaExec, dependsOn: 'classes') {
+task run1 (type: JavaExec, dependsOn: 'classes') {
     description 'runs the application'
     group ' JaCaMo'
     main = 'jacamo.infra.JaCaMoLauncher'
     args 'helloworld.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task run (type: JavaExec, dependsOn: 'classes') {
+    description 'runs the application'
+    group ' JaCaMo'
+    main = 'jacamo.infra.JaCaMoLauncher'
+    args 'helloworld-grid.jcm'
     classpath sourceSets.main.runtimeClasspath
 }
 

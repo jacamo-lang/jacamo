@@ -31,9 +31,12 @@ keywords `agent`, `workspace`, and `organisation` are used to define
 these components, respectively. Although the project template explains
 its own syntax, it is important to know the conceptual view of JaCaMo to
 properly understand this file. The conceptual model is presented in the
-http://jacamo.sourceforge.net/?page_id=40[JaCaMo website], in some
+http://jacamo.sourceforge.net/[JaCaMo website],
+in the https://mitpress.mit.edu/books/multi-agent-oriented-programming[JaCaMo book], in some
 link:./slides.pdf[slides], and in some
 http://dx.doi.org/10.1016/j.scico.2011.10.004[papers].
+
+NOTE: This tutorial uses JaCaMo 1.0.
 
 [[part-ii-agent]]
 == Part II (agent)
@@ -243,7 +246,7 @@ project file (.jcm) will create the workspaces and artifacts:
 
 NOTE: the name of the artifact should be unique in one workspace, but we
 can have the same name in different workspaces. For instance the name
-`gui` of the artifact `display.GUIConsole` is the same all workspaces.
+`gui` of the artifact `display.GUIConsole` is the same in all workspaces.
 Let's note also in this example the use of the `debug` instruction that
 starts an inspector of all the artifacts present in the workspace in
 which `debug` appears.
@@ -403,23 +406,17 @@ image::./code/os-ss.png[width="70%", align=center]
 
 [source,jacamoproject]
 -----
-    organisation hello_org: o1.xml {       // the organisational entity is hello_org from spec o1.xml
+    organisation hello_org: o1.xml {     // the organisational entity is hello_org from spec o1.xml
     	group jacamo_team: team {          // instance group (jacamo_team) from spec team
-    		responsible-for: hello_eng     // that will be responsible for the execution of scheme hello_sch (defined below)
-    		players: francois rv,          // the roles of the agents in this group
+    		responsible-for: hello_eng       // that will be responsible for the execution of scheme hello_sch (defined below)
+    		players: francois rv,            // the roles of the agents in this group
     		         maria    rl,
     		         giacomo  rc,
     		         alice    rs
-    		debug                          // starts the organisational inspector
     	}
-    	scheme hello_eng: hello_sch {      // instance scheme (hello_eng) from spec hello_sch
-    		debug
-    	}
+    	scheme hello_eng: hello_sch        // instance scheme (hello_eng) from spec hello_sch
     }
 -----
-
-NOTE: The keyword `debug` in the definition of the group and of the scheme will start the corresponding organisational inspectors. The url http://localhost:3271 can be used to inspect the organisation state.
-
 
 *3.* On the agents side, we need to include in their code plans so that they are capable to achieve their organisational goals and fulfil their duties. Change `hello.asl` to:
 
@@ -473,14 +470,11 @@ The complete project file is available link:./code/helloworld/helloworld.jcm[her
 image::./screens/r4.png[width="60%"]
 (the characters appears as expected!)
 
-image::./screens/oi1.png[width="80%"]
-
-
-image::./screens/oi2.png[width="80%"]
-
 You can use the Moise web interface to inspect the organisation at http://localhost:3271) (by clicking on each of the groups, roles, schemes, etc you can inspect each of the elements of the organisation):
 
 image::./screens/oi3.png[width="90%"]
+
+image::./screens/oi4.png[width="100%"]
 
 
 Exercises

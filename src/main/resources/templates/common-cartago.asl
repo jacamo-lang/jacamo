@@ -26,7 +26,7 @@
       !jcm::focus_env_art(L,Try-1).
 
 // rules to make old code compatible with cartago 3.0
-focused(W,AName[artifact_type(Type)],Aid) :-
-   focusing(Aid,AName,Type,_,W,_).
-joined(W,Wid) :-   
-   joinedWsp(Wid,W,_).
+focused(WksName,ArtName[artifact_type(Type)],ArtId) :-
+   focusing(ArtId,ArtName,Type,_,WksName,_).
+joined(WksName,WksId) :-   
+   joinedWsp(WksId,WksName,_).

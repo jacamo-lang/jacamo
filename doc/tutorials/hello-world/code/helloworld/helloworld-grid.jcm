@@ -3,7 +3,8 @@
     JaCaMo Project File
     for Hello World tutorial
 
-    This file defines the initial state of the MAS (initial agents, environment, organisation, ....)
+    This file defines the initial state of the MAS
+    (initial agents, environment, organisation, ....)
 
 */
 
@@ -33,11 +34,7 @@ mas helloworld {
                      maria    rl,
                      giacomo  rc,
                      alice    rs
-            debug                          // starts the organisational inspector
         }
-        scheme hello_eng: hello_sch {      // instance scheme (hello_eng) from spec hello_sch
-            debug
-        }
+        scheme hello_eng: hello_sch       // instance scheme (hello_eng) from spec hello_sch
     }
-
 }

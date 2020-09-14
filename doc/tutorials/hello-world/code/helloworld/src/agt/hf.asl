@@ -1,7 +1,7 @@
 !start.
 
 +!start : message(X)
-   <- for ( numMsg(_)[artifact_name(_,Name)] &
+   <- for ( numMsg(_)[artifact_name(Name)] &
             focused(_,Name[artifact_type("display.GUIConsole")],ArtId) ) {
           printMsg(X)[artifact_id(ArtId)]
       }.

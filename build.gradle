@@ -56,14 +56,14 @@ dependencies {
     runtime group: 'org.apache.ant' , name: 'ant'     , version: '1.10.5'
 
     testCompile 'junit:junit:4.12'
-    
+
     // used in cartago web infrastructure
     compile "io.vertx:vertx-core:3.7.0"
     compile "io.vertx:vertx-sync:3.7.0"
     compile "io.vertx:vertx-unit:3.7.0"
     compile "io.vertx:vertx-web:3.7.0"
     compile "io.vertx:vertx-web-client:3.7.0"
-    compile "com.fasterxml.jackson.core:jackson-databind:2.9.8"    
+    compile "com.fasterxml.jackson.core:jackson-databind:2.9.8"
 }
 
 // copy dep jars and scritps into build directory
@@ -142,7 +142,7 @@ clean {
     delete fileTree('doc/tutorials/gold-miners')  { include '**/*.html'  }
     delete fileTree('src')  { include '**/bin/**'  }
     delete fileTree('src')  { include '**/*.log'  }
-    
+
     delete fileTree('examples')  { include '**/build/**'  }
     delete fileTree('examples')  { include '**/bin/**'  }
     delete fileTree('demos')     { include '**/build/**'  }
@@ -276,6 +276,7 @@ task publishMavenGitHub(dependsOn: [ 'build', 'publishToMavenLocal']) {
     }
     copy {
         from wdir
+        include project.version+'/**'
         into rdir + '/org/jacamo/jacamo'
     }
     exec {
@@ -385,4 +386,3 @@ task runauction (type: JavaExec, dependsOn: 'classes') {
     args 'auction.jcm'
     classpath sourceSets.main.runtimeClasspath
 }
-

@@ -1,0 +1,81 @@
+= Unit Tests in JaCaMo
+
+:toc: right
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:icons: font
+:prewrap!:
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+ifdef::env-github[:outfilesuffix: .adoc]
+
+== Introduction
+
+JaCaMo uses the set of tools for unit tests provided in Jason 2.6+. Please, refer to Jason documentation for more details.
+
+Besides Jason's default folders `src/test/jason/asl` for tester agents and `src/test/jason/inc` for includes, JaCaMo allows the use of the folders `src/test/jacamo/agt` and `src/test/jacamo/inc`.
+
+== Using the test engine
+
+1. Create an agent for testing your agent(s) in the folder `src/test/jacamo/agt` (all agents in this folder are automatically launched in the test task).
+2. Make your agent a tester agent (e.g.: `test_alice.asl`) including the `tester_agent.asl` skeleton
+ ```
+ { include("$jasonJar/test/jason/inc/tester_agent.asl") }
+ ```
+3. Add to your test agent support to the agent it is going to test, eg:
+  ```
+ { include("alice.asl") }
+  ```
+4. Run `$ ./gradlew test` to check the results.
+
+=== Example
+
+Let us say we have an agent `alice` which is using an artifact counter. It has to trigger `inc` when executing the plan `!do_inc`.
+
+----
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
+
+!start.
+
++!start
+    <-
+    focusWhenAvailable("c0");
+.
+
++!do_inc
+    <-
+    inc;
+.
+----
+
+Assuming that `alice` was expecting that `c0` already exists, to test it, we can create a tester agent which the content of `src/test/jacamo/agt/test_alice.asl` is:
+
+----
+{ include("$jasonJar/test/jason/inc/tester_agent.asl") }
+{ include("alice.asl") }
+
+@[test]
++!test_inc
+    <-
+    makeArtifact("c0", "tools.Counter", [0], AId);
+    focus(AId);
+
+    ?count(N0);
+    !assert_equals(0,N0);
+
+    !do_inc;
+
+    ?count(N1);
+    !assert_equals(1,N1);
+.
+----
+
+When running `test_alice` by the command `./gradlew test` the artifact is created, `do_inc` is triggered and assertions on pre and post values are done.

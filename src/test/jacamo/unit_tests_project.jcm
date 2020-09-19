@@ -6,6 +6,8 @@ mas unit_tests_project {
     }
 
     asl-path: "src/test/jacamo/inc"
+              "src/test/jacamo/agt"
+              "src/test/jason/inc"
               "src/test/jason/asl"
               "src/asl"
               "src/agt"

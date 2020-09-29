@@ -54,6 +54,7 @@ task run (type: JavaExec, dependsOn: 'classes') {
     }
     main 'jacamo.infra.JaCaMoLauncher'
     args '<PROJECT-FILE>'
+    // jvmArgs '-Xss15m'
     classpath sourceSets.main.runtimeClasspath
 }
 

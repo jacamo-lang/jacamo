@@ -23,13 +23,11 @@ repositories {
     //maven { url "https://jade.tilab.com/maven/" }
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
 
-    flatDir {
-       dirs 'lib'
-    }
+    flatDir {  dirs 'lib'  }
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '1.0-SNAPSHOT'
+    compile group: 'org.jacamo', name: 'jacamo', version: '1.0'
     //implementation 'org.jacamo:jacamo-web:0.5-SNAPSHOT'
 }
 
@@ -52,6 +50,7 @@ task run (type: JavaExec, dependsOn: 'classes') {
     group ' JaCaMo'
     main = 'jacamo.infra.JaCaMoLauncher'
     args 'writing_paper.jcm'
+    jvmArgs '-Xss15m'
     classpath sourceSets.main.runtimeClasspath
 }
 

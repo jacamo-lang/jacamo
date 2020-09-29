@@ -20,15 +20,10 @@ repositories {
     mavenCentral()
 
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
-    //maven { url "http://jade.tilab.com/maven/" }
-
-    /*flatDir {
-       dirs 'lib'
-    }*/
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '1.0-SNAPSHOT'
+    compile group: 'org.jacamo', name: 'jacamo', version: '1.0'
 }
 
 sourceSets {

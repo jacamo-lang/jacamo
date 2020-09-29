@@ -27,8 +27,7 @@ mas auction {
                      francois participant
                      giacomo  participant
 
-            debug: inspector_gui(on)
+            //debug: inspector_gui(on)
         }
     }
 }
-

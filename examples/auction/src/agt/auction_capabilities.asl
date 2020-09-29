@@ -6,7 +6,7 @@
       createScheme(SchName, doAuction,SchArtId)[wid(OrgWks)];
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)];
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)];
-      debug(inspector_gui(on))[artifact_id(SchArtId)];
+      //debug(inspector_gui(on))[artifact_id(SchArtId)];
       .my_name(Me); setOwner(Me)[artifact_id(SchArtId)];  // I am the owner of this scheme!
       focus(SchArtId)[wid(OrgWks)];
       addScheme(SchName)[wid(OrgWks)];  // set the group as responsible for the scheme

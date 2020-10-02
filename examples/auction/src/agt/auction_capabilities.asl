@@ -22,8 +22,7 @@
       .print("Start scheme ",Sch," for ",S);
       makeArtifact(Id, "auction_env.AuctionArtifact", [], ArtId); // create the auction artifact
       focus(ArtId);
-      start(S)[artifact_id(ArtId)];
-      .
+      start(S)[artifact_id(ArtId)].
 
 +!decide[scheme(Sch)]
    <- ?goalArgument(Sch,auction,"Id",Id);

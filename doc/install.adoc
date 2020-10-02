@@ -34,8 +34,8 @@ NOTE: The first time you run takes longer since it downloads JaCaMo.
 Unix::
 +
 ----------------
-curl -s -O http://jacamo.sourceforge.net/nps/np09.zip
-unzip np09.zip
+curl -s -O http://jacamo.sourceforge.net/nps/np1.0.zip
+unzip np1.0.zip
 ./gradlew --console=plain
 ----------------
 
@@ -44,7 +44,7 @@ Windows::
 2. Unzip
 3. Run `gradlew.bat`
 
-TIP: Instead of `np09.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
+TIP: Instead of `np1.0.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
 
 //https://curl.haxx.se[`curl`] is a program that simply downloads the `np07.zip` file from http://jacamo.sourceforge.net/nps/np07.zip.
 
@@ -53,7 +53,7 @@ You will be asked to enter the identification of the application and then instru
 Example of output:
 ----
 > Task :run
-JaCaMo 0.9 built on Thu Jun 25 21:12:43 BRT 2020
+JaCaMo 1.0 built on Thu Jun 25 21:12:43 BRT 2020
 
 Enter the identification of the new application: helloworld
 Creating path /Users/jomi/tmp/helloworld
@@ -74,7 +74,7 @@ or
 
 If you want to run a JaCaMo application that was not created with a `build.gradle` file, you can download a template from https://raw.githubusercontent.com/jacamo-lang/jacamo/master/src/main/resources/templates/build.gradle[here] and replace
 
-- `<VERSION>` by the required JaCaMo release (e.g. `0.9`)
+- `<VERSION>` by the required JaCaMo release (e.g. `1.0`)
 - `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
 
 == Shell commands scripts

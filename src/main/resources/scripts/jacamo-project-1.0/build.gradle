@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '1.0-SNAPSHOT'
+    compile group: 'org.jacamo', name: 'jacamo', version: '1.0'
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {

@@ -2,9 +2,9 @@
 
 rm *.zip
 
-cd jacamo-project-0.9
+cd jacamo-project-1.0
 rm -rf .gradle
-zip -r ../np09.zip *
+zip -r ../np1.0.zip *
 cd ..
 
 cd jacamo-project-ss

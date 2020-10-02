@@ -2,7 +2,7 @@ mas unit_tests_project {
 
     agent test_manager {
         beliefs:    shutdown_delay(600)
-        goals:      create_tester_agents("./src/test/jason",".*.asl")
+        goals:      create_tester_agents("./src/test/jacamo",".*.asl")
     }
 
     asl-path: "src/test/jacamo/inc"

@@ -3,6 +3,7 @@
 == Version 0.10
 
 - This version uses Jason 2.6, Moise 0.13 and Cartago 2.5
+- For using Jason unit-test facilities tester agents should be placed on `src/test/jacamo/agt`
 
 == Version 0.9
 

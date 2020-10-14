@@ -110,8 +110,8 @@ public class CreateNewProject {
         new File(path + "/lib").mkdirs();
         new File(path + "/log").mkdirs();
         new File(path + "/src/agt").mkdirs();
-        //new File(path + "/src/agt/inc").mkdirs();
-        //new File(path + "/src/agt/jia").mkdirs();
+        new File(path + "/src/agt/inc").mkdirs();
+        new File(path + "/src/agt/jia").mkdirs();
         new File(path + "/src/env/tools").mkdirs();
         new File(path + "/src/org").mkdirs();
         new File(path + "/src/int").mkdirs();

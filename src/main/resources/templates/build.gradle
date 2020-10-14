@@ -38,6 +38,7 @@ sourceSets {
             srcDir 'src/env'
             srcDir 'src/agt'
             srcDir 'src/org'
+            srcDir 'src/int'
             srcDir 'src/java'
         }
         resources {
@@ -71,6 +72,7 @@ task uberJar(type: Jar, dependsOn: 'classes') {
     from (project.projectDir.absolutePath) {
         include '**/*.asl'
         include '**/*.xml'
+        include '**/*.ptl'
         include '**/*.jcm'
         include '*.properties'
     }

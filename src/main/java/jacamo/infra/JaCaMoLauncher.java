@@ -413,7 +413,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             Thread agThread = new Thread(agArch);
             agArch.setThread(agThread);
             agThread.start();
-        } catch (JasonException e1) {
+        } catch (Exception e1) {
             e1.printStackTrace();
         }
         addAg(agArch);

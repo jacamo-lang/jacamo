@@ -29,7 +29,7 @@ my_price("Painting",        1100).
 !discover_art("auction_for_ElectricalSystem").
 !discover_art("auction_for_Painting").
 
-@lbo[atomic] // atomic to ensure it still winning less than two when the bid is placed
+@[atomic] // atomic to ensure it still winning less than two when the bid is placed
 +currentBid(V)[artifact_id(Art)]        // there is a new value for current bid
     : task(S)[artifact_id(Art)] &
       my_price(S,P) &                   // get my valuation for this service

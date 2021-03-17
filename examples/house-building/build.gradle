@@ -18,7 +18,7 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
-
+    maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
 }
 

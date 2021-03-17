@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version '1.1-SNAPSHOT'
+version '1.0'
 group   'org.jacamo'
 
 sourceCompatibility = 1.8
@@ -25,7 +25,7 @@ repositories {
 
     //maven { url "http://jacamo.sourceforge.net/maven2/" }
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
-    //maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
     //maven { url "https://jade.tilab.com/maven/" }
 
     //flatDir {       dirs 'lib'    }
@@ -33,7 +33,7 @@ repositories {
 
 
 dependencies {
-    compile group: 'org.jason'      , name: 'jason'   , version: '2.6.2' , changing: true, transitive: false
+    compile group: 'org.jason'      , name: 'jason'   , version: '2.6.3-SNAPSHOT' , changing: true, transitive: false
     compile group: 'org.jacamo'     , name: 'cartago' , version: '3.1-SNAPSHOT' , changing: true, transitive: false
     compile group: 'org.jacamo'     , name: 'jaca'    , version: '3.1-SNAPSHOT' , changing: true, transitive: false
 
@@ -42,7 +42,7 @@ dependencies {
 
 
     compile group: 'guru.nidi'      , name: 'graphviz-java',      version: '0.7.0'
-    compile group: 'org.gradle'     , name: 'gradle-tooling-api', version: '6.2.2'
+    compile group: 'org.gradle'     , name: 'gradle-tooling-api', version: '6.8.3'
 
     runtime group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
 

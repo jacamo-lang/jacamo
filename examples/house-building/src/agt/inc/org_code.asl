@@ -26,7 +26,7 @@ task_roles("Painting",         [painter]).
 +!in_ora4mas : .intend(in_ora4mas)
    <- .wait({+in_ora4mas},100,_);
       !in_ora4mas.
-@lin[atomic]
+@[atomic]
 +!in_ora4mas
    <- joinWorkspace("ora4mas",_);
       +in_ora4mas.

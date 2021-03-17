@@ -26,7 +26,8 @@
 
 +!decide[scheme(Sch)]
    <- ?goalArgument(Sch,auction,"Id",Id);
-      stop[artifact_name(Id)].
+      ?focusing(ArtId,Id,_,_,_,_);
+      stop[artifact_id(ArtId)].
 
 +!bid[scheme(Sch)]
    <- ?goalArgument(Sch,auction,"Id",Id);
@@ -36,6 +37,7 @@
         .wait(math.random * 2000 + 500);     // to simulate some "decision" reasoning
         bid(math.random * 100 + 10)[artifact_id(AId)];
       } else {
+        .print("The following error in console is normal, it is due to the fail while bidding.")
         .fail;                               // fail otherwise
       }.
 

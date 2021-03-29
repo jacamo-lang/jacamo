@@ -1,5 +1,5 @@
 +!bid[scheme(Sch)]
-   <- ?goalArgument(Sch,auction,"Id",Id); // retrieve auction id and focus on the artifact
+   <- ?goalArgument(Sch,auction,"Id",Id);    // retrieve auction id and focus on the artifact
       lookupArtifact(Id,AId);
       focus(AId);
       if (math.random  < 0.5) {              // bid in 50% of the cases

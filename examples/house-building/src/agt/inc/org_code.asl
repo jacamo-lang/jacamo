@@ -15,7 +15,7 @@ task_roles("Painting",         [painter]).
       lookupArtifact(GroupName, GroupId);
       for ( .member( Role, Roles) ) {
          adoptRole(Role)[artifact_id(GroupId)];
-         focus(GroupId)
+         focus(GroupId);
       }.
 
 -!contract(Service,GroupName)[error(E),error_msg(Msg),code(Cmd),code_src(Src),code_line(Line)]

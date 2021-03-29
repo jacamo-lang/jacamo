@@ -3,12 +3,12 @@
    <- // creates a scheme to coordinate the auction
       .concat("sch_",Id,SchName);
       ?joined(aorg,OrgWks); // get the workspace id of the org
-      createScheme(SchName, doAuction,SchArtId)[wid(OrgWks)];
+      createScheme(SchName, doAuction, SchArtId)[wid(OrgWks)];
       setArgumentValue(auction,"Id",Id)[artifact_id(SchArtId)];
       setArgumentValue(auction,"Service",P)[artifact_id(SchArtId)];
       //debug(inspector_gui(on))[artifact_id(SchArtId)];
       .my_name(Me); setOwner(Me)[artifact_id(SchArtId)];  // I am the owner of this scheme!
-      focus(SchArtId)[wid(OrgWks)];
+      focus(SchArtId);
       addScheme(SchName)[wid(OrgWks)];  // set the group as responsible for the scheme
       commitMission(mAuctioneer)[artifact_id(SchArtId)].
 
@@ -32,7 +32,7 @@
 +!bid[scheme(Sch)]
    <- ?goalArgument(Sch,auction,"Id",Id);
       lookupArtifact(Id,AId);
-      focus(AId);
+      focus(AId); //focusWhenAvailable(Id);
       if (math.random  < 0.9) {              // bid in 80% of the cases
         .wait(math.random * 2000 + 500);     // to simulate some "decision" reasoning
         bid(math.random * 100 + 10)[artifact_id(AId)];

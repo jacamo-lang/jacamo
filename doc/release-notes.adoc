@@ -1,5 +1,9 @@
 = Release notes for JaCaMo
 
+== Version 1.1
+
+- This version uses Jason 3.0 (AgentSpeak(ER))
+
 == Version 1.0
 
 - This version uses Jason 2.6, Moise 1.0 and Cartago 3.0

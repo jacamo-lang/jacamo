@@ -66,7 +66,11 @@ public class Moise extends DefaultPlatformImpl {
                             new ArtifactConfig( new Object[] { o.getParameter("source") } ));
                     o.setWId(currentWks.getId());
                     if (o.hasInstitution()) {
-                        ArtifactId instAId = currentWks.getArtifact(o.getInstitution()+"_art");
+                        ArtifactId instAId = main
+                                .getChildWSP(o.getInstitution())
+                                .get()
+                                .getWorkspace()
+                                .getArtifact(o.getInstitution()+"_art");
                         context.doAction(1, aid.getName(), new Op("setInstitution", new Object[] { o.getInstitution(), instAId } ), null, -1);
                         logger.info("OrgBoard(SAI) "+o.getName()+" created.");
                     } else {

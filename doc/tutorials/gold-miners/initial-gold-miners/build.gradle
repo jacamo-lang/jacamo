@@ -21,8 +21,9 @@ java {
 repositories {
     mavenCentral()
 
-    maven { url "http://jacamo.sourceforge.net/maven2" }
+    //maven { url "http://jacamo.sourceforge.net/maven2" }
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
     //maven { url "https://jade.tilab.com/maven/" }
 
     flatDir {
@@ -31,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '0.8'
+    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '1.0'
     compile name: 'search'
     compile 'org.twitter4j:twitter4j-async:4.0.7'
     compile 'org.twitter4j:twitter4j-stream:4.0.7'

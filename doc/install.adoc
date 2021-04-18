@@ -84,7 +84,7 @@ Requirements:
 - Java >= 8
 
 To use scripts to create and run JaCaMo applications, you can either
-download JaCaMo from https://sourceforge.net/projects/jacamo/files/version-0[here]
+download JaCaMo from https://sourceforge.net/projects/jacamo/files[here]
 or https://github.com/jacamo-lang/jacamo[clone] from GitHub.
 To configure these scripts:
 

@@ -1,8 +1,8 @@
 /*
-   Project inst
+   Project custom_comm
 
    Gradle build file for JaCaMo Applications
-   October 22, 2018 - 11:45:47
+   August 13, 2019 - 18:34:46
 */
 
 defaultTasks 'run'
@@ -20,9 +20,15 @@ java {
 }
 
 repositories {
+    mavenCentral()
+
     maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
     maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
-    mavenCentral()
+    //maven { url "https://jade.tilab.com/maven/" }
+
+    flatDir {
+       dirs 'lib'
+    }
 }
 
 dependencies {
@@ -50,7 +56,7 @@ task run (type: JavaExec, dependsOn: 'classes') {
         mkdir 'log'
     }
     main 'jacamo.infra.JaCaMoLauncher'
-    args 'inst.jcm'
+    args 'custom_comm.jcm'
     classpath sourceSets.main.runtimeClasspath
 }
 
@@ -62,7 +68,7 @@ task uberJar(type: Jar, dependsOn: 'classes') {
     manifest {
         attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
     }
-    baseName = 'jacamo-inst' // the name must start with jacamo so that jacamo...jar is found in the classpath
+    baseName = 'jacamo-custom_comm' // the name must start with jacamo so that jacamo...jar is found in the classpath
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     from (project.projectDir.absolutePath) {
         include '**/*.asl'
@@ -77,8 +83,8 @@ task uberJar(type: Jar, dependsOn: 'classes') {
 
     doFirst {
         copy {
-            from 'inst.jcm'
-            rename 'inst.jcm','default.jcm'
+            from 'custom_comm.jcm'
+            rename 'custom_comm.jcm','default.jcm'
             into project.buildDir.absolutePath + '/jcm'
         }
     }

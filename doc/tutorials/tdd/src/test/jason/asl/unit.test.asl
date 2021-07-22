@@ -2,9 +2,8 @@
  * Test XOR rule
 */
 
-{ include("tester_agent.asl") } 
-
-xor(A, B) :- (A & not B) | (B & not A).
+{ include("tester_agent.asl") }
+{ include("src/main/jason/asl/unit.asl") }
 
 @[test]
 +!test_xor

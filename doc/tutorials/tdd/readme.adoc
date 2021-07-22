@@ -107,8 +107,30 @@ create the file `unit.asl` and add the following rule:
 [source]
 xor(A, B) :- (A & not B) | (B & not A).
 
-As we can see, the rule implements an _exclusive or_ (XOR).
-To test the file, we create the file `unit.test.asl` at `test/jason/asl`.
+As we can see, the rule implements an _exclusive or_ (XOR). To test the file, we create the file
+`unit.test.asl` at `test/jason/asl`. At the beginning of this file, we import the Jason tester
+agent, as well as the file that we want to test:
+
+[source]
+{ include("tester_agent.asl") }
+{ include("src/main/jason/asl/unit.asl") }
+
+Then, we add a test goal, using the `@[test]` annotation:
+
+[source]
+@[test]
++!test_xor
+    <-
+    !assert_true(xor(true, false));
+    !assert_false(xor(true, true));
+    !assert_true(xor(false, true));
+    !assert_false(xor(false, false));
+.
+
+As we can see, the test specifies the truth table of the XOR rule; _i.e._, because we test a very
+simple subsystem (rule) of our MAS, we can specify all possible cases and ensure we have full
+coverage.
+
 
 === Single Agent Testing in Jason
 

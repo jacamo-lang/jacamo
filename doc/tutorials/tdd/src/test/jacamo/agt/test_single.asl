@@ -2,10 +2,10 @@
 { include("single.asl") }
 
 /**
- * Test
+ * Test thermostat
  */
 @[test]
-+!test_heat_control
++!test_thermostat
     <-
 
     //** INITIAL CONDITION - Let us say the temperature starts at 15 degrees **//
@@ -19,10 +19,8 @@
         //** TEST CONDITION 1 - cooler is on? **//
         if (T > 10) {
             if (not cooling) {
-                .log(warning,"TODO! Cooler was supposed to be on ",T);
                 !force_failure("Cooler was supposed to be on");
             } else {
-                .log(warning,"TODO! Cooler is on ",T);
                 !force_pass;
             }
 
@@ -32,10 +30,8 @@
         //** TEST CONDITION 2 - cooler is off? **//
         } else {
             if (cooling) {
-                .log(warning,"TODO! Cooler was supposed to be off ",T);
-                !force_failure("TODO! Cooler was supposed to be off ");
+                !force_failure("Cooler was supposed to be off ");
             } else {
-                .log(warning,"TODO! Cooler is off ",T);
                 !force_pass;
             }
 

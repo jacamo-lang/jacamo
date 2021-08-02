@@ -1,4 +1,4 @@
-mas main_container_jade {
+mas alice_mas {
 
     agent alice {
         focus: w.c
@@ -8,5 +8,6 @@ mas main_container_jade {
         artifact c: tools.Counter(10)
     }
 
-    platform: jade("-gui -sniffer")
+    platform: jacamo.rest.JCMRest("--rest-port 8080")
+    //platform: jade("-gui -sniffer")
 }

@@ -1,44 +1,27 @@
 /*
- * Example project: test-driven development 
+ * Example project: test-driven development
 */
 
-defaultTasks 'run'
+defaultTasks 'test'
 
 apply plugin: 'java'
 
 version '0.01'
 group   'org.jacamo.tdd'
 
-sourceCompatibility = 1.13
-targetCompatibility = 1.13
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
-    flatDir {
-       dirs 'libs'
-    }
+
+    maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
 }
 
 dependencies {
 	implementation 'org.jacamo:jacamo:0.10-SNAPSHOT'
-	implementation 'org.jason:jason:2.6.1'
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/jason'
-        }
-        resources {
-            srcDir 'src/resources'
-        }
-    }
-}
-
-if (JavaVersion.current() < project.targetCompatibility) {
-    println "The java version used ${JavaVersion.current()}, it is expected version ${project.targetCompatibility}."
-}
 
 task testJaCaMo {
     description 'runs JaCaMo unit tests: unit_tests_project.jcm'
@@ -99,7 +82,7 @@ task testJaCaMo {
         }
 
         if (errorOnTests) {
-            throw new GradleException('Jason unit tests: ERROR!')
+            throw new GradleException('JaCaMo unit tests: ERROR!')
         }
     }
 }

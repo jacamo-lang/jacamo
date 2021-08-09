@@ -18,22 +18,14 @@
 
         //** TEST CONDITION 1 - cooler is on? **//
         if (T > 10) {
-            if (not cooling) {
-                !force_failure("Cooler was supposed to be on");
-            } else {
-                !force_pass;
-            }
+            !assert_true(cooling);
 
             //** EMULATE AGENT IS ACTING UPON THE ENVIRONMENT - Let us say the temperatura dropped 1 degree **//
             -+temperature(T-1);
 
         //** TEST CONDITION 2 - cooler is off? **//
         } else {
-            if (cooling) {
-                !force_failure("Cooler was supposed to be off ");
-            } else {
-                !force_pass;
-            }
+            !assert_false(cooling);
 
             //** EMULATE ENVIRONMENT HAS ARBITRARILY CHANGED - Let us say the temperatura raised 1 or 2 degrees **//
             .random(X);

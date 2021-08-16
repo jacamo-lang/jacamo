@@ -4,14 +4,14 @@ import java.io.File;
 
 import jacamo.project.JaCaMoProject;
 import jacamo.util.Config;
-import jason.infra.centralised.CentralisedMASLauncherAnt;
+import jason.infra.local.LocalMASLauncherAnt;
 
 /**
  * Write the Ant script to run the MAS in JaCaMo infrastructure
  *
  * @author Jomi
  */
-public class JaCaMoMASLauncherAnt extends CentralisedMASLauncherAnt {
+public class JaCaMoMASLauncherAnt extends LocalMASLauncherAnt {
 
     protected String replaceMarks(String script, boolean debug) {
         script = replace(script, "<PROJECT-RUNNER-CLASS>", JaCaMoLauncher.class.getName());

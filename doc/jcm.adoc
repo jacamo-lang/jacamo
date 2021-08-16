@@ -215,11 +215,11 @@ class-path:  lib
 
 === Platform configuration
 
-This section of the file configures the platform(s) used to run the MAS. The most common entries are: `cartago` (for the environment), `centralised` (for Jason agents), and `jade` (for distributed agents). The parameters for them are listed below.
+This section of the file configures the platform(s) used to run the MAS. The most common entries are: `cartago` (for the environment), `local` (for Jason agents), and `jade` (for distributed agents). The parameters for them are listed below.
 
 *  parameters for `cartago`
    - `infrastructure` (optional): starts the cartago node in the network
-*  parameters for `centralised`
+*  parameters for `local`
    - `pool,X` : where X is the number os threads used to run the agents (more options link:https://github.com/jason-lang/jason/blob/master/doc/tech/concurrency.adoc#synchronous-reasoning-cycle[here])
 *  parameters for `jade`: any parameter we can use for jade.Boot. E.g.:
    - `jade("-gui -sniffer")`: starts Jade main-container with RMA and Sniffer already running
@@ -238,7 +238,7 @@ Example:
 ------
     platform: jade()
               cartago("infrastructure")
-              centralised(pool,4)
+              local(pool,4)
               jacamo.platform.AgentWebInspector("false")
 ------
 

@@ -314,6 +314,9 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         if (cp.getClassName().equals("centralised")) {
             setInfrastructure(cp);
         }
+        if (cp.getClassName().equals("local")) {
+            setInfrastructure(cp);
+        }
         platformParameters.put(cp.getClassName(), cp.getParametersArray());
     }
 

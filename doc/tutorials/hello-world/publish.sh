@@ -1,5 +1,6 @@
 IMAGE=jomifred/adoc
 docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$PWD":/app "$IMAGE" asciidoctor -r /pygments_init.rb readme.adoc
+docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$PWD":/app "$IMAGE" asciidoctor -r /pygments_init.rb shell-based.adoc
 
 cp readme.html index.html
 cp ./code/helloworld/helloworld.jcm ./code/helloworld/helloworld.jcm.txt

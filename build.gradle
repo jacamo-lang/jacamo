@@ -35,7 +35,7 @@ repositories {
 
 
 dependencies {
-    compile group: 'org.jason'      , name: 'jason'   , version: '3.0-SNAPSHOT' , changing: true, transitive: false
+    compile group: 'org.jason'      , name: 'jason'   , version: '3.0' , changing: true, transitive: false
     compile group: 'org.jacamo'     , name: 'cartago' , version: '3.1-SNAPSHOT' , changing: true, transitive: false
     compile group: 'org.jacamo'     , name: 'jaca'    , version: '3.1-SNAPSHOT' , changing: true, transitive: false
 

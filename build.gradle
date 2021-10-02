@@ -35,48 +35,48 @@ repositories {
 
 
 dependencies {
-    compile group: 'org.jason'      , name: 'jason'   , version: '3.0' , changing: true, transitive: false
-    compile group: 'org.jacamo'     , name: 'cartago' , version: '3.1-SNAPSHOT' , changing: true, transitive: false
-    compile group: 'org.jacamo'     , name: 'jaca'    , version: '3.1-SNAPSHOT' , changing: true, transitive: false
+    implementation group: 'org.jason'      , name: 'jason'   , version: '3.0' , changing: true, transitive: false
+    implementation group: 'org.jacamo'     , name: 'cartago' , version: '3.1-SNAPSHOT' , changing: true, transitive: false
+    implementation group: 'org.jacamo'     , name: 'jaca'    , version: '3.1-SNAPSHOT' , changing: true, transitive: false
 
-    compile group: 'org.jacamo'     , name: 'moise'   , version: '1.0', changing: true, transitive: false
-    compile group: 'org.jacamo'     , name: 'npl'     , version: '0.5'          , changing: true, transitive: false
+    implementation group: 'org.jacamo'     , name: 'moise'   , version: '1.0', changing: true, transitive: false
+    implementation group: 'org.jacamo'     , name: 'npl'     , version: '0.5'          , changing: true, transitive: false
 
 
-    compile group: 'guru.nidi'      , name: 'graphviz-java',      version: '0.7.0'
-    compile group: 'org.gradle'     , name: 'gradle-tooling-api', version: '6.8.3'
+    implementation group: 'guru.nidi'      , name: 'graphviz-java',      version: '0.7.0'
+    implementation group: 'org.gradle'     , name: 'gradle-tooling-api', version: '6.8.3'
 
-    runtime group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
+    implementation group: 'org.jacamo'     , name: 'intmas'  , version: '1.0.0'
 
-    runtime group: 'org.jacamo'     , name: 'sai'     , version: '0.4', changing: true , transitive: false
-    runtime "org.antlr:antlr4:4.8"
+    implementation group: 'org.jacamo'     , name: 'sai'     , version: '0.4', changing: true , transitive: false
+    implementation "org.antlr:antlr4:4.8"
 
-    runtime group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.30'
+    implementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.30'
 
     //runtime group: 'com.tilab.jade' , name: 'jade'    , version: '4.5.0'
-    runtime group: 'net.sf.ingenias', name: 'jade'    , version: '4.3'
-    runtime group: 'org.apache.ant' , name: 'ant'     , version: '1.10.5'
+    implementation group: 'net.sf.ingenias', name: 'jade'    , version: '4.3'
+    implementation group: 'org.apache.ant' , name: 'ant'     , version: '1.10.5'
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 
     // used in cartago web infrastructure
-    compile "io.vertx:vertx-core:3.7.0"
-    compile "io.vertx:vertx-sync:3.7.0"
-    compile "io.vertx:vertx-unit:3.7.0"
-    compile "io.vertx:vertx-web:3.7.0"
-    compile "io.vertx:vertx-web-client:3.7.0"
-    compile "com.fasterxml.jackson.core:jackson-databind:2.9.8"
+    implementation "io.vertx:vertx-core:3.7.0"
+    implementation "io.vertx:vertx-sync:3.7.0"
+    implementation "io.vertx:vertx-unit:3.7.0"
+    implementation "io.vertx:vertx-web:3.7.0"
+    implementation "io.vertx:vertx-web-client:3.7.0"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.9.8"
 }
 
 // copy dep jars and scritps into build directory
 task copyJarsToBuild {
-    inputs.files configurations.runtime.files
+    inputs.files configurations.runtimeClasspath.files
     inputs.dir   'scripts'
     outputs.dir  'build/libs'
     outputs.dir  'build/scripts'
     doLast {
         copy {
-            from configurations.runtime
+            from configurations.runtimeClasspath
             into 'build/libs'
             //exclude '**/jason-2.0.jar'
         }
@@ -88,7 +88,7 @@ task copyJarsToBuild {
                 String line -> line.replaceAll("JacamoREL=[0-9]+\\.[0-9]+", "JacamoREL="+project.version)
             }
             filter {
-                String line -> line.replaceAll("JasonREL", file(project.configurations.compile.find { it.name.startsWith("jason-") }).name)
+                String line -> line.replaceAll("JasonREL", file(configurations.compileClasspath.find { it.name.startsWith("jason-") }).name)
             }
         }
     }
@@ -107,13 +107,13 @@ jjdoc {
 
 
 jar {
-    baseName 'jacamo'
+    archiveBaseName = 'jacamo'
     manifest {
         attributes 'Main-Class': 'jacamo.util.ConfigGUI',
                    'Specification-Title': 'JaCaMo framework',
                    'Specification-Version': project.version,
                    'Implementation-Version': new Date().toString(),
-                   'Class-Path': file(project.configurations.compile.find { it.name.startsWith("jason-") }).name
+                   'Class-Path': file(configurations.compileClasspath.find { it.name.startsWith("jason-") }).name
     }
 
     from('src') {
@@ -195,13 +195,13 @@ task config (dependsOn: 'jar') {
 }
 
 task javadocJar (type: Jar, dependsOn: javadoc) {
-    baseName 'jacamo'
+    archiveBaseName = 'jacamo'
     classifier = 'javadoc'
     from javadoc.destinationDir
 }
 
 task sourceJar (type : Jar) {
-    baseName 'jacamo'
+    archiveBaseName = 'jacamo'
     classifier = 'sources'
     from sourceSets.main.allSource
 }
@@ -331,7 +331,7 @@ task copyRel {
 // creates a zip file for a release
 task zipRel(type: Zip, dependsOn: copyRel) {
     from 'build/jacamo-'+project.version
-    baseName 'jacamo'
+    archiveBaseName = 'jacamo'
 }
 
 task runauction (type: JavaExec, dependsOn: 'classes') {

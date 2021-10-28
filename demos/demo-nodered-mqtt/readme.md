@@ -37,6 +37,7 @@ docker-compose up
 ```
 
 The output is something like
+
 ```
 nodered_1  | 15 Jul 12:29:10 - [info] Starting flows
 nodered_1  | 15 Jul 12:29:10 - [info] Started flows
@@ -57,6 +58,7 @@ Open the [HiveMQ client web page](http://www.hivemq.com/demos/websocket-client) 
 ![MQTT](figures/mqtt1.png)
 
 When you click on *Publish*, a message is shown in bob console:
+
 ```
 bob_1      | [bob] New message: Hi from test
 bob_1      | [bob] Source: mqtt
@@ -78,6 +80,12 @@ In the MQTT web page you will notice:
 ![MQTT](figures/mqtt2.png)
 
 Note: You can inspect bob's mind at [http://localhost:3272](http://localhost:3272).
+
+Stop the application:
+
+```
+docker-compose down
+```
 
 ## Implementation
 

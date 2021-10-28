@@ -20,7 +20,7 @@ services:
       - "./node-red:/data"
 
   bob:
-    image: jacamo-rest/demo/nodered1:0.1
+    image: jomifred/jacamo:1.1ss
     hostname: bob
     environment:
       - TZ=America/Sao_Paulo
@@ -32,7 +32,10 @@ services:
     depends_on:
       - nodered
     volumes:
-      - "./jacamo/src:/app/src"
+      - "./jacamo:/app"
+      
+    working_dir: /app
+    command: /jacamo/build/scripts/jacamo main.jcm
 
 networks:
   jacamo-nodered-net:

@@ -13,14 +13,15 @@ java {
 
 repositories {
     mavenCentral()
-    maven { url "http://jacamo.sourceforge.net/maven2" }
+    //maven { url "http://jacamo.sourceforge.net/maven2" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
 }
 
 dependencies {
     // ------------- main dependencies -------------
-    compile group: 'org.jacamo', name: 'jacamo', version: '0.9'
-    compile 'org.jacamo:jacamo-rest:0.6-SNAPSHOT'
+    implementation ('org.jacamo:jacamo:1.1-SNAPSHOT')
+    //compile 'org.jacamo:jacamo-rest:0.6-SNAPSHOT'
 }
 
 sourceSets {
@@ -45,7 +46,7 @@ task run (type: JavaExec, dependsOn: 'classes') {
 
 task copyToLib(type: Copy) {
     into "$buildDir/libs"
-    from(configurations.compile)
+    from(configurations.runtimeClasspath.files)
 }
 
 clean {

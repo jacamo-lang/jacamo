@@ -9,9 +9,6 @@
                 "view-node-show-label": true,
                 "view-show-tips": true,
                 "view-show-welcome-tours": true
-            },
-            "tours": {
-                "welcome": "2.1.3"
             }
         }
     }

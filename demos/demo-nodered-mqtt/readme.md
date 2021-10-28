@@ -22,19 +22,11 @@ A central entity to this scenario is the [Node-RED](https://nodered.org/), an in
 
 ## Steps to execute
 
-Create a docker image for the JaCaMo application:
-
 ```
-cd demos/demo-nodered-mqtt/jacamo
-gradle clean copyToLib
-docker build -t jacamo-rest/demo/nodered1:0.1 .
-```
-Run the JaCaMo application and Node-RED using docker compose:
-
-```
-cd ..
 docker-compose up
 ```
+
+It starts the NodeRed and the JaCaMo application, both based on available Docker images. The sources of the JaCaMo application are in placed in the folder `jacamo`.
 
 The output is something like
 

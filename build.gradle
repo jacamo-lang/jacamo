@@ -42,10 +42,9 @@ dependencies {
     implementation group: 'org.jacamo'     , name: 'moise'   , version: '1.0', changing: true, transitive: false
     implementation group: 'org.jacamo'     , name: 'npl'     , version: '0.5'          , changing: true, transitive: false
 
-    //implementation group: 'org.jacamo'     , name: 'jacamo-rest', version: '0.7-SNAPSHOT', changing: true, transitive: false
-    implementation ('org.jacamo:jacamo-rest:0.7-SNAPSHOT') {
-         exclude group: 'org.jacamo', module: 'jacamo'
-    }
+    //implementation ('org.jacamo:jacamo-rest:0.7-SNAPSHOT') { // removed, causes circular dependencies 
+    //     exclude group: 'org.jacamo', module: 'jacamo'
+    //}
 
     implementation group: 'guru.nidi'      , name: 'graphviz-java',      version: '0.7.0'
     implementation group: 'org.gradle'     , name: 'gradle-tooling-api', version: '6.8.3'

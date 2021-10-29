@@ -19,9 +19,9 @@ services:
     volumes:
       - "./node-red:/data"
 
-  bob:
+  mas:
     image: jomifred/jacamo:1.1ss
-    hostname: bob
+    hostname: mas
     environment:
       - TZ=America/Sao_Paulo
     ports:
@@ -33,7 +33,7 @@ services:
       - nodered
     volumes:
       - "./jacamo:/app"
-      
+
     working_dir: /app
     command: /jacamo/build/scripts/jacamo main.jcm
 

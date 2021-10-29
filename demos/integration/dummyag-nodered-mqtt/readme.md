@@ -16,9 +16,11 @@ In this scenario, the agent interacts with an _MQTT broker_. [MQTT](http://mqtt.
 
 A central entity to this scenario is the [Node-RED](https://nodered.org/), an integration tool that provides a browser-based editor to wire together hardware devices, APIs, and online services using a wide range of _nodes_. Here, it is responsible for integrating the JaCaMo app and the MQTT broker. Its job in this demo is:
 
+- create a dummy agent representing the MQTT in the MAS, so that agent Bob sees MQTT as an agent (named `dmqtt` in this demo)
+
 - send an ACL message to Bob whenever something is published at _mqtt/jacamo/bob_.
 
-- when bob sends a message to Node-RED, it publishes the message's content at _mqtt/jacamo/bob_.
+- when bob sends a message to `dmqtt`, NodeRed receives the message and publishes the message's content at _mqtt/jacamo/me_.
 
 ## Steps to execute
 
@@ -43,33 +45,28 @@ bob_1      | Jason Http Server running on http://172.24.0.3:3272
 bob_1      | [bob] Bob is running
 ```
 
-## Sending a message to agent Bob
+## Interacting with agent Bob
 
-Open the [HiveMQ client web page](http://www.hivemq.com/demos/websocket-client) and click on *connect*. To send a message to Bob, fill the form as follows (note the topic `mqtt/jacamo/bob` that Bob is listening to):
+- Open the [HiveMQ client web page](http://www.hivemq.com/demos/websocket-client) and click on *connect*. 
+
+- In the HiveMQ client web page, subscribe to notification on the topic _mqtt/jacamo/me_:
+
+![MQTT](figures/mqtt4.png)
+
+- To send a message to Bob, fill the form as follows (note the topic `mqtt/jacamo/bob` that Bob is listening to):
 
 ![MQTT](figures/mqtt1.png)
 
-When you click on *Publish*, a message is shown in bob console:
+When you click on *Publish*, a message is shown in Bob console:
 
 ```
-bob_1      | [bob] New message: Hi from test
-bob_1      | [bob] Source: mqtt
+mas_1      | [bob] New message: test_msg_1
+mas_1      | [bob] Source: dmqtt
 ```
-
-## Bob sending a message to MQTT
-
-In the HiveMQ client web page, subscribe to notification on the topic _mqtt/jacamo/bob_:
-
-![MQTT](figures/mqtt3.png)
-
-
-Open the NodeRed server [web page](http://127.0.0.1:1880) and click on the icon indicated bellow:
-
-![NodeRed](figures/node-red.png)
 
 In the MQTT web page you will notice:
 
-![MQTT](figures/mqtt2.png)
+![MQTT](figures/mqtt5.png)
 
 Note: You can inspect bob's mind at [http://localhost:3272](http://localhost:3272).
 
@@ -83,4 +80,4 @@ docker-compose down
 
 __under construction__
 
-For now, see the source code.
+For now, see the source code and the NodeRed [flows](http://127.0.0.1:1880).

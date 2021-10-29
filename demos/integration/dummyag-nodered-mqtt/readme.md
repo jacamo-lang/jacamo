@@ -57,14 +57,14 @@ bob_1      | [bob] Bob is running
 
 ![MQTT](figures/mqtt1.png)
 
-When you click on *Publish*, a message is shown in Bob console:
+When you click on *Publish*, Bob prints out a message:
 
 ```
 mas_1      | [bob] New message: test_msg_1
 mas_1      | [bob] Source: dmqtt
 ```
 
-In the MQTT web page you will notice:
+and sends back a message to `dmqtt` that can be noticed in the topic _mqtt/jacamo/me_:
 
 ![MQTT](figures/mqtt5.png)
 

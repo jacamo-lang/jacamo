@@ -35,14 +35,14 @@ repositories {
 
 
 dependencies {
-    implementation group: 'org.jason'      , name: 'jason'   , version: '3.0' , changing: true, transitive: false
+    implementation group: 'org.jason'      , name: 'jason'   , version: '3.0' , changing: false, transitive: false
     implementation group: 'org.jacamo'     , name: 'cartago' , version: '3.1-SNAPSHOT' , changing: true, transitive: false
     implementation group: 'org.jacamo'     , name: 'jaca'    , version: '3.1-SNAPSHOT' , changing: true, transitive: false
 
-    implementation group: 'org.jacamo'     , name: 'moise'   , version: '1.0', changing: true, transitive: false
-    implementation group: 'org.jacamo'     , name: 'npl'     , version: '0.5'          , changing: true, transitive: false
+    implementation group: 'org.jacamo'     , name: 'moise'   , version: '1.0', changing: false, transitive: false
+    implementation group: 'org.jacamo'     , name: 'npl'     , version: '0.5', changing: false, transitive: false
 
-    //implementation ('org.jacamo:jacamo-rest:0.7-SNAPSHOT') { // removed, causes circular dependencies 
+    //implementation ('org.jacamo:jacamo-rest:0.7-SNAPSHOT') { // removed, causes circular dependencies
     //     exclude group: 'org.jacamo', module: 'jacamo'
     //}
 

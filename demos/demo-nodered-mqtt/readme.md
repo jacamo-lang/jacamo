@@ -43,7 +43,7 @@ bob_1      | Jason Http Server running on http://172.24.0.3:3272
 bob_1      | [bob] Bob is running
 ```
 
-## Send a message to Bob
+## Sending a message to agent Bob
 
 Open the [HiveMQ client web page](http://www.hivemq.com/demos/websocket-client) and click on *connect*. To send a message to Bob, fill the form as follows (note the topic `mqtt/jacamo/bob` that Bob is listening to):
 

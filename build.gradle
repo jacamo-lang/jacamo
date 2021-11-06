@@ -50,9 +50,9 @@ dependencies {
 
     api('net.sf.ingenias:jade:4.3')
 
-    //implementation ('org.jacamo:jacamo-rest:0.7-SNAPSHOT') { // removed, causes circular dependencies
-    //     exclude group: 'org.jacamo', module: 'jacamo'
-    //}
+    implementation ('org.jacamo:jacamo-rest:0.7-SNAPSHOT') {
+         exclude group: 'org.jacamo', module: 'jacamo'
+    }
 
     implementation('org.apache.ant:ant:1.10.5')
     implementation('org.gradle:gradle-tooling-api:6.8.3')

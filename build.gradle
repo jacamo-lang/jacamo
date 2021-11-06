@@ -44,22 +44,23 @@ dependencies {
     api('org.jacamo:moise:1.0') {  transitive = false  }
     api('org.jacamo:npl:0.5')  {  transitive = false  }
 
+    api('org.jacamo:intmas:1.0.0')
+    api('org.jacamo:sai:0.5-SNAPSHOT') {  transitive = false  }
+    implementation('org.antlr:antlr4:4.8')
+
+    api('net.sf.ingenias:jade:4.3')
+
     //implementation ('org.jacamo:jacamo-rest:0.7-SNAPSHOT') { // removed, causes circular dependencies
     //     exclude group: 'org.jacamo', module: 'jacamo'
     //}
 
-    api('org.jacamo:intmas:1.0.0')
-    api('org.jacamo:sai:0.4') {  transitive = false  }
-    api('org.antlr:antlr4:4.8')
+    implementation('org.apache.ant:ant:1.10.5')
+    implementation('org.gradle:gradle-tooling-api:6.8.3')
 
-    api('net.sf.ingenias:jade:4.3')
-    api('org.apache.ant:ant:1.10.5')
-    api('org.gradle:gradle-tooling-api:6.8.3')
+    implementation('guru.nidi:graphviz-java:0.7.0')
+    implementation('org.slf4j:slf4j-nop:1.7.30')
 
-    implementation group: 'guru.nidi'      , name: 'graphviz-java',      version: '0.7.0'
-    implementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.30'
-
-    testImplementation 'junit:junit:4.12'
+    testImplementation('junit:junit:4.12')
 
     // used in cartago web infrastructure
     implementation "io.vertx:vertx-core:3.7.0"

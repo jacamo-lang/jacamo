@@ -3,9 +3,9 @@
 +!start
    <- .print("hello world.");
       // focus on the institution artifact just to print some messages, it is not necessary for this agent task
-      /*joinWorkspace("/main/i1",_);
+      joinWorkspace("/main/i1",_);
       lookupArtifact("i1_art", InstArt);
-      focus(InstArt);*/
+      focus(InstArt);
 
       inc; // creates the brute fact "count(a,11)" (from artifact a)
            // this brute fact count as c(a)

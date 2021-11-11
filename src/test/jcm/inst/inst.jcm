@@ -37,4 +37,6 @@ mas inst {
 
         situated: i1
     }
+
+    platform: jacamo.rest.JCMRest("--rest-port 8080")
 }

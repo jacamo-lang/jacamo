@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '1.1-SNAPSHOT'
+    implementation ('org.jacamo:jacamo:1.1-SNAPSHOT')
 }
 
 sourceSets {
@@ -64,7 +64,7 @@ task uberJar(type: Jar, dependsOn: 'classes') {
         attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
     }
     baseName = 'jacamo-snapshot' // the name must start with jacamo so that jacamo...jar is found in the classpath
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     from (project.projectDir.absolutePath) {
         include '**/*.asl'
         include '**/*.xml'

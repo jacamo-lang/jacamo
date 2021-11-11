@@ -44,7 +44,7 @@ public class JaCaMoMASLauncherAnt extends LocalMASLauncherAnt {
 
         // build javac entry
         StringBuilder jc = new StringBuilder();
-        for (String p: ((JaCaMoProject)project).getJavaClassPaths().getPaths()) {
+        for (String p: ((JaCaMoProject)project).getJavaSourcePaths().getPaths()) {
             if (p.startsWith("file:"))
                 p = p.substring(5);
             jc.append("<javac srcdir=\"${basedir}/"+p+"\" destdir=\"${build.dir}\" debug=\"true\" optimize=\"true\" includeantruntime=\"false\" >\n");

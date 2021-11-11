@@ -40,7 +40,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     //protected Set<String> toDebug = new HashSet<String>();
 
     protected SourcePath orgPaths = new SourcePath();
-    protected SourcePath javaPaths = new SourcePath();
+    protected SourcePath javaSourcePaths = new SourcePath();
 
     Map<String, String[]> platformParameters = new HashMap<>();
     
@@ -61,9 +61,9 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         orgPaths.addPath("src/org");
         
         // default java-path
-        javaPaths.addPath(".");
-        javaPaths.addPath("src/env");
-        javaPaths.addPath("src/agt");
+        javaSourcePaths.addPath(".");
+        javaSourcePaths.addPath("src/env");
+        javaSourcePaths.addPath("src/agt");
     }
 
     public JaCaMoProject(MAS2JProject project) {
@@ -80,11 +80,11 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     public void addOrgSourcePath(String s) {
         orgPaths.addPath(s);
     }
-    public SourcePath getJavaClassPaths() {
-        return javaPaths;
+    public SourcePath getJavaSourcePaths() {
+        return javaSourcePaths;
     }
-    public void addJavaClassPath(String s) {
-        javaPaths.addPath(s);
+    public void addJavaSourcePath(String s) {
+        javaSourcePaths.addPath(s);
     }
 
     public void importProject(String directory, String fileName) throws ParseException {

@@ -80,10 +80,10 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     public void addOrgSourcePath(String s) {
         orgPaths.addPath(s);
     }
-    public SourcePath getJavaPaths() {
+    public SourcePath getJavaClassPaths() {
         return javaPaths;
     }
-    public void addJavaSourcePath(String s) {
+    public void addJavaClassPath(String s) {
         javaPaths.addPath(s);
     }
 

@@ -17,6 +17,7 @@ import cartago.Workspace;
 import jacamo.project.JaCaMoGroupParameters;
 import jacamo.project.JaCaMoOrgParameters;
 import jacamo.project.JaCaMoSchemeParameters;
+import jason.runtime.SourcePath;
 
 public class Moise extends DefaultPlatformImpl {
     
@@ -25,6 +26,10 @@ public class Moise extends DefaultPlatformImpl {
 
     @Override
     public void init(String[] args) throws CartagoException {
+        // if agent source path contains CRPrefix, adds it also for moise
+        if (project.getSourcePaths().getPaths().contains(SourcePath.CRPrefix)) {
+            project.getOrgPaths().addPath(SourcePath.CRPrefix);
+        }
     }
     
     @Override

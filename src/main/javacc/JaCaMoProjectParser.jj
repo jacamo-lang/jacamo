@@ -195,10 +195,10 @@ JaCaMoProject parse(String directory) :           { Token masId; String f = null
 
   (
       (
-           <CLASSPATH>      ":"  { project.getClassPaths().clear();        } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f);} ) +
-        |  <ASLPATH>        ":"  { project.getSourcePaths().clearPaths();  } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addSourcePath(f);} ) +
-        |  <ORGPATH>        ":"  { project.getOrgPaths().clearPaths();     } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addOrgSourcePath(f);} ) +
-        |  <JAVAPATH>       ":"  { project.getJavaPaths().clearPaths();    } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addJavaSourcePath(f);} ) +
+           <CLASSPATH>      ":"  { project.getClassPaths().clear();          } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addClassPath(f);} ) +
+        |  <ASLPATH>        ":"  { project.getSourcePaths().clearPaths();    } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addSourcePath(f);} ) +
+        |  <ORGPATH>        ":"  { project.getOrgPaths().clearPaths();       } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addOrgSourcePath(f);} ) +
+        |  <JAVAPATH>       ":"  { project.getJavaClassPaths().clearPaths(); } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addJavaClassPath(f);} ) +
         |  <PLATFORM>       ":"                                                         { project.resetPlatform(); }
                                  (LOOKAHEAD(4) cp = classDef()             (<EOL>|",")+ { project.addPlatformParameters(cp);} ) +
         |  <NODE> id = <ATOM>

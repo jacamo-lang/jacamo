@@ -59,11 +59,12 @@ task run (type: JavaExec, dependsOn: 'classes') {
 task uberJar(type: Jar, dependsOn: 'classes') {
     group      ' JaCaMo'
     description 'creates a single runnable jar file with all dependencies'
+    duplicatesStrategy 'exclude'
 
     manifest {
         attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
     }
-    baseName = 'jacamo-snapshot' // the name must start with jacamo so that jacamo...jar is found in the classpath
+    archiveBaseName = 'jacamo-snapshot' // the name must start with jacamo so that jacamo...jar is found in the classpath
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     from (project.projectDir.absolutePath) {
         include '**/*.asl'

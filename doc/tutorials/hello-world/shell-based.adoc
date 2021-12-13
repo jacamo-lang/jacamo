@@ -28,14 +28,10 @@ Examples of agent, artifact and organization are placed in the `src` folder.
 
 
 
-If you have https://gradle.org[Gradle] installed, you can also run the application with
+You can also run it using https://gradle.org[Gradle]:
 
     cd ../somewhere/helloworld
-    gradle -q
-
-and create an eclipse project with
-
-    gradle eclipse
+    ./gradlew -q
 
 
 If you use the https://atom.io[Atom] editor, the following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].

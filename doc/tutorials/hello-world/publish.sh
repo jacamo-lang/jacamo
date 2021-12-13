@@ -9,7 +9,7 @@ cp ./code/helloworld/helloworld.jcm ./code/helloworld/helloworld.jcm.txt
 
 scp -r *.html $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/hello-world
 
-#scp -r *.css $USER,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/hello-world
-#scp -r screens $USER,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/hello-world
-#scp -r solutions $USER,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/hello-world
+#scp -r *.css $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/hello-world
+#scp -r screens $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/hello-world
+#scp -r solutions $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/hello-world
 scp -r code $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/hello-world

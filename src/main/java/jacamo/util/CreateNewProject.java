@@ -83,10 +83,10 @@ public class CreateNewProject {
         System.out.println("   ./gradlew -q --console=plain\n");
         System.out.println("or (if you have JaCaMo scripts installed)");
         System.out.println("   jacamo "+path+"/"+id+".jcm\n");
-        System.out.println("an Eclipse project can be created using");
-        System.out.println("   'Existing Gradle Project' from Eclipse menu File/Import\n");
-        System.out.println("or");
-        System.out.println("   ./gradlew eclipse");
+        //System.out.println("an Eclipse project can be created using");
+        //System.out.println("   'Existing Gradle Project' from Eclipse menu File/Import\n");
+        //System.out.println("or");
+        //System.out.println("   ./gradlew eclipse");
     }
     
     void runGradleWrapper() {

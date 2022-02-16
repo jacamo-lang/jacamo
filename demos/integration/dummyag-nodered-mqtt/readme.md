@@ -1,4 +1,4 @@
-# Demo JaCaMo + Node-RED + MQTT
+# Demo JaCaMo + Node-RED + MQTT (by dummy agents)
 
 This demo presents an integration scenario where one agent leverages the MQTT protocol using ACL messages.
 
@@ -16,7 +16,7 @@ In this scenario, the agent interacts with an _MQTT broker_. [MQTT](http://mqtt.
 
 A central entity to this scenario is the [Node-RED](https://nodered.org/), an integration tool that provides a browser-based editor to wire together hardware devices, APIs, and online services using a wide range of _nodes_. Here, it is responsible for integrating the JaCaMo app and the MQTT broker. Its job in this demo is:
 
-1. create a dummy agent representing the MQTT in the MAS, so that agent Bob sees MQTT as an agent (named `dmqtt` in this demo)
+1. create a dummy *agent* representing the MQTT in the MAS, so that agent Bob sees MQTT as an agent (named `dmqtt` in this demo)
 
 2. send an ACL (Agent Communication Language) message to Bob whenever something is published at _mqtt/jacamo/bob_.
 

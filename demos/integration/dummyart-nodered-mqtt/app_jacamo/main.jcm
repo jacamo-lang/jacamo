@@ -1,0 +1,7 @@
+mas main {
+
+    agent bob
+
+    platform: jacamo.rest.JCMRest("--rest-port 8080")
+              jacamo.platform.EnvironmentWebInspector("false")
+}

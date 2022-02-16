@@ -103,11 +103,16 @@ The dummy artifact is created using the JaCaMo REST API:
 
 5. Bob is asked to focus on the dummy artifact.
 
+![MQTT](figures/code1.png)
+
 #### MQTT to artifact (and thus to Bob)
 
 NodeRed listens to the MQTT topic _mqtt/jacamo/bob_ and, for each new publication, it updates the observable property `message`. It is performed by a `POST` to `http://mas:8080/workspaces/wmqtt/artifacts/dmqtt/operations/doUpdateObsProperty/execute`.
 
+![MQTT](figures/code2.png)
 
 #### Bob to MQTT
 
 When Bob performs `act` on the artifact, the DummyArt dispaches the arguments to (`http://nodered:1880/act`). NodeRed listens the `act` end-point and publishes at _mqtt/jacamo/me_ the content of the message.
+
+![MQTT](figures/code3.png)

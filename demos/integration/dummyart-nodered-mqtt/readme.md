@@ -1,6 +1,6 @@
 # Demo JaCaMo + Node-RED + MQTT (by dummy artifacts)
 
-This demo presents an integration scenario where one agent leverages the MQTT protocol using perception and action.
+This demo presents an integration scenario where one agent leverages the MQTT protocol using perception and action. It looks for an MAS code that has no reference to outside elements (MQTT, in the case).
 
 
 ## Understanding the demo
@@ -75,7 +75,7 @@ docker-compose down
 
 ## Implementation
 
-The implementation is essentially based on NodeRed. It is responsible for:
+The integration is essentially based on NodeRed. It is responsible for:
 
 1. creating a dummy artifact (named `dmqtt` in the MAS),
 
@@ -113,6 +113,6 @@ NodeRed listens to the MQTT topic _mqtt/jacamo/bob_ and, for each new publicatio
 
 #### Bob to MQTT
 
-When Bob performs `act` on the artifact, the DummyArt dispaches the arguments to (`http://nodered:1880/act`). NodeRed listens the `act` end-point and publishes at _mqtt/jacamo/me_ the content of the message.
+When Bob performs `act` on the artifact, the DummyArt dispatches the arguments to (`http://nodered:1880/act`). NodeRed listens the `act` end-point and publishes at _mqtt/jacamo/me_ the content of the message.
 
 ![MQTT](figures/code3.png)

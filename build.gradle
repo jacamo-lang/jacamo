@@ -13,12 +13,12 @@ defaultTasks 'jar'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version '1.1-SNAPSHOT'
+version '1.1.1-SNAPSHOT'
 group   'org.jacamo'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(15)
     }
 }
 
@@ -45,7 +45,7 @@ dependencies {
     api('org.jacamo:npl:0.5')  {  transitive = false  }
 
     api('org.jacamo:intmas:1.0.0')
-    api('org.jacamo:sai:0.5-SNAPSHOT') {  transitive = false  }
+    api('org.jacamo:sai:0.5.1-SNAPSHOT') {  transitive = false  }
     implementation('org.antlr:antlr4:4.8')
 
     api('net.sf.ingenias:jade:4.3')

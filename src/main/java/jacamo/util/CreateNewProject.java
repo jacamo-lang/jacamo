@@ -75,6 +75,7 @@ public class CreateNewProject {
         p.runGradleWrapper();
         p.usage();
         //p.createPathFile();
+        System.exit(0);
     }
 
     void usage() {
@@ -90,14 +91,18 @@ public class CreateNewProject {
     }
     
     void runGradleWrapper() {
-        ProjectConnection connection = GradleConnector
-                .newConnector()
-                .forProjectDirectory(path)
-                .connect();
-        connection.newBuild()
-            .forTasks("wrapper")
-            .run();
-        connection.close();
+        try {
+            ProjectConnection connection = GradleConnector
+                    .newConnector()
+                    .forProjectDirectory(path)
+                    .connect();
+            connection.newBuild()
+                .forTasks("wrapper")
+                .run();
+            connection.close();
+        } catch (Exception e) {
+            System.err.println("Error creating gradle wrapper "+e);
+        }
     }
 
     void createDirs() {

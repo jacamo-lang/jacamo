@@ -20,7 +20,7 @@ java {
 
 repositories {
     mavenCentral()
-    maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases" }
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
 }
 

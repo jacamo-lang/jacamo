@@ -13,7 +13,7 @@ defaultTasks 'jar'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version '1.1.1-SNAPSHOT'
+version '1.1'
 group   'org.jacamo'
 
 java {
@@ -27,7 +27,7 @@ repositories {
 
     //maven { url "http://jacamo.sourceforge.net/maven2/" }
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
-    maven { url "https://repo.gradle.org/gradle/libs-releases-local" }
+    maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     //maven { url "https://jade.tilab.com/maven/" }
 
     //flatDir {       dirs 'lib'    }
@@ -35,11 +35,11 @@ repositories {
 
 
 dependencies {
-    api('org.jason:jason:3.1-SNAPSHOT') {
+    api('org.jason:jason:3.1') {
        exclude group: 'net.sf.ingenias', module: 'jade'
     }
-    api('org.jacamo:cartago:3.1-SNAPSHOT') {  transitive = false  }
-    api('org.jacamo:jaca:3.1-SNAPSHOT') {  transitive = false  }
+    api('org.jacamo:cartago:3.1') {  transitive = false  }
+    api('org.jacamo:jaca:3.1') {  transitive = false  }
 
     api('org.jacamo:moise:1.0') {  transitive = false  }
     api('org.jacamo:npl:0.5')  {  transitive = false  }
@@ -50,12 +50,12 @@ dependencies {
 
     api('net.sf.ingenias:jade:4.3')
 
-    implementation ('org.jacamo:jacamo-rest:0.7-SNAPSHOT') {
+    implementation ('org.jacamo:jacamo-rest:0.7') {
          exclude group: 'org.jacamo', module: 'jacamo'
     }
 
     implementation('org.apache.ant:ant:1.10.5')
-    implementation('org.gradle:gradle-tooling-api:6.8.3')
+    implementation('org.gradle:gradle-tooling-api:7.4.2')
 
     implementation('guru.nidi:graphviz-java:0.7.0')
     implementation('org.slf4j:slf4j-nop:1.7.30')

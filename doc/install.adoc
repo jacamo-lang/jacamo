@@ -8,19 +8,6 @@ We have different options to start using JaCaMo: Eclipse, shell script commands,
 Eclipse and shell script options require that you download and install JaCaMo in your machine.
 Since the shell script, Gradle, and Docker options do not include an IDE, you can either import the project into an Eclipse workspace (instructions are shown by the creation script) or use some text editor (we suggest Atom, see below).
 
-== Eclipse Plugin
-
-Requirements:
-
-- Java >= 15
-- Eclipse Java-EE or Committers >= Photon Release (4.8.0)
-
-To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create and run a new application.
-
-To include existing projects in your eclipse workspace, preferably use the option "file/import/import gradle project".
-
-image:./tutorials/hello-world/screens/p1.png[]
-
 == Gradle
 
 Requirements:
@@ -70,6 +57,20 @@ If you want to run a JaCaMo application that was not created with a `build.gradl
 
 - `<VERSION>` by the required JaCaMo release (e.g. `1.0`)
 - `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
+
+== Eclipse Plugin
+
+Requirements:
+
+- Java >= 15
+- Eclipse Java-EE or Committers >= Photon Release (4.8.0)
+
+To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create and run a new application.
+
+To include existing projects in your eclipse workspace, preferably use the option "file/import/import gradle project".
+
+image:./tutorials/hello-world/screens/p1.png[]
+
 
 == Shell commands scripts
 

@@ -16,7 +16,8 @@ mas <PROJECT_NAME> {
 
     <DEFAULT_AGENT>
 
+    <JCM_ENV>
+
     <PLATFORM>
 
 }
-

@@ -117,7 +117,7 @@ public class CreateNewProject {
         new File(path + "/src/agt").mkdirs();
         new File(path + "/src/agt/inc").mkdirs();
         new File(path + "/src/agt/jia").mkdirs();
-        new File(path + "/src/env/tools").mkdirs();
+        new File(path + "/src/env/example").mkdirs();
         new File(path + "/src/org").mkdirs();
         new File(path + "/src/int").mkdirs();
     }
@@ -126,7 +126,8 @@ public class CreateNewProject {
         copyFile("project", new File( path+"/"+id+".jcm"));
         copyFile("agent", new File( path + "/src/agt/sample_agent.asl"));
         copyFile("logging.properties", new File( path + "/logging.properties"));
-        copyFile("CArtAgOartifact", new File(path+"/src/env/tools/Counter.java"));
+        File f = new File(path+"/src/env/example/Counter.java");
+        copyFile("CArtAgOartifact", f);
         copyFile("organization", new File( path + "/src/org/org.xml"));
         copyFile("build.gradle", new File( path + "/build.gradle"));
     }
@@ -146,13 +147,15 @@ public class CreateNewProject {
                 l = l.replace("<VERSION>", c.getJaCaMoVersion());
                 l = l.replace("<DATE>", new SimpleDateFormat("MMMM dd, yyyy - HH:mm:ss").format(new Date()));
 
-                l = l.replace("<DEFAULT_AGENT>", "agent sample_agent");
+                l = l.replace("<DEFAULT_AGENT>", "agent bob: sample_agent.asl {\n      focus: w.c1 \n    }");
                 l = l.replace("<AG_NAME>", "sample_agent");
 
-                l = l.replace("<PCK>", "tools");
+                l = l.replace("<PCK>", "example");
                 l = l.replace("<ARTIFACT_NAME>", "Counter");
                 l = l.replace("<SUPER_CLASS>", "Artifact");
+                l = l.replace("<JCM_ENV>", "workspace w {\n      artifact c1: example.Counter(3) \n    }");
 
+                
                 l = l.replace("<ORGANIZATION_NAME>", id);
 
                 if (consoleApp) {

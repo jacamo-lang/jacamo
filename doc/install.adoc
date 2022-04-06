@@ -21,8 +21,8 @@ NOTE: The first time you run takes longer since it downloads JaCaMo.
 Unix::
 +
 ----------------
-curl -s -O http://jacamo.sourceforge.net/nps/np1.0.zip
-unzip np1.0.zip
+curl -s -O http://jacamo.sourceforge.net/nps/np1.1.zip
+unzip np1.1.zip
 ./gradlew --console=plain
 ----------------
 
@@ -40,7 +40,7 @@ You will be asked to enter the identification of the application and then instru
 Example of output:
 ----
 > Task :run
-JaCaMo 1.0 built on Thu Jun 25 21:12:43 BRT 2020
+JaCaMo 1.1 built on Wed Apr 06 19:16:53 BRT 2022
 
 Enter the identification of the new application: helloworld
 Creating path /Users/jomi/tmp/helloworld
@@ -50,7 +50,7 @@ You can run your application with:
    ./gradlew -q --console=plain
 
 or (if you have JaCaMo scripts installed)
-   jacamo /Users/jomi/tmp/helloworld/helloworld.jcm
+   jacamo helloworld.jcm
 ----
 
 If you want to run a JaCaMo application that was not created with a `build.gradle` file, you can download a template from https://raw.githubusercontent.com/jacamo-lang/jacamo/master/src/main/resources/templates/build.gradle[here] and replace

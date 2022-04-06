@@ -45,12 +45,12 @@ dependencies {
     api('org.jacamo:npl:0.5')  {  transitive = false  }
 
     api('org.jacamo:intmas:1.0.0')
-    api('org.jacamo:sai:0.5.1-SNAPSHOT') {  transitive = false  }
+    api('org.jacamo:sai:0.5.1') {  transitive = false  }
     implementation('org.antlr:antlr4:4.8')
 
     api('net.sf.ingenias:jade:4.3')
 
-    implementation ('org.jacamo:jacamo-rest:0.7') {
+    {
          exclude group: 'org.jacamo', module: 'jacamo'
     }
 
@@ -305,9 +305,10 @@ task copyRel {
             into 'build/jacamo-'+project.version+'/scripts'
         }
         copy {
-            from libsDir
-            from configurations.runtime
-            into 'build/jacamo-'+project.version+'/'+libsDirName
+            duplicatesStrategy = 'include'
+            from 'build/libs'
+            from configurations.runtimeClasspath
+            into 'build/jacamo-'+project.version+'/libs'
             include '**/*.jar'
             //exclude '**/jason-2.0.jar'
         }

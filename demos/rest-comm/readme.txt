@@ -1,3 +1,5 @@
+This demo illustrates how to run distributed agents using JaCaMo-REST for their communication.
+
 Steps to run this demo:
 
 1. run the mas at host h1

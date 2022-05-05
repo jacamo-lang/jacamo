@@ -26,13 +26,13 @@ The first step is to create a new project named `helloworld`:
 Unix::
 +
 ----------------
-curl -s -O http://jacamo.sourceforge.net/nps/np1.0.zip
-unzip np1.0.zip
+curl -s -O http://jacamo.sourceforge.net/nps/np1.1.zip
+unzip np1.1.zip
 ./gradlew --console=plain
 ----------------
 
 Windows::
-1. Download http://jacamo.sourceforge.net/nps/np1.0.zip
+1. Download http://jacamo.sourceforge.net/nps/np1.1.zip
 2. Unzip
 3. Run `gradlew.bat`
 
@@ -40,7 +40,7 @@ When asked for the application identification, answer `helloworld`:
 
 ----
 > Task :run
-JaCaMo 1.0 built on Thu Jun 25 21:12:43 BRT 2020
+JaCaMo 1.1
 
 Enter the identification of the new application: helloworld
 Creating path /Users/jomi/tmp/helloworld
@@ -59,7 +59,7 @@ image:./screens/atom-project.png[]
 Project files (with extension `.jcm`) allow us to define the agents, the
 environment and the organisation of our multi-agent application.
 
-NOTE: This tutorial uses JaCaMo 1.0.
+NOTE: This tutorial uses JaCaMo 1.1.
 
 [[part-ii-agent]]
 == Part II (agent)

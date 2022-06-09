@@ -1,5 +1,5 @@
 /*
-   Application Hello World
+   Application Goal Miners
 
    Gradle build file for JaCaMo Application
 */
@@ -26,16 +26,14 @@ repositories {
     maven { url "https://repo.gradle.org/gradle/libs-releases" }
     //maven { url "https://jade.tilab.com/maven/" }
 
-    flatDir {
-       dirs 'lib'
-    }
+    //flatDir {  dirs 'lib'  }
 }
 
 dependencies {
-    compile group: 'org.jacamo',     name: 'jacamo' ,   version: '1.0'
-    compile name: 'search'
-    compile 'org.twitter4j:twitter4j-async:4.0.7'
-    compile 'org.twitter4j:twitter4j-stream:4.0.7'
+    implementation('org.jacamo:jacamo:1.1')
+    implementation files('lib/search.jar') //('search')
+    implementation('org.twitter4j:twitter4j-async:4.0.7')
+    implementation('org.twitter4j:twitter4j-stream:4.0.7')
 }
 
 sourceSets {

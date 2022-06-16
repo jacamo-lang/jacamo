@@ -87,3 +87,14 @@ task testJaCaMo {
     }
 }
 tasks.test.finalizedBy testJaCaMo
+
+task run (type: JavaExec, dependsOn: 'classes') {
+    group       ' Jason'
+    description 'runs the Jason application'
+    doFirst {
+        mkdir 'log'
+    }
+    main 'jason.infra.centralised.RunCentralisedMAS'
+    args 'tdd.mas2j'
+    classpath sourceSets.main.runtimeClasspath
+}

@@ -1,8 +1,7 @@
 package room;
 
-import cartago.*;
-import jason.asSyntax.Atom;
-import jason.asSyntax.Literal;
+import cartago.Artifact;
+import cartago.OPERATION;
 
 /**
  * Simple air conditioner artifact which can heat and cool the environment
@@ -15,6 +14,6 @@ public class AirConditioner extends Artifact {
      */
     @OPERATION
     void heat() {
-        cfps.clear();
+        return;
     }
 }

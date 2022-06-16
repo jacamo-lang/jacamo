@@ -30,8 +30,8 @@ import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.directives.DirectiveProcessor;
 import jason.asSyntax.directives.Include;
-import jason.infra.centralised.CentralisedAgArch;
-import jason.infra.centralised.RunCentralisedMAS;
+import jason.infra.local.LocalAgArch;
+import jason.infra.local.RunLocalMAS;
 import jason.infra.repl.ReplAgGUI;
 import jason.mas2j.AgentParameters;
 import jason.runtime.MASConsoleGUI;
@@ -48,7 +48,7 @@ import jason.runtime.SourcePath;
  *
  * @author Jomi
  */
-public class JaCaMoLauncher extends RunCentralisedMAS {
+public class JaCaMoLauncher extends RunLocalMAS {
 
     protected List<Platform> platforms = new ArrayList<>();
 
@@ -85,7 +85,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
     @Override
     public int init(String[] args) {
         String projectFileName = null;
-        if (RunCentralisedMAS.class.getResource("/"+defaultProjectFileName) != null) {
+        if (RunLocalMAS.class.getResource("/"+defaultProjectFileName) != null) {
             projectFileName = defaultProjectFileName;
             appFromClassPath = true;
             Config.get(false); // to void to call fix/store the configuration in this case everything is read from a jar/jnlp file
@@ -139,9 +139,9 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
             InputStream inProject;
             if (appFromClassPath) {
                 if (projectFileName == null) {
-                    inProject = RunCentralisedMAS.class.getResource("/"+defaultProjectFileName).openStream();
+                    inProject = RunLocalMAS.class.getResource("/"+defaultProjectFileName).openStream();
                 } else {
-                    inProject = RunCentralisedMAS.class.getResource("/"+projectFileName).openStream();                  
+                    inProject = RunLocalMAS.class.getResource("/"+projectFileName).openStream();                  
                 }
                 urlPrefix = SourcePath.CRPrefix;
             } else {
@@ -402,7 +402,7 @@ public class JaCaMoLauncher extends RunCentralisedMAS {
 
     @Override
     protected void createReplAg(String n) {
-        CentralisedAgArch agArch = new CentralisedAgArch();
+        LocalAgArch agArch = new LocalAgArch();
         try {
             agArch.setAgName(n);
             List<String> archs = new ArrayList<>();

@@ -19,8 +19,8 @@ import jason.asSyntax.ListTermImpl;
 import jason.asSyntax.Literal;
 import jason.asSyntax.StringTerm;
 import jason.asSyntax.Term;
-import jason.infra.centralised.CentralisedAgArch;
-import jason.infra.centralised.RunCentralisedMAS;
+import jason.infra.local.LocalAgArch;
+import jason.infra.local.RunLocalMAS;
 
 @SuppressWarnings("serial")
 public class create_ag_sst extends DefaultInternalAction {
@@ -35,14 +35,14 @@ public class create_ag_sst extends DefaultInternalAction {
             Agent ag = (Agent)in.readObject();
 
             // find cent & cartago archs
-            CentralisedAgArch carch = null;
+            LocalAgArch carch = null;
             CAgentArch        cartagoArch = null;
             MindInspectorAgArch mindInspArch = null;
             
             AgArch arch =  ag.getTS().getAgArch();
             while (arch != null) {
-                if (arch instanceof CentralisedAgArch)
-                    carch = (CentralisedAgArch)arch;
+                if (arch instanceof LocalAgArch)
+                    carch = (LocalAgArch)arch;
                 if (arch instanceof CAgentArch)
                     cartagoArch = (CAgentArch)arch;
                 if (arch instanceof MindInspectorAgArch) {
@@ -86,7 +86,7 @@ public class create_ag_sst extends DefaultInternalAction {
                 mindInspArch.init();
             }
             
-            RunCentralisedMAS.getRunner().addAg(carch);
+            RunLocalMAS.getRunner().addAg(carch);
             
             // TODO: create a thread for the agent, ideally it should use the platform way to run the agent (pool, jade, ....)
             Thread agThread = new Thread(carch);

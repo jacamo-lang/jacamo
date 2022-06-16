@@ -1,0 +1,13 @@
+mas alice_mas {
+
+    agent alice {
+        focus: w.c
+    }
+
+    workspace w {
+        artifact c: tools.Counter(10)
+    }
+
+    platform: jacamo.rest.JCMRest("--rest-port 8080")
+    //platform: jade("-gui -sniffer")
+}

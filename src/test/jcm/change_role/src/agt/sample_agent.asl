@@ -1,10 +1,15 @@
+{ include("$jasonJar/test/jason/inc/test_assert.asl") }
+
 !start.
 
 +!start
    <- .wait(200);
+      !assert_true(play(sample_agent,role1,g));
       leaveRole(role1);
+      !assert_false(play(sample_agent,role1,g));
+
       adoptRole(role2);
-      .print("changed!");
+      !assert_true(play(sample_agent,role2,g));
    .
 
 { include("$jacamoJar/templates/common-cartago.asl") }

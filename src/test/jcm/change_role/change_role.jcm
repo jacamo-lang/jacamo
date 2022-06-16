@@ -1,9 +1,3 @@
-/* output:
-
-changed
-
-*/
-
 mas change_role {
 
     agent sample_agent
@@ -13,5 +7,4 @@ mas change_role {
             players: sample_agent role1
         }
     }
-
 }

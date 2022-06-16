@@ -159,7 +159,7 @@ public class Config extends jason.util.Config {
     @Override
     public void fix() {
         tryToFixJarFileConf(JACAMO_JAR, "jacamo"); // this jar is required at runtime (e.g. for .include)
-        tryToFixJarFileConf(MOISE_JAR,  "moise"); // this jar is required at runtime (e.g. for .include)
+        tryToFixJarFileConf(MOISE_JAR,  "moise");  // this jar is required at runtime (e.g. for .include)
         super.fix();
         
         if (getProperty(START_WEB_EI) == null) {
@@ -212,41 +212,85 @@ public class Config extends jason.util.Config {
             } catch (Throwable e) {}; // class not found
         return super.getJarFileForFixTest(jarEntry);
     }
-    
+
+    public String findJarInDirectory(File dir, String prefix, String jarEntry) {
+        if (dir.isDirectory()) {
+            for (File f: dir.listFiles()) {
+                if (f.getName().startsWith(prefix) && 
+                        f.getName().endsWith(".jar") && 
+                        !f.getName().endsWith("-sources.jar") && 
+                        !f.getName().endsWith("-javadoc.jar") &&
+                        checkJar(f.getAbsolutePath(), getJarFileForFixTest(jarEntry))) {
+                    return f.getAbsolutePath();
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public boolean tryToFixJarFileConf(String jarEntry, String jarFilePrefix) {
-        super.tryToFixJarFileConf(jarEntry, jarFilePrefix);
-        // for moise.jar we need to fix based on jacamohome, since when running Config or ConfigGUI it is not in the classpath
-        // latter, eclipse requires these jars
-        if (get(jarEntry) == null && getJaCaMoHome() != null) { // super didn't solve
-            String jarFile = findJarInDirectory(new File(getJaCaMoHome()+"/libs"), jarFilePrefix);
-            if (checkJar(jarFile, getJarFileForFixTest(jarEntry))) {
+        String jarFile   = getProperty(jarEntry);
+        String fileInJar = getJarFileForFixTest(jarEntry);
+
+        if (jarFile == null || !checkJar(jarFile, fileInJar)) {
+            
+            // try with $JACAMO_HOME
+            String jh = System.getenv().get("JACAMO_HOME");
+            if (jh != null) {
+                jarFile = findJarInDirectory(new File(jh+"/libs"), jarFilePrefix, jarEntry);             
                 try {
                     put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
-                    if (showFixMsgs)
-                        System.out.println("found at " + jarFile + " based on location of jacamo.jar");
+                    //if (showFixMsgs)
+                    if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
+                        System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile + ", based on JACAMO_HOME variable: "+jh);
                     return true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+
+            // try to get by class loader
+            try {
+                String fromLoader = getClassForClassLoaderTest(jarEntry).getProtectionDomain().getCodeSource().getLocation().toString();
+                if (fromLoader.startsWith("file:"))
+                    fromLoader = fromLoader.substring(5);
+                if (new File(fromLoader).getName().startsWith(jarFilePrefix) && checkJar(fromLoader, fileInJar)) {
+                    if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
+                        System.out.println("Configuration of '"+jarEntry+"' found at " + fromLoader+", based on class loader");
+                    put(jarEntry, fromLoader);
+                    return true;
+                }
+            } catch (Exception e) {}
+            
+            // try to get from classpath
+            jarFile = getJarFromClassPath(jarFilePrefix, fileInJar);
+            if (checkJar(jarFile, fileInJar)) {
+                put(jarEntry, jarFile);
+                if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
+                    System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile+", based on classpath");
+                return true;
+            }
+            
+            super.tryToFixJarFileConf(jarEntry, jarFilePrefix);
+        }
+
+        
+        // for moise.jar we need to fix based on jacamohome, since when running Config or ConfigGUI it is not in the classpath
+        // latter, eclipse requires these jars
+        if (get(jarEntry) == null && getJaCaMoHome() != null) { // super didn't solve
+            jarFile = findJarInDirectory(new File(getJaCaMoHome()+"/libs"), jarFilePrefix, jarEntry);
+            try {
+                put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
+                //if (showFixMsgs)
+                if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
+                    System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile + " based on location of jacamo.jar");
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         
-        // try with $JACAMO_HOME
-        String jh = System.getenv().get("JACAMO_HOME");
-        if (jh != null) {
-            String jarFile = findJarInDirectory(new File(jh+"/libs"), jarFilePrefix);
-            if (checkJar(jarFile, getJarFileForFixTest(jarEntry))) {
-                try {
-                    put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
-                    if (showFixMsgs)
-                        System.out.println("found at " + jarFile + " based on JACAMO_HOME");
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }               
-        }
         return false;
     }
 

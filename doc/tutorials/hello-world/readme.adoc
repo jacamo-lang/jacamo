@@ -19,24 +19,47 @@ application that considers agents, environment and organisation.
 
 == Part I (new project)
 
-Using either the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or a  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based{outfilesuffix}[shell command] (see link:http://jacamo.sourceforge.net/doc/install.html[installation instructions]), create a new project named `helloworld`. The file `helloworld.jcm` (the project file) describes the project and
-will be the main focus of this tutorial. By openning this file, you will
+In this tutorial, Gradle+Atom is used as the IDE (see link:http://jacamo.sourceforge.net/doc/install.html[installation instructions]). You can however use either the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or a  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based{outfilesuffix}[shell command].
+
+The first step is to create a new project named `helloworld`:
+
+Unix::
++
+----------------
+curl -s -O http://jacamo.sourceforge.net/nps/np1.1.zip
+unzip np1.1.zip
+./gradlew --console=plain
+----------------
+
+Windows::
+1. Download http://jacamo.sourceforge.net/nps/np1.1.zip
+2. Unzip
+3. Run `gradlew.bat`
+
+When asked for the application identification, answer `helloworld`:
+
+----
+> Task :run
+JaCaMo 1.1
+
+Enter the identification of the new application: helloworld
+Creating path /Users/jomi/tmp/helloworld
+
+You can run your application with:
+   cd /Users/jomi/tmp/helloworld
+   ./gradlew -q --console=plain
+----
+
+The file `helloworld.jcm` (the project file) describes the project and
+is be the main focus of this tutorial. By openning this file, you will
 have a screen like the following:
 
-image:./screens/p1.png[]
+image:./screens/atom-project.png[]
 
 Project files (with extension `.jcm`) allow us to define the agents, the
-environment and the organisation of our multi-agent application. The
-keywords `agent`, `workspace`, and `organisation` are used to define
-these components, respectively. Although the project template explains
-its own syntax, it is important to know the conceptual view of JaCaMo to
-properly understand this file. The conceptual model is presented in the
-http://jacamo.sourceforge.net/[JaCaMo website],
-in the https://mitpress.mit.edu/books/multi-agent-oriented-programming[JaCaMo book], in some
-link:./slides.pdf[slides], and in some
-http://dx.doi.org/10.1016/j.scico.2011.10.004[papers].
+environment and the organisation of our multi-agent application.
 
-NOTE: This tutorial uses JaCaMo 1.0.
+NOTE: This tutorial uses JaCaMo 1.1.
 
 [[part-ii-agent]]
 == Part II (agent)
@@ -71,22 +94,11 @@ will be created in the following step). As can be seen in this project
 file, each agent will have an initial belief `message("xxxxx")`
 corresponding to the message that it should use to say hello.
 
-*2.* To create a new agent type select `src/agt` (in JaCaMo Navigator
-tab) and then the Eclipse menu File -> New -> Agent type.
+*2.* To create a new agent type select `src/agt/sample_agent.asl` and then rename it to `hello.asl`.
 
-image:./screens/m1.png[width="60%"]
+*3.* Our initial agents will be obedient to everything their organisation asks for! Thus, uncomment the last line in the file `hello.asl`. In order to take into account the belief `message`, the plan to achieve the goal `!start` has to be improved as shown below:
 
-For the agent type, fill "hello" corresponding to the agent's source
-code file `hello.asl`:
-
-image:./screens/f1.png[width="60%", align=center]
-
-*3.* Our initial agents will be obedient to everything their
-organisation asks for! Thus, uncomment the last line in the file
-`hello.asl`. In order to take into account the belief `message`, the
-plan to achieve the goal `!start` has to be improved as shown below:
-
-image:./screens/c1.png[]
+image:./screens/atom-code1.png[]
 
 The plan in line 11 on the picture can be read by the agent as "whenever
 I have the goal `!start` and I believe in `message(X)`, I will achieve
@@ -101,8 +113,14 @@ NOTE: the order of the plans for achieving goal `start` is important. If
 you place plan of line 12 before the one in line 11, this latter will
 never be executed!
 
-*4.* You can now run the application by pressing on the button
-image:./screens/run.png[], the result should be the following in
+*4.* You can now run the application
+
+----
+   ./gradlew
+----
+
+
+the result should be the following in
 the `MAS Console` of the project:
 
 image:./screens/r1.png[]
@@ -161,19 +179,12 @@ property (`numMsg`) and one operation (`printMsg(String)`). Initially
 all agents will share the same display artifact and latter we will have
 displays in several countries.
 
-*1.* To create the display artifact, select `src/env` (in the JaCaMo
-Navigator tab) and then the Eclipse menu File -> New -> CArTAgO Artifact. Fill
-the form as follows (NB.: use `display` and `GUIConsole` for the package
-and class names, respectively):
+*1.* To create the display artifact, select `src/env/tools/Counter.java` and rename it to  `src/env/display/GUIConsole.java`. Then replace the default code of GUIConsole by the Java code available link:./code/helloworld/src/env/display/GUIConsole.java[here]. Identify in the Java source code where the observable properties and operations are declared.
 
-image:./screens/f2.png[width="60%", align=center]
+image:./screens/atom-code2.png[]
 
-Replace the default code of GUIConsole by the Java code available
-link:./code/helloworld/src/env/display/GUIConsole.java[here]. Identify in the Java source code
-where the observable properties and operations are declared.
 
-*2.* Add this artifact in the project by including the following lines
-in the .jcm project:
+*2.* Add this artifact in the project by including the following lines in the .jcm project:
 
 [source,jacamoproject]
 ---------------------------------------------------
@@ -190,15 +201,8 @@ The above lines create an instance of the display artifact and named it
 This is why we add for each agent a `focus` instruction focusing on the
 artifact `gui` in the workspace `jacamo`:
 
-[source,jacamoproject]
----------------------------------------
-    agent francois : hello.asl {
-        beliefs: message("Bonjour")
-        focus: jacamo.gui
-    }
+image:./screens/atom-code3.png[]
 
-    // ... similar for the other agents
----------------------------------------
 
 In the agent source code (file `hello.asl`), replace the `.print` action
 by `printMsg` which is the name of the operation provided by the `gui`
@@ -228,7 +232,6 @@ project file (.jcm) will create the workspaces and artifacts:
 -------------------------------------------------------------------------------------
     workspace france {
         artifact gui: display.GUIConsole("France")
-        debug   // starts the workspace inspector for all artifacts of this workspace
     }
 
     workspace italy {
@@ -247,9 +250,6 @@ project file (.jcm) will create the workspaces and artifacts:
 NOTE: the name of the artifact should be unique in one workspace, but we
 can have the same name in different workspaces. For instance the name
 `gui` of the artifact `display.GUIConsole` is the same in all workspaces.
-Let's note also in this example the use of the `debug` instruction that
-starts an inspector of all the artifacts present in the workspace in
-which `debug` appears.
 
 *6.* In order to perceive the artifacts (by focusing on them), the
 agents should be placed in their proper workspace. This is why we add
@@ -400,7 +400,7 @@ In Moise notation:
 image::./code/os-ss.png[width="70%", align=center]
 
 
-*1.* To create an organisational specification, select `src/org` (in the JaCaMo Navigator tab) and then the Eclipse menu File -> New -> Moise Specification. For organisation filename, fill `o1.xml`. Open `o1.xml` and replace its content by this link:./code/helloworld/src/org/o1.xml[file]. It contains an XML representation of the above specification. Try to identify the roles, missions, and schemes in the file.
+*1.* To create an organisational specification, select `src/org/org.xml` and rename it to `o1.xml`. Open `o1.xml` and replace its content by this link:./code/helloworld/src/org/o1.xml[file]. It contains an XML representation of the above specification. Try to identify the roles, missions, and schemes in the file.
 
 *2.* Based on this specification, the following code in the project file (`helloworld.jcm`) will create an organisation entity (i.e. agents within an organisation) where `francois` will play role `rv`, `maria` the role `rl`, `giacomo` the role `rc`, `alice` the role `rs` in the group `jacamo_team` which is of type `team`. This group is responsible for executing the social scheme `hello_eng` of type `hello_sch`.
 
@@ -508,75 +508,6 @@ The value of this variable can be used to select the proper console.
 __Solutions__: available link:./solutions/e3e.txt[here] and
 link:./solutions/e3e-version2.txt[here].
 
-== Part V (distribution)
-
-The last part of this tutorial will distribute the agents, workspaces,
-and organisation on different machines. In JaCaMo, an application can be
-deployed in different _nodes_ and each node has its own project `.jcm`
-project.
-
-We will distribute our application on two nodes:
-
-* `europe`: will run agents `francois` and `giacomo`; workspaces
-`france`, `italy`, and `jacamo`; and the organisation `hello_org`.
-* `america`: will run agents `maria` and `alice`; and workspaces
-`brazil` and `usa`.
-
-*1.* Copy `helloworld.jcm` to `europe.jcm`. Change `europe.jcm` to:
-
-[source,jacamoproject]
-----
-include::code/helloworld/europe.jcm[]
-----
-
-Some important changes:
-
-* in the organisation, the agents for the other node were removed,
-* the platform `cartago("infrastructure")` was introduced to manage
-distributed workspaces.
-
-*2.* Select the file `europe.jcm` and execute it. The agents, workspaces
-and organisation are created. However, the group is not well formed,
-since there are no agents playing the roles `rl` and `rs`. Thus, the
-scheme does not start!
-
-*3.* Copy `helloworld.jcm` to `america.jcm`. Change `america.jcm` to:
-
-[source,jacamoproject]
-----
-include::code/helloworld/america.jcm[]
-----
-
-Some important changes:
-
-* in the agent declaration
-** we define the node where the `jacamo` workspace is running,
-** we define the roles (see the comments in the code above),
-* the platform `cartago()` is added to enable distributed workspaces,
-* the `node` declaration defines where the node `europe` is running
-(`localhost` in the case).
-
-*4.* Select the file `america.jcm` and execute it. The agents and
-workspaces are created. The agents adopt the roles in the remote
-organisation. The group become well formed and the scheme starts
-executing.
-
-[[exercises-3]]
-Exercises
-~~~~~~~~~
-
-.. Run the application using two different machines: one for node
-`europe` and another for `america`.
-
-.. As we saw in this part, the role of the agents can be defined either
-in the `organisation` or in the `agent` declaration. Change the
-`europe.jcm` file defining the roles of the agents in the `agent` part
-instead of in `organisation` part.
-
-.. Create a third node and move the organisation to it.
-
-.. Move the console developed in exercise _Part IV (e)_ to this third
-node.
 
 '''''
 

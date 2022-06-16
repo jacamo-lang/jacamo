@@ -13,20 +13,20 @@ apply plugin: 'eclipse'
 version '1.0'
 group   'org.jacamo'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
+}
 
 repositories {
-    maven { url "https://raw.github.com/jacamo-lang/mvn-repo/master" }
+    maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases" }
     mavenCentral()
-
-    //maven { url "http://jacamo.sourceforge.net/maven2" }
-    //maven { url "http://jade.tilab.com/maven/" }
-
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '1.0-SNAPSHOT'
+    implementation ('org.jacamo:jacamo:1.1-SNAPSHOT')
 }
 
 sourceSets {
@@ -52,36 +52,6 @@ task run (type: JavaExec, dependsOn: 'classes') {
     main 'jacamo.infra.JaCaMoLauncher'
     args 'inst.jcm'
     classpath sourceSets.main.runtimeClasspath
-}
-
-
-task uberJar(type: Jar, dependsOn: 'classes') {
-    group      ' JaCaMo'
-    description 'creates a single runnable jar file with all dependencies'
-
-    manifest {
-        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
-    }
-    baseName = 'jacamo-inst' // the name must start with jacamo so that jacamo...jar is found in the classpath
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    from (project.projectDir.absolutePath) {
-        include '**/*.asl'
-        include '**/*.xml'
-        include '**/*.jcm'
-        include '*.properties'
-    }
-    from (project.buildDir.absolutePath + '/jcm') {
-        include '**/*'
-    }
-    with jar
-
-    doFirst {
-        copy {
-            from 'inst.jcm'
-            rename 'inst.jcm','default.jcm'
-            into project.buildDir.absolutePath + '/jcm'
-        }
-    }
 }
 
 clean {

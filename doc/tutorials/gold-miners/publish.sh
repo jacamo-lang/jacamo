@@ -8,7 +8,8 @@ rm -rf initial-gold-miners/.project
 rm -rf initial-gold-miners/bin
 rm -rf initial-gold-miners/build
 rm -rf initial-gold-miners/log/*
-#rm initial-gold-miners.zip
+
+rm initial-gold-miners.zip
 zip -r initial-gold-miners.zip initial-gold-miners
 
 scp -r *.zip jomifred,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/tutorial/gold-miners

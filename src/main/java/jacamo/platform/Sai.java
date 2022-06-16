@@ -13,6 +13,7 @@ import cartago.Op;
 import cartago.OpFeedbackParam;
 import cartago.Workspace;
 import jacamo.project.JaCaMoInstParameters;
+import jason.runtime.SourcePath;
 
 public class Sai extends DefaultPlatformImpl {
     
@@ -22,6 +23,10 @@ public class Sai extends DefaultPlatformImpl {
 
     @Override
     public void init(String[] args) throws CartagoException {
+        // if agent source path contains CRPrefix, adds it also for SAI
+        if (project.getSourcePaths().getPaths().contains(SourcePath.CRPrefix)) {
+            project.getOrgPaths().addPath(SourcePath.CRPrefix);
+        }
     }
     
     @Override

@@ -1,6 +1,12 @@
 mas main_container_jade {
 
-    agent alice
+    agent alice {
+        focus: w.c
+    }
+
+    workspace w {
+        artifact c: tools.Counter(10)
+    }
 
     platform: jade("-gui -sniffer")
 }

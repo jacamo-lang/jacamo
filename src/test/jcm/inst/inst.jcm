@@ -1,7 +1,12 @@
 /*
-    inst
-    ---------------------------
 
+test for SAI integration
+---------------------------
+
+expected output:
+
+[bob] I am obliged to g(X) doing inc to fulfill
+[bob] obligation(bob,true,g(X),"2021-10-0 19:43:59")[created("2021-10-6 19:43:59"),done(-86399993),fulfilled("2021-10-6 19:43:59"),norm(nSai1,[])]
 
 */
 
@@ -32,4 +37,6 @@ mas inst {
 
         situated: i1
     }
+
+    platform: jacamo.rest.JCMRest("--rest-port 8080")
 }

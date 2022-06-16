@@ -19,7 +19,7 @@ import jacamo.project.JaCaMoWorkspaceParameters;
 import jason.mas2j.ClassParameters;
 
 public class Cartago extends DefaultPlatformImpl {
-    
+
     protected CartagoEnvironment        env;
 
     Logger logger = Logger.getLogger(Cartago.class.getName());
@@ -29,27 +29,27 @@ public class Cartago extends DefaultPlatformImpl {
         env = new CartagoEnvironment();
         env.init( args );
     }
-    
+
     @Override
     public void start() {
-        cartago.CartagoEnvironment cenv = cartago.CartagoEnvironment.getInstance(); 
+        cartago.CartagoEnvironment cenv = cartago.CartagoEnvironment.getInstance();
         Workspace main = cenv.getRootWSP().getWorkspace();
         for (JaCaMoWorkspaceParameters wp : project.getWorkspaces()) {
             try {
-                Workspace currentWks = null; // reference for the workspace being created               
+                Workspace currentWks = null; // reference for the workspace being created
                 String hostId = wp.getHost(); // the host as in JCM
                 if (hostId != null && !hostId.isEmpty()) {
                     String hostName = project.getDeployHost(hostId); // the host as in the deployment file
                     if (hostName == null) {
-                        logger.warning("deployment host for "+hostId+" was not informed!");                     
+                        logger.warning("deployment host for "+hostId+" was not informed!");
                     } else {
                         logger.info("creating workspace for "+wp.getName()+" at "+hostName);
                     }
                     logger.warning("remote workspace creation not implemented yet!");
-                    
+
                     // TODO: implement it
                 }
-                
+
                 if (main.getChildWSP(wp.getName()).equals(Optional.empty())) {
                     currentWks = main.createWorkspace(wp.getName()).getWorkspace();
                     logger.info("Workspace " + wp.getName() + " created.");
@@ -66,7 +66,7 @@ public class Cartago extends DefaultPlatformImpl {
                 // check institution
                 for (JaCaMoInstParameters inst : project.getInstitutions()) {
                     if (inst.hasWorkspace(wp.getName()) && inst.getRE() != null) {
-                        context.doAction(1, new Op("setWSPRuleEngine", new Object[] { inst.getRE() }), null, -1);  
+                        context.doAction(1, new Op("addWSPRuleEngine", new Object[] { inst.getRE() }), null, -1);  
                         logger.info("institution "+inst.getName()+" linked to "+wp.getName());
                     }
                 }
@@ -77,13 +77,13 @@ public class Cartago extends DefaultPlatformImpl {
                     try {
                         if (currentWks.getArtifact(aName) == null) {
                             ClassParameters cp = wp.getArtifacts().get(aName);
-                            msg = "artifact " 
-                                    + aName + ": " + cp.getClassName() + "(" + cp.getParametersStr(",")             
+                            msg = "artifact "
+                                    + aName + ": " + cp.getClassName() + "(" + cp.getParametersStr(",")
                                     + ") at " + wp.getName();
                             ArtifactId aid = currentWks
                                     .makeArtifact(
                                             context.getAgentId(),
-                                            aName, 
+                                            aName,
                                             cp.getClassName(),
                                             new ArtifactConfig(cp.getTypedParametersArray()));
                             logger.info(msg + " created.");
@@ -105,7 +105,7 @@ public class Cartago extends DefaultPlatformImpl {
             }
         }
     }
-    
+
     @Override
     public void stop() {
         try {

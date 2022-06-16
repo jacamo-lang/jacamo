@@ -7,6 +7,16 @@ fi
 DEST=/home/project-web/jacamo/htdocs/tutorial/coordination
 find . -name .DS_Store -exec rm {} \;
 
+# clean code and zip
+cd code
+find . -name build -exec rm -rf {} \;
+find . -name .gradle -exec rm -rf {} \;
+rm *.zip
+zip -r auction_ag.zip auction_ag
+zip -r auction_env.zip auction_env
+zip -r auction_org.zip auction_org
+cd ..
+
 IMAGE=jomifred/adoc
 docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$PWD":/app "$IMAGE" asciidoctor -r /pygments_init.rb readme.adoc
 

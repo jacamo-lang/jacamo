@@ -18,7 +18,7 @@ import jason.runtime.Settings;
  * This class provides an agent architecture when using JaCaMo
  * infrastructure to run the MAS inside Jason.
  *
- * The communication and agent management comes from Centralised Infra and
+ * The communication and agent management comes from Local Infra and
  * Perceive and Act are delegated to Cartago.
  *
  */

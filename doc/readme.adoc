@@ -43,6 +43,6 @@ Looking for in-depth knowledge on a particular JaCaMo dimension, you will find q
 //*  link:agent-env{outfilesuffix}[Agent-Environment project: C4Jason]
 //*  link:org-env{outfilesuffix}[Organisation-Environment project: ORA4MAS]
 //*  link:jacandroid{outfilesuffix}[JaCaMo for Android]
-* link:./api/index.html?overview-summary.html[JaCaMo API]
+* link:http://jacamo.sourceforge.net/doc/api/index.html?overview-summary.html[JaCaMo API]
 * link:https://github.com/jacamo-lang/jacamo[GitHub]
 * link:https://github.com/jacamo-lang/jacamo/blob/master/doc/release-notes.adoc[Release Notes]

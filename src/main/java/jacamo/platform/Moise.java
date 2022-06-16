@@ -17,6 +17,7 @@ import cartago.Workspace;
 import jacamo.project.JaCaMoGroupParameters;
 import jacamo.project.JaCaMoOrgParameters;
 import jacamo.project.JaCaMoSchemeParameters;
+import jason.runtime.SourcePath;
 
 public class Moise extends DefaultPlatformImpl {
     
@@ -25,6 +26,10 @@ public class Moise extends DefaultPlatformImpl {
 
     @Override
     public void init(String[] args) throws CartagoException {
+        // if agent source path contains CRPrefix, adds it also for moise
+        if (project.getSourcePaths().getPaths().contains(SourcePath.CRPrefix)) {
+            project.getOrgPaths().addPath(SourcePath.CRPrefix);
+        }
     }
     
     @Override
@@ -66,7 +71,11 @@ public class Moise extends DefaultPlatformImpl {
                             new ArtifactConfig( new Object[] { o.getParameter("source") } ));
                     o.setWId(currentWks.getId());
                     if (o.hasInstitution()) {
-                        ArtifactId instAId = currentWks.getArtifact(o.getInstitution()+"_art");
+                        ArtifactId instAId = main
+                                .getChildWSP(o.getInstitution())
+                                .get()
+                                .getWorkspace()
+                                .getArtifact(o.getInstitution()+"_art");
                         context.doAction(1, aid.getName(), new Op("setInstitution", new Object[] { o.getInstitution(), instAId } ), null, -1);
                         logger.info("OrgBoard(SAI) "+o.getName()+" created.");
                     } else {

@@ -1,0 +1,65 @@
+/*
+   example: Rest for agent communication
+
+*/
+
+defaultTasks 'run'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+version '1.0'
+group   'org.jacamo'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
+}
+
+repositories {
+    mavenCentral()
+
+    maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases" }
+
+}
+
+dependencies {
+    implementation ('org.jacamo:jacamo:1.1')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/env'
+            srcDir 'src/agt'
+            srcDir 'src/org'
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+}
+
+task run_h1 (type: JavaExec, dependsOn: 'classes') {
+	group ' JaCaMo'
+    description 'runs the main application'
+    main = 'jacamo.infra.JaCaMoLauncher'
+    args 'h1.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task run_h2 (type: JavaExec, dependsOn: 'classes') {
+	group ' JaCaMo'
+    description 'runs bob'
+    main = 'jacamo.infra.JaCaMoLauncher'
+    args 'h2.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+clean {
+    delete 'bin'
+    delete 'build'
+}

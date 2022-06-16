@@ -1,0 +1,13 @@
+mas main {
+
+    agent bob {
+        focus: ns1::wmqtt.mqtt
+    }
+
+    workspace wmqtt {
+        artifact mqtt: net.MQTTArt("http://nodered:1880/act")
+    }
+
+    platform: jacamo.rest.JCMRest("--rest-port 8080")
+              jacamo.platform.EnvironmentWebInspector("false")
+}

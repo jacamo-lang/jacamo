@@ -44,7 +44,8 @@ public class JaCaMoWorkspaceParameters implements Serializable {
     }
 
     public void setDebug(boolean on) {
-        debug = on;
+        //debug = on; TODO: it is not working
+        System.err.println("debug option for workspace is not working and is disabled, try web inspector instead.");
     }
     public boolean hasDebug() {
         return debug;

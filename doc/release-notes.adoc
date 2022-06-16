@@ -1,5 +1,15 @@
 = Release notes for JaCaMo
 
+== Version 1.1
+
+This version
+
+- uses Jason 3.1 (AgentSpeak(ER)), Moise 1.0 and Cartago 3.1
+- upgrade other softwares (as gradle)
+- include JaCaMo-Rest
+- fix some bugs
+
+
 == Version 1.0
 
 - This version uses Jason 2.6, Moise 1.0 and Cartago 3.0

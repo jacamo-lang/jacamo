@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JacamoREL=0.7
+JacamoREL=1.1
 
 if [ -z "$JACAMO_HOME" ] ; then
     CURDIR="`pwd`"
@@ -45,4 +45,3 @@ if [ ! -f "$JDK_HOME/bin/javac" ] ; then
    echo JDK_HOME is not properly set!
 fi
 export PATH="$JDK_HOME/bin":$PATH
-

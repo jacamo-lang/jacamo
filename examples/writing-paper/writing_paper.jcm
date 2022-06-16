@@ -20,6 +20,5 @@ mas writing_paper {
         scheme s1: writePaperSch
     }
 
-    // to use JCMWeb platform, you have to uncomment the line below and run using gradle
-    // platform: jacamo.web.JCMWeb("--main 2181 --restPort 8080")
+    //org-path: "ClassResource:", "src/org"
 }

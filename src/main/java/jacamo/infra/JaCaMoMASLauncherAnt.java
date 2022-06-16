@@ -4,14 +4,14 @@ import java.io.File;
 
 import jacamo.project.JaCaMoProject;
 import jacamo.util.Config;
-import jason.infra.centralised.CentralisedMASLauncherAnt;
+import jason.infra.local.LocalMASLauncherAnt;
 
 /**
  * Write the Ant script to run the MAS in JaCaMo infrastructure
  *
  * @author Jomi
  */
-public class JaCaMoMASLauncherAnt extends CentralisedMASLauncherAnt {
+public class JaCaMoMASLauncherAnt extends LocalMASLauncherAnt {
 
     protected String replaceMarks(String script, boolean debug) {
         script = replace(script, "<PROJECT-RUNNER-CLASS>", JaCaMoLauncher.class.getName());
@@ -44,7 +44,7 @@ public class JaCaMoMASLauncherAnt extends CentralisedMASLauncherAnt {
 
         // build javac entry
         StringBuilder jc = new StringBuilder();
-        for (String p: ((JaCaMoProject)project).getJavaPaths().getPaths()) {
+        for (String p: ((JaCaMoProject)project).getJavaSourcePaths().getPaths()) {
             if (p.startsWith("file:"))
                 p = p.substring(5);
             jc.append("<javac srcdir=\"${basedir}/"+p+"\" destdir=\"${build.dir}\" debug=\"true\" optimize=\"true\" includeantruntime=\"false\" >\n");

@@ -1,6 +1,5 @@
 = Gold Miners
 Agent Programming Tutorial using JaCaMo
-September 2014
 :toc: right
 
 :prewrap!:

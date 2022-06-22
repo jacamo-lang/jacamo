@@ -238,15 +238,17 @@ public class Config extends jason.util.Config {
             // try with $JACAMO_HOME
             String jh = System.getenv().get("JACAMO_HOME");
             if (jh != null) {
-                jarFile = findJarInDirectory(new File(jh+"/libs"), jarFilePrefix, jarEntry);             
-                try {
-                    put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
-                    //if (showFixMsgs)
-                    if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
-                        System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile + ", based on JACAMO_HOME variable: "+jh);
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
+                jarFile = findJarInDirectory(new File(jh+"/libs"), jarFilePrefix, jarEntry);
+                if (jarFile != null) {
+                    try {
+                        put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
+                        //if (showFixMsgs)
+                        if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
+                            System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile + ", based on JACAMO_HOME variable: "+jh);
+                        return true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -280,14 +282,16 @@ public class Config extends jason.util.Config {
         // latter, eclipse requires these jars
         if (get(jarEntry) == null && getJaCaMoHome() != null) { // super didn't solve
             jarFile = findJarInDirectory(new File(getJaCaMoHome()+"/libs"), jarFilePrefix, jarEntry);
-            try {
-                put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
-                //if (showFixMsgs)
-                if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
-                    System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile + " based on location of jacamo.jar");
-                return true;
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (jarFile != null) {
+                try {
+                    put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
+                    //if (showFixMsgs)
+                    if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
+                        System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile + " based on location of jacamo.jar");
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         

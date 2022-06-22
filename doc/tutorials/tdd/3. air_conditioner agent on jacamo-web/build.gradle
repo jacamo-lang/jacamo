@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
 	implementation 'org.jacamo:jacamo:0.10-SNAPSHOT'
-	implementation 'org.jacamo:jacamo-web:0.5-SNAPSHOT'
+	implementation 'org.jacamo:jacamo-web:0.5'
 }
 
 

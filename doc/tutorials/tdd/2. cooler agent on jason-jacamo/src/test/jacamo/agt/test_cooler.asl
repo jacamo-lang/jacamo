@@ -70,6 +70,7 @@
 @[test]
 +!test_cooler_random_temp
     <-
+    .set_random_seed(20);
     -+temperature(18); //** INITIAL ENVIRONMENT CONDITION **//
     -+max_temp(20); //** SET ANOTHER MAXTEMP **//
     .wait(50); //Give some time to the agent to react

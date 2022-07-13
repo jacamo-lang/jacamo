@@ -6,7 +6,7 @@
  * At the very beginning the cooler agent has no information about the environment
  * temperature given by the belief "temperature(_)".
  */
-@[test]
+//@[test]
 +!test_cooler_default_setup
     <-
     //.wait(50); // Give some time for the agent to wakeup
@@ -28,7 +28,7 @@
 /**
  * Test cooler when the temperature is rising from cool condition to default maxtemp
  */
-@[test]
+//@[test]
 +!test_cooler_temperature_rising
     <-
     -+temperature(8); //** INITIAL ENVIRONMENT CONDITION **//
@@ -49,7 +49,7 @@
 /**
  * Test cooler agent in a setup different than default
  */
-@[test]
+//@[test]
 +!test_cooler_another_maxtemp_setup
     <-
     -+temperature(22); //** INITIAL ENVIRONMENT CONDITION **//
@@ -67,10 +67,9 @@
     }
 .
 
-@[test]
+//@[test]
 +!test_cooler_random_temp
     <-
-    .set_random_seed(20);
     -+temperature(18); //** INITIAL ENVIRONMENT CONDITION **//
     -+max_temp(20); //** SET ANOTHER MAXTEMP **//
     .wait(50); //Give some time to the agent to react

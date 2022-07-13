@@ -10,7 +10,7 @@
 { include("tester_agent.asl") }
 { include("xor.asl") }
 
-@[test]
+//@[test]
 +!test_xor
     <-
     !assert_true(xor(true, false));

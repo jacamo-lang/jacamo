@@ -8,7 +8,10 @@ MAS tdd {
     infrastructure: Centralised
 
     agents:
-        cooler [beliefs="temperature(15)"] ;
+        room_agent [
+            goals="temperature(10)",
+            beliefs="temperature(15)"
+        ];
 
     aslSourcePath:  "src/test/jason/inc";
                     "src/test/jason/asl";

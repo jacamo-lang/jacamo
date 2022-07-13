@@ -6,7 +6,7 @@
  * At the very beginning the air_conditioner agent has no information about the environment
  * temperature given by the belief "temperature(_)".
  */
-@[test]
+//@[test]
 +!test_ac_cooling_default_setup
     <-
     -+temperature(28); //** INITIAL CONDITION - Let us say the temperature is high **//
@@ -30,7 +30,7 @@
  * At the very beginning the air_conditioner agent has no information about the environment
  * temperature given by the belief "temperature(_)".
  */
-@[test]
+//@[test]
 +!test_ac_heating_default_setup
     <-
     -+temperature(15); //** INITIAL CONDITION - Let us say the temperature is low **//

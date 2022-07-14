@@ -1,0 +1,109 @@
+/**
+ * Tester agent for room_agent
+ *
+ * This file should be placed in the folder ./test/jacamo/agt
+ * 
+ * To run it: $ ./gradlew test --info
+ *
+ * This testing agent is including the library
+ * tester_agent.asl which comes with assert plans and
+ * executes on './gradlew test' the plans that have 
+ * the @[test] label annotation
+*/
+{ include("tester_agent.asl") }
+
+/**
+ * This agent includes the code of the agent under tests
+ */
+{ include("room_agent.asl") }
+
+@[test]
++!shutdown_tests
+    <-
+    .wait(4000);
+    .send(test_manager,achieve,set_timeout);
+.
+
+@[test]
++!test_now_is_warmer_than
+    <-
+    /**
+     * Testing the rule now_is_warmer_than in three
+     * situations: currentTemp > givenTemp, 
+     * currentTemp < givenTemp and currentTemp = givenTemp
+     *
+     * The default current temperature is 15
+     */
+    -+temperature(15);
+    !assert_false(now_is_warmer_than(20));
+    !assert_true(now_is_warmer_than(10));
+    !assert_false(now_is_warmer_than(15));
+.
+
+/**
+ * Test cooler when the temperature is dropping from a warm condition to the target
+ */
+@[test]
++!test_cool_until_temperature_dropping
+    <-
+    -+temperature(15); // The default current temperature is 15 degrees
+    !!temperature(10); // We want to reach 10 degrees (this is running in parallel)
+    .wait(50); // Give some time to the agent to react
+    for ( .range(I,1,10) ) { // Let us check 10x if it is cooling correctly
+        ?temperature(C);
+        if (C > 10) { // Greater than 10, cooler MUST be on
+            !assert_true(cooling);
+            -+temperature(C-1); // emulate that the temperature has dropped
+        } else { // Not greater than 10, cooler MUST be off
+            !assert_false(cooling);
+        }
+    }
+    .drop_desire(temperature(10)); // dropping the desire that is running in parallel
+.
+
+/**
+ * Test cooler when the temperature is rising even when the cooler is on
+ */
+@[test]
++!test_cool_until_temperature_rising
+    <-
+    -+temperature(8); // Let us say the temperature is 8 degrees
+    !!temperature(10); // We want to reach 10 degrees (this is running in parallel)
+    .wait(50); // Give some time to the agent to react
+    for ( .range(I,1,10) ) { // Let us check 10x if it is cooling correctly
+        ?temperature(C);
+        if (C > 10) {  // Greater than 10, cooler MUST be on
+            !assert_true(cooling);
+            -+temperature(C-0.5); // Emulate that the temperature has dropped
+        } else { // Not greater than 10, cooler MUST be off
+            !assert_false(cooling);
+            -+temperature(C+1); // Emulate that the temperature has risen
+        }
+    }
+    .drop_desire(temperature(10)); // dropping the desire that is running in parallel
+.
+
+/**
+ * Test cooler when the temperature is rising and dropping randomly (with fixed seed)
+ */
+@[test]
++!test_cool_until_random_temperature
+    <-
+    -+temperature(18); // Let us say the temperature is 18 degrees
+    !!temperature(20); // We want to reach 20 degrees (this is running in parallel)
+    .set_random_seed(1); // Make sure this test will be always the same
+    .wait(50); // Give some time to the agent to react
+    for ( .range(I,1,20) ) { // Let us check 20x if it is cooling correctly
+        ?temperature(C);
+        if (C > 20) { // Greater than 20, cooler MUST be on
+            !assert_true(cooling);
+            .random(X); // Emulate that the temperature has dropped
+            -+temperature( C - math.ceil(X*2) );
+        } else { // Not greater than 20, cooler MUST be off
+            !assert_false(cooling);
+            .random(X); // Emulate that the temperature has risen
+            -+temperature( C + math.ceil(X*2) );
+        }
+    }
+    .drop_desire(temperature(20)); // dropping the desire that is running in parallel
+.

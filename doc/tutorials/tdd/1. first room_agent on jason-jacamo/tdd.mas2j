@@ -8,7 +8,7 @@ MAS tdd {
     infrastructure: Centralised
 
     agents:
-        xor;
+        room_agent;
 
     aslSourcePath:  "src/test/jason/inc";
                     "src/test/jason/asl";

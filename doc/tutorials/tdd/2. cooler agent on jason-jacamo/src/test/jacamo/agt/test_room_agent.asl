@@ -18,13 +18,6 @@
 { include("room_agent.asl") }
 
 @[test]
-+!shutdown_tests
-    <-
-    .wait(4000);
-    .send(test_manager,achieve,set_timeout);
-.
-
-@[test]
 +!test_now_is_warmer_than
     <-
     /**
@@ -56,28 +49,6 @@
             -+temperature(C-1); // emulate that the temperature has dropped
         } else { // Not greater than 10, cooler MUST be off
             !assert_false(cooling);
-        }
-    }
-    .drop_desire(temperature(10)); // dropping the desire that is running in parallel
-.
-
-/**
- * Test cooler when the temperature is rising even when the cooler is on
- */
-@[test]
-+!test_cool_until_temperature_rising
-    <-
-    -+temperature(8); // Let us say the temperature is 8 degrees
-    !!temperature(10); // We want to reach 10 degrees (this is running in parallel)
-    .wait(50); // Give some time to the agent to react
-    for ( .range(I,1,10) ) { // Let us check 10x if it is cooling correctly
-        ?temperature(C);
-        if (C > 10) {  // Greater than 10, cooler MUST be on
-            !assert_true(cooling);
-            -+temperature(C-0.5); // Emulate that the temperature has dropped
-        } else { // Not greater than 10, cooler MUST be off
-            !assert_false(cooling);
-            -+temperature(C+1); // Emulate that the temperature has risen
         }
     }
     .drop_desire(temperature(10)); // dropping the desire that is running in parallel

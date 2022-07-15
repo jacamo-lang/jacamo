@@ -10,11 +10,7 @@
 */
 
 mas tdd {
-    agent xor
-
-    agent cooler
-
-    agent air_conditioner
+    agent room_agent
 
     asl-path: src/agt
               src/agt/inc

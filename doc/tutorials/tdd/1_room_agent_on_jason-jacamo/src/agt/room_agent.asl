@@ -1,7 +1,7 @@
 /*
  * This simple agent tells if now_is_warmer_than a
- * given temperature, which is performed by a rule
- * now_is_warmer_than/1.
+ * given temperature. The check is performed by the rule
+ * `now_is_warmer_than`.
  */
 
 now_is_warmer_than(T) :- temperature(C) & C > T.
@@ -12,18 +12,17 @@ now_is_warmer_than(T) :- temperature(C) & C > T.
 temperature(15).
 
 /*
- * Here a common approach in which the developer creates
- * some tests to check if the agent behaviour is correct.
- *
- * However, it requires the attention of the developer on 
- * the output on every code change.
- * It also requires some reasoning from the developer on
- * reminding which is the correct output according to the 
- * desired logic.
- * Finally, it is not good on code integration, e.g., if this
- * agent can be affected by changes promoted by another 
- * developer, neither the developer of this agent and of the 
- * another agent are aware of such an integration problem.
+ * Below is a naive approach to testing, in which the developer
+ * creates some tests directly in the source code in order to
+ * check if the agent behavior is correct.
+ * However, the developer needs to check the print output on 
+ * after every code change.
+ * Then, the developer needs to remember whether the output
+ * corresponds to desired behavior (test pass) or not (test
+ * failure). Finally, the tests do not allow for proper
+ * continuous integration, e.g., if the code can be affected
+ * by changes promoted by another developer, neither developer
+ * may be aware of undesired changes to program code behavior.
  */
 !auto_test.
 

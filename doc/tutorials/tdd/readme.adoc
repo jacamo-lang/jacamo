@@ -1,14 +1,4 @@
-= Goal-Oriented Test-Driven Development with JaCaMo
-:toc: right
-:source-highlighter: pygments
-:pygments-style: jacamo
-:pygments-linenums-mode: inline
-:icons: font
-:prewrap!:
-
-ifdef::env-github[:outfilesuffix: .adoc]
-
-This document explains how to test Jason agents in AgentSpeak, using a novel (as of 2021)
+This tutorial explains how to test Jason agents in AgentSpeak, using a novel (as of 2022)
 goal-oriented test feature that enables an agent-oriented perspective on automated software testing
 and test-driven development. The feature allows writing test programs for Jason agents in
 AgentSpeak, and aligns software testing and agent-oriented programming abstractions. This
@@ -16,39 +6,37 @@ consolidation of perspectives is called _Goal-Oriented Test-Driven Development_ 
 
 == What is Goal-Oriented Test-Driven Development?
 In modern software development, testing plays a key role, as it helps ensure the software works as
-expected. Ideally, developers use _Test-Driven Development_ (TDD) approaches, in which at large
+expected. Ideally, developers use _Test-Driven Development_ (TDD) approaches, in which a large
 portion of the tests is written during or even ahead of the implementation of the actual program
 code. The assumption is that specifying the exact desired behavior of a software component _before_
-implementing this component facilitates for a more rigorous assessment of the component and ensures
+implementing this component facilitates a more rigorous assessment of the component and ensures
 testing is not cut short because of time shortage caused by mis-estimations. Generally, it is
 considered good practice to focus automated testing efforts on _unit tests_ of small components that
 can and hence _should_ be tested in a rigorous manner and to cover the overall system (or system of
 systems) with less dense _integration tests_ and _End-to-End_ (E2E) tests; the latter cannot cover
-all possible input and environment configurations because of the explosion in combinatorial options,
-even fairly small systems, but they can potentially catch unexpected behavior of components that
-seemingly work correctly from a lower-level perspective.
+all possible input and environment configurations because of the explosion in combinatorial options
+(even for fairly small systems) but they can potentially catch unexpected behavior of components
+that seemingly work correctly from a lower-level perspective.
 
 From an agent-oriented perspective, unit tests cover behavior that is _agent-agnostic_, _i.e._ which
-can be tested as if it was a function/method call, for example given the internal state the agent,
-and which is disconnected from the state of the environment and the other agents that (inter)act in
-it. While unit tests for agents are conceptually not different from traditional unit tests, Jason's
-GOTDD feature is novel even on this level because it provides first-class abstractions for tests in
-an agent-oriente programming language. Still, more interestingly, Jason allows for the specification
-of tests that check whether an agent, given an initial environment state (and potentially given
-other agents), will eventually (or given a specific time constraint) achieve a particular _goal_;
-_i.e._, goals are promoted to first-class abstractions for test-driven development, which allows for
-integration tests for single agents (agent-environment integration) and multi agents
-(agent-environment-agent, whereby the environment may or may not contain explicitly modelled
-artifacts) integration. The figure below shows the _test pyramid_ from a traditional software
-engineering perspective and contrasts it with an agent-oriented test pyramid.
+can be tested as if it was a function/method call -- for example, given the internal state the agent
+-- and which is disconnected from the state of the environment and the other agents that (inter)act
+in it. While unit tests for agents are conceptually not different from traditional unit tests,
+Jason's GOTDD feature is novel even on this level because it provides first-class abstractions for
+tests in an agent-oriente programming language. Still, more interestingly, Jason allows for the
+specification of tests that check whether an agent, given an initial environment state (and
+potentially given other agents), will eventually (or given a specific time constraint) achieve a
+particular _goal_; _i.e._, goals are promoted to first-class abstractions for test-driven
+development, which allows for integration tests for single agents (agent-environment integration)
+and multi agents (agent-environment-agent, whereby the environment may or may not contain explicitly
+modelled artifacts) integration. The figure below shows the _test pyramid_ from a traditional
+software engineering perspective and contrasts it with an agent-oriented test pyramid.
 
 image:./figures/Agent-Oriented_TDD.png[]
 
 The tutorial below provides examples of unit testing, single agent testing, and multi-agent testing
-with Jason; the examples are real-world tests that help assure the quality of the Jason project's
-code base, but have been extracted into an minimal project to make it easier to explore the feature.
-Note that E2E tests are not covered, because these are typically implemented in a different
-technology ecosystem (for example: _Selenium_ for end-to-end user interface testing).
+with Jason. Note that E2E tests are not covered, because these are typically implemented in a
+different technology ecosystem (for example: _Selenium_ for end-to-end user interface testing).
 
 == Under the Hood
 Under the hood, Jason's GOTDD feature allows for the instantiation of one main agent per test file,
@@ -67,16 +55,17 @@ agent_, assuming that end-to-end tests need to be supported by additional toolin
 === Project Setup
 Let us set up our Jason project and configure it for GOTDD.
 
-1. First, we take the content of the boilerplate test configuration file from link:https://github.com/jason-lang/jason/blob/master/src/test/jason/unit_tests_project.mas2j[here] and copy it in a file called _tdd.mas2j_ (which we create in our project's root directory).
+1. First, we create a mas2j project file and specify the infrastructure type, our agents, and the
+ASL source paths (see below for the unit testing example):
 
 [source]
 MAS tdd {
+
     infrastructure: Centralised
+
     agents:
-        test_manager [
-            goals="create_tester_agents(\"./src/test/jason\",\".*.asl\")",
-            beliefs="shutdown_delay(600)"
-        ];
+        xor;
+
     aslSourcePath:  "src/test/jason/inc";
                     "src/test/jason/asl";
                     "src/asl";
@@ -85,51 +74,92 @@ MAS tdd {
                     "$jasonJar/test/jason/inc";
 }
 
-Then, we create the directory structure for our project:
+Then, we create the source directory structure for our project:
 
 [source]
 /
-- main
-    - jason
-        - asl
+- src
+    - agt
 - test
-    - jason
-        - asl
+    - jacamo
+        - agt
 
 As a final setup step, we create a gradle build file that allows us to test our project.
-We can simply copy and adjust the file we find link:./build.gradle[here].
+We can simply copy and adjust the file we find
+link:./1_room_agent_on_jason-jacamo/build.gradle[here]. We can also create a `logging.properties`
+file such as this one link:./1_room_agent_on_jason-jacamo/logging.properties[here]. 
+The setup is specific to the first example (unit testing); the setup for the other test examples
+differs slightly. Take a look at the example sources to make sure your setup is correct.
 
 
 === Unit Testing in Jason
-Let us start by implementing a unit test that test a simple inference rule. At `main/jason/asl`, we
-create the file `unit.asl` and add the following rule:
+Let us start by implementing a unit test that test a simple inference rule. At `src/agt`, we
+create the file `room_agent.asl` and add the following rule:
 
 [source]
-xor(A, B) :- (A & not B) | (B & not A).
+now_is_warmer_than(T) :- temperature(C) & C > T.
 
-As we can see, the rule implements an _exclusive or_ (XOR). To test the file, we create the file
-`unit.test.asl` at `test/jason/asl`. At the beginning of this file, we import the Jason tester
-agent, as well as the file that we want to test:
+As we can see, the rule checks if the current `temperature` is higher than some specifically
+provided value. Because we merely draw inferences, but do not act in the environment, we consider'
+this scenario a *unit testing* scenario and not a single agent testing scenario.
+
+Now, we set a temperature value:
+
+[source]
+temperature(15).
+
+Finally, we try out our inference rule:
+
+[source]
+!auto_test.
+
++!auto_test:
+    temperature(C)
+    <- 
+    .print("Current temperature: ",temperature(C));
+
+    .eval(X1, now_is_warmer_than(20));
+    .print(now_is_warmer_than(20)," = ",X1);
+
+    .eval(X2, now_is_warmer_than(10));
+    .print(now_is_warmer_than(10)," = ",X2);
+
+    .eval(X3, now_is_warmer_than(15));
+    .print(now_is_warmer_than(15)," = ",X3);
+
+Such *naive* inline tests are frequently used to facilitate debugging, but have obvious
+shortcomings:
+
+* They do not allow for a clear separation between test and production code.
+* They do not clearly describe desired behavior.
+* They make it hard to automate tests.
+
+To test the file properly, we create the file `test_room_agent.asl` at `src/test/jacamo/agt`. At the
+beginning of this file, we import the Jason tester agent, as well as the file that we want to test:
 
 [source]
 { include("tester_agent.asl") }
-{ include("src/main/jason/asl/unit.asl") }
+{ include("room_agent.asl") }
 
 Then, we add a test goal, using the `@[test]` annotation:
 
 [source]
 @[test]
-+!test_xor
++!test_now_is_warmer_than
     <-
-    !assert_true(xor(true, false));
-    !assert_false(xor(true, true));
-    !assert_true(xor(false, true));
-    !assert_false(xor(false, false));
+    !assert_false(now_is_warmer_than(20));
+    !assert_true(now_is_warmer_than(10));
+    !assert_false(now_is_warmer_than(15));
 .
 
-As we can see, the test specifies the truth table of the XOR rule; _i.e._, because we test a very
-simple subsystem (rule) of our MAS, we can specify all possible cases and ensure we have full
-coverage.
+As we can see, the test specifies the truth table of the inference rule, given the following three
+scenarios:
+
+1. The provided value temperature is higher than the current temperature.
+2. The provided value is lower than the current temperature.
+3. The provided value is equal to the current temperature.
+
+The complete project is available link:./1_room_agent_on_jason-jacamo/[here].
 
 
 === Single Agent Testing in Jason

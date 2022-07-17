@@ -163,9 +163,141 @@ The complete project is available link:./1_room_agent_on_jason-jacamo/[here].
 
 
 === Single Agent Testing in Jason
+In the following single agent testing example, we have a mock cooler agent that cools a room if the
+temperature in the room is higher than some specific threshold, _i.e._, the agent *reacts* on
+temperature changes, whereas its actions in turn **affect** the temperature in the room.
 
-=== Multi-Agent Testing in Jason
+At `src/agt`, we create the file `cooler.asl` and again add our `now_is_warmer_than` inference rule:
 
+[source]
+now_is_warmer_than(T) :- temperature(C) & C > T.
+
+Now, we implement the cooler functionality that starts the cooler if the temperature is above the
+threshold:
+
+[source]
++!temperature(T): 
+	now_is_warmer_than(T) &
+	temperature(C)
+	<-  
+	if (not cooling) {
+	    /**
+	 	 * To control the room temperature it could  
+     	 * activate a physical cooler here
+	 	 */
+        +cooling;
+		.log(warning,C," is too hot -> cooling until ",T);
+    }
+	!temperature(T);
+.
+
+
+Analogously, the cooler should stop cooling if the temperature is below the threshold:
+
+[source]
++!temperature(T):
+	cooling
+	<-  
+	.log(warning,"Temperature achieved: ",T);
+
+    /**
+	 * Deactivating the cooler
+	 */
+    -cooling;
+
+    !temperature(T);
+
+Finally, we ensure that the cooler is continuously evaluating and adjusting its behavior, using the
+following loop:
+
+[source]
++!temperature(T)
+    <-
+    !temperature(T);
+.
+
+Note that in this example, we specify the initial beliefs of the agent the
+link:./2_cooler_agent_on_jason-jacamo/tdd.mas2j[mas2j file].
+
+[source]
+agents:
+    room_agent [
+        goals="temperature(10)",
+        beliefs="temperature(15)"
+    ];
+
+To test the agent, we create the file `test_room_agent.asl` at `src/test/jacamo/agt` and test the
+`test_now_is_warmer_than` inference rule, like in the first example:
+
+[source]
+@[test]
++!test_now_is_warmer_than
+    <-
+    !assert_false(now_is_warmer_than(20));
+    !assert_true(now_is_warmer_than(10));
+    !assert_false(now_is_warmer_than(15));
+.
+
+Also, we want to test whether the agent *acts* correctly. For this, we gradually decrease the
+temperature from 15 to 10 degrees and regularly check in a parallel loop whether the cooler acts as
+expected given the current temperature:
+
+[source]
+@[test]
++!test_cool_until_temperature_dropping
+    <-
+    -+temperature(15); // The default current temperature is 15 degrees
+    !!temperature(10); // We want to reach 10 degrees (this is running in parallel)
+    .wait(50); // Give some time to the agent to react
+    for ( .range(I,1,10) ) { // Let us check 10x if it is cooling correctly
+        ?temperature(C);
+        if (C > 10) { // Greater than 10, cooler MUST be on
+            !assert_true(cooling);
+            -+temperature(C-1); // emulate that the temperature has dropped
+        } else { // Not greater than 10, cooler MUST be off
+            !assert_false(cooling);
+        }
+    }
+    .drop_desire(temperature(10));
+
+In addition, we simulate arbitrary temperatures using a random number generator and check if the
+cooler exhibits expected behavior in these scenarios. For reproducibility purposes, we set a fixed
+random seed so that the test always yields the same result. For this we make use of Jason's
+link:http://jason.sourceforge.net/api/jason/stdlib/random.html/[`random`] and
+link:http://jason.sourceforge.net/api/jason/stdlib/set_random_seed.html[`set_random_seed`]
+functions.
+
+[source]
+@[test]
++!test_cool_until_random_temperature
+    <-
+    -+temperature(18); // Let us say the temperature is 18 degrees
+    !!temperature(20); // We want to reach 20 degrees (this is running in parallel)
+    .set_random_seed(1); // Make sure this test will be always the same
+    .wait(50); // Give some time to the agent to react
+    for ( .range(I,1,20) ) { // Let us check 20x if it is cooling correctly
+        ?temperature(C);
+        if (C > 20) { // Greater than 20, cooler MUST be on
+            !assert_true(cooling);
+            .random(X); // Emulate that the temperature has dropped
+            -+temperature( C - math.ceil(X*2) );
+        } else { // Not greater than 20, cooler MUST be off
+            !assert_false(cooling);
+            .random(X); // Emulate that the temperature has risen
+            -+temperature( C + math.ceil(X*2) );
+        }
+    }
+    .drop_desire(temperature(20)); // dropping the desire that is running in parallel
+.
+
+
+The complete project is available link:./2_cooler_agent_on_jason-jacamo/[here].
+
+=== Testing Agents on the Web - Single Agents
+
+=== Testing Agents on the Web - Agents and Artifacts
+
+=== Testing Agents on the Web - Multiple Agents
 
 == Conclusion
 This tutorial has provided a brief overview of how to test Jason agents directly in AgentSpeak, as

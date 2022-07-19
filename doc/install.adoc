@@ -3,7 +3,7 @@
 
 ifdef::env-github[:outfilesuffix: .adoc]
 
-We have different options to start using JaCaMo: Eclipse, shell script commands, Gradle, or Docker.
+We have different options to start using JaCaMo: simple shell script commands, Gradle, eclipse or Docker.
 
 Eclipse and shell script options require that you download and install JaCaMo in your machine.
 Since the shell script, Gradle, and Docker options do not include an IDE, you can either import the project into an Eclipse workspace (instructions are shown by the creation script) or use some text editor (we suggest Atom, see below).
@@ -31,7 +31,7 @@ Windows::
 2. Unzip
 3. Run `gradlew.bat`
 
-TIP: Instead of `np1.0.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
+TIP: Instead of `np1.1.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
 
 //https://curl.haxx.se[`curl`] is a program that simply downloads the `np07.zip` file from http://jacamo.sourceforge.net/nps/np07.zip.
 
@@ -58,7 +58,11 @@ If you want to run a JaCaMo application that was not created with a `build.gradl
 - `<VERSION>` by the required JaCaMo release (e.g. `1.0`)
 - `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
 
+To edit your code, any text editor can be used. VS Code and Atom have plugins for syntax highlight.
+
 == Eclipse Plugin
+
+NOTE: this plugin is a bit outdated and not maintained anymore. But Eclipse can still be used to edit the Java part of a JaCaMo project (e.g., artifacts). If you have a JaCaMo project with a `build.gradle` file, it is simple to *import gradle project* in Eclipse.
 
 Requirements:
 

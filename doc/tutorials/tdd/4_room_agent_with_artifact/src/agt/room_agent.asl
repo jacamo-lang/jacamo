@@ -1,9 +1,11 @@
 /*
  * This agent aims to turn on a cooler when the 
  * current temperature is warmer than a target
- * temperature and turns on a heater when the 
+ * temperature and turn on a heater when the 
  * temperature is colder than a target (both
- * considering a tolerance)
+ * considering a tolerance).
+ *
+ * It acts upon a HVAC artifact.
  */
 
 tolerance(0.4).
@@ -24,10 +26,7 @@ now_is_warmer_than(T)
 	temperature(C)
 	<-  
 	if (not status(cooling)) {
-	    /**
-	 	 * To control the room temperature it could  
-     	 * activate a physical cooler here
-	 	 */
+	    startCooling;
         -+status(cooling);
 		.log(warning,C," is too hot -> cooling until ",T);
     }
@@ -39,10 +38,7 @@ now_is_warmer_than(T)
 	temperature(C)
 	<-  
 	if (not status(heating)) {
-	    /**
-	 	 * To control the room temperature it could  
-     	 * activate a physical cooler here
-	 	 */
+	    startHeating;
         -+status(heating);
 		.log(warning,C," is too hot -> cooling until ",T);
     }
@@ -53,9 +49,7 @@ now_is_warmer_than(T)
 	temperature_in_range(T)
 	<-  
 	if (not status(idle)) {
-    	/**
-	 	 * Deactivating the HVAC
-	  	 */
+    	stopAirConditioner;
     	-+status(idle);
 		.log(warning,"Temperature achieved: ",T);
 	}

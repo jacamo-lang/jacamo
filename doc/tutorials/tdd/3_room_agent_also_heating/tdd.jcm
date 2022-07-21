@@ -13,9 +13,7 @@ mas tdd {
     agent room_agent
 
     asl-path: src/agt
-              src/agt/inc
-              
-    platform:   jacamo.web.JCMWeb("--main 2181 --restPort 8080") // zookeeper & restPort
+              src/agt/inc          
 }
 
 /*

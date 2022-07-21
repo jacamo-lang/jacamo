@@ -125,7 +125,7 @@
  * Test heater when the temperature is rising and dropping randomly (with fixed seed)
  */
 @[test]
-+!test_cool_until_random_temperature
++!test_heat_until_random_temperature
     <-
     -+temperature(18); // Let us say the temperature is 18 degrees
     !!temperature(25); // We want to reach 25 degrees (this is running in parallel)
@@ -134,7 +134,7 @@
     for ( .range(I,1,20) ) { // Let us check 20x if it is cooling correctly
         ?temperature(C);
         .wait(10);
-        if (now_is_colder_than(28)) {
+        if (now_is_colder_than(25)) {
             !assert_true(status(heating));
             .random(X); // Emulate that the temperature has risen
             -+temperature( C + math.ceil(X*2) );

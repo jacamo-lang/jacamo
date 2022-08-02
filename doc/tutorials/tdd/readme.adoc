@@ -23,7 +23,7 @@ can be tested as if it was a function/method call -- for example, given the inte
 -- and which is disconnected from the state of the environment and the other agents that (inter)act
 in it. While unit tests for agents are conceptually not different from traditional unit tests,
 Jason's GOTDD feature is novel even on this level because it provides first-class abstractions for
-tests in an agent-oriente programming language. Still, more interestingly, Jason allows for the
+tests in an agent-oriented programming language. Still, more interestingly, Jason allows for the
 specification of tests that check whether an agent, given an initial environment state (and
 potentially given other agents), will eventually (or given a specific time constraint) achieve a
 particular _goal_; _i.e._, goals are promoted to first-class abstractions for test-driven
@@ -51,6 +51,9 @@ image:./figures/Agents-TDD-overview.png[]
 == Test Levels in Jason
 Now, let us provide examples how tests on the three lower levels (_unit_, _single agent_, _multi
 agent_, assuming that end-to-end tests need to be supported by additional tooling) work.
+For explanatory purposes, we provide three examples for single-agent testing: a simple example, a
+slightly more advanced example, and an example where the agent interacts with an artifact. Each
+example builds upon its predecessor.
 
 === Project Setup
 Let us set up our Jason project and configure it for GOTDD.
@@ -59,6 +62,7 @@ Let us set up our Jason project and configure it for GOTDD.
 ASL source paths (see below for the unit testing example):
 
 [source]
+----
 MAS tdd {
 
     infrastructure: Centralised
@@ -73,16 +77,18 @@ MAS tdd {
                     "inc";
                     "$jasonJar/test/jason/inc";
 }
-
+----
 Then, we create the source directory structure for our project:
 
 [source]
+----
 /
 - src
     - agt
 - test
     - jacamo
         - agt
+----
 
 As a final setup step, we create a gradle build file that allows us to test our project.
 We can simply copy and adjust the file we find
@@ -93,24 +99,29 @@ differs slightly. Take a look at the example sources to make sure your setup is 
 
 
 === Unit Testing in Jason
-Let us start by implementing a unit test that test a simple inference rule. At `src/agt`, we
+Let us start by implementing a unit test that tests a simple inference rule. At `src/agt`, we
 create the file `room_agent.asl` and add the following rule:
 
 [source]
+----
 now_is_warmer_than(T) :- temperature(C) & C > T.
+----
 
 As we can see, the rule checks if the current `temperature` is higher than some specifically
-provided value. Because we merely draw inferences, but do not act in the environment, we consider'
+provided value. Because we merely draw inferences, but do not act in the environment, we consider
 this scenario a *unit testing* scenario and not a single agent testing scenario.
 
 Now, we set a temperature value:
 
 [source]
+----
 temperature(15).
+----
 
 Finally, we try out our inference rule:
 
 [source]
+----
 !auto_test.
 
 +!auto_test:
@@ -126,6 +137,7 @@ Finally, we try out our inference rule:
 
     .eval(X3, now_is_warmer_than(15));
     .print(now_is_warmer_than(15)," = ",X3);
+----
 
 Such *naive* inline tests are frequently used to facilitate debugging, but have obvious
 shortcomings:
@@ -138,12 +150,15 @@ To test the file properly, we create the file `test_room_agent.asl` at `src/test
 beginning of this file, we import the Jason tester agent, as well as the file that we want to test:
 
 [source]
+----
 { include("tester_agent.asl") }
 { include("room_agent.asl") }
+----
 
 Then, we add a test goal, using the `@[test]` annotation:
 
 [source]
+----
 @[test]
 +!test_now_is_warmer_than
     <-
@@ -151,6 +166,7 @@ Then, we add a test goal, using the `@[test]` annotation:
     !assert_true(now_is_warmer_than(10));
     !assert_false(now_is_warmer_than(15));
 .
+----
 
 As we can see, the test specifies the truth table of the inference rule, given the following three
 scenarios:
@@ -159,7 +175,7 @@ scenarios:
 2. The provided value is lower than the current temperature.
 3. The provided value is equal to the current temperature.
 
-The complete project is available link:./1_room_agent_on_jason-jacamo/[here].
+The complete project is available link:./1_room_agent/[here].
 
 
 === Single Agent Testing in Jason
@@ -170,12 +186,15 @@ temperature changes, whereas its actions in turn **affect** the temperature in t
 At `src/agt`, we create the file `cooler.asl` and again add our `now_is_warmer_than` inference rule:
 
 [source]
+----
 now_is_warmer_than(T) :- temperature(C) & C > T.
+----
 
 Now, we implement the cooler functionality that starts the cooler if the temperature is above the
 threshold:
 
 [source]
+----
 +!temperature(T): 
 	now_is_warmer_than(T) &
 	temperature(C)
@@ -190,11 +209,13 @@ threshold:
     }
 	!temperature(T);
 .
+----
 
 
 Analogously, the cooler should stop cooling if the temperature is below the threshold:
 
 [source]
+----
 +!temperature(T):
 	cooling
 	<-  
@@ -206,30 +227,39 @@ Analogously, the cooler should stop cooling if the temperature is below the thre
     -cooling;
 
     !temperature(T);
+----
+
+Let us highlight that our cooler example is simplistic from a real-world perspective, as we ignore
+the control-theoretical nature of the problem.
 
 Finally, we ensure that the cooler is continuously evaluating and adjusting its behavior, using the
 following loop:
 
 [source]
+----
 +!temperature(T)
     <-
     !temperature(T);
 .
+----
 
-Note that in this example, we specify the initial beliefs of the agent the
+Note that in this example, we specify the initial beliefs of the agent in the
 link:./2_cooler_agent_on_jason-jacamo/tdd.mas2j[mas2j file].
 
 [source]
+----
 agents:
     room_agent [
         goals="temperature(10)",
         beliefs="temperature(15)"
     ];
+----
 
 To test the agent, we create the file `test_room_agent.asl` at `src/test/jacamo/agt` and test the
 `test_now_is_warmer_than` inference rule, like in the first example:
 
 [source]
+----
 @[test]
 +!test_now_is_warmer_than
     <-
@@ -237,12 +267,14 @@ To test the agent, we create the file `test_room_agent.asl` at `src/test/jacamo/
     !assert_true(now_is_warmer_than(10));
     !assert_false(now_is_warmer_than(15));
 .
+----
 
-Also, we want to test whether the agent *acts* correctly. For this, we gradually decrease the
-temperature from 15 to 10 degrees and regularly check in a parallel loop whether the cooler acts as
-expected given the current temperature:
+Also, we want to test whether the agent *acts* correctly. For this, set at target temperature of 10
+degrees (given a current temperature of 15 degrees) and regularly check in a loop whether
+the cooler acts as expected given the current temperature and the agents's goal:
 
 [source]
+----
 @[test]
 +!test_cool_until_temperature_dropping
     <-
@@ -259,15 +291,17 @@ expected given the current temperature:
         }
     }
     .drop_desire(temperature(10));
+----
 
-In addition, we simulate arbitrary temperatures using a random number generator and check if the
-cooler exhibits expected behavior in these scenarios. For reproducibility purposes, we set a fixed
-random seed so that the test always yields the same result. For this we make use of Jason's
+In addition, we simulate arbitrary temperature decreases using a random number generator and check
+if the cooler exhibits expected behavior in these scenarios. For reproducibility purposes, we set a
+fixed random seed so that the test always yields the same result. For this we make use of Jason's
 link:http://jason.sourceforge.net/api/jason/stdlib/random.html/[`random`] and
 link:http://jason.sourceforge.net/api/jason/stdlib/set_random_seed.html[`set_random_seed`]
 functions.
 
 [source]
+----
 @[test]
 +!test_cool_until_random_temperature
     <-
@@ -289,15 +323,389 @@ functions.
     }
     .drop_desire(temperature(20)); // dropping the desire that is running in parallel
 .
+----
 
 
-The complete project is available link:./2_cooler_agent_on_jason-jacamo/[here].
+The complete project is available link:./2_room_agent_cooling/[here].
 
-=== Testing Agents on the Web - Single Agents
+==== Extended Single-Agent Testing Example
+In this example, we extend the cooler agent and turn it into an air conditioner that can both cool
+and heat. For this, we first defined a tolerance threshold (set to 0.4 degrees) and two additional
+rules: one to check if the temperature is in a particular range and one to check whether the current
+temperature is colder than a given temperature value. In contrast to the rule in the previous
+example, our rules now consider the tolerance threshold.
 
-=== Testing Agents on the Web - Agents and Artifacts
+[source]
+----
+tolerance(0.4).
 
-=== Testing Agents on the Web - Multiple Agents
+temperature_in_range(T)
+	:- not now_is_colder_than(T) & not now_is_warmer_than(T).
+
+now_is_colder_than(T)
+	:- temperature(C) & tolerance(DT) & (T - C) > DT.
+
+now_is_warmer_than(T)
+	:- temperature(C) & tolerance(DT) & (C - T) > DT.
+----
+
+Then, we add heating behavior in addition to the already implemented cooling functionality:
+
+[source]
+----
++!temperature(T): 
+	now_is_warmer_than(T) &
+	temperature(C)
+	<-  
+	if (not status(cooling)) {
+	    /**
+	 	 * To control the room temperature it could  
+     	 * activate a physical cooler here
+	 	 */
+        -+status(cooling);
+		.log(warning,C," is too hot -> cooling until ",T);
+    }
+	!temperature(T);
+.
+
++!temperature(T): 
+	now_is_colder_than(T) &
+	temperature(C)
+	<-  
+	if (not status(heating)) {
+	    /**
+	 	 * To control the room temperature it could  
+     	 * activate a physical cooler here
+	 	 */
+        -+status(heating);
+		.log(warning,C," is too hot -> cooling until ",T);
+    }
+	!temperature(T);
+.
+----
+
+Finally, we implement behavior that checks whether the temperature is within the tolerance range
+and, if so, sets the air conditioner to idle (we also trigger the deliberation loop).
+
+[source]
+----
++!temperature(T):
+	temperature_in_range(T)
+	<-  
+	if (not status(idle)) {
+    	/**
+	 	 * Deactivating the HVAC
+	  	 */
+    	-+status(idle);
+		.log(warning,"Temperature achieved: ",T);
+	}
+    !temperature(T);
+.
+
++!temperature(T)
+    <-
+    !temperature(T);
+.
+
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
+----
+
+Again, we we create our test file `test_room_agent.asl` at `src/test/jacamo/agt`. First, we test
+all inference rules.
+Note that the tests now also consider the tolerance range.
+
+[source]
+----
+/**
+ * Testing rules: now_is_colder_than, now_is_warmer_than and
+ * temperature_in_range
+ */
+@[test]
++!test_temperature_rules
+    <-
+    -+tolerance(0.4);
+    -+temperature(15);
+    !assert_false(now_is_colder_than(-5));
+    !assert_false(now_is_colder_than(14));
+    !assert_false(now_is_colder_than(14.8)); // in the tolerance range
+    !assert_false(now_is_colder_than(15.2)); // in the tolerance range
+    !assert_true(now_is_colder_than(15.5));
+    !assert_true(now_is_colder_than(16));
+    !assert_true(now_is_colder_than(40));
+
+    !assert_true(now_is_warmer_than(-5));
+    !assert_true(now_is_warmer_than(14));
+    !assert_false(now_is_warmer_than(14.8)); // in the tolerance range
+    !assert_false(now_is_warmer_than(15.2)); // in the tolerance range
+    !assert_false(now_is_warmer_than(15.5));
+    !assert_false(now_is_warmer_than(16));
+    !assert_false(now_is_warmer_than(40));
+
+    !assert_false(temperature_in_range(-5));
+    !assert_false(temperature_in_range(14));
+    !assert_true(temperature_in_range(14.8)); // in the tolerance range
+    !assert_true(temperature_in_range(15.2)); // in the tolerance range
+    !assert_false(temperature_in_range(15.5));
+    !assert_false(temperature_in_range(16));
+    !assert_false(temperature_in_range(40));
+.
+----
+
+Now, we can test cooling and heating functionality. Because the tests for the cooling functionality
+have already been introduced in the previous example and heating and cooling work analogously, we
+only provide the heating tests here (however, all tests are available in the
+link:./2_room_agent_also_heating/src/test/jacamo/agt/test_room_agent.asl[test file]).  We set at
+target temperature of 28 degrees (given a current temperature of 22 degrees) and regularly check in
+a loop whether the agent acts as expected given the current temperature and the agents's goal:
+
+
+[source]
+----
+@[test]
++!test_heat_until_temperature_rising
+    <-
+    -+temperature(22); // Let us say the temperature is 22 degrees
+    !!temperature(28); // We want to reach 28 degrees (this is running in parallel)
+    .wait(50); // Give some time to the agent to react
+    for ( .range(I,1,10) ) { // Let us check 10x if it is cooling correctly
+        ?temperature(C);
+        .wait(10);
+        if (now_is_colder_than(28)) {
+            !assert_true(status(heating));
+            -+temperature(C+1); // Emulate that the temperature has risen
+        } else { 
+            !assert_false(status(heating));
+        }
+    }
+    .drop_desire(temperature(28)); // dropping the desire that is running in parallel
+.
+----
+
+Then, we test the heating functionality with randomly generated temperature effects (within a
+range), using a random seed, as in the previous example:
+
+[source]
+----
+@[test]
++!test_heat_until_random_temperature
+    <-
+    -+temperature(18); // Let us say the temperature is 18 degrees
+    !!temperature(25); // We want to reach 25 degrees (this is running in parallel)
+    .set_random_seed(2); // Make sure this test will be always the same
+    .wait(50); // Give some time to the agent to react
+    for ( .range(I,1,20) ) { // Let us check 20x if it is cooling correctly
+        ?temperature(C);
+        .wait(10);
+        if (now_is_colder_than(25)) {
+            !assert_true(status(heating));
+            .random(X); // Emulate that the temperature has risen
+            -+temperature( C + math.ceil(X*2) );
+        } else {
+            !assert_false(status(heating));
+            .random(X); // Emulate that the temperature has dropped
+            -+temperature( C - math.ceil(X*2) );
+        }
+    }
+    .drop_desire(temperature(25)); // dropping the desire that is running in parallel
+.
+----
+
+The complete project is available link:./3_room_agent_also_heating/[here].
+
+
+=== Agents and Artifacts
+In this final single-agent testing example, we introduce an artifact that our agent interacts with.
+The artifact models the air conditioning/HVAC. It has the following methods:
+
+* `init` (with _temperature_ parameter): sets the initial temperature and sets the HVAC's state to
+`idle`.
+
+* `updateTemperatureProc` (internal (private), with _step_ parameter): while the HVAC is not in
+state `idle`, increases the temperature by `step` degrees and waits for 100ms to then repeat the
+loop.
+
+* `startHeating`: sets the state to `heating` and calls `updateTemperatureProc` with _step_ set to
+`0.5`.`
+
+* `startCooling`: sets the state to `cooling` and calls `updateTemperatureProc` with _step_ set to
+`-0.5`.
+
+* `stopAirConditioner`: sets the state of the HVAC to `idle`.
+
+The source code of the artifact looks as follows:
+
+[source]
+----
+package devices;
+
+import cartago.*;
+
+@ARTIFACT_INFO(outports = { @OUTPORT(name = "out-1") })
+
+public class HVAC extends Artifact {
+
+    void init(double initialTemperature){
+        defineObsProperty("state","idle");
+        defineObsProperty("temperature",initialTemperature);
+        log("Temperature: "+getObsProperty("temperature").doubleValue());
+    }
+
+    @OPERATION void startHeating(){
+        log("startHeating");
+        getObsProperty("state").updateValue("heating");
+        this.execInternalOp("updateTemperatureProc",0.5);
+    }
+
+    @OPERATION void startCooling(){
+        log("startCooling");
+        getObsProperty("state").updateValue("cooling");
+        this.execInternalOp("updateTemperatureProc",-0.5);
+    }
+
+    @OPERATION void stopAirConditioner(){
+        log("stopAirCond");
+        getObsProperty("state").updateValue("idle");
+    }
+
+    @INTERNAL_OPERATION void updateTemperatureProc(double step){
+        ObsProperty temp = getObsProperty("temperature");
+        ObsProperty state = getObsProperty("state");
+        while (!state.stringValue().equals("idle")){
+            temp.updateValue(temp.doubleValue() + step);
+            log("Temperature: "+temp.doubleValue());
+            this.await_time(100);
+        }
+    }
+}
+----
+
+Then, we integrate the artifact with our agent, replacing the hard-coded cooling and heating
+emulation with actions upon the HVAC artifact:
+
+[source]
+----
++!temperature(T): 
+	now_is_warmer_than(T) &
+	temperature(C)
+	<-  
+	if (not status(cooling)) {
+	    startCooling;
+        -+status(cooling);
+		.log(warning,C," is too hot -> cooling until ",T);
+    }
+	!temperature(T);
+.
+
++!temperature(T): 
+	now_is_colder_than(T) &
+	temperature(C)
+	<-  
+	if (not status(heating)) {
+	    startHeating;
+        -+status(heating);
+		.log(warning,C," is too hot -> cooling until ",T);
+    }
+	!temperature(T);
+.
+
++!temperature(T):
+	temperature_in_range(T)
+	<-  
+	if (not status(idle)) {
+    	stopAirConditioner;
+    	-+status(idle);
+		.log(warning,"Temperature achieved: ",T);
+	}
+    !temperature(T);
+.
+----
+
+When adjusting the tests of the previous example to support the agent-artifact integration, we first
+
+
+[source]
+----
+^!test_cool_until[state(finished)]
+    <-
+    ?temperature(C);
+    +cooling_finished_with(C);
+.
+
++!test_results
+    <-
+    .wait(100);
+    !assert_true(heating_finished_with(_));
+    !assert_true(cooling_finished_with(_));
+    ?heating_finished_with(HT);
+    ?cooling_finished_with(CT);
+    ?tolerance(DT);
+    !assert_equals(25,HT,DT);
+    !assert_equals(21,CT,DT);
+.
+
+----
+
+
+
+[source]
+----
+
+/**
+ * Test heater when the temperature is rising from a cold condition to the target
+ */
++!test_heat_until_temperature_rising
+    <-
+    /**
+     * Add mock plans to do not call the artifact.
+     * It produces a mocked answer. The belief status(X) 
+     * is being used to assert whether is is correct
+     */
+    .add_plan({ 
+    +!temperature(T): 
+    	now_is_colder_than(T) &
+    	temperature(C)
+    	<-  
+    	if (not status(heating)) {
+	        /*startHeating;*/
+            -+status(heating);
+		    .log(warning,C," is too hot -> cooling until ",T);
+        }
+	    !temperature(T);
+    }, self, begin);
+
+    .add_plan({ 
+    +!temperature(T):
+    	temperature_in_range(T)
+    	<-  
+    	if (not status(idle)) {
+    	    /*stopAirConditioner;*/
+    	    -+status(idle);
+		    .log(warning,"Temperature achieved: ",T);
+	    }
+        !temperature(T);
+    }, self, begin);
+
+    -+temperature(22); // Let us say the temperature is 22 degrees
+    !!temperature(28); // We want to reach 28 degrees (this is running in parallel)
+    .wait(50); // Give some time to the agent to react
+    for ( .range(I,1,10) ) { // Let us check 10x if it is cooling correctly
+        ?temperature(C);
+        .wait(10);
+        if (now_is_colder_than(28)) {
+            !assert_true(status(heating));
+            -+temperature(C+1); // Emulate that the temperature has risen
+        } else { 
+            !assert_false(status(heating));
+        }
+    }
+    .drop_desire(temperature(28)); // dropping the desire that is running in parallel
+.
+----
+
+The complete project is available link:./4_room_agent_with_artifact/[here].
+
+=== Multiple Agents and Agents on the Web
 
 == Conclusion
 This tutorial has provided a brief overview of how to test Jason agents directly in AgentSpeak, as

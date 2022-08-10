@@ -62,7 +62,7 @@ dependencies {
 
     api('net.sf.ingenias:jade:4.3')
 
-    {
+    implementation ('org.jacamo:jacamo-rest:0.7') {
          exclude group: 'org.jacamo', module: 'jacamo'
     }
 

@@ -4,6 +4,7 @@
  * temperature be known by the room_agent.
  */
 
+//These initial beliefs and plans are being given by the JCM file to run with ./gradlew run
 //preferred_temperature(23).
 //recipient_agent(room_agent).
 //!send_preference.

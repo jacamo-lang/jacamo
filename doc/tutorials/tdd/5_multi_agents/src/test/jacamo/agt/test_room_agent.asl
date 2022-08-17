@@ -11,6 +11,7 @@
  * the @[test] label annotation
 */
 { include("tester_agent.asl") }
+{ include("mock_plans.asl") }
 
 /**
  * This agent includes the code of the agent under tests
@@ -54,6 +55,7 @@
 @[test]
 +!test_temp_control
     <-
+    !add_mock_plans_room_agent;
     !test_cool_until_temperature_dropping;
     !test_cool_until_random_temperature;
     !test_heat_until_temperature_rising;
@@ -84,37 +86,6 @@
  */
 +!test_cool_until_temperature_dropping
     <-
-
-    /**
-     * Add mock plans to do not call the artifact.
-     * It produces a mocked answer. The belief status(X) 
-     * is being used to assert whether is is correct
-     */
-    .add_plan({ 
-    +!temperature(T): 
-        now_is_warmer_than(T) &
-        temperature(C)
-        <-  
-        if (not status(cooling)) {
-            /*startCooling;*/
-            -+status(cooling);
-            .log(warning,C," is too hot -> cooling until ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-
-    .add_plan({ 
-    +!temperature(T):
-        temperature_in_range(T)
-        <-  
-        if (not status(idle)) {
-            /*stopAirConditioner;*/
-            -+status(idle);
-            .log(warning,"Temperature achieved: ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-
     -+temperature(15); // The default current temperature is 15 degrees
     !!temperature(10); // We want to reach 10 degrees (this is running in parallel)
     .wait(50); // Give some time to the agent to react
@@ -136,50 +107,6 @@
  */
 +!test_cool_until_random_temperature
     <-
-
-    /**
-     * Add mock plans to do not call the artifact.
-     * It produces a mocked answer. The belief status(X) 
-     * is being used to assert whether is is correct
-     */
-    .add_plan({ 
-    +!temperature(T): 
-        now_is_warmer_than(T) &
-        temperature(C)
-        <-  
-        if (not status(cooling)) {
-            /*startCooling;*/
-            -+status(cooling);
-            .log(warning,C," is too hot -> cooling until ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-
-    .add_plan({ 
-    +!temperature(T): 
-        now_is_colder_than(T) &
-        temperature(C)
-        <-  
-        if (not status(heating)) {
-            /*startHeating;*/
-            -+status(heating);
-            .log(warning,C," is too hot -> cooling until ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-    
-    .add_plan({ 
-    +!temperature(T):
-        temperature_in_range(T)
-        <-  
-        if (not status(idle)) {
-            /*stopAirConditioner;*/
-            -+status(idle);
-            .log(warning,"Temperature achieved: ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-
     -+temperature(18); // Let us say the temperature is 18 degrees
     !!temperature(20); // We want to reach 20 degrees (this is running in parallel)
     .set_random_seed(1); // Make sure this test will be always the same
@@ -208,36 +135,6 @@
  */
 +!test_heat_until_temperature_rising
     <-
-    /**
-     * Add mock plans to do not call the artifact.
-     * It produces a mocked answer. The belief status(X) 
-     * is being used to assert whether is is correct
-     */
-    .add_plan({ 
-    +!temperature(T): 
-        now_is_colder_than(T) &
-        temperature(C)
-        <-  
-        if (not status(heating)) {
-            /*startHeating;*/
-            -+status(heating);
-            .log(warning,C," is too hot -> cooling until ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-
-    .add_plan({ 
-    +!temperature(T):
-        temperature_in_range(T)
-        <-  
-        if (not status(idle)) {
-            /*stopAirConditioner;*/
-            -+status(idle);
-            .log(warning,"Temperature achieved: ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-
     -+temperature(22); // Let us say the temperature is 22 degrees
     !!temperature(28); // We want to reach 28 degrees (this is running in parallel)
     .wait(50); // Give some time to the agent to react
@@ -259,36 +156,6 @@
  */
 +!test_heat_until_random_temperature
     <-
-    /**
-     * Add mock plans to do not call the artifact.
-     * It produces a mocked answer. The belief status(X) 
-     * is being used to assert whether is is correct
-     */
-    .add_plan({ 
-    +!temperature(T): 
-        now_is_colder_than(T) &
-        temperature(C)
-        <-  
-        if (not status(heating)) {
-            /*startHeating;*/
-            -+status(heating);
-            .log(warning,C," is too hot -> cooling until ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-
-    .add_plan({ 
-    +!temperature(T):
-        temperature_in_range(T)
-        <-  
-        if (not status(idle)) {
-            /*stopAirConditioner;*/
-            -+status(idle);
-            .log(warning,"Temperature achieved: ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-
     -+temperature(18); // Let us say the temperature is 18 degrees
     !!temperature(25); // We want to reach 25 degrees (this is running in parallel)
     .set_random_seed(2); // Make sure this test will be always the same

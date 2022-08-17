@@ -11,6 +11,7 @@
  * the @[test] label annotation
 */
 { include("tester_agent.asl") }
+{ include("tester_helpers.asl") }
 
 /**
  * This agent includes the code of the agent under tests
@@ -35,41 +36,44 @@
     !assert_equals(self,S);
 .
 
-
-
-//.create_agent(MockAgName, "mock_agent.asl");
-//.relevant_plans({+!_},_,LL)
-
+/**
+ * Testing compatibility between the assistant and the room_agent
+ * It is expected that the room_agent has plans referred on .send
+ * command executed by the assistant.
+ */
 @[test]
 +!test_compatibility
     <-
-    .create_agent(room_ag, "room_agent.asl");
-    .send(room_ag,tellHow,"+?retrieve_plans_for_tell(L) <- .relevant_plans({+!_},_,L).");
-    .wait(50);
-    .send(room_ag,askOne,retrieve_plans_for_tell(L),L);
-    //.relevant_plans({+!_},_,LL);
-    .wait(200);
-    //.send(room_ag,askOne,plans_for_tell(L), LL);
-    retrieve_plans_for_tell(PP) = L;
-    for (.member(M,PP))
-    {
-        .term2string(M,T);
-        if (.prefix("kqmlReceivedAskHow",T)) {
-            .print("+++++++ ",T);
-        } else {
-            .print("------- ",T);
-        }
-    }
-    
+    /* A test_room_agent agent is being created instead of
+     * room_agent because the test_room_agent has all plans
+     * that room_agent has and also it is adding test_helpers.asl
+     */
+    .create_agent(mock_room_ag, "mock_room_agent.asl");
+    !is_achievement_plan(mock_room_ag,add_preference(_),X);
+    !assert_true(X);
+    !is_achievement_plan(mock_room_ag,non_existing_plan(_,_),Y);
+    !assert_false(Y);
+    .kill_agent(mock_room_ag);
 .
 
-//.relevant_plans({+!_},_,LL)
-//.relevant_plans({+_},_,LL)
-//.goal_achieved?
-
-
+@[test]
 +!test_multiple_preferences
     <-
-    .create_agent(Room, "room_agent.asl");
-    .create_agent(TimAss, "assistant.asl");
+    .create_agent(mock_room_agent, "mock_room_agent.asl");
+    .wait(100);
+
+    .create_agent(tims_assistant, "mock_assistant.asl");
+    .send(tims_assistant,tell,preferred_temperature(23));
+    .send(tims_assistant,tell,recipient_agent(mock_room_agent));
+    .send(tims_assistant,achieve,send_preference);
+    .wait(100);
+
+    .create_agent(clebers_assistant, "mock_assistant.asl");
+    .send(clebers_assistant,tell,preferred_temperature(25));
+    .send(clebers_assistant,tell,recipient_agent(mock_room_agent));
+    .send(clebers_assistant,achieve,send_preference);
+
+    .wait(100);
+    .send(mock_room_agent,askOne,temperature(T),temperature(T));
+    !assert_equals(24,T);
 .

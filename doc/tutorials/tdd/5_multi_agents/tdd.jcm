@@ -17,11 +17,13 @@ mas tdd {
     agent tims_assistant : assistant.asl {
         beliefs: preferred_temperature(23)
                  recipient_agent(room_agent)
+        goals: send_preference
     }
 
     agent clebers_assistant : assistant.asl {
         beliefs: preferred_temperature(25)
                  recipient_agent(room_agent)
+        goals: send_preference
     }
 
     workspace room {

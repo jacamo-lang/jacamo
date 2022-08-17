@@ -92,26 +92,26 @@
      */
     .add_plan({ 
     +!temperature(T): 
-    	now_is_warmer_than(T) &
-    	temperature(C)
-    	<-  
-    	if (not status(cooling)) {
-	        /*startCooling;*/
+        now_is_warmer_than(T) &
+        temperature(C)
+        <-  
+        if (not status(cooling)) {
+            /*startCooling;*/
             -+status(cooling);
-		    .log(warning,C," is too hot -> cooling until ",T);
+            .log(warning,C," is too hot -> cooling until ",T);
         }
-	    !temperature(T);
+        !temperature(T);
     }, self, begin);
 
     .add_plan({ 
     +!temperature(T):
-    	temperature_in_range(T)
-    	<-  
-    	if (not status(idle)) {
-    	    /*stopAirConditioner;*/
-    	    -+status(idle);
-		    .log(warning,"Temperature achieved: ",T);
-	    }
+        temperature_in_range(T)
+        <-  
+        if (not status(idle)) {
+            /*stopAirConditioner;*/
+            -+status(idle);
+            .log(warning,"Temperature achieved: ",T);
+        }
         !temperature(T);
     }, self, begin);
 
@@ -144,39 +144,39 @@
      */
     .add_plan({ 
     +!temperature(T): 
-    	now_is_warmer_than(T) &
-    	temperature(C)
-    	<-  
-    	if (not status(cooling)) {
-	        /*startCooling;*/
+        now_is_warmer_than(T) &
+        temperature(C)
+        <-  
+        if (not status(cooling)) {
+            /*startCooling;*/
             -+status(cooling);
-		    .log(warning,C," is too hot -> cooling until ",T);
+            .log(warning,C," is too hot -> cooling until ",T);
         }
-	    !temperature(T);
+        !temperature(T);
     }, self, begin);
 
     .add_plan({ 
     +!temperature(T): 
-    	now_is_colder_than(T) &
-    	temperature(C)
-    	<-  
-    	if (not status(heating)) {
-	        /*startHeating;*/
+        now_is_colder_than(T) &
+        temperature(C)
+        <-  
+        if (not status(heating)) {
+            /*startHeating;*/
             -+status(heating);
-		    .log(warning,C," is too hot -> cooling until ",T);
+            .log(warning,C," is too hot -> cooling until ",T);
         }
-	    !temperature(T);
+        !temperature(T);
     }, self, begin);
     
     .add_plan({ 
     +!temperature(T):
-    	temperature_in_range(T)
-    	<-  
-    	if (not status(idle)) {
-    	    /*stopAirConditioner;*/
-    	    -+status(idle);
-		    .log(warning,"Temperature achieved: ",T);
-	    }
+        temperature_in_range(T)
+        <-  
+        if (not status(idle)) {
+            /*stopAirConditioner;*/
+            -+status(idle);
+            .log(warning,"Temperature achieved: ",T);
+        }
         !temperature(T);
     }, self, begin);
 
@@ -215,26 +215,26 @@
      */
     .add_plan({ 
     +!temperature(T): 
-    	now_is_colder_than(T) &
-    	temperature(C)
-    	<-  
-    	if (not status(heating)) {
-	        /*startHeating;*/
+        now_is_colder_than(T) &
+        temperature(C)
+        <-  
+        if (not status(heating)) {
+            /*startHeating;*/
             -+status(heating);
-		    .log(warning,C," is too hot -> cooling until ",T);
+            .log(warning,C," is too hot -> cooling until ",T);
         }
-	    !temperature(T);
+        !temperature(T);
     }, self, begin);
 
     .add_plan({ 
     +!temperature(T):
-    	temperature_in_range(T)
-    	<-  
-    	if (not status(idle)) {
-    	    /*stopAirConditioner;*/
-    	    -+status(idle);
-		    .log(warning,"Temperature achieved: ",T);
-	    }
+        temperature_in_range(T)
+        <-  
+        if (not status(idle)) {
+            /*stopAirConditioner;*/
+            -+status(idle);
+            .log(warning,"Temperature achieved: ",T);
+        }
         !temperature(T);
     }, self, begin);
 
@@ -266,26 +266,26 @@
      */
     .add_plan({ 
     +!temperature(T): 
-    	now_is_colder_than(T) &
-    	temperature(C)
-    	<-  
-    	if (not status(heating)) {
-	        /*startHeating;*/
+        now_is_colder_than(T) &
+        temperature(C)
+        <-  
+        if (not status(heating)) {
+            /*startHeating;*/
             -+status(heating);
-		    .log(warning,C," is too hot -> cooling until ",T);
+            .log(warning,C," is too hot -> cooling until ",T);
         }
-	    !temperature(T);
+        !temperature(T);
     }, self, begin);
 
     .add_plan({ 
     +!temperature(T):
-    	temperature_in_range(T)
-    	<-  
-    	if (not status(idle)) {
-    	    /*stopAirConditioner;*/
-    	    -+status(idle);
-		    .log(warning,"Temperature achieved: ",T);
-	    }
+        temperature_in_range(T)
+        <-  
+        if (not status(idle)) {
+            /*stopAirConditioner;*/
+            -+status(idle);
+            .log(warning,"Temperature achieved: ",T);
+        }
         !temperature(T);
     }, self, begin);
 

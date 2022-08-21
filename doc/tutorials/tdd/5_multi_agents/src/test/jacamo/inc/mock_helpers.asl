@@ -1,5 +1,5 @@
 /*
- * Returns the list of achievement plans' triggers (the ones that starts with +!).
+ * Returns the list of achievement plan triggers (the ones that starts with +!).
  * Each trigger is the signature of a plan and its arguments and extra data between brackets
  */
 +?retrieve_achievement_plans(Plans) : 
@@ -9,7 +9,7 @@
 .
 
 /*
- * Returns the list of add beliefs plans' triggers (the ones that starts with +).
+ * Returns the list of add belief plan triggers (the ones that starts with +).
  * Each trigger is the signature of a plan and its arguments and extra data between brackets
  */
 +?retrieve_add_belief_plans(Plans) : 

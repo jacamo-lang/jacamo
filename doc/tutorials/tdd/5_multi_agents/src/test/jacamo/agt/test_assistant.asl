@@ -61,8 +61,8 @@
 +!test_multiple_preferences
     <-
     /* 
-     * Create a room_agent and two asistants. The assistants
-     * ask for 23 and 25 degress, so the final temperature should
+     * Create a room_agent and two assistants. The assistants
+     * ask for 23 and 25 degrees, so the final temperature should
      * be 24 degrees.
      */
     !start_mock_agent(mock_room_agent, "mock_room_agent.asl");

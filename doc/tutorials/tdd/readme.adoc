@@ -516,6 +516,34 @@ The complete project is available link:./3_room_agent_also_heating/[here].
 
 === Agents and Artifacts
 In this final single-agent testing example, we introduce an artifact that our agent interacts with.
+In this (as well as the next) example, we run the multi-agent system using
+link:https://github.com/jacamo-lang/jacamo-rest[jacamo-rest] and
+link:https://github.com/jacamo-lang/jacamo-web[jacamo-web]. However, for our testing example, this
+is merely a configuration detail that does not affect the implementation and testing concept. First,
+we configure the MAS in the file `tdd.jcm`:
+
+[source]
+----
+mas tdd {
+    agent room_agent {
+        goals: temperature(21)
+        focus: room.hvac
+    }
+
+    workspace room {
+        artifact hvac: devices.HVAC(15)
+    }
+
+    asl-path: src/agt
+              src/agt/inc
+              
+    platform:   jacamo.web.JCMWeb("--main 2181 --restPort 8080") // zookeeper & restPort
+}
+----
+As we can see, our room agent focuses the `hvac` (air conditioning) artifact and has a particular
+target temperature (21°C) as its goal. The `platform` property configures jacamo-web (which, in
+turn, uses jacamo-rest).
+
 The artifact models the air conditioning/HVAC. It has the following methods:
 
 * `init` (with _temperature_ parameter): sets the initial temperature and sets the HVAC's state to
@@ -626,6 +654,18 @@ When adjusting the tests of the previous example to support the agent-artifact i
 
 [source]
 ----
+/* call plans that in itself are not annotated as tests */
+@[test]
++!test_temp_control
+    <-
+    !test_cool_until_temperature_dropping;
+    !test_cool_until_random_temperature;
+    !test_heat_until_temperature_rising;
+    !test_heat_until_random_temperature;
+    !!test_results;
+.
+
+/*meta event: occurs */
 ^!test_cool_until[state(finished)]
     <-
     ?temperature(C);
@@ -706,6 +746,283 @@ When adjusting the tests of the previous example to support the agent-artifact i
 The complete project is available link:./4_room_agent_with_artifact/[here].
 
 === Multiple Agents and Agents on the Web
+Finally, let us implement and test a simple Multi-Agent System (MAS). In the MAS, we have an
+additional _assistant agent_ that relays user preferences to the room agent. Accordingly, the code
+for the assistant agent is very simple:
+
+[source]
+----
++!send_preference:
+    preferred_temperature(T) &
+    recipient_agent(R)
+    <-
+    .log(warning,"Sending preference for ",T);
+    .send(R,achieve,add_preference(T));
+.
+
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
+----
+
+Note that in the `tdd.jcm` configuration file, we then instantiate two assistant agents representing
+the users _Cleber_ and _Tim_, respectively:
+
+[source]
+----
+agent tims_assistant : assistant.asl {
+        beliefs: preferred_temperature(23)
+                 recipient_agent(room_agent)
+        goals: send_preference
+    }
+
+agent clebers_assistant : assistant.asl {
+    beliefs: preferred_temperature(25)
+                recipient_agent(room_agent)
+    goals: send_preference
+}
+----
+
+Then, we adjust our room agent so that it considers all preferences received by the assistant agents
+to then set its goal temperature to the average of the agents' temperature preferences (of course,
+this approach invites strategic manipulation by the users, but let us ignore this issue for the
+sake of simplicity):
+
+[source]
+----
++!add_preference(T)[source(S)]
+    <-
+    .abolish(preference(S,_));
+    +preference(S,T);
+    .findall(X,preference(_,X),L);
+    .drop_desire(temperature(_));
+    !temperature(math.average(L));
+.
+----
+
+Now, we can test our agent. However, before we can write the actual tests, we first want to create
+some mocks. Note that we have already worked with _mock plans_ in the previous example. These plans
+were simply provided alongside the test code. To allow for a better separation of concerns and with
+the ultimate objective of facilitating test readability and maintainability, we move all mocks to
+specific files (in the `inc` folder).
+First, we implement a mock plan base for our room agent (in the file `mock_plans.asl`):
+
+[source]
+----
++!add_mock_plans_room_agent
+    <-
+    .add_plan({ 
+    +!temperature(T): 
+        now_is_warmer_than(T) &
+        temperature(C)
+        <-  
+        if (not status(cooling)) {
+            /*Mock removing the external action startCooling;*/
+            -+status(cooling);
+            .log(warning,C," is too hot -> cooling until ",T);
+        }
+        !temperature(T);
+    }, self, begin);
+
+    .add_plan({ 
+    +!temperature(T): 
+        now_is_colder_than(T) &
+        temperature(C)
+        <-  
+        if (not status(heating)) {
+            /*Mock removing the external action startHeating;*/
+            -+status(heating);
+            .log(warning,C," is too hot -> cooling until ",T);
+        }
+        !temperature(T);
+    }, self, begin);
+    
+    .add_plan({ 
+    +!temperature(T):
+        temperature_in_range(T)
+        <-  
+        if (not status(idle)) {
+            /*Mock removing the external action stopAirConditioner;*/
+            -+status(idle);
+            .log(warning,"Temperature achieved: ",T);
+        }
+        !temperature(T);
+    }, self, begin);
+
+    .add_plan({ 
+    +!add_preference(T)[source(S)]
+        <-
+        .abolish(preference(S,_));
+        +preference(S,T);
+        .findall(X,preference(_,X),L);
+        /*Mock temperature with the average*/
+        +temperature(math.average(L));
+    }, self, begin);
+.
+----
+
+As we can see, the mock plans do not make calls to the artifact and hence allow (multi-)agent
+testing without artifact instantiation. Also, we need to implement some generic mock helpers
+(in `mock_helpers.asl`) that allow us to achieve the following:
+
+* Retrieve an agent's _achievement plan triggers_ (starting with `+!`):
+
+[source]
+----
++?retrieve_achievement_plans(Plans) : 
+.relevant_plans({+!_},LP,LL) 
+<- 
+.findall(T, .member(P,LP) & P = {@L +!T : C <- B} & Label = L, Plans);
+.
+----
+
+* Retrieve an agent's _add belief plan triggers_ (starting with `+!`):
+
+[source]
+----
++?retrieve_add_belief_plans(Plans) : 
+    .relevant_plans({+_},LP,LL) 
+    <- 
+    .findall(T, .member(P,LP) & P = {@L +T : C <- B} & Label = L, Plans);
+.
+----
+
+* Check if a plan is an _achievement plan_ or not:
+
+[source]
+----
++?is_achievement_plan(P,X) 
+    <- 
+    ?retrieve_achievement_plans(L); 
+    .eval(X,.member(P,L));
+.
+----
+
+These features are useful for checking if one agent's communication with another agent has the
+expected effects on the latter agent.
+
+Also, we implement functionality in `tester_helpers.asl` that allows us to start mock agents:
+
+[source]
+----
++!start_mock_agent(MockAgName, File) :
+    .my_name(ME)
+    <-
+    .create_agent(MockAgName, File);
+    .send(MockAgName, tell, mock_owner(ME));
+    // if the mock was already sleeping, wait it wake up first
+    .wait( not sleeping(MockAgName), 300, _ );
+    // wait the mock finish some task and tell that it is now sleeping
+    .wait( sleeping(MockAgName) );
+.   
+----
+
+Now, we can implement our mock agents. The mock assistant agent (`mock_assistant.asl`) is
+essentially a copy of the actual assistant agent, but features the mock helper utilities:
+
+[source]
+----
+{ include("mock_helpers.asl") }
+{ include("mock_agent.asl") }
+
+{ include("assistant.asl") }
+----
+
+In contrast, the mock room agent (`mock_room_agent.asl`) also loads the mock plans that we have
+specified in `mock_plans.asl`:
+
+[source]
+----
+{ include("mock_helpers.asl") }
+{ include("mock_agent.asl") }
+{ include("mock_plans.asl") }
+/**
+ * This agent includes the code of the agent under tests
+ */
+{ include("room_agent.asl") }
+
+!add_mock_plans_room_agent.
+----
+
+Finally, we can implement the actual tests. In our example, we test all of the newly implemented
+functionality from the perspective of the assistant agent (in `test_assistant.asl`). First, we
+tests whether we can successfully send our temperature preference to other agents:
+
+[source]
+----
+@[test]
++!test_send_preference
+    <-
+    +preferred_temperature(23);
+    +recipient_agent(test_assistant);
+    !send_preference;
+.
+
++!add_preference(T)[source(S)]:
+    preferred_temperature(TT)
+    <-
+    !assert_equals(TT,T);
+    !assert_equals(self,S);
+.
+----
+
+Then, we test the compatibility between the assistant agent and the room agent. In particular, we
+test whether the room agent has plans that are triggered when the `.send` command has been executed
+by the assistant agent. The test involves the instantiation of a mock room agent. This allows us to
+inspect the agent's _achievement plans_:s
+[source]
+----
+@[test]
++!test_compatibility
+    <-
+    !start_mock_agent(mock_room_ag, "mock_room_agent.asl");
+    !is_achievement_plan(mock_room_ag,add_preference(_),X);
+    !assert_true(X);
+    !is_achievement_plan(mock_room_ag,non_existing_plan(_,_),Y);
+    !assert_false(Y);
+    .kill_agent(mock_room_ag);
+.
+----
+
+Finally, we test whether the room agent aggregates the preferences of several assistant agents
+correctly. Again, this is achieved by instantiating mock agents, this time two assistants with
+different temperature preferences and one mock room agent.
+[source]
+----
+@[test]
++!test_multiple_preferences
+    <-
+    /* 
+     * Create a room_agent and two assistants. The assistants
+     * ask for 23 and 25 degrees, so the final temperature should
+     * be 24 degrees.
+     */
+    !start_mock_agent(mock_room_agent, "mock_room_agent.asl");
+    !start_mock_agent(tims_assistant, "mock_assistant.asl");
+    !start_mock_agent(clebers_assistant, "mock_assistant.asl");
+
+    .send(tims_assistant,tell,preferred_temperature(23));
+    .send(tims_assistant,tell,recipient_agent(mock_room_agent));
+    .send(tims_assistant,achieve,send_preference);
+    .send(clebers_assistant,tell,preferred_temperature(25));
+    .send(clebers_assistant,tell,recipient_agent(mock_room_agent));
+    .send(clebers_assistant,achieve,send_preference);
+
+    /* 
+     * Give some time to the room_agent process the information
+     * and mocking a result
+     */
+    .wait(50);
+    .send(mock_room_agent,askOne,temperature(T),temperature(T));
+    !assert_equals(24,T);
+
+    .kill_agent(mock_room_agent);
+    .kill_agent(tims_assistant);
+    .kill_agent(clebers_assistant);
+
+.
+----
+
+The complete project is available link:./5_multi_agents/[here].
 
 == Conclusion
 This tutorial has provided a brief overview of how to test Jason agents directly in AgentSpeak, as

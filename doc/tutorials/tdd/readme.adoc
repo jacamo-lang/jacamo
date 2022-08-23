@@ -37,6 +37,7 @@ image:./figures/Agent-Oriented_TDD.png[]
 The tutorial below provides examples of unit testing, single agent testing, and multi-agent testing
 with Jason. Note that E2E tests are not covered, because these are typically implemented in a
 different technology ecosystem (for example: _Selenium_ for end-to-end user interface testing).
+However, we consider E2E MAS testing an interesting open challenge that needs more exploration.
 
 == Under the Hood
 Under the hood, Jason's GOTDD feature allows for the instantiation of one main agent per test file,
@@ -898,7 +899,9 @@ testing without artifact instantiation. Also, we need to implement some generic 
 ----
 
 These features are useful for checking if one agent's communication with another agent has the
-expected effects on the latter agent.
+expected effects on the latter agent. They are, essentially, extensions of the Jason library's
+testing utilities (version 3.1) and may make it into the Jason core eventually.
+
 
 Also, we implement functionality in `tester_helpers.asl` that allows us to start mock agents:
 

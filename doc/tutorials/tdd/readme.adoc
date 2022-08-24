@@ -8,8 +8,8 @@ consolidation of perspectives is called _Goal-Oriented Test-Driven Development_ 
 In modern software development, testing plays a key role, as it helps ensure the software works as
 expected. Ideally, developers use _Test-Driven Development_ (TDD) approaches, in which a large
 portion of the tests is written during or even ahead of the implementation of the actual program
-code. The assumption is that specifying the exact desired behavior of a software component _before_
-implementing this component facilitates a more rigorous assessment of the component and ensures
+code. The assumption is that specifying the exact desired behavior of a software component before
+or alongside the implementation facilitates a more rigorous assessment of the component and ensures
 testing is not cut short because of time shortage caused by mis-estimations. Generally, it is
 considered good practice to focus automated testing efforts on _unit tests_ of small components that
 can and hence _should_ be tested in a rigorous manner and to cover the overall system (or system of
@@ -18,8 +18,8 @@ all possible input and environment configurations because of the explosion in co
 (even for fairly small systems) but they can potentially catch unexpected behavior of components
 that seemingly work correctly from a lower-level perspective.
 
-From an agent-oriented perspective, unit tests cover behavior that is _agent-agnostic_, _i.e._ which
-can be tested as if it was a function/method call -- for example, given the internal state the agent
+From an agent-oriented view, unit tests cover behavior that is _agent-agnostic_, _i.e._ which can be
+tested as if it was a function/method call -- for example, given the internal state the agent
 -- and which is disconnected from the state of the environment and the other agents that (inter)act
 in it. While unit tests for agents are conceptually not different from traditional unit tests,
 Jason's GOTDD feature is novel even on this level because it provides first-class abstractions for
@@ -555,7 +555,7 @@ state `idle`, increases the temperature by `step` degrees and waits for 100ms to
 loop.
 
 * `startHeating`: sets the state to `heating` and calls `updateTemperatureProc` with _step_ set to
-`0.5`.`
+`0.5`.
 
 * `startCooling`: sets the state to `cooling` and calls `updateTemperatureProc` with _step_ set to
 `-0.5`.
@@ -650,12 +650,12 @@ emulation with actions upon the HVAC artifact:
 .
 ----
 
-When adjusting the tests of the previous example to support the agent-artifact integration, we first
-
+When adjusting the tests of the previous example to support the agent-artifact integration, we
+merely use one test annotation that first executes the different tests rules and then collects the
+test results.
 
 [source]
 ----
-/* call plans that in itself are not annotated as tests */
 @[test]
 +!test_temp_control
     <-
@@ -687,7 +687,8 @@ When adjusting the tests of the previous example to support the agent-artifact i
 
 ----
 
-
+When implementing the actual tests, we mock the plans so that actual calls to the artifacts are not
+made (below, we merely show one of the test rules).
 
 [source]
 ----
@@ -746,7 +747,7 @@ When adjusting the tests of the previous example to support the agent-artifact i
 
 The complete project is available link:./4_room_agent_with_artifact/[here].
 
-=== Multiple Agents and Agents on the Web
+=== Multiple Agents and Agents
 Finally, let us implement and test a simple Multi-Agent System (MAS). In the MAS, we have an
 additional _assistant agent_ that relays user preferences to the room agent. Accordingly, the code
 for the assistant agent is very simple:
@@ -861,7 +862,7 @@ First, we implement a mock plan base for our room agent (in the file `mock_plans
 .
 ----
 
-As we can see, the mock plans do not make calls to the artifact and hence allow (multi-)agent
+As we can see, the mock plans do not make calls to the artifact and hence allow for (multi-)agent
 testing without artifact instantiation. Also, we need to implement some generic mock helpers
 (in `mock_helpers.asl`) that allow us to achieve the following:
 
@@ -971,7 +972,7 @@ tests whether we can successfully send our temperature preference to other agent
 Then, we test the compatibility between the assistant agent and the room agent. In particular, we
 test whether the room agent has plans that are triggered when the `.send` command has been executed
 by the assistant agent. The test involves the instantiation of a mock room agent. This allows us to
-inspect the agent's _achievement plans_:s
+inspect the agent's _achievement plans_.
 [source]
 ----
 @[test]

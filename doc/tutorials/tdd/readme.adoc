@@ -57,51 +57,62 @@ slightly more advanced example, and an example where the agent interacts with an
 example builds upon its predecessor.
 
 === Project Setup
-Let us set up our Jason project and configure it for GOTDD.
+Let us set up our JaCaMo project and configure it for GOTDD.
 
-1. First, we create a mas2j project file and specify the infrastructure type, our agents, and the
-ASL source paths (see below for the unit testing example):
+1. First, make sure the `Java 15` or superior is set.
 
 [source]
 ----
-MAS tdd {
+$ java --version
+---
 
-    infrastructure: Centralised
+2. Then we download a JaCaMo facility and execute it to create our tdd-tutorial project. We may 
+give to our project the name `tdd_tutorial`.
 
-    agents:
-        xor;
-
-    aslSourcePath:  "src/test/jason/inc";
-                    "src/test/jason/asl";
-                    "src/asl";
-                    "src/agt";
-                    "inc";
-                    "$jasonJar/test/jason/inc";
-}
+[source]
 ----
-Then, we create the source directory structure for our project:
+$ curl -s -O http://jacamo.sourceforge.net/nps/np1.1.zip
+$ unzip np1.1.zip
+$ ./gradlew --console=plain
+---
+
+Notice that this creates a sample project with the following source directory structure:
 
 [source]
 ----
 /
 - src
     - agt
-- test
-    - jacamo
-        - agt
+    - env
+    - int
+    - org
 ----
 
-As a final setup step, we create a gradle build file that allows us to test our project.
-We can simply copy and adjust the file we find
-link:./1_room_agent_on_jason-jacamo/build.gradle[here]. We can also create a `logging.properties`
-file such as this one link:./1_room_agent_on_jason-jacamo/logging.properties[here]. 
-The setup is specific to the first example (unit testing); the setup for the other test examples
-differs slightly. Take a look at the example sources to make sure your setup is correct.
+3.  We can run the deafult project just to make sure everything is working fine. An MAS console 
+should open showing a `Hello World` message.
 
+[source]
+----
+$ cd tdd_tutorial/
+$ ./gradlew run
+----
+
+4. Now, we will adapt the sample project to build an agent that controls the temperature of the 
+environment. At `src/agt`, we rename the `sample_agent.asl` file to `room_agent.asl`, and fix the 
+`tdd_tutorial.jcm` for this other agent filename, as below:
+
+[source]
+----
+mas tdd_tutorial {
+
+    agent room_agent
+
+}
+----
 
 === Unit Testing in Jason
-Let us start by implementing a unit test that tests a simple inference rule. At `src/agt`, we
-create the file `room_agent.asl` and add the following rule:
+Let us start by implementing a unit test that tests a simple inference rule. In the file 
+`room_agent.asl` we replace the default content by the following rule:
 
 [source]
 ----
@@ -112,7 +123,7 @@ As we can see, the rule checks if the current `temperature` is higher than some 
 provided value. Because we merely draw inferences, but do not act in the environment, we consider
 this scenario a *unit testing* scenario and not a single agent testing scenario.
 
-Now, we set a temperature value:
+Now, on the top of `room_agent.asl` file, we set a temperature value:
 
 [source]
 ----
@@ -137,7 +148,7 @@ Finally, we try out our inference rule:
     .print(now_is_warmer_than(10)," = ",X2);
 
     .eval(X3, now_is_warmer_than(15));
-    .print(now_is_warmer_than(15)," = ",X3);
+    .print(now_is_warmer_than(15)," = ",X3).
 ----
 
 Such *naive* inline tests are frequently used to facilitate debugging, but have obvious
@@ -147,8 +158,31 @@ shortcomings:
 * They do not clearly describe desired behavior.
 * They make it hard to automate tests.
 
-To test the file properly, we create the file `test_room_agent.asl` at `src/test/jacamo/agt`. At the
-beginning of this file, we import the Jason tester agent, as well as the file that we want to test:
+To test the file properly, we create the file `test_room_agent.asl` at `src/test/jacamo/agt`. To 
+create these new folders, from the project root folder we can type:
+
+[source]
+----
+$ mkdir -p src/test/jacamo/agt
+----
+
+Our source directory structure now looks like it:
+
+[source]
+----
+/
+- src
+    - agt
+    - env
+    - int
+    - org
+- test
+    - jacamo
+        - agt
+----
+
+At the beginning of `test_room_agent.asl` file, we import the Jason tester agent, as well 
+as the file that we want to test:
 
 [source]
 ----
@@ -165,8 +199,7 @@ Then, we add a test goal, using the `@[test]` annotation:
     <-
     !assert_false(now_is_warmer_than(20));
     !assert_true(now_is_warmer_than(10));
-    !assert_false(now_is_warmer_than(15));
-.
+    !assert_false(now_is_warmer_than(15)).
 ----
 
 As we can see, the test specifies the truth table of the inference rule, given the following three
@@ -175,6 +208,77 @@ scenarios:
 1. The provided value temperature is higher than the current temperature.
 2. The provided value is lower than the current temperature.
 3. The provided value is equal to the current temperature.
+
+To use this testing facility, we have to make sure the project is using `jacamo:0.10-SNAPSHOT` and
+add the following task to our `build.gradle` file:
+
+[source]
+----
+task testJaCaMo {
+    description 'runs JaCaMo unit tests: unit_tests_project.jcm'
+    def errorOnTests = false
+    outputs.upToDateWhen { false } // disable cache
+
+    doFirst {
+        try {
+            javaexec {
+                main = 'jacamo.infra.JaCaMoLauncher'
+                if (gradle.startParameter.logLevel.toString().equals("DEBUG")) {
+                    args = ['$jacamoJar/test/jacamo/unit_tests_project.jcm', '--log-conf', '$jasonJar/templates/console-debug-logging.properties']
+                } else if (gradle.startParameter.logLevel.toString().equals("INFO")) {
+                    args = ['$jacamoJar/test/jacamo/unit_tests_project.jcm', '--log-conf', '$jasonJar/templates/console-info-logging.properties']
+                } else {
+                    args = ['$jacamoJar/test/jacamo/unit_tests_project.jcm', '--log-conf', '$jasonJar/templates/console-lifecycle-logging.properties']
+                }
+                classpath sourceSets.main.runtimeClasspath
+
+                errorOutput = new ByteArrayOutputStream()
+                standardOutput = new ByteArrayOutputStream()
+
+                ext.stdout = {
+                    return standardOutput.toString()
+                }
+                ext.errout = {
+                    return errorOutput.toString()
+                }
+            }
+        } catch (Exception e) {
+            errorOnTests = true
+        }
+    }
+
+    doLast {
+        def styler = 'black red green yellow blue magenta cyan white'
+            .split().toList().withIndex(30)
+            .collectEntries { key, val -> [(key) : { "\033[${val}m${it}\033[0m" }] }
+
+        def std = stdout()
+        std.splitEachLine('\n') { String line ->
+            line = line.replace("TESTING","${styler['yellow']('TESTING')}")
+            line = line.replace("PASSED","${styler['green']('PASSED')}")
+            line = line.replace("FAILED","${styler['red']('FAILED')}")
+            line = line.replace("TODO","${styler['magenta']('TODO')}")
+            line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
+            println line
+        }
+
+        def err = errout()
+        err.splitEachLine('\n') { String line ->
+            line = line.replace("TESTING","${styler['yellow']('TESTING')}")
+            line = line.replace("PASSED","${styler['green']('PASSED')}")
+            line = line.replace("FAILED","${styler['red']('FAILED')}")
+            line = line.replace("TODO","${styler['magenta']('TODO')}")
+            line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
+            println line
+        }
+
+        if (errorOnTests) {
+            throw new GradleException('JaCaMo unit tests: ERROR!')
+        }
+    }
+}
+tasks.test.finalizedBy testJaCaMo
+----
 
 The complete project is available link:./1_room_agent/[here].
 

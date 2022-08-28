@@ -1,29 +1,106 @@
 /*
- * Example project: test-driven development
+   Project tdd_tutorial
+
+   Gradle build file for JaCaMo Applications
+   August 28, 2022 - 17:35:17
 */
 
-defaultTasks 'test'
+defaultTasks 'run'
 
 apply plugin: 'java'
+apply plugin: 'eclipse'
 
-version '0.01'
-group   'org.jacamo.tdd'
+version '1.0'
+group   'org.jacamo'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-    maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
-    flatDir {
-       dirs 'libs'
+java { 
+    toolchain { 
+        languageVersion.set(JavaLanguageVersion.of(15)) 
     }
 }
 
-dependencies {
-	implementation 'org.jacamo:jacamo:0.10-SNAPSHOT'
+
+repositories {
+    maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases" }
+
+    //maven { url "http://jacamo.sourceforge.net/maven2" }
+    //maven { url "https://jade.tilab.com/maven/" }
+
+    flatDir { dirs 'lib' }
+
+    mavenCentral()
 }
 
+dependencies {
+    implementation('org.jacamo:jacamo:0.10-SNAPSHOT')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/env'
+            srcDir 'src/agt'
+            srcDir 'src/org'
+            srcDir 'src/int'
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+}
+
+task run (type: JavaExec, dependsOn: 'classes') {
+    group       ' JaCaMo'
+    description 'runs the JaCaMo application'
+    doFirst {
+        mkdir 'log'
+    }
+    main 'jacamo.infra.JaCaMoLauncher'
+    args 'tdd_tutorial.jcm'
+    // jvmArgs '-Xss15m'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+
+task uberJar(type: Jar, dependsOn: 'classes') {
+    group      ' JaCaMo'
+    description 'creates a single runnable jar file with all dependencies'
+    duplicatesStrategy 'exclude'
+
+    manifest {
+        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
+    }
+    archiveBaseName = 'jacamo-tdd_tutorial' // the name must start with jacamo so that jacamo...jar is found in the classpath
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from (project.projectDir.absolutePath) {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.sai'
+        include '**/*.ptl'
+        include '**/*.jcm'
+        include '*.properties'
+    }
+    from (project.buildDir.absolutePath + '/jcm') {
+        include '**/*'
+    }
+    with jar
+
+    doFirst {
+        copy {
+            from 'tdd_tutorial.jcm'
+            rename 'tdd_tutorial.jcm','default.jcm'
+            into project.buildDir.absolutePath + '/jcm'
+        }
+    }
+}
+
+clean {
+    delete 'bin'
+    delete 'build'
+    delete 'log'
+}
 
 task testJaCaMo {
     description 'runs JaCaMo unit tests: unit_tests_project.jcm'
@@ -89,14 +166,3 @@ task testJaCaMo {
     }
 }
 tasks.test.finalizedBy testJaCaMo
-
-task run (type: JavaExec, dependsOn: 'classes') {
-    group       ' Jason'
-    description 'runs the Jason application'
-    doFirst {
-        mkdir 'log'
-    }
-    main 'jason.infra.centralised.RunCentralisedMAS'
-    args 'tdd.mas2j'
-    classpath sourceSets.main.runtimeClasspath
-}

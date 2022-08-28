@@ -64,17 +64,17 @@ Let us set up our JaCaMo project and configure it for GOTDD.
 [source]
 ----
 $ java --version
----
+----
 
-2. Then we download a JaCaMo facility and execute it to create our tdd-tutorial project. We may 
-give to our project the name `tdd_tutorial`.
+2. Then, we download a JaCaMo facility for creating projects and execute it to create our 
+`tdd_tutorial` project.
 
 [source]
 ----
 $ curl -s -O http://jacamo.sourceforge.net/nps/np1.1.zip
 $ unzip np1.1.zip
 $ ./gradlew --console=plain
----
+----
 
 Notice that this creates a sample project with the following source directory structure:
 
@@ -88,13 +88,12 @@ Notice that this creates a sample project with the following source directory st
     - org
 ----
 
-3.  We can run the deafult project just to make sure everything is working fine. An MAS console 
-should open showing a `Hello World` message.
+3.  We can run the default project just to make sure everything is working fine. An MAS console 
+should open showing our `sample_agent` printing out `hello world`.
 
 [source]
 ----
-$ cd tdd_tutorial/
-$ ./gradlew run
+tdd_tutorial$ ./gradlew run
 ----
 
 4. Now, we will adapt the sample project to build an agent that controls the temperature of the 
@@ -123,7 +122,7 @@ As we can see, the rule checks if the current `temperature` is higher than some 
 provided value. Because we merely draw inferences, but do not act in the environment, we consider
 this scenario a *unit testing* scenario and not a single agent testing scenario.
 
-Now, on the top of `room_agent.asl` file, we set a temperature value:
+Now, on the `room_agent.asl` file, we set a temperature value:
 
 [source]
 ----
@@ -151,6 +150,7 @@ Finally, we try out our inference rule:
     .print(now_is_warmer_than(15)," = ",X3).
 ----
 
+This kind of test is performed using the usual command to run a JaCaMo MAS project (`./gradlew run`).
 Such *naive* inline tests are frequently used to facilitate debugging, but have obvious
 shortcomings:
 
@@ -158,12 +158,12 @@ shortcomings:
 * They do not clearly describe desired behavior.
 * They make it hard to automate tests.
 
-To test the file properly, we create the file `test_room_agent.asl` at `src/test/jacamo/agt`. To 
-create these new folders, from the project root folder we can type:
+To test the file properly, we will create the file `test_room_agent.asl` at `src/test/jacamo/agt`. To
+do so, we can run the following command:
 
 [source]
 ----
-$ mkdir -p src/test/jacamo/agt
+tdd_tutorial$ mkdir -p src/test/jacamo/agt && touch src/test/jacamo/agt/test_room_agent.asl
 ----
 
 Our source directory structure now looks like it:
@@ -278,6 +278,13 @@ task testJaCaMo {
     }
 }
 tasks.test.finalizedBy testJaCaMo
+----
+
+Now, we test it running the following command:
+
+[source]
+----
+$ ./gradlew test --info
 ----
 
 The complete project is available link:./1_room_agent/[here].

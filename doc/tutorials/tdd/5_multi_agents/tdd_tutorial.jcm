@@ -30,10 +30,6 @@ mas tdd {
         artifact hvac: devices.HVAC(15)
     }
 
-    asl-path: src/agt
-              src/agt/inc
-              
-    platform:   jacamo.web.JCMWeb("--main 2181 --restPort 8080") // zookeeper & restPort
 }
 
 /*

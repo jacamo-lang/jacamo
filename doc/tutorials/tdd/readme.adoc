@@ -475,8 +475,7 @@ Then, we add heating behavior in addition to the already implemented cooling fun
         -+status(cooling);
 		.log(warning,C," is too hot -> cooling until ",T);
     }
-	!temperature(T);
-.
+	!temperature(T).
 
 +!temperature(T): 
 	now_is_colder_than(T) &
@@ -490,8 +489,7 @@ Then, we add heating behavior in addition to the already implemented cooling fun
         -+status(heating);
 		.log(warning,C," is too hot -> cooling until ",T);
     }
-	!temperature(T);
-.
+	!temperature(T).
 ----
 
 Finally, we implement behavior that checks whether the temperature is within the tolerance range
@@ -509,13 +507,11 @@ and, if so, sets the air conditioner to idle (we also trigger the deliberation l
     	-+status(idle);
 		.log(warning,"Temperature achieved: ",T);
 	}
-    !temperature(T);
-.
+    !temperature(T).
 
 +!temperature(T)
     <-
-    !temperature(T);
-.
+    !temperature(T).
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
@@ -558,14 +554,13 @@ Note that the tests now also consider the tolerance range.
     !assert_true(temperature_in_range(15.2)); // in the tolerance range
     !assert_false(temperature_in_range(15.5));
     !assert_false(temperature_in_range(16));
-    !assert_false(temperature_in_range(40));
-.
+    !assert_false(temperature_in_range(40)).
 ----
 
 Now, we can test cooling and heating functionality. Because the tests for the cooling functionality
 have already been introduced in the previous example and heating and cooling work analogously, we
 only provide the heating tests here (however, all tests are available in the
-link:./2_room_agent_also_heating/src/test/jacamo/agt/test_room_agent.asl[test file]).  We set at
+link:./2_room_agent_also_heating/src/test/jacamo/agt/test_room_agent.asl[test file]). We set at
 target temperature of 28 degrees (given a current temperature of 22 degrees) and regularly check in
 a loop whether the agent acts as expected given the current temperature and the agents's goal:
 
@@ -588,8 +583,7 @@ a loop whether the agent acts as expected given the current temperature and the 
             !assert_false(status(heating));
         }
     }
-    .drop_desire(temperature(28)); // dropping the desire that is running in parallel
-.
+    .drop_desire(temperature(28)). // dropping the desire that is running in parallel
 ----
 
 Then, we test the heating functionality with randomly generated temperature effects (within a
@@ -617,8 +611,7 @@ range), using a random seed, as in the previous example:
             -+temperature( C - math.ceil(X*2) );
         }
     }
-    .drop_desire(temperature(25)); // dropping the desire that is running in parallel
-.
+    .drop_desire(temperature(25)). // dropping the desire that is running in parallel
 ----
 
 The complete project is available link:./3_room_agent_also_heating/[here].
@@ -634,7 +627,7 @@ we configure the MAS in the file `tdd.jcm`:
 
 [source]
 ----
-mas tdd {
+mas tdd_tutorial {
     agent room_agent {
         goals: temperature(21)
         focus: room.hvac
@@ -643,11 +636,6 @@ mas tdd {
     workspace room {
         artifact hvac: devices.HVAC(15)
     }
-
-    asl-path: src/agt
-              src/agt/inc
-              
-    platform:   jacamo.web.JCMWeb("--main 2181 --restPort 8080") // zookeeper & restPort
 }
 ----
 As we can see, our room agent focuses the `hvac` (air conditioning) artifact and has a particular

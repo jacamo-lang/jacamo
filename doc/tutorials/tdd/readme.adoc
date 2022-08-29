@@ -355,7 +355,7 @@ following loop:
 ----
 
 Note that in this example, we specify the initial beliefs of the agent in the
-link:./2_cooler_agent_on_jason-jacamo/tdd_tutorial.jcm[jcm file].
+link:./2_room_agent_cooling/tdd_tutorial.jcm[jcm file].
 
 [source]
 ----

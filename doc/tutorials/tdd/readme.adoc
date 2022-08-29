@@ -312,12 +312,12 @@ threshold:
     now_is_warmer_than(T) &
     temperature(C)
     <-  
-    if (not cooling) {
+    if (not state("cooling")) {
         /**
          * To control the room temperature it could  
          * activate a physical cooler here
          */
-        +cooling;
+        +state("cooling");
         .log(warning,C," is too hot -> cooling until ",T);
     }
     !temperature(T).
@@ -329,14 +329,14 @@ Analogously, the cooler should stop cooling if the temperature is below the thre
 [source]
 ----
 +!temperature(T):
-    cooling
+    state("cooling")
     <-  
     .log(warning,"Temperature achieved: ",T);
 
     /**
      * Deactivating the cooler
      */
-    -cooling;
+    -state("cooling");
 
     !temperature(T).
 ----
@@ -355,34 +355,26 @@ following loop:
 ----
 
 Note that in this example, we specify the initial beliefs of the agent in the
-link:./2_cooler_agent_on_jason-jacamo/tdd_tutorial.jcm[jcm file].
+link:./2_room_agent_cooling/tdd_tutorial.jcm[jcm file].
 
 [source]
 ----
-agents:
-    room_agent [
-        goals="temperature(10)",
-        beliefs="temperature(15)"
-    ];
+mas tdd_tutorial {
+
+    agent room_agent {
+        goals: temperature(10)
+        beliefs: temperature(15)
+    }
+
+}
 ----
 
-To test the agent, we create the file `test_room_agent.asl` at `src/test/jacamo/agt` and test the
-`test_now_is_warmer_than` inference rule, like in the first example:
-
-[source]
-----
-@[test]
-+!test_now_is_warmer_than
-    <-
-    !assert_false(now_is_warmer_than(20));
-    !assert_true(now_is_warmer_than(10));
-    !assert_false(now_is_warmer_than(15));
-.
-----
-
-Also, we want to test whether the agent *acts* correctly. For this, set at target temperature of 10
+Also, we want to test whether the agent *acts* correctly. 
+So, we add to the file `test_room_agent.asl` at `src/test/jacamo/agt` a new test.
+For this, set at target temperature of 10
 degrees (given a current temperature of 15 degrees) and regularly check in a loop whether
 the cooler acts as expected given the current temperature and the agents's goal:
+
 
 [source]
 ----
@@ -395,235 +387,23 @@ the cooler acts as expected given the current temperature and the agents's goal:
     for ( .range(I,1,10) ) { // Let us check 10x if it is cooling correctly
         ?temperature(C);
         if (C > 10) { // Greater than 10, cooler MUST be on
-            !assert_true(cooling);
+            !assert_true(state("cooling"));
             -+temperature(C-1); // emulate that the temperature has dropped
         } else { // Not greater than 10, cooler MUST be off
-            !assert_false(cooling);
+            !assert_false(state("cooling"));
         }
     }
     .drop_desire(temperature(10)).
 ----
 
-In addition, we simulate arbitrary temperature decreases using a random number generator and check
-if the cooler exhibits expected behavior in these scenarios. For reproducibility purposes, we set a
-fixed random seed so that the test always yields the same result. For this we make use of Jason's
-link:http://jason.sourceforge.net/api/jason/stdlib/random.html/[`random`] and
-link:http://jason.sourceforge.net/api/jason/stdlib/set_random_seed.html[`set_random_seed`]
-functions.
-
-[source]
-----
-@[test]
-+!test_cool_until_random_temperature
-    <-
-    -+temperature(18); // Let us say the temperature is 18 degrees
-    !!temperature(20); // We want to reach 20 degrees (this is running in parallel)
-    .set_random_seed(1); // Make sure this test will be always the same
-    .wait(50); // Give some time to the agent to react
-    for ( .range(I,1,20) ) { // Let us check 20x if it is cooling correctly
-        ?temperature(C);
-        if (C > 20) { // Greater than 20, cooler MUST be on
-            !assert_true(cooling);
-            .random(X); // Emulate that the temperature has dropped
-            -+temperature( C - math.ceil(X*2) );
-        } else { // Not greater than 20, cooler MUST be off
-            !assert_false(cooling);
-            .random(X); // Emulate that the temperature has risen
-            -+temperature( C + math.ceil(X*2) );
-        }
-    }
-    .drop_desire(temperature(20)). // dropping the desire that is running in parallel
-----
-
 
 The complete project is available link:./2_room_agent_cooling/[here].
-
-==== Extended Single-Agent Testing Example
-In this example, we extend the room agent and turn it into an air conditioner that can both cool
-and heat. For this, we first defined a tolerance threshold (set to 0.4 degrees) and two additional
-rules: one to check if the temperature is in a particular range and one to check whether the current
-temperature is colder than a given temperature value. In contrast to the rule in the previous
-example, our rules now consider the tolerance threshold.
-
-[source]
-----
-tolerance(0.4).
-
-temperature_in_range(T)
-	:- not now_is_colder_than(T) & not now_is_warmer_than(T).
-
-now_is_colder_than(T)
-	:- temperature(C) & tolerance(DT) & (T - C) > DT.
-
-now_is_warmer_than(T)
-	:- temperature(C) & tolerance(DT) & (C - T) > DT.
-----
-
-Then, we add heating behavior in addition to the already implemented cooling functionality:
-
-[source]
-----
-+!temperature(T): 
-	now_is_warmer_than(T) &
-	temperature(C)
-	<-  
-	if (not status(cooling)) {
-	    /**
-	 	 * To control the room temperature it could  
-     	 * activate a physical cooler here
-	 	 */
-        -+status(cooling);
-		.log(warning,C," is too hot -> cooling until ",T);
-    }
-	!temperature(T).
-
-+!temperature(T): 
-	now_is_colder_than(T) &
-	temperature(C)
-	<-  
-	if (not status(heating)) {
-	    /**
-	 	 * To control the room temperature it could  
-     	 * activate a physical cooler here
-	 	 */
-        -+status(heating);
-		.log(warning,C," is too hot -> cooling until ",T);
-    }
-	!temperature(T).
-----
-
-Finally, we implement behavior that checks whether the temperature is within the tolerance range
-and, if so, sets the air conditioner to idle (we also trigger the deliberation loop).
-
-[source]
-----
-+!temperature(T):
-	temperature_in_range(T)
-	<-  
-	if (not status(idle)) {
-    	/**
-	 	 * Deactivating the HVAC
-	  	 */
-    	-+status(idle);
-		.log(warning,"Temperature achieved: ",T);
-	}
-    !temperature(T).
-
-+!temperature(T)
-    <-
-    !temperature(T).
-
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-----
-
-Again, we we create our test file `test_room_agent.asl` at `src/test/jacamo/agt`. First, we test
-all inference rules.
-Note that the tests now also consider the tolerance range.
-
-[source]
-----
-/**
- * Testing rules: now_is_colder_than, now_is_warmer_than and
- * temperature_in_range
- */
-@[test]
-+!test_temperature_rules
-    <-
-    -+tolerance(0.4);
-    -+temperature(15);
-    !assert_false(now_is_colder_than(-5));
-    !assert_false(now_is_colder_than(14));
-    !assert_false(now_is_colder_than(14.8)); // in the tolerance range
-    !assert_false(now_is_colder_than(15.2)); // in the tolerance range
-    !assert_true(now_is_colder_than(15.5));
-    !assert_true(now_is_colder_than(16));
-    !assert_true(now_is_colder_than(40));
-
-    !assert_true(now_is_warmer_than(-5));
-    !assert_true(now_is_warmer_than(14));
-    !assert_false(now_is_warmer_than(14.8)); // in the tolerance range
-    !assert_false(now_is_warmer_than(15.2)); // in the tolerance range
-    !assert_false(now_is_warmer_than(15.5));
-    !assert_false(now_is_warmer_than(16));
-    !assert_false(now_is_warmer_than(40));
-
-    !assert_false(temperature_in_range(-5));
-    !assert_false(temperature_in_range(14));
-    !assert_true(temperature_in_range(14.8)); // in the tolerance range
-    !assert_true(temperature_in_range(15.2)); // in the tolerance range
-    !assert_false(temperature_in_range(15.5));
-    !assert_false(temperature_in_range(16));
-    !assert_false(temperature_in_range(40)).
-----
-
-Now, we can test cooling and heating functionality. Because the tests for the cooling functionality
-have already been introduced in the previous example and heating and cooling work analogously, we
-only provide the heating tests here (however, all tests are available in the
-link:./2_room_agent_also_heating/src/test/jacamo/agt/test_room_agent.asl[test file]). We set at
-target temperature of 28 degrees (given a current temperature of 22 degrees) and regularly check in
-a loop whether the agent acts as expected given the current temperature and the agents's goal:
-
-
-[source]
-----
-@[test]
-+!test_heat_until_temperature_rising
-    <-
-    -+temperature(22); // Let us say the temperature is 22 degrees
-    !!temperature(28); // We want to reach 28 degrees (this is running in parallel)
-    .wait(50); // Give some time to the agent to react
-    for ( .range(I,1,10) ) { // Let us check 10x if it is cooling correctly
-        ?temperature(C);
-        .wait(10);
-        if (now_is_colder_than(28)) {
-            !assert_true(status(heating));
-            -+temperature(C+1); // Emulate that the temperature has risen
-        } else { 
-            !assert_false(status(heating));
-        }
-    }
-    .drop_desire(temperature(28)). // dropping the desire that is running in parallel
-----
-
-Then, we test the heating functionality with randomly generated temperature effects (within a
-range), using a random seed, as in the previous example:
-
-[source]
-----
-@[test]
-+!test_heat_until_random_temperature
-    <-
-    -+temperature(18); // Let us say the temperature is 18 degrees
-    !!temperature(25); // We want to reach 25 degrees (this is running in parallel)
-    .set_random_seed(2); // Make sure this test will be always the same
-    .wait(50); // Give some time to the agent to react
-    for ( .range(I,1,20) ) { // Let us check 20x if it is cooling correctly
-        ?temperature(C);
-        .wait(10);
-        if (now_is_colder_than(25)) {
-            !assert_true(status(heating));
-            .random(X); // Emulate that the temperature has risen
-            -+temperature( C + math.ceil(X*2) );
-        } else {
-            !assert_false(status(heating));
-            .random(X); // Emulate that the temperature has dropped
-            -+temperature( C - math.ceil(X*2) );
-        }
-    }
-    .drop_desire(temperature(25)). // dropping the desire that is running in parallel
-----
-
-The complete project is available link:./3_room_agent_also_heating/[here].
 
 
 === Agents and Artifacts
 In this final single-agent testing example, we introduce an artifact that our agent interacts with.
-In this (as well as the next) example, we run the multi-agent system using
-link:https://github.com/jacamo-lang/jacamo-rest[jacamo-rest] and
-link:https://github.com/jacamo-lang/jacamo-web[jacamo-web]. However, for our testing example, this
-is merely a configuration detail that does not affect the implementation and testing concept. First,
-we configure the MAS in the file `tdd.jcm`:
+First,
+we configure the MAS in the file `tdd_tutotial.jcm`:
 
 [source]
 ----
@@ -639,20 +419,16 @@ mas tdd_tutorial {
 }
 ----
 As we can see, our room agent focuses the `hvac` (air conditioning) artifact and has a particular
-target temperature (21°C) as its goal. The `platform` property configures jacamo-web (which, in
-turn, uses jacamo-rest).
+current temperature (15°C) as it provides to the agent this information. 
 
 The artifact models the air conditioning/HVAC. It has the following methods:
 
 * `init` (with _temperature_ parameter): sets the initial temperature and sets the HVAC's state to
 `idle`.
 
-* `updateTemperatureProc` (internal (private), with _step_ parameter): while the HVAC is not in
-state `idle`, increases the temperature by `step` degrees and waits for 100ms to then repeat the
+* `updateTemperatureProc` (internal (private), with _step_ parameter): this is used to simulate changes in the room temperature. While the HVAC is not in
+state `idle`, change the temperature by `step` degrees and waits for 100ms to then repeat the
 loop.
-
-* `startHeating`: sets the state to `heating` and calls `updateTemperatureProc` with _step_ set to
-`0.5`.
 
 * `startCooling`: sets the state to `cooling` and calls `updateTemperatureProc` with _step_ set to
 `-0.5`.
@@ -675,12 +451,6 @@ public class HVAC extends Artifact {
         defineObsProperty("state","idle");
         defineObsProperty("temperature",initialTemperature);
         log("Temperature: "+getObsProperty("temperature").doubleValue());
-    }
-
-    @OPERATION void startHeating(){
-        log("startHeating");
-        getObsProperty("state").updateValue("heating");
-        this.execInternalOp("updateTemperatureProc",0.5);
     }
 
     @OPERATION void startCooling(){
@@ -706,8 +476,9 @@ public class HVAC extends Artifact {
 }
 ----
 
-Then, we integrate the artifact with our agent, replacing the hard-coded cooling and heating
-emulation with actions upon the HVAC artifact:
+Then, we integrate the artifact with our agent, replacing the hard-coded state("cooling")
+emulation with actions upon the HVAC artifact.
+Note that the code below, is importing **common-cartago.asl**, as it is necessary when the agent interacts with CArtAgO artifacts.
 
 [source]
 ----
@@ -715,134 +486,78 @@ emulation with actions upon the HVAC artifact:
 	now_is_warmer_than(T) &
 	temperature(C)
 	<-  
-	if (not status(cooling)) {
+	if (not state("cooling")) {
 	    startCooling;
-        -+status(cooling);
-		.log(warning,C," is too hot -> cooling until ",T);
-    }
-	!temperature(T);
-.
-
-+!temperature(T): 
-	now_is_colder_than(T) &
-	temperature(C)
-	<-  
-	if (not status(heating)) {
-	    startHeating;
-        -+status(heating);
 		.log(warning,C," is too hot -> cooling until ",T);
     }
 	!temperature(T);
 .
 
 +!temperature(T):
-	temperature_in_range(T)
+	state("cooling")
 	<-  
-	if (not status(idle)) {
-    	stopAirConditioner;
-    	-+status(idle);
-		.log(warning,"Temperature achieved: ",T);
-	}
+	stopAirConditioner;
+	.log(warning,"Temperature achieved: ",T);
     !temperature(T);
 .
+
++!temperature(T)
+    <-
+    !temperature(T);
+.
+
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
 ----
 
-When adjusting the tests of the previous example to support the agent-artifact integration, we
-merely use one test annotation that first executes the different tests rules and then collects the
-test results.
+The artifact **device/HVAC** is not being instantiated, which means that the external calls **startCooling** and **stopAirConditioner** would break the test if they are executed.
+At this time, the main concern regards to the room agent functionalities, not the functionalities of other entities that it interacts with.
+To ensure this separation concerns, the **mock** concept can be used.
+Here, the **mock** concept is used on the agent under test entity, i.e., we are replacing some agent's plans that calls external actions by plans that are mocking some behaviours.
+Notice that the order is very important since each plan is added on the beginning of the plans library of the agent.
 
 [source]
 ----
-@[test]
-+!test_temp_control
-    <-
-    !test_cool_until_temperature_dropping;
-    !test_cool_until_random_temperature;
-    !test_heat_until_temperature_rising;
-    !test_heat_until_random_temperature;
-    !!test_results;
-.
+@[test] 
++!test_cool_until_temperature_dropping 
+	<-
+	.add_plan({
+	+!temperature(T): state("cooling")
+	<-
+	-state("cooling");
+	!temperature(T);
+	}, self, begin);
+    /*The next plan must be put on the very top of plans*/
+	.add_plan({
+	+!temperature(T): now_is_warmer_than(T) & temperature(C)
+	<-
+	if (not state("cooling")) {
+		+state("cooling");
+	}
+	!temperature(T);
+	}, self, begin);
 
-/*meta event: occurs */
-^!test_cool_until[state(finished)]
-    <-
-    ?temperature(C);
-    +cooling_finished_with(C);
-.
-
-+!test_results
-    <-
-    .wait(100);
-    !assert_true(heating_finished_with(_));
-    !assert_true(cooling_finished_with(_));
-    ?heating_finished_with(HT);
-    ?cooling_finished_with(CT);
-    ?tolerance(DT);
-    !assert_equals(25,HT,DT);
-    !assert_equals(21,CT,DT);
-.
-
+	-+temperature(15);
+	!!temperature(10);
+	.wait(50);
+	for ( .range(I,1,10) ) {
+		?temperature(C);
+		if (C > 10) {
+			!assert_true(state("cooling"));
+			-+temperature(C-1);
+		} else {
+			!assert_false(state("cooling"));
+		}
+	}
+	.drop_desire(temperature(10)).
 ----
 
-When implementing the actual tests, we mock the plans so that actual calls to the artifacts are not
-made (below, we merely show one of the test rules).
+Of course, as we are replacing entire plans, it is a dangerous technique.
+Indeed, our tests are not completelly linked to the room agent code.
+However, for simplicity we will keep this as an example. 
+A safer way could be defining small plans just to call the external actions and just these small plans are mocked.
 
-[source]
-----
-
-/**
- * Test heater when the temperature is rising from a cold condition to the target
- */
-+!test_heat_until_temperature_rising
-    <-
-    /**
-     * Add mock plans to do not call the artifact.
-     * It produces a mocked answer. The belief status(X) 
-     * is being used to assert whether is is correct
-     */
-    .add_plan({ 
-    +!temperature(T): 
-    	now_is_colder_than(T) &
-    	temperature(C)
-    	<-  
-    	if (not status(heating)) {
-	        /*startHeating;*/
-            -+status(heating);
-		    .log(warning,C," is too hot -> cooling until ",T);
-        }
-	    !temperature(T);
-    }, self, begin);
-
-    .add_plan({ 
-    +!temperature(T):
-    	temperature_in_range(T)
-    	<-  
-    	if (not status(idle)) {
-    	    /*stopAirConditioner;*/
-    	    -+status(idle);
-		    .log(warning,"Temperature achieved: ",T);
-	    }
-        !temperature(T);
-    }, self, begin);
-
-    -+temperature(22); // Let us say the temperature is 22 degrees
-    !!temperature(28); // We want to reach 28 degrees (this is running in parallel)
-    .wait(50); // Give some time to the agent to react
-    for ( .range(I,1,10) ) { // Let us check 10x if it is cooling correctly
-        ?temperature(C);
-        .wait(10);
-        if (now_is_colder_than(28)) {
-            !assert_true(status(heating));
-            -+temperature(C+1); // Emulate that the temperature has risen
-        } else { 
-            !assert_false(status(heating));
-        }
-    }
-    .drop_desire(temperature(28)); // dropping the desire that is running in parallel
-.
-----
-
-The complete project is available link:./4_room_agent_with_artifact/[here].
+The complete project is available link:./3_room_agent_with_artifact/[here].
 
 === Multiple Agents and Agents
 Finally, let us implement and test a simple Multi-Agent System (MAS). In the MAS, we have an
@@ -856,14 +571,13 @@ for the assistant agent is very simple:
     recipient_agent(R)
     <-
     .log(warning,"Sending preference for ",T);
-    .send(R,achieve,add_preference(T));
-.
+    .send(R,achieve,add_preference(T)).
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 ----
 
-Note that in the `tdd.jcm` configuration file, we then instantiate two assistant agents representing
+Note that in the `tdd_tutorial.jcm` configuration file, we then instantiate two assistant agents representing
 the users _Cleber_ and _Tim_, respectively:
 
 [source]
@@ -878,6 +592,10 @@ agent clebers_assistant : assistant.asl {
     beliefs: preferred_temperature(25)
                 recipient_agent(room_agent)
     goals: send_preference
+}
+
+workspace room {
+    artifact hvac: devices.HVAC(25)
 }
 ----
 
@@ -899,193 +617,10 @@ sake of simplicity):
 ----
 
 Now, we can test our agent. However, before we can write the actual tests, we first want to create
-some mocks. Note that we have already worked with _mock plans_ in the previous example. These plans
-were simply provided alongside the test code. To allow for a better separation of concerns and with
-the ultimate objective of facilitating test readability and maintainability, we move all mocks to
-specific files (in the `inc` folder).
-First, we implement a mock plan base for our room agent (in the file `mock_plans.asl`):
-
-[source]
-----
-+!add_mock_plans_room_agent
-    <-
-    .add_plan({ 
-    +!temperature(T): 
-        now_is_warmer_than(T) &
-        temperature(C)
-        <-  
-        if (not status(cooling)) {
-            /*Mock removing the external action startCooling;*/
-            -+status(cooling);
-            .log(warning,C," is too hot -> cooling until ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-
-    .add_plan({ 
-    +!temperature(T): 
-        now_is_colder_than(T) &
-        temperature(C)
-        <-  
-        if (not status(heating)) {
-            /*Mock removing the external action startHeating;*/
-            -+status(heating);
-            .log(warning,C," is too hot -> cooling until ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-    
-    .add_plan({ 
-    +!temperature(T):
-        temperature_in_range(T)
-        <-  
-        if (not status(idle)) {
-            /*Mock removing the external action stopAirConditioner;*/
-            -+status(idle);
-            .log(warning,"Temperature achieved: ",T);
-        }
-        !temperature(T);
-    }, self, begin);
-
-    .add_plan({ 
-    +!add_preference(T)[source(S)]
-        <-
-        .abolish(preference(S,_));
-        +preference(S,T);
-        .findall(X,preference(_,X),L);
-        /*Mock temperature with the average*/
-        +temperature(math.average(L));
-    }, self, begin);
-.
-----
-
-As we can see, the mock plans do not make calls to the artifact and hence allow for (multi-)agent
-testing without artifact instantiation. Also, we need to implement some generic mock helpers
-(in `mock_helpers.asl`) that allow us to achieve the following:
-
-* Retrieve an agent's _achievement plan triggers_ (starting with `+!`):
-
-[source]
-----
-+?retrieve_achievement_plans(Plans) : 
-.relevant_plans({+!_},LP,LL) 
-<- 
-.findall(T, .member(P,LP) & P = {@L +!T : C <- B} & Label = L, Plans);
-.
-----
-
-* Retrieve an agent's _add belief plan triggers_ (starting with `+!`):
-
-[source]
-----
-+?retrieve_add_belief_plans(Plans) : 
-    .relevant_plans({+_},LP,LL) 
-    <- 
-    .findall(T, .member(P,LP) & P = {@L +T : C <- B} & Label = L, Plans);
-.
-----
-
-* Check if a plan is an _achievement plan_ or not:
-
-[source]
-----
-+?is_achievement_plan(P,X) 
-    <- 
-    ?retrieve_achievement_plans(L); 
-    .eval(X,.member(P,L));
-.
-----
-
-These features are useful for checking if one agent's communication with another agent has the
-expected effects on the latter agent. They are, essentially, extensions of the Jason library's
-testing utilities (version 3.1) and may make it into the Jason core eventually.
-
-
-Also, we implement functionality in `tester_helpers.asl` that allows us to start mock agents:
-
-[source]
-----
-+!start_mock_agent(MockAgName, File) :
-    .my_name(ME)
-    <-
-    .create_agent(MockAgName, File);
-    .send(MockAgName, tell, mock_owner(ME));
-    // if the mock was already sleeping, wait it wake up first
-    .wait( not sleeping(MockAgName), 300, _ );
-    // wait the mock finish some task and tell that it is now sleeping
-    .wait( sleeping(MockAgName) );
-.   
-----
-
-Now, we can implement our mock agents. The mock assistant agent (`mock_assistant.asl`) is
-essentially a copy of the actual assistant agent, but features the mock helper utilities:
-
-[source]
-----
-{ include("mock_helpers.asl") }
-{ include("mock_agent.asl") }
-
-{ include("assistant.asl") }
-----
-
-In contrast, the mock room agent (`mock_room_agent.asl`) also loads the mock plans that we have
-specified in `mock_plans.asl`:
-
-[source]
-----
-{ include("mock_helpers.asl") }
-{ include("mock_agent.asl") }
-{ include("mock_plans.asl") }
-/**
- * This agent includes the code of the agent under tests
- */
-{ include("room_agent.asl") }
-
-!add_mock_plans_room_agent.
-----
-
-Finally, we can implement the actual tests. In our example, we test all of the newly implemented
-functionality from the perspective of the assistant agent (in `test_assistant.asl`). First, we
-tests whether we can successfully send our temperature preference to other agents:
-
-[source]
-----
-@[test]
-+!test_send_preference
-    <-
-    +preferred_temperature(23);
-    +recipient_agent(test_assistant);
-    !send_preference;
-.
-
-+!add_preference(T)[source(S)]:
-    preferred_temperature(TT)
-    <-
-    !assert_equals(TT,T);
-    !assert_equals(self,S);
-.
-----
-
-Then, we test the compatibility between the assistant agent and the room agent. In particular, we
-test whether the room agent has plans that are triggered when the `.send` command has been executed
-by the assistant agent. The test involves the instantiation of a mock room agent. This allows us to
-inspect the agent's _achievement plans_.
-[source]
-----
-@[test]
-+!test_compatibility
-    <-
-    !start_mock_agent(mock_room_ag, "mock_room_agent.asl");
-    !is_achievement_plan(mock_room_ag,add_preference(_),X);
-    !assert_true(X);
-    !is_achievement_plan(mock_room_ag,non_existing_plan(_,_),Y);
-    !assert_false(Y);
-    .kill_agent(mock_room_ag);
-.
-----
-
-Finally, we test whether the room agent aggregates the preferences of several assistant agents
-correctly. Again, this is achieved by instantiating mock agents, this time two assistants with
+some mocks. Note that we have already worked with _mock plans_ in the previous example. 
+To test if the the interactions between assistants and the room agent, we opt for we creating the file `test_assistent.asl` at `src/test/jacamo/agt`.
+In this file, we test whether the room agent aggregates the preferences of several assistant agents
+correctly. This is achieved by instantiating mock agents, this time two assistants with
 different temperature preferences and one mock room agent.
 [source]
 ----
@@ -1098,8 +633,8 @@ different temperature preferences and one mock room agent.
      * be 24 degrees.
      */
     !start_mock_agent(mock_room_agent, "mock_room_agent.asl");
-    !start_mock_agent(tims_assistant, "mock_assistant.asl");
-    !start_mock_agent(clebers_assistant, "mock_assistant.asl");
+    !start_mock_agent(tims_assistant, "assistant.asl");
+    !start_mock_agent(clebers_assistant, "assistant.asl");
 
     .send(tims_assistant,tell,preferred_temperature(23));
     .send(tims_assistant,tell,recipient_agent(mock_room_agent));
@@ -1118,10 +653,52 @@ different temperature preferences and one mock room agent.
 
     .kill_agent(mock_room_agent);
     .kill_agent(tims_assistant);
-    .kill_agent(clebers_assistant);
-
-.
+    .kill_agent(clebers_assistant).
 ----
+
+Notice that the room agent is a mock agent since it will not act as original, it has to have
+some plans replaced to avoid code breaks when interacting with the artifact. 
+It also must mock the plan that receives preferences and somehow it must provide a way to
+check whether it found the average between two specified temperature preferences.
+This mock agent is a test accessory. Since it does not have testing plans (it is just a mock), we place this file in the `inc` folder (`src/test/jacamo/inc`).
+
+[source]
+----
+{ include("room_agent.asl") }
+
+!add_mock_plans.
+
++!add_mock_plans
+	<-
+	.add_plan({
+	+!temperature(T): state("cooling")
+	<-
+	-state("cooling");
+	!temperature(T);
+	}, self, begin);
+
+	.add_plan({
+	+!temperature(T): now_is_warmer_than(T) & temperature(C)
+	<-
+	if (not state("cooling")) {
+		+state("cooling");
+	}
+	!temperature(T);
+	}, self, begin);
+
+	.add_plan({ 
+	+!add_preference(T)[source(S)]
+	<-
+	.abolish(preference(S,_));
+	+preference(S,T);
+	.findall(X,preference(_,X),L);
+	/*Mock temperature with the average*/
+	+temperature(math.average(L));
+	}, self, begin).
+----
+
+As we can see, the mock plans do not make calls to the artifact and hence allow for (multi-)agent
+testing without artifact instantiation. 
 
 The complete project is available link:./5_multi_agents/[here].
 

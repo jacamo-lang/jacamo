@@ -39,6 +39,27 @@
 @[test]
 +!test_cool_until_temperature_dropping
     <-
+    .add_plan({ 
+    +!temperature(T):
+        state("cooling")
+        <-  
+        .log(warning,"Temperature achieved: ",T);
+        -state("cooling");
+        !temperature(T);
+    }, self, begin);
+    /*The next plan must be put on the very top of plans*/
+    .add_plan({ 
+    +!temperature(T): 
+        now_is_warmer_than(T) &
+        temperature(C)
+        <-  
+        if (not state("cooling")) {
+            +state("cooling");
+            .log(warning,C," is too hot -> cooling until ",T);
+        }
+        !temperature(T);
+    }, self, begin);
+
     -+temperature(15); // The default current temperature is 15 degrees
     !!temperature(10); // We want to reach 10 degrees (this is running in parallel)
     .wait(50); // Give some time to the agent to react

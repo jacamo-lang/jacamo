@@ -12,11 +12,7 @@ now_is_warmer_than(T) :- temperature(C) & C > T.
     temperature(C)
     <-  
     if (not state("cooling")) {
-        /**
-         * To control the room temperature it could  
-         * activate a physical cooler here
-         */
-        +state("cooling");
+        startCooling;
         .log(warning,C," is too hot -> cooling until ",T);
     }
     !temperature(T);
@@ -25,13 +21,8 @@ now_is_warmer_than(T) :- temperature(C) & C > T.
 +!temperature(T):
     state("cooling")
     <-  
-    .log(warning,"Temperature achieved: ",T);
-
-    /**
-     * Deactivating the cooler
-     */
-    -state("cooling");
-
+    stopAirConditioner;
+    .log(warning,"Temperature achieved.");
     !temperature(T);
 .
 
@@ -39,3 +30,6 @@ now_is_warmer_than(T) :- temperature(C) & C > T.
     <-
     !temperature(T);
 .
+
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }

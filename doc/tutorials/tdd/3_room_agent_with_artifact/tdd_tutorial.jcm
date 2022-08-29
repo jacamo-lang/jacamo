@@ -13,10 +13,14 @@
 */
 
 mas tdd_tutorial {
-
     agent room_agent {
         goals: temperature(10)
-        beliefs: temperature(15)
+        focus: room.hvac
+    }
+
+    workspace room {
+        artifact hvac: devices.HVAC(15)
     }
 
 }
+

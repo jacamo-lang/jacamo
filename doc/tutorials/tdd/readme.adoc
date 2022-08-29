@@ -52,9 +52,13 @@ image:./figures/Agents-TDD-overview.png[]
 == Test Levels in Jason
 Now, let us provide examples how tests on the three lower levels (_unit_, _single agent_, _multi
 agent_, assuming that end-to-end tests need to be supported by additional tooling) work.
-For explanatory purposes, we provide three examples for single-agent testing: a simple example, a
-slightly more advanced example, and an example where the agent interacts with an artifact. Each
-example builds upon its predecessor.
+For explanatory purposes, we build a project inspired in an example provided in link:https://mitpress.mit.edu/9780262044578/[JaCaMo Book]
+of an MAS to control the temperature of a room.
+
+We start discussing current testing approaches that we can use for testing a JaCaMo project. After 
+that, we provide an example of a unit test using a JaCaMo test library, then we face slightly more 
+challenging situations, testing agent's plans, mocking artifacts and testing agents' interactions.
+Each example builds upon its predecessor.
 
 === Project Setup
 Let us set up our JaCaMo project and configure it for GOTDD.
@@ -96,7 +100,7 @@ should open showing our `sample_agent` printing out `hello world`.
 tdd_tutorial$ ./gradlew run
 ----
 
-4. Now, we will adapt the sample project to build an agent that controls the temperature of the 
+4. Now, we adapt the sample project to build an agent that controls the temperature of the 
 environment. At `src/agt`, we rename the `sample_agent.asl` file to `room_agent.asl`, and fix the 
 `tdd_tutorial.jcm` for this other agent filename, as below:
 
@@ -109,7 +113,7 @@ mas tdd_tutorial {
 }
 ----
 
-=== Unit Testing in Jason
+=== Unit Testing in Jason (JaCaMo)
 Let us start by implementing a unit test that tests a simple inference rule. In the file 
 `room_agent.asl` we replace the default content by the following rule:
 
@@ -118,9 +122,13 @@ Let us start by implementing a unit test that tests a simple inference rule. In 
 now_is_warmer_than(T) :- temperature(C) & C > T.
 ----
 
-As we can see, the rule checks if the current `temperature` is higher than some specifically
-provided value. Because we merely draw inferences, but do not act in the environment, we consider
-this scenario a *unit testing* scenario and not a single agent testing scenario.
+As we can see, the rule checks whether the current 'temperature' is greater than a predefined value. 
+A possible method for determining whether this rule is working properly is to begin developing a plan that calls this rule in order to test it in a variety of situations. 
+Debugging console messages and other tools such as the link:http://127.0.0.1:3272/[Agents' Inspector] are commonly used.
+
+Following is an example of how this rule can be tested.
+Because this rule merely draws inferences and does not act in the environment, we consider
+this scenario a *unit testing* scenario rather than a single agent testing scenario.
 
 Now, on the `room_agent.asl` file, we set a temperature value:
 
@@ -158,7 +166,7 @@ shortcomings:
 * They do not clearly describe desired behavior.
 * They make it hard to automate tests.
 
-To test the file properly, we will create the file `test_room_agent.asl` at `src/test/jacamo/agt`. To
+To test the file properly, we create the file `test_room_agent.asl` at `src/test/jacamo/agt`. To
 do so, we can run the following command:
 
 [source]
@@ -166,7 +174,7 @@ do so, we can run the following command:
 tdd_tutorial$ mkdir -p src/test/jacamo/agt && touch src/test/jacamo/agt/test_room_agent.asl
 ----
 
-Our source directory structure now looks like it:
+Our source directory structure is now as follows:
 
 [source]
 ----
@@ -176,9 +184,9 @@ Our source directory structure now looks like it:
     - env
     - int
     - org
-- test
-    - jacamo
-        - agt
+    - test
+        - jacamo
+            - agt
 ----
 
 At the beginning of `test_room_agent.asl` file, we import the Jason tester agent, as well 
@@ -290,37 +298,29 @@ $ ./gradlew test --info
 The complete project is available link:./1_room_agent/[here].
 
 
-=== Single Agent Testing in Jason
-In the following single agent testing example, we have a mock cooler agent that cools a room if the
+=== Single Agent Testing in Jason (JaCaMo)
+In the following single agent testing example, we test if the agent cools a room when the
 temperature in the room is higher than some specific threshold, _i.e._, the agent *reacts* on
 temperature changes, whereas its actions in turn **affect** the temperature in the room.
 
-At `src/agt`, we create the file `cooler.asl` and again add our `now_is_warmer_than` inference rule:
-
-[source]
-----
-now_is_warmer_than(T) :- temperature(C) & C > T.
-----
-
-Now, we implement the cooler functionality that starts the cooler if the temperature is above the
+We keep the rule `now_is_warmer_than/1` of our `room_agent` and now, we implement the cooler functionality that starts the cooler if the temperature is above the
 threshold:
 
 [source]
 ----
 +!temperature(T): 
-	now_is_warmer_than(T) &
-	temperature(C)
-	<-  
-	if (not cooling) {
-	    /**
-	 	 * To control the room temperature it could  
-     	 * activate a physical cooler here
-	 	 */
+    now_is_warmer_than(T) &
+    temperature(C)
+    <-  
+    if (not cooling) {
+        /**
+         * To control the room temperature it could  
+         * activate a physical cooler here
+         */
         +cooling;
-		.log(warning,C," is too hot -> cooling until ",T);
+        .log(warning,C," is too hot -> cooling until ",T);
     }
-	!temperature(T);
-.
+    !temperature(T).
 ----
 
 
@@ -329,34 +329,33 @@ Analogously, the cooler should stop cooling if the temperature is below the thre
 [source]
 ----
 +!temperature(T):
-	cooling
-	<-  
-	.log(warning,"Temperature achieved: ",T);
+    cooling
+    <-  
+    .log(warning,"Temperature achieved: ",T);
 
     /**
-	 * Deactivating the cooler
-	 */
+     * Deactivating the cooler
+     */
     -cooling;
 
-    !temperature(T);
+    !temperature(T).
 ----
 
-Let us highlight that our cooler example is simplistic from a real-world perspective, as we ignore
+Let us highlight that our room_agent example is simplistic from a real-world perspective, as we ignore
 the control-theoretical nature of the problem.
 
-Finally, we ensure that the cooler is continuously evaluating and adjusting its behavior, using the
+Finally, we ensure that the room_agent is continuously evaluating and adjusting its behavior, using the
 following loop:
 
 [source]
 ----
 +!temperature(T)
     <-
-    !temperature(T);
-.
+    !temperature(T).
 ----
 
 Note that in this example, we specify the initial beliefs of the agent in the
-link:./2_cooler_agent_on_jason-jacamo/tdd.mas2j[mas2j file].
+link:./2_cooler_agent_on_jason-jacamo/tdd_tutorial.jcm[jcm file].
 
 [source]
 ----
@@ -402,7 +401,7 @@ the cooler acts as expected given the current temperature and the agents's goal:
             !assert_false(cooling);
         }
     }
-    .drop_desire(temperature(10));
+    .drop_desire(temperature(10)).
 ----
 
 In addition, we simulate arbitrary temperature decreases using a random number generator and check
@@ -433,15 +432,14 @@ functions.
             -+temperature( C + math.ceil(X*2) );
         }
     }
-    .drop_desire(temperature(20)); // dropping the desire that is running in parallel
-.
+    .drop_desire(temperature(20)). // dropping the desire that is running in parallel
 ----
 
 
 The complete project is available link:./2_room_agent_cooling/[here].
 
 ==== Extended Single-Agent Testing Example
-In this example, we extend the cooler agent and turn it into an air conditioner that can both cool
+In this example, we extend the room agent and turn it into an air conditioner that can both cool
 and heat. For this, we first defined a tolerance threshold (set to 0.4 degrees) and two additional
 rules: one to check if the temperature is in a particular range and one to check whether the current
 temperature is colder than a given temperature value. In contrast to the rule in the previous

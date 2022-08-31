@@ -632,9 +632,9 @@ different temperature preferences and one mock room agent.
      * ask for 23 and 25 degrees, so the final temperature should
      * be 24 degrees.
      */
-    !start_mock_agent(mock_room_agent, "mock_room_agent.asl");
-    !start_mock_agent(tims_assistant, "assistant.asl");
-    !start_mock_agent(clebers_assistant, "assistant.asl");
+    .create_agent(mock_room_agent, "mock_room_agent.asl");
+    .create_agent(tims_assistant, "assistant.asl");
+    .create_agent(clebers_assistant, "assistant.asl");
 
     .send(tims_assistant,tell,preferred_temperature(23));
     .send(tims_assistant,tell,recipient_agent(mock_room_agent));

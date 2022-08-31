@@ -13,7 +13,7 @@ defaultTasks 'jar'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version '1.1'
+version '1.2-SNAPSHOT'
 group   'org.jacamo'
 
 java {
@@ -213,12 +213,14 @@ task javadocJar (type: Jar, dependsOn: javadoc) {
     archiveBaseName = 'jacamo'
     classifier = 'javadoc'
     from javadoc.destinationDir
+    duplicatesStrategy = 'include'
 }
 
 task sourceJar (type : Jar) {
     archiveBaseName = 'jacamo'
     classifier = 'sources'
     from sourceSets.main.allSource
+    duplicatesStrategy = 'include'
 }
 
 

@@ -35,7 +35,7 @@ software engineering perspective and contrasts it with an agent-oriented test py
 image:./figures/Agent-Oriented_TDD.png[]
 
 The tutorial below provides examples of unit testing, single agent testing, and multi-agent testing
-with Jason. Note that E2E tests are not covered, because these are typically implemented in a
+with Jason/JaCaMo. Note that E2E tests are not covered, because these are typically implemented in a
 different technology ecosystem (for example: _Selenium_ for end-to-end user interface testing).
 However, we consider E2E MAS testing an interesting open challenge that needs more exploration.
 
@@ -49,10 +49,11 @@ a corresponding assertion fires, the tester agent reports the result (pass or fa
 
 image:./figures/Agents-TDD-overview.png[]
 
-== Test Levels in Jason
+== Test Levels in Jason/JaCaMo
 Now, let us provide examples how tests on the three lower levels (_unit_, _single agent_, _multi
 agent_, assuming that end-to-end tests need to be supported by additional tooling) work.
-For explanatory purposes, we build a project inspired in an example provided in link:https://mitpress.mit.edu/9780262044578/[JaCaMo Book]
+For explanatory purposes, we build projects inspired by an example provided in
+link:https://mitpress.mit.edu/9780262044578/[JaCaMo Book]
 of an MAS to control the temperature of a room.
 
 We start discussing current testing approaches that we can use for testing a JaCaMo project. After 
@@ -64,24 +65,24 @@ Each example builds upon its predecessor.
 Let us set up our JaCaMo project and configure it for GOTDD.
 
 1. First, make sure the `Java 15` or superior is set.
-
++
 [source]
 ----
 $ java --version
 ----
-
++
 2. Then, we download a JaCaMo facility for creating projects and execute it to create our 
 `tdd_tutorial` project.
-
++
 [source]
 ----
-$ curl -s -O http://jacamo.sourceforge.net/nps/np1.1.zip
-$ unzip np1.1.zip
+$ curl -s -O http://jacamo.sourceforge.net/nps/npss.zip
+$ unzip npss.zip
 $ ./gradlew --console=plain
 ----
-
++
 Notice that this creates a sample project with the following source directory structure:
-
++
 [source]
 ----
 /
@@ -90,20 +91,28 @@ Notice that this creates a sample project with the following source directory st
     - env
     - int
     - org
+    - test
 ----
-
++
 3.  We can run the default project just to make sure everything is working fine. An MAS console 
 should open showing our `sample_agent` printing out `hello world`.
-
++
 [source]
 ----
 tdd_tutorial$ ./gradlew run
 ----
-
-4. Now, we adapt the sample project to build an agent that controls the temperature of the 
++
+4. Also, we can already execute an example test:
++
+[source]
+----
+tdd_tutorial$ ./gradlew test
+----
++
+5. Now, we adapt the sample project to build an agent that controls the temperature of the 
 environment. At `src/agt`, we rename the `sample_agent.asl` file to `room_agent.asl`, and fix the 
 `tdd_tutorial.jcm` for this other agent filename, as below:
-
++
 [source]
 ----
 mas tdd_tutorial {
@@ -123,14 +132,16 @@ now_is_warmer_than(T) :- temperature(C) & C > T.
 ----
 
 As we can see, the rule checks whether the current 'temperature' is greater than a predefined value. 
-A possible method for determining whether this rule is working properly is to begin developing a plan that calls this rule in order to test it in a variety of situations. 
-Debugging console messages and other tools such as the link:http://127.0.0.1:3272/[Agents' Inspector] are commonly used.
+A possible method for determining whether this rule is working properly is to begin developing a
+plan that calls this rule in order to test it in a variety of situations. 
+Debugging console messages and other tools such as the
+link:http://127.0.0.1:3272/[Agents' Inspector] are commonly used.
 
-Following is an example of how this rule can be tested.
-Because this rule merely draws inferences and does not act in the environment, we consider
-this scenario a *unit testing* scenario rather than a single agent testing scenario.
+Below, we demonstrate how this rule can be tested. Because this rule merely draws inferences and
+does not act in the environment, we consider this scenario a *unit testing* scenario rather than a
+single agent testing scenario.
 
-Now, on the `room_agent.asl` file, we set a temperature value:
+Now, in the `room_agent.asl` file, we set a temperature value:
 
 [source]
 ----
@@ -166,28 +177,7 @@ shortcomings:
 * They do not clearly describe desired behavior.
 * They make it hard to automate tests.
 
-To test the file properly, we create the file `test_room_agent.asl` at `src/test/jacamo/agt`. To
-do so, we can run the following command:
-
-[source]
-----
-tdd_tutorial$ mkdir -p src/test/jacamo/agt && touch src/test/jacamo/agt/test_room_agent.asl
-----
-
-Our source directory structure is now as follows:
-
-[source]
-----
-/
-- src
-    - agt
-    - env
-    - int
-    - org
-    - test
-        - jacamo
-            - agt
-----
+To test the file properly, we create the file `test_room_agent.asl` at `src/test/agt`.
 
 At the beginning of `test_room_agent.asl` file, we import the Jason tester agent, as well 
 as the file that we want to test:
@@ -217,78 +207,7 @@ scenarios:
 2. The provided value is lower than the current temperature.
 3. The provided value is equal to the current temperature.
 
-To use this testing facility, we have to make sure the project is using `jacamo:0.10-SNAPSHOT` and
-add the following task to our `build.gradle` file:
-
-[source]
-----
-task testJaCaMo {
-    description 'runs JaCaMo unit tests: unit_tests_project.jcm'
-    def errorOnTests = false
-    outputs.upToDateWhen { false } // disable cache
-
-    doFirst {
-        try {
-            javaexec {
-                main = 'jacamo.infra.JaCaMoLauncher'
-                if (gradle.startParameter.logLevel.toString().equals("DEBUG")) {
-                    args = ['$jacamoJar/test/jacamo/unit_tests_project.jcm', '--log-conf', '$jasonJar/templates/console-debug-logging.properties']
-                } else if (gradle.startParameter.logLevel.toString().equals("INFO")) {
-                    args = ['$jacamoJar/test/jacamo/unit_tests_project.jcm', '--log-conf', '$jasonJar/templates/console-info-logging.properties']
-                } else {
-                    args = ['$jacamoJar/test/jacamo/unit_tests_project.jcm', '--log-conf', '$jasonJar/templates/console-lifecycle-logging.properties']
-                }
-                classpath sourceSets.main.runtimeClasspath
-
-                errorOutput = new ByteArrayOutputStream()
-                standardOutput = new ByteArrayOutputStream()
-
-                ext.stdout = {
-                    return standardOutput.toString()
-                }
-                ext.errout = {
-                    return errorOutput.toString()
-                }
-            }
-        } catch (Exception e) {
-            errorOnTests = true
-        }
-    }
-
-    doLast {
-        def styler = 'black red green yellow blue magenta cyan white'
-            .split().toList().withIndex(30)
-            .collectEntries { key, val -> [(key) : { "\033[${val}m${it}\033[0m" }] }
-
-        def std = stdout()
-        std.splitEachLine('\n') { String line ->
-            line = line.replace("TESTING","${styler['yellow']('TESTING')}")
-            line = line.replace("PASSED","${styler['green']('PASSED')}")
-            line = line.replace("FAILED","${styler['red']('FAILED')}")
-            line = line.replace("TODO","${styler['magenta']('TODO')}")
-            line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
-            println line
-        }
-
-        def err = errout()
-        err.splitEachLine('\n') { String line ->
-            line = line.replace("TESTING","${styler['yellow']('TESTING')}")
-            line = line.replace("PASSED","${styler['green']('PASSED')}")
-            line = line.replace("FAILED","${styler['red']('FAILED')}")
-            line = line.replace("TODO","${styler['magenta']('TODO')}")
-            line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
-            println line
-        }
-
-        if (errorOnTests) {
-            throw new GradleException('JaCaMo unit tests: ERROR!')
-        }
-    }
-}
-tasks.test.finalizedBy testJaCaMo
-----
-
-Now, we test it running the following command:
+To use this testing facility, we merely need to execute the test command:
 
 [source]
 ----
@@ -303,8 +222,8 @@ In the following single agent testing example, we test if the agent cools a room
 temperature in the room is higher than some specific threshold, _i.e._, the agent *reacts* on
 temperature changes, whereas its actions in turn **affect** the temperature in the room.
 
-We keep the rule `now_is_warmer_than/1` of our `room_agent` and now, we implement the cooler functionality that starts the cooler if the temperature is above the
-threshold:
+We keep the rule `now_is_warmer_than/1` of our `room_agent` and now, we implement the cooler
+functionality that starts the cooler if the temperature is above the threshold:
 
 [source]
 ----
@@ -341,11 +260,11 @@ Analogously, the cooler should stop cooling if the temperature is below the thre
     !temperature(T).
 ----
 
-Let us highlight that our room_agent example is simplistic from a real-world perspective, as we ignore
-the control-theoretical nature of the problem.
+Let us highlight that our room_agent example is simplistic from a real-world perspective,
+as we ignore the control-theoretical nature of the problem.
 
-Finally, we ensure that the room_agent is continuously evaluating and adjusting its behavior, using the
-following loop:
+Finally, we ensure that the room_agent is continuously evaluating and adjusting its behavior,
+using the following loop:
 
 [source]
 ----
@@ -370,10 +289,10 @@ mas tdd_tutorial {
 ----
 
 Also, we want to test whether the agent *acts* correctly. 
-So, we add to the file `test_room_agent.asl` at `src/test/jacamo/agt` a new test.
-For this, set at target temperature of 10
-degrees (given a current temperature of 15 degrees) and regularly check in a loop whether
-the cooler acts as expected given the current temperature and the agents's goal:
+So, we add to the file `test_room_agent.asl` at `src/test/agt` a new test.
+For this, we set at target temperature of 10 degrees (given a current temperature of 15 degrees) and
+regularly check in a loop whether the cooler acts as expected given the current temperature and the
+agents's goal:
 
 
 [source]
@@ -402,8 +321,7 @@ The complete project is available link:./2_room_agent_cooling/[here].
 
 === Agents and Artifacts
 In this final single-agent testing example, we introduce an artifact that our agent interacts with.
-First,
-we configure the MAS in the file `tdd_tutotial.jcm`:
+First, we configure the MAS in the file `tdd_tutotial.jcm`:
 
 [source]
 ----
@@ -426,9 +344,9 @@ The artifact models the air conditioning/HVAC. It has the following methods:
 * `init` (with _temperature_ parameter): sets the initial temperature and sets the HVAC's state to
 `idle`.
 
-* `updateTemperatureProc` (internal (private), with _step_ parameter): this is used to simulate changes in the room temperature. While the HVAC is not in
-state `idle`, change the temperature by `step` degrees and waits for 100ms to then repeat the
-loop.
+* `updateTemperatureProc` (internal (private), with _step_ parameter): this is used to simulate
+changes in the room temperature. While the HVAC is not in state `idle`, change the temperature by
+`step` degrees and waits for 100ms to then repeat the loop.
 
 * `startCooling`: sets the state to `cooling` and calls `updateTemperatureProc` with _step_ set to
 `-0.5`.
@@ -476,9 +394,9 @@ public class HVAC extends Artifact {
 }
 ----
 
-Then, we integrate the artifact with our agent, replacing the hard-coded state("cooling")
-emulation with actions upon the HVAC artifact.
-Note that the code below, is importing **common-cartago.asl**, as it is necessary when the agent interacts with CArtAgO artifacts.
+Then, we integrate the artifact with our agent, replacing the hard-coded state/emulation ("cooling")
+with actions upon the HVAC artifact. Note that the code below, is importing **common-cartago.asl**,
+as it is necessary when the agent interacts with CArtAgO artifacts.
 
 [source]
 ----
@@ -510,11 +428,13 @@ Note that the code below, is importing **common-cartago.asl**, as it is necessar
 { include("$jacamoJar/templates/common-moise.asl") }
 ----
 
-The artifact **device/HVAC** is not being instantiated, which means that the external calls **startCooling** and **stopAirConditioner** would break the test if they are executed.
-At this time, the main concern regards to the room agent functionalities, not the functionalities of other entities that it interacts with.
-To ensure this separation concerns, the **mock** concept can be used.
-Here, the **mock** concept is used on the agent under test entity, i.e., we are replacing some agent's plans that calls external actions by plans that are mocking some behaviours.
-Notice that the order is very important since each plan is added on the beginning of the plans library of the agent.
+The artifact **device/HVAC** is not being instantiated, which means that the external calls
+**startCooling** and **stopAirConditioner** would break the test if they are executed. At this time,
+the main concern regards to the room agent functionalities, not the functionalities of other
+entities that it interacts with. To ensure this separation of concerns, the **mock** concept can be
+used. Here, the **mock** concept is used on the agent under test entity, i.e., we are replacing some
+agent's plans that calls external actions by plans that are mocking some behaviors. Notice that the
+order is very important since each plan is added on the beginning of the plans library of the agent.
 
 [source]
 ----
@@ -552,10 +472,10 @@ Notice that the order is very important since each plan is added on the beginnin
 	.drop_desire(temperature(10)).
 ----
 
-Of course, as we are replacing entire plans, it is a dangerous technique.
-Indeed, our tests are not completelly linked to the room agent code.
-However, for simplicity we will keep this as an example. 
-A safer way could be defining small plans just to call the external actions and just these small plans are mocked.
+Of course, as replacing entire plans is a dangerous technique: then, our tests are, to a great
+extent, decoupled from the room agent code. However, for the sake of simplicity we will keep this
+as an example. A safer way could be defining small plans that call the external actions and merely
+mock these _interface plans_.
 
 The complete project is available link:./3_room_agent_with_artifact/[here].
 
@@ -577,8 +497,8 @@ for the assistant agent is very simple:
 { include("$jacamoJar/templates/common-moise.asl") }
 ----
 
-Note that in the `tdd_tutorial.jcm` configuration file, we then instantiate two assistant agents representing
-the users _Cleber_ and _Tim_, respectively:
+Note that in the `tdd_tutorial.jcm` configuration file, we then instantiate two assistant agents
+representing the users _Cleber_ and _Tim_, respectively:
 
 [source]
 ----
@@ -618,10 +538,10 @@ sake of simplicity):
 
 Now, we can test our agent. However, before we can write the actual tests, we first want to create
 some mocks. Note that we have already worked with _mock plans_ in the previous example. 
-To test if the the interactions between assistants and the room agent, we opt for we creating the file `test_assistent.asl` at `src/test/jacamo/agt`.
-In this file, we test whether the room agent aggregates the preferences of several assistant agents
-correctly. This is achieved by instantiating mock agents, this time two assistants with
-different temperature preferences and one mock room agent.
+To test if the interactions between assistants and the room agent, we create the file
+`test_assistant.asl` at `src/test/agt`. In this file, we test whether the room agent aggregates the
+preferences of several assistant agents correctly. This is achieved by instantiating mock agents, 
+this time two assistants with different temperature preferences and one mock room agent.
 [source]
 ----
 @[test]
@@ -656,11 +576,11 @@ different temperature preferences and one mock room agent.
     .kill_agent(clebers_assistant).
 ----
 
-Notice that the room agent is a mock agent since it will not act as original, it has to have
-some plans replaced to avoid code breaks when interacting with the artifact. 
-It also must mock the plan that receives preferences and somehow it must provide a way to
-check whether it found the average between two specified temperature preferences.
-This mock agent is a test accessory. Since it does not have testing plans (it is just a mock), we place this file in the `inc` folder (`src/test/jacamo/inc`).
+Notice that the room agent is a mock agent: we need to replace some plans to avoid errors when
+interacting with the artifact.  It also must mock the plan that receives preferences and provide a
+way to check whether it found the average between two specified temperature preferences.
+This mock agent is a test accessory. Since it does not have testing plans (it is just a mock), we
+place this file in the `inc` folder (`src/test/inc`).
 
 [source]
 ----
@@ -703,6 +623,6 @@ testing without artifact instantiation.
 The complete project is available link:./5_multi_agents/[here].
 
 == Conclusion
-This tutorial has provided a brief overview of how to test Jason agents directly in AgentSpeak, as
-well as of the conceptual benefits goal-oriented test-driven development provides for the
-development of multi-agent systems.
+This tutorial has provided a brief overview of how to test Jason agents and JaCaMo MAS directly in
+AgentSpeak, and has also, more generally, introduced the conceptual benefits goal-oriented
+test-driven development provides for the development of multi-agent systems.

@@ -1,8 +1,8 @@
 /*
-   Project tdd_tutorial
+   Project npss
 
    Gradle build file for JaCaMo Applications
-   August 28, 2022 - 17:35:17
+   September 02, 2022 - 21:06:39
 */
 
 defaultTasks 'run'
@@ -13,9 +13,9 @@ apply plugin: 'eclipse'
 version '1.0'
 group   'org.jacamo'
 
-java { 
-    toolchain { 
-        languageVersion.set(JavaLanguageVersion.of(8)) 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
     }
 }
 
@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation('org.jacamo:jacamo:0.10-SNAPSHOT')
+    implementation('org.jacamo:jacamo:1.2-SNAPSHOT')
 }
 
 sourceSets {
@@ -57,7 +57,7 @@ task run (type: JavaExec, dependsOn: 'classes') {
         mkdir 'log'
     }
     main 'jacamo.infra.JaCaMoLauncher'
-    args 'tdd_tutorial.jcm'
+    args 'npss.jcm'
     // jvmArgs '-Xss15m'
     classpath sourceSets.main.runtimeClasspath
 }
@@ -71,7 +71,7 @@ task uberJar(type: Jar, dependsOn: 'classes') {
     manifest {
         attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
     }
-    archiveBaseName = 'jacamo-tdd_tutorial' // the name must start with jacamo so that jacamo...jar is found in the classpath
+    archiveBaseName = 'jacamo-npss' // the name must start with jacamo so that jacamo...jar is found in the classpath
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     from (project.projectDir.absolutePath) {
         include '**/*.asl'
@@ -88,21 +88,16 @@ task uberJar(type: Jar, dependsOn: 'classes') {
 
     doFirst {
         copy {
-            from 'tdd_tutorial.jcm'
-            rename 'tdd_tutorial.jcm','default.jcm'
+            from 'npss.jcm'
+            rename 'npss.jcm','default.jcm'
             into project.buildDir.absolutePath + '/jcm'
         }
     }
 }
 
-clean {
-    delete 'bin'
-    delete 'build'
-    delete 'log'
-}
 
 task testJaCaMo {
-    description 'runs JaCaMo unit tests: unit_tests_project.jcm'
+    description 'runs JaCaMo tests'
     def errorOnTests = false
     outputs.upToDateWhen { false } // disable cache
 
@@ -111,11 +106,11 @@ task testJaCaMo {
             javaexec {
                 main = 'jacamo.infra.JaCaMoLauncher'
                 if (gradle.startParameter.logLevel.toString().equals("DEBUG")) {
-                    args = ['$jacamoJar/test/jacamo/unit_tests_project.jcm', '--log-conf', '$jasonJar/templates/console-debug-logging.properties']
+                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-debug-logging.properties']
                 } else if (gradle.startParameter.logLevel.toString().equals("INFO")) {
-                    args = ['$jacamoJar/test/jacamo/unit_tests_project.jcm', '--log-conf', '$jasonJar/templates/console-info-logging.properties']
+                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-info-logging.properties']
                 } else {
-                    args = ['$jacamoJar/test/jacamo/unit_tests_project.jcm', '--log-conf', '$jasonJar/templates/console-lifecycle-logging.properties']
+                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-lifecycle-logging.properties']
                 }
                 classpath sourceSets.main.runtimeClasspath
 
@@ -160,8 +155,14 @@ task testJaCaMo {
         }
 
         if (errorOnTests) {
-            throw new GradleException('JaCaMo unit tests: ERROR!')
+            throw new GradleException('JaCaMo tests: ERROR!')
         }
     }
 }
 tasks.test.finalizedBy testJaCaMo
+
+clean {
+    delete 'bin'
+    delete 'build'
+    delete 'log'
+}

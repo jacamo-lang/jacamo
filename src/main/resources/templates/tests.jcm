@@ -1,4 +1,5 @@
-// project used to run the test manager agent
+// JaCaMo project used to run the test manager agent
+// (and souce code of the agents to be tested by the manager)
 
 
 mas unit_tests {

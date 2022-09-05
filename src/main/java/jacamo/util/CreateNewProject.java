@@ -133,7 +133,7 @@ public class CreateNewProject {
         copyFile("build.gradle", new File( path + "/build.gradle"));
         
         copyFile("test.asl",       new File( path + "/src/test/agt/test-sample.asl"));
-        copyFile("unit_tests.jcm", new File( path + "/src/test/unit_tests.jcm"));
+        copyFile("tests.jcm", new File( path + "/src/test/tests.jcm"));
     }
 
     void copyFile(String source, File target) {

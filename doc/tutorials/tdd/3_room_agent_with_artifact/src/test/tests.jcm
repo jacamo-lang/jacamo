@@ -11,7 +11,8 @@ mas tests {
     asl-path: "."
               "src/agt"
               "src/agt/inc"
-              "src/test/jacamo/inc"
-              "$jacamoJar/test/jacamo/inc"
+              "src/test/agt"
+              "src/test/inc"
               "$jasonJar/test/jason/inc"
+
 }

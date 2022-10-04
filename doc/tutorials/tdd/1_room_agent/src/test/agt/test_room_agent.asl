@@ -27,6 +27,7 @@
      *
      * The default current temperature is 15
      */
+    -+temperature(15);
     !assert_false(now_is_warmer_than(20));
     !assert_true(now_is_warmer_than(10));
     !assert_false(now_is_warmer_than(15));

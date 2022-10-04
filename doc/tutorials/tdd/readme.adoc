@@ -76,7 +76,7 @@ $ java --version
 +
 [source]
 ----
-$ curl -s -O http://jacamo.sourceforge.net/nps/npss.zip
+$ wget http://jacamo.sourceforge.net/nps/npss.zip
 $ unzip npss.zip
 $ ./gradlew --console=plain
 ----
@@ -110,8 +110,9 @@ tdd_tutorial$ ./gradlew test
 ----
 +
 5. Now, we adapt the sample project to build an agent that controls the temperature of the 
-environment. At `src/agt`, we rename the `sample_agent.asl` file to `room_agent.asl`, and fix the 
-`tdd_tutorial.jcm` for this other agent filename, as below:
+environment. At `src/agt`, we rename the `sample_agent.asl` file to `room_agent.asl`, remove 
+the file `src/test/agt/test_sample.asl` and fix the `tdd_tutorial.jcm` for this other agent 
+filename, as below:
 +
 [source]
 ----
@@ -177,7 +178,7 @@ shortcomings:
 * They do not clearly describe desired behavior.
 * They make it hard to automate tests.
 
-To test the file properly, we create the file `test_room_agent.asl` at `src/test/agt`.
+To test the file properly, we create the file `test_room_agent.asl` at `src/test/agt`. 
 
 At the beginning of `test_room_agent.asl` file, we import the Jason tester agent, as well 
 as the file that we want to test:
@@ -195,6 +196,7 @@ Then, we add a test goal, using the `@[test]` annotation:
 @[test]
 +!test_now_is_warmer_than
     <-
+    -+temperature(15);
     !assert_false(now_is_warmer_than(20));
     !assert_true(now_is_warmer_than(10));
     !assert_false(now_is_warmer_than(15)).
@@ -213,6 +215,8 @@ To use this testing facility, we merely need to execute the test command:
 ----
 $ ./gradlew test --info
 ----
+
+As seen, the plan in line plan `auto_test` in the `room_agent.asl` file is no longer required.
 
 The complete project is available link:./1_room_agent/[here].
 
@@ -353,6 +357,7 @@ changes in the room temperature. While the HVAC is not in state `idle`, change t
 
 * `stopAirConditioner`: sets the state of the HVAC to `idle`.
 
+We will create the file `src/env/devices/HVAC.java` to implement these methods.
 The source code of the artifact looks as follows:
 
 [source]
@@ -481,8 +486,8 @@ The complete project is available link:./3_room_agent_with_artifact/[here].
 
 === Multiple Agents and Agents
 Finally, let us implement and test a simple Multi-Agent System (MAS). In the MAS, we have an
-additional _assistant agent_ that relays user preferences to the room agent. Accordingly, the code
-for the assistant agent is very simple:
+additional _assistant agent_ that relays user preferences to the room agent. We will create the file 
+`src/agt/assistant.asl` for that. Accordingly, the code for the assistant agent is very simple:
 
 [source]
 ----
@@ -541,9 +546,12 @@ some mocks. Note that we have already worked with _mock plans_ in the previous e
 To test if the interactions between assistants and the room agent, we create the file
 `test_assistant.asl` at `src/test/agt`. In this file, we test whether the room agent aggregates the
 preferences of several assistant agents correctly. This is achieved by instantiating mock agents, 
-this time two assistants with different temperature preferences and one mock room agent.
+this time two assistants with different temperature preferences and one mock room agent. 
 [source]
 ----
+{ include("tester_agent.asl") }
+{ include("assistant.asl") }
+
 @[test]
 +!test_multiple_preferences
     <-
@@ -577,7 +585,7 @@ this time two assistants with different temperature preferences and one mock roo
 ----
 
 Notice that the room agent is a mock agent: we need to replace some plans to avoid errors when
-interacting with the artifact.  It also must mock the plan that receives preferences and provide a
+interacting with the artifact. It also must mock the plan that receives preferences and provide a
 way to check whether it found the average between two specified temperature preferences.
 This mock agent is a test accessory. Since it does not have testing plans (it is just a mock), we
 place this file in the `inc` folder (`src/test/inc`).
@@ -620,7 +628,7 @@ place this file in the `inc` folder (`src/test/inc`).
 As we can see, the mock plans do not make calls to the artifact and hence allow for (multi-)agent
 testing without artifact instantiation. 
 
-The complete project is available link:./5_multi_agents/[here].
+The complete project is available link:./4_multi_agents/[here].
 
 == Conclusion
 This tutorial has provided a brief overview of how to test Jason agents and JaCaMo MAS directly in

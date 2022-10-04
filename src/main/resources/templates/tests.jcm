@@ -12,7 +12,8 @@ mas unit_tests {
     asl-path: "."
               "src/agt"
               "src/agt/inc"
-              "src/test/jacamo/inc"
+              "src/test/agt"
+              "src/test/inc"
               "$jacamoJar/test/jacamo/inc"
               "$jasonJar/test/jason/inc"
 }

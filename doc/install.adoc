@@ -21,7 +21,7 @@ NOTE: The first time you run takes longer since it downloads JaCaMo.
 Unix::
 +
 ----------------
-curl -s -O http://jacamo.sourceforge.net/nps/np1.1.zip
+curl -LO http://jacamo.sourceforge.net/nps/np1.1.zip
 unzip np1.1.zip
 ./gradlew --console=plain
 ----------------

@@ -4,6 +4,9 @@ and test-driven development. The feature allows writing test programs for Jason 
 AgentSpeak, and aligns software testing and agent-oriented programming abstractions. This
 consolidation of perspectives is called _Goal-Oriented Test-Driven Development_ (GOTDD).
 
+A presentation of this tutorial is also available link:https://www.slideshare.net/clebercbr/test-driven-development-for-agents-tutorial[here].
+
+
 == What is Goal-Oriented Test-Driven Development?
 In modern software development, testing plays a key role, as it helps ensure the software works as
 expected. Ideally, developers use _Test-Driven Development_ (TDD) approaches, in which a large

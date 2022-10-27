@@ -27,7 +27,7 @@ unzip np1.1.zip
 ----------------
 
 Windows::
-1. Download http://jacamo.sourceforge.net/nps/np1.0.zip
+1. Download http://jacamo.sourceforge.net/nps/np1.1.zip
 2. Unzip
 3. Run `gradlew.bat`
 

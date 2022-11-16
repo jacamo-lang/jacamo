@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source "`dirname "$0"`/jacamo-setup"
+P=`which "$0"`
+source "`dirname $P`/jacamo-setup"
 
 # compile and run a jacamo application
 

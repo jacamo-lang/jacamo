@@ -43,9 +43,9 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     protected SourcePath javaSourcePaths = new SourcePath();
 
     Map<String, String[]> platformParameters = new HashMap<>();
-    
+
     protected Properties deployHosts = new Properties();
-    
+
     protected String runArgs;
 
     public JaCaMoProject() {
@@ -53,15 +53,15 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         addSourcePath(".");
         addSourcePath("src/agt");
         addSourcePath("src/agt/inc");
-        
+
         addClassPath("lib");
-        
+
         // default org-path
         orgPaths.addPath(".");
         orgPaths.addPath("src/org");
-        
+
         // default java-path
-        javaSourcePaths.addPath(".");
+        javaSourcePaths.addPath("src");
         javaSourcePaths.addPath("src/env");
         javaSourcePaths.addPath("src/agt");
     }
@@ -91,7 +91,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         // import project
         try {
               if (! fileName.endsWith(".jcm")) fileName = fileName+".jcm";
-              
+
               if (! new File(fileName).exists()) fileName = directory+"/"+fileName.toString();
               JaCaMoProjectParser parser = new JaCaMoProjectParser(new FileReader(fileName) );
               importProject(parser.parse(directory));
@@ -301,11 +301,11 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         for (String pId: platformParameters.keySet()) {
             if (pId.contains(".")) {
                 l.add(pId);
-            }           
+            }
         }
         return l;
     }
-    
+
     public void resetPlatform() {
         platformParameters.clear();
     }
@@ -323,9 +323,9 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     public Map<String,String[]> getPlatformParameters() {
         return platformParameters;
     }
-    
+
     private static String[] emptyStringArray = {};
-    
+
     public String[] getPlatformParameters(String p) {
         String a[] = platformParameters.get(p);
         if (a == null)
@@ -514,7 +514,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
 
         return s.toString();
     }
-    
+
     public void setDeployHosts(String fileName) {
         try {
             deployHosts.load(new FileInputStream(fileName));
@@ -522,7 +522,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
             e.printStackTrace();
         }
     }
-    
+
     public String getDeployHost(String id) {
         if (deployHosts != null && deployHosts.get(id) != null) {
             return deployHosts.get(id).toString();

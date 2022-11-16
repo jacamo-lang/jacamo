@@ -1,14 +1,19 @@
+// JaCaMo project used to run the test manager agent
+// (and souce code of the agents to be tested by the manager)
+
+
 mas unit_tests {
 
     agent test_manager {
-          goals:   create_tester_agents("./src/test/jacamo/agt",".*.asl")
+          goals:   create_tester_agents("./src/test/agt",".*.asl")
           beliefs: shutdown_delay(600)
     }
 
     asl-path: "."
               "src/agt"
               "src/agt/inc"
-              "src/test/jacamo/inc"
+              "src/test/agt"
+              "src/test/inc"
               "$jacamoJar/test/jacamo/inc"
               "$jasonJar/test/jason/inc"
 }

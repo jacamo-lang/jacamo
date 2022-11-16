@@ -18,9 +18,6 @@
  */
 { include("assistant.asl") }
 
-
-!test_multiple_preferences.
-
 /**
  * Testing send_preference
  */
@@ -62,7 +59,6 @@
      * Give some time to the room_agent process the information
      * and mocking a result
      */
-
     .at("now +200 ms", {+!timeout});
     !eventually;
     /*
@@ -70,7 +66,6 @@
     .wait(50);
     .send(mock_room_agent,askOne,temperature(T),temperature(T));
     */
-    .log(warning,"testts");
     ?temperature(T);
     !assert_equals(24,T);
 

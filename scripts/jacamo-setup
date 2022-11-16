@@ -4,9 +4,11 @@ JacamoREL=1.1
 
 if [ -z "$JACAMO_HOME" ] ; then
     CURDIR="`pwd`"
-    JACAMO_HOME="`dirname "$0"`"
+    P=`which "$0"`
+    JACAMO_HOME="`dirname $P`"
     cd "$JACAMO_HOME/.."
     JACAMO_HOME="`pwd`"
+    echo "JACAMO_HOME set to $JACAMO_HOME"
     cd "$CURDIR"
 fi
 

@@ -120,6 +120,7 @@ public class CreateNewProject {
         new File(path + "/src/env/example").mkdirs();
         new File(path + "/src/org").mkdirs();
         new File(path + "/src/int").mkdirs();
+        new File(path + "/src/test/agt").mkdirs();
     }
 
     void copyFiles() {
@@ -130,6 +131,9 @@ public class CreateNewProject {
         copyFile("CArtAgOartifact", f);
         copyFile("organization", new File( path + "/src/org/org.xml"));
         copyFile("build.gradle", new File( path + "/build.gradle"));
+        
+        copyFile("test.asl",       new File( path + "/src/test/agt/test-sample.asl"));
+        copyFile("tests.jcm", new File( path + "/src/test/tests.jcm"));
     }
 
     void copyFile(String source, File target) {
@@ -148,6 +152,7 @@ public class CreateNewProject {
                 l = l.replace("<DATE>", new SimpleDateFormat("MMMM dd, yyyy - HH:mm:ss").format(new Date()));
 
                 l = l.replace("<DEFAULT_AGENT>", "agent bob: sample_agent.asl {\n      focus: w.c1 \n    }");
+                l = l.replace("<AG_NAME>", "sample_agent");
                 l = l.replace("<AG_NAME>", "sample_agent");
 
                 l = l.replace("<PCK>", "example");

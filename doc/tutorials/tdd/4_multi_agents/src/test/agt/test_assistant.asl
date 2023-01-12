@@ -49,19 +49,13 @@
     .create_agent(clebers_assistant, "assistant.asl");
 
     .send(tims_assistant,tell,preferred_temperature(23));
-    .send(tims_assistant,tell,recipient_agent(mock_room_agent));
-    .send(tims_assistant,achieve,send_preference);
+    .send(tims_assistant,achieve,send_preference(mock_room_agent));
     .send(clebers_assistant,tell,preferred_temperature(25));
-    .send(clebers_assistant,tell,recipient_agent(mock_room_agent));
-    .send(clebers_assistant,achieve,send_preference);
+    .send(clebers_assistant,achieve,send_preference(mock_room_agent));
 
-    .at("now +200 ms", {+!timeout});
-    !eventually;
-    /*
-    Using .at and "eventually" plans to avoid .wait
-    .wait(50);
-    .send(mock_room_agent,askOne,temperature(T),temperature(T));
-    */
+    !!pollTemperature;
+    .wait(temperature(24), 200, EventTime);
+    .drop_desire(pollTemperature);
     ?temperature(T);
     !assert_equals(24,T);
 
@@ -70,11 +64,9 @@
     .kill_agent(clebers_assistant);
 .
 
-+!timeout <- +timeout.
++!pollTemperature: temperature(24).
 
-+!eventually: timeout | (temperature(T) & T == 24).
-
-+!eventually: not timeout <- 
-	.send(mock_room_agent,askOne,temperature(T));
-	!eventually;
++!pollTemperature  <- 
+    .send(mock_room_agent,askOne,temperature(T));
+    !pollTemperature;
 .

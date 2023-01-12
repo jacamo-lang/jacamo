@@ -9,6 +9,12 @@
 //recipient_agent(room_agent).
 //!send_preference.
 
++!send_preference(R)
+    <-
+    -+recipient_agent(R);
+    !send_preference;
+.
+
 +!send_preference:
     preferred_temperature(T) &
     recipient_agent(R)

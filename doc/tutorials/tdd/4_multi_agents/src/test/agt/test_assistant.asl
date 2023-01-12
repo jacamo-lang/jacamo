@@ -55,16 +55,26 @@
     .send(clebers_assistant,tell,recipient_agent(mock_room_agent));
     .send(clebers_assistant,achieve,send_preference);
 
-    /* 
-     * Give some time to the room_agent process the information
-     * and mocking a result
-     */
+    .at("now +200 ms", {+!timeout});
+    !eventually;
+    /*
+    Using .at and "eventually" plans to avoid .wait
     .wait(50);
-    //.send(mock_room_agent,askOne,temperature(T),temperature(T));
-    //!assert_equals(24,T);
+    .send(mock_room_agent,askOne,temperature(T),temperature(T));
+    */
+    ?temperature(T);
+    !assert_equals(24,T);
 
     .kill_agent(mock_room_agent);
     .kill_agent(tims_assistant);
     .kill_agent(clebers_assistant);
+.
 
++!timeout <- +timeout.
+
++!eventually: timeout | (temperature(T) & T == 24).
+
++!eventually: not timeout <- 
+	.send(mock_room_agent,askOne,temperature(T));
+	!eventually;
 .

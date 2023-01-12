@@ -28,9 +28,6 @@ sourceSets {
             srcDir 'src/main/java'
             srcDir 'build/generated/javacc'
         }
-        resources {
-            srcDir 'src/resources'
-        }
     }
 }
 

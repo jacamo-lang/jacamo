@@ -100,6 +100,8 @@ task testJaCaMo {
     description 'runs JaCaMo tests'
     def errorOnTests = false
     outputs.upToDateWhen { false } // disable cache
+    def tempOut = new ByteArrayOutputStream()
+    def tempErr = new ByteArrayOutputStream()
 
     doFirst {
         try {
@@ -114,15 +116,15 @@ task testJaCaMo {
                 }
                 classpath sourceSets.main.runtimeClasspath
 
-                errorOutput = new ByteArrayOutputStream()
-                standardOutput = new ByteArrayOutputStream()
-
+                standardOutput = new org.apache.tools.ant.util.TeeOutputStream(System.out, tempOut);
+                errorOutput = new org.apache.tools.ant.util.TeeOutputStream(System.err, tempErr);
+                
                 ext.stdout = {
-                    return standardOutput.toString()
+                    return tempOut.toString()
                 }
                 ext.errout = {
-                    return errorOutput.toString()
-                }
+                    return tempErr.toString()
+                }                
             }
         } catch (Exception e) {
             errorOnTests = true
@@ -143,7 +145,7 @@ task testJaCaMo {
             line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
             println line
         }
-
+        
         def err = errout()
         err.splitEachLine('\n') { String line ->
             line = line.replace("TESTING","${styler['yellow']('TESTING')}")

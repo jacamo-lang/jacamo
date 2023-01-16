@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation('org.jacamo:jacamo:1.1-SNAPSHOT')    
+    implementation('org.jacamo:jacamo:1.1-SNAPSHOT')
 }
 
 sourceSets {
@@ -47,7 +47,7 @@ sourceSets {
 task run (type: JavaExec, dependsOn: 'classes') {
     group ' JaCaMo'
     description 'runs the application'
-    main = 'jacamo.infra.JaCaMoLauncher'
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
     args 'auction.jcm'
     classpath sourceSets.main.runtimeClasspath
 }

@@ -351,7 +351,7 @@ task zipRel(type: Zip, dependsOn: copyRel) {
 
 task runauction (type: JavaExec, dependsOn: 'classes') {
     workingDir 'examples/auction'
-    main = 'jacamo.infra.JaCaMoLauncher'
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
     args 'auction.jcm'
     classpath sourceSets.main.runtimeClasspath
 }

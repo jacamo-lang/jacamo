@@ -26,7 +26,7 @@ dependencies {
 task run (type: JavaExec, dependsOn: 'classes') {
     description 'runs the application'
     standardInput = System.in
-    main = 'jacamo.util.CreateNewProject'
+    mainClass = 'jacamo.util.CreateNewProject'
     args System.getProperty("exec.args", "").split()
     classpath sourceSets.main.runtimeClasspath
 }

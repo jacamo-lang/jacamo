@@ -8,7 +8,6 @@
 defaultTasks 'run'
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 
 version '1.0'
 group   'org.jacamo'
@@ -48,7 +47,7 @@ sourceSets {
 task run_mc (type: JavaExec, dependsOn: 'classes') {
 	group ' JaCaMo'
     description 'runs the main application'
-    main = 'jacamo.infra.JaCaMoLauncher'
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
     args 'main-container.jcm'
     classpath sourceSets.main.runtimeClasspath
 }
@@ -56,7 +55,7 @@ task run_mc (type: JavaExec, dependsOn: 'classes') {
 task run_bc (type: JavaExec, dependsOn: 'classes') {
 	group ' JaCaMo'
     description 'runs bob'
-    main = 'jacamo.infra.JaCaMoLauncher'
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
     args 'container.jcm'
     classpath sourceSets.main.runtimeClasspath
 }
@@ -64,7 +63,7 @@ task run_bc (type: JavaExec, dependsOn: 'classes') {
 task run_cc (type: JavaExec, dependsOn: 'classes') {
 	group ' JaCaMo'
     description 'runs carlos'
-    main = 'jade.Boot'
+    mainClass = 'jade.Boot'
     args = ['-container','-host','localhost','-container-name','c3','-agents', 'carlos:jadeag.Carlos']
     //args = ['-gui','-agents','carlos:jadeag.Carlos']
     classpath sourceSets.main.runtimeClasspath

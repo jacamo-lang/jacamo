@@ -8,7 +8,6 @@
 defaultTasks 'run'
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 
 version '1.0'
 group   'org.jacamo'
@@ -50,7 +49,7 @@ task run (type: JavaExec, dependsOn: 'classes') {
     doFirst {
         mkdir 'log'
     }
-    main 'jacamo.infra.JaCaMoLauncher'
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
     args 'snapshot.jcm'
     classpath sourceSets.main.runtimeClasspath
 }

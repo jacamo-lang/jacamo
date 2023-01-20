@@ -12,7 +12,7 @@ Since the shell script, Gradle, and Docker options do not include an IDE, you ca
 
 Requirements:
 
-- Java >= 15
+- Java >= 17
 
 Follow the steps below to create a new application:
 

@@ -6,11 +6,6 @@ apply plugin: 'eclipse'
 version '1.0'
 group   'org.jacamo'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
-    }
-}
 
 repositories {
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
@@ -27,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '1.0'
+    compile group: 'org.jacamo', name: 'jacamo', version: '1.1'
 }
 
 sourceSets {

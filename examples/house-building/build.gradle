@@ -13,12 +13,6 @@ apply plugin: 'eclipse'
 version '1.0'
 group   'org.jacamo'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
-    }
-}
-
 repositories {
     mavenCentral()
     maven { url 'https://repo.gradle.org/gradle/libs-releases' }
@@ -26,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation('org.jacamo:jacamo:1.1-SNAPSHOT')
+    implementation('org.jacamo:jacamo:1.1')
 }
 
 sourceSets {

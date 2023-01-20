@@ -1,5 +1,11 @@
 = Release notes for JaCaMo
 
+== Version 1.2
+
+- uses Jason 3.2, Moise 1.0 and Cartago 3.1
+- Java17
+
+
 == Version 1.1
 
 This version

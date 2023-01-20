@@ -18,7 +18,7 @@ group   'org.jacamo'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -44,7 +44,7 @@ repositories {
 
 
 dependencies {
-    api('org.jason:jason:3.1') {
+    api('org.jason:jason:3.2-SNAPSHOT') {
        exclude group: 'net.sf.ingenias', module: 'jade'
     }
     api('org.jacamo:cartago:3.1') {  transitive = false  }

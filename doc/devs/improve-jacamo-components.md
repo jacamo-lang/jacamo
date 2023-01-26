@@ -20,7 +20,7 @@ unzip npss.zip
 ```
 
 * I am using JaCaMo SNAPSHOT version here
-* The name of the application is app-t
+* The name of the application is `app-t`
 
 Output:
 ```
@@ -61,9 +61,9 @@ You can inspect at http://127.0.0.1:3271 that Bob plays `role1`.
 
 ## 5. Change your application dependencies
 
-to use the Moise just cloned.
+to use the cloned local copy of Moise instead of the Moise jar that comes from a remote repository.
 
-Create a file `settings.gradle` with the following content:
+Create a `settings.gradle` file with the following content:
 
 ```
 includeBuild '../moise'
@@ -78,7 +78,7 @@ For instance, change the operation `adoptRole` of `moise/src/main/java/ora4mas/n
 
 ```
 @OPERATION public void adoptRole(String role)  {
-    logger.info("****** "+getOpUserName()+" adopting "+role);
+    logger.info("****** "+getOpUserName()+" adopting "+role); // ADDED LINE
 
     adoptRole(getOpUserName(), role);
 }

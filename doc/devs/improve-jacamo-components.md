@@ -1,5 +1,7 @@
-# Extending a JaCaMo components
-This document contains some (initial) tips for someone aiming at developing some part of JaCaMo. For instance, suppose you want to extend Moise and test it in a JaCaMo application.
+# Extending a JaCaMo component
+This document contains some (initial) tips for someone aiming at developing some part of JaCaMo.
+
+For instance, suppose you want to extend Moise and test it in a JaCaMo application. The following steps can be used for that.
 
 ## 1. Clone Moise
 
@@ -68,6 +70,9 @@ Create a file `settings.gradle` with the  following content:
 ```
 includeBuild '../moise'
 ```
+
+Here I added the `moise` project following the example, but, of course, any other JaCaMo component could be added as well.
+
 
 ## 6. Implement the new feature
 

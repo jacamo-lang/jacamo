@@ -44,10 +44,8 @@ mas app_t {
     organisation o : org.xml {
        group g : group1 {
          players: bob role1
-         debug: inspector_gui(on)
        }
     }
-
 }
 ```
 
@@ -59,13 +57,13 @@ cd app-t
 ./gradlew
 ```
 
-The Moise window shows that Bob plays `role1`.
+You can inspect at http://127.0.0.1:3271 that Bob plays `role1`.
 
 ## 5. Change your application dependencies
 
 to use the Moise just cloned.
 
-Create a file `settings.gradle` with the  following content:
+Create a file `settings.gradle` with the following content:
 
 ```
 includeBuild '../moise'

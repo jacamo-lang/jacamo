@@ -5,6 +5,7 @@ bin
 build
 APDescription.txt
 MTPs-Main-Container.txt
+.vscode
 
 *.log
 .stop___MAS
@@ -40,3 +41,4 @@ demos/demo-nodered-mqtt/node-red/package.json
 demos/demo-nodered-mqtt/node-red/flows_cred.json
 demos/demo-nodered-mqtt/node-red/flows/.flows.json.backup
 demos/demo-nodered-mqtt/node-red/.config.json.backup
+settings.gradle

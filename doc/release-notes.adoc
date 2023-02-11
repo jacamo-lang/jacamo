@@ -5,6 +5,9 @@
 - uses Jason 3.2, Moise 1.0 and Cartago 3.1
 - Java17
 
+- `~/.jacamo` is not used anymore to store JaCaMo  configuration. Configuration is discovered by `JACAMO_HOME`, classpath, or `jacamo.properties` in a project directory.
+
+- When `jacamo.jar` is executed, it does not run config anymore,  but starts JaCaMo Launcher. E.g., `java -jar jacamo.jar auction.jcm`.
 
 == Version 1.1
 

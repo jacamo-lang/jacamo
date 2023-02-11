@@ -121,11 +121,11 @@ jjdoc {
 jar {
     archiveBaseName = 'jacamo'
     manifest {
-        attributes 'Main-Class': 'jacamo.util.ConfigGUI',
+        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher',
                    'Specification-Title': 'JaCaMo framework',
                    'Specification-Version': project.version,
                    'Implementation-Version': new Date().toString(),
-                   'Class-Path': file(configurations.compileClasspath.find { it.name.startsWith("jason-") }).name
+                   'Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' ')
     }
 
     from('src') {

@@ -40,11 +40,16 @@ public class Config extends jason.util.Config {
             if (!singleton.load()) {
                 if (tryToFixConfig) {
                     singleton.fix();
-                    singleton.store();
+                    //singleton.store();
                 }
             }
         }
         return (Config)singleton;
+    }
+
+    @Override
+    public void store() {
+        // do not store config anymore
     }
 
     @Override
@@ -325,6 +330,6 @@ public class Config extends jason.util.Config {
 
     public static void main(String[] args) {
         Config.get().fix();
-        Config.get().store();
+        //Config.get().store();
     }
 }

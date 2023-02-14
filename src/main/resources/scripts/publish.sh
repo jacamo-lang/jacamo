@@ -12,4 +12,5 @@ rm -rf .gradle
 zip -r ../npss.zip *
 cd ..
 
-scp *.zip $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/nps
+#scp *.zip $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/nps
+cp *.zip ../../../../nps

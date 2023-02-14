@@ -12,5 +12,10 @@ rm -rf .gradle
 zip -r ../npss.zip *
 cd ..
 
+git checkout site
 #scp *.zip $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/nps
 cp *.zip ../../../../nps
+
+git commit -m "new project script" ../../../../nps/npss.zip 
+git push
+

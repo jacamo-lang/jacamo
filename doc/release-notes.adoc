@@ -3,7 +3,7 @@
 == Version 1.2
 
 - uses Jason 3.2, Moise 1.0 and Cartago 3.1
-- Java17
+- uses Java 17
 
 - `~/.jacamo` is not used anymore to store JaCaMo  configuration. Configuration is discovered by `JACAMO_HOME`, classpath, or `jacamo.properties` in a project directory.
 
@@ -14,10 +14,9 @@
 This version
 
 - uses Jason 3.1 (AgentSpeak(ER)), Moise 1.0 and Cartago 3.1
-- upgrade other softwares (as gradle)
+- upgrade other software (as gradle)
 - include JaCaMo-Rest
 - fix some bugs
-
 
 == Version 1.0
 

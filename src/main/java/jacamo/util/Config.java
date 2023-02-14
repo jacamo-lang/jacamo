@@ -3,6 +3,7 @@ package jacamo.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serial;
 import java.net.URL;
 
 import jacamo.infra.RunJaCaMoProject;
@@ -15,6 +16,7 @@ import ora4mas.nopl.GroupBoard;
  */
 public class Config extends jason.util.Config {
 
+    @Serial
     private static final long  serialVersionUID = 1L;
 
     public static final String jacamoHomeProp = "JaCaMoHome";
@@ -85,7 +87,7 @@ public class Config extends jason.util.Config {
 
     /** returns the file where the user preferences are stored */
     public File getUserConfFile() {
-        return new File(System.getProperties().get("user.home") + File.separator + ".jacamo/user.properties");
+        return new File(System.getProperties().get("user.home") + File.separator + ".jacamo/user.properties"+"xxxxxx"); // so to not find the file and not use this file anymore
     }
 
     @Override
@@ -97,10 +99,10 @@ public class Config extends jason.util.Config {
         return "JaCaMo user configuration";
     }
 
-    @Override
+    /*@Override
     protected String getEclipseInstallationDirectory() {
         return "jacamo";
-    }
+    }*/
 
     @Deprecated
     public String getDotPath() {
@@ -196,11 +198,11 @@ public class Config extends jason.util.Config {
         if (jarEntry == JACAMO_JAR)
             try {
                 return RunJaCaMoProject.class;
-            } catch (Throwable e) {}; // class not found
+            } catch (Throwable e) {} // class not found
         if (jarEntry == MOISE_JAR)
             try {
                 return GroupBoard.class;
-            } catch (Throwable e) {}; // class not found
+            } catch (Throwable e) {} // class not found
         return super.getClassForClassLoaderTest(jarEntry);
     }
   
@@ -210,11 +212,11 @@ public class Config extends jason.util.Config {
         if (jarEntry == JACAMO_JAR)
             try {
                 return "jacamo/infra/RunJaCaMoProject.class";
-            } catch (Throwable e) {}; // class not found
+            } catch (Throwable e) {} // class not found
         if (jarEntry == MOISE_JAR)
             try {
                 return "ora4mas/nopl/GroupBoard.class";
-            } catch (Throwable e) {}; // class not found
+            } catch (Throwable e) {} // class not found
         return super.getJarFileForFixTest(jarEntry);
     }
 
@@ -247,8 +249,7 @@ public class Config extends jason.util.Config {
                 if (jarFile != null) {
                     try {
                         put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
-                        //if (showFixMsgs)
-                        if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
+                        if (showFixMsgs)
                             System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile + ", based on JACAMO_HOME variable: "+jh);
                         return true;
                     } catch (IOException e) {
@@ -263,7 +264,7 @@ public class Config extends jason.util.Config {
                 if (fromLoader.startsWith("file:"))
                     fromLoader = fromLoader.substring(5);
                 if (new File(fromLoader).getName().startsWith(jarFilePrefix) && checkJar(fromLoader, fileInJar)) {
-                    if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
+                    if (showFixMsgs)
                         System.out.println("Configuration of '"+jarEntry+"' found at " + fromLoader+", based on class loader");
                     put(jarEntry, fromLoader);
                     return true;
@@ -274,7 +275,7 @@ public class Config extends jason.util.Config {
             jarFile = getJarFromClassPath(jarFilePrefix, fileInJar);
             if (checkJar(jarFile, fileInJar)) {
                 put(jarEntry, jarFile);
-                if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
+                if (showFixMsgs)
                     System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile+", based on classpath");
                 return true;
             }
@@ -284,14 +285,12 @@ public class Config extends jason.util.Config {
 
         
         // for moise.jar we need to fix based on jacamohome, since when running Config or ConfigGUI it is not in the classpath
-        // latter, eclipse requires these jars
         if (get(jarEntry) == null && getJaCaMoHome() != null) { // super didn't solve
             jarFile = findJarInDirectory(new File(getJaCaMoHome()+"/libs"), jarFilePrefix, jarEntry);
             if (jarFile != null) {
                 try {
                     put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
-                    //if (showFixMsgs)
-                    if (jarEntry.equals(JACAMO_JAR) || showFixMsgs) 
+                    if (showFixMsgs)
                         System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile + " based on location of jacamo.jar");
                     return true;
                 } catch (IOException e) {

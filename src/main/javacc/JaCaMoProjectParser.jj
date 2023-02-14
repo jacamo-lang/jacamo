@@ -241,7 +241,7 @@ void agent() :              { Token agType; Token agName; Token qty; Token opt; 
   "{"  (<EOL>)*
 
     (
-      (    <INSTANCES>   ":"  (LOOKAHEAD(4) oval=<INT>        (<EOL>|",")+       { ag.setNbInstances( new Integer(oval.toString())); }
+      (    <INSTANCES>   ":"  (LOOKAHEAD(4) oval=<INT>        (<EOL>|",")+       { ag.setNbInstances( Integer.parseInt(oval.toString())); }
                               | (LOOKAHEAD(4) opt=<ATOM>      (<EOL>|",")+       { instances.add(opt.image); }  )*
                               )
         //|  <NODE>        ":"  opt=<ATOM>                      (<EOL>)+           { ag.setHost(opt.image); }

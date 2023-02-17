@@ -1,6 +1,6 @@
 # Demo JaCaMo + Node-RED + MQTT (by dummy artifacts)
 
-This demo presents an integration scenario where one agent leverages the MQTT protocol using perception and action. It looks for an MAS code that has no reference to outside elements (MQTT, in the case).
+This demo presents an integration scenario where one agent leverages the MQTT protocol using perception and action. We look for an MAS code that has no reference to outside elements (MQTT, in the case).
 
 
 ## Understanding the demo
@@ -20,7 +20,7 @@ A central entity to this scenario is the [Node-RED](https://nodered.org/), an in
 
 2. when something is published at _mqtt/jacamo/bob_, NodeRed updates the observable properties of the artifact so that Bob perceives the publication.
 
-3. when Bob acts on `dmqtt` publishing something, NodeRed notices the action forwards the publication to _mqtt/jacamo/me_.
+3. when Bob acts on `dmqtt` publishing something, NodeRed notices the action and forwards the publication to _mqtt/jacamo/me_.
 
 ## Steps to execute
 

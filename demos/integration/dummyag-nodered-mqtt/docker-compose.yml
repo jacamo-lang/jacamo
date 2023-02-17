@@ -7,7 +7,7 @@ version: "3.7"
 
 services:
   nodered:
-    image: nodered/node-red:latest
+    image: nodered/node-red:1.0.4
     hostname: nodered
     environment:
       - TZ=America/Sao_Paulo
@@ -20,7 +20,7 @@ services:
       - "./node-red:/data"
 
   mas:
-    image: jomifred/jacamo:1.1ss
+    image: jomifred/jacamo:1.1
     hostname: mas
     environment:
       - TZ=America/Sao_Paulo

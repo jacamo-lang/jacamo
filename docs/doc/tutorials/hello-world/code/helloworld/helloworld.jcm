@@ -1,0 +1,72 @@
+/*
+
+    JaCaMo Project File
+    for Hello World tutorial
+
+    This file defines the initial state of the MAS
+    (initial agents, environment, organisation, ....)
+
+*/
+
+mas helloworld {
+
+    agent francois : hello.asl {
+        beliefs: message("Bonjour")
+        focus: france.gui
+        focus: italy.gui
+        focus: jacamo.gui
+    }
+    agent maria    : hello.asl {
+        beliefs: message("Bom dia")
+        focus: brazil.gui
+        focus: jacamo.gui
+    }
+    agent giacomo  : hello.asl {
+        beliefs: message("Buon giorno")
+        focus: italy.gui
+        focus: jacamo.gui
+    }
+    agent alice    : hello.asl {
+        beliefs: message("Good morning")
+        focus: usa.gui
+        focus: jacamo.gui
+        //roles: rs in hello_org.jacamo_team
+    }
+
+    agent bob    : hf.asl {
+        beliefs: country(it)
+                 message("Buon giorno")
+        focus: italy.gui, usa.gui
+    }
+
+    workspace jacamo {
+        artifact gui: display.GUIConsole("common")
+    }
+
+    workspace france {
+        artifact gui: display.GUIConsole("France")
+    }
+
+    workspace italy {
+        artifact gui: display.GUIConsole("Italy")
+    }
+
+    workspace brazil {
+        artifact gui: display.GUIConsole("Brazil")
+    }
+
+    workspace usa {
+        artifact gui: display.GUIConsole("USA")
+    }
+
+    organisation hello_org: o1.xml {       // the organisational entity is hello_org from spec o1.xml
+        group jacamo_team: team {          // instance group (jacamo_team) from spec team
+            responsible-for: hello_eng     // that will be responsible for the execution of scheme hello_sch (defined below)
+            players: francois rv,          // the roles of the agents in this group
+                     maria    rl,
+                     giacomo  rc,
+                     alice    rs
+        }
+        scheme hello_eng: hello_sch        // instance scheme (hello_eng) from spec hello_sch
+    }
+}

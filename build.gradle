@@ -113,7 +113,7 @@ compileJavacc {
 
 
 jjdoc {
-    outputDirectory = file(project.projectDir.absolutePath + '/doc')
+    outputDirectory = file(project.projectDir.absolutePath + '/docs')
     //arguments = [text: 'true']
 }
 
@@ -150,10 +150,10 @@ clean {
     delete 'bin'
     delete 'readme.html'
     delete 'release-notes.html'
-    delete fileTree('doc') { include '*.html'  }
-    delete fileTree('doc/tutorials/hello-world')  { include '**/*.html'  }
-    delete fileTree('doc/tutorials/coordination') { include '*.html'  }
-    delete fileTree('doc/tutorials/gold-miners')  { include '**/*.html'  }
+    delete fileTree('docs') { include '*.html'  }
+    delete fileTree('docs/tutorials/hello-world')  { include '**/*.html'  }
+    delete fileTree('docs/tutorials/coordination') { include '*.html'  }
+    delete fileTree('docs/tutorials/gold-miners')  { include '**/*.html'  }
     delete fileTree('src')  { include '**/bin/**'  }
     delete fileTree('src')  { include '**/*.log'  }
 
@@ -271,7 +271,7 @@ javadoc {
     options.windowTitle('JaCaMo API')
     options.docTitle('JaCaMo API')
     options.footer('<a href=http://jacamo.sf.net>JaCaMo Site</a>')
-    destinationDir = file("${buildDir}/../doc/api")
+    destinationDir = file("${buildDir}/../docs/api")
     doFirst {
         javadoc.title = 'JaCaMo API'
         javadoc.options.docTitle = javadoc.title
@@ -292,7 +292,7 @@ task fixTab {
     ant.fixcrlf(tab: 'remove', tablength: '4', javafiles: 'true', includes: '**/*.java,**/*.xml', srcdir: 'src')
     ant.fixcrlf(tab: 'remove', tablength: '4', javafiles: 'true', includes: '**/*.java,**/*.xml,**/*.asl,**/*.jcm', srcdir: 'examples')
     ant.fixcrlf(tab: 'remove', tablength: '4', javafiles: 'true', includes: '**/*.java,**/*.xml,**/*.asl,**/*.jcm', srcdir: 'demos')
-    ant.fixcrlf(tab: 'remove', tablength: '4', javafiles: 'true', includes: '**/*.java,**/*.xml,**/*.asl,**/*.jcm,**/*.txt', srcdir: 'doc')
+    ant.fixcrlf(tab: 'remove', tablength: '4', javafiles: 'true', includes: '**/*.java,**/*.xml,**/*.asl,**/*.jcm,**/*.txt', srcdir: 'docs')
     ant.fixcrlf(tab: 'remove', tablength: '4', javafiles: 'true', includes: '*.gradle', srcdir: '.')
 }
 
@@ -309,7 +309,7 @@ task copyRel {
             into 'build/jacamo-'+project.version
             include '*.html'
             include 'LICENSE'
-            include 'doc/**'
+            include 'docs/**'
         }
         copy {
             from 'build/scripts'
@@ -325,7 +325,7 @@ task copyRel {
         }
         copy {
             from docsDir
-            into 'build/jacamo-'+project.version+'/doc'
+            into 'build/jacamo-'+project.version+'/docs'
         }
         copy {
             from 'examples'
@@ -339,7 +339,7 @@ task copyRel {
             from 'src/main/resources/templates'
             into 'build/jacamo-'+project.version+'/src/templates'
         }
-        delete fileTree('build/jacamo-'+project.version+'/doc')  { include '**/*.adoc', '**/Makefile', '**/publish.sh'  }
+        delete fileTree('build/jacamo-'+project.version+'/docs')  { include '**/*.adoc', '**/Makefile', '**/publish.sh'  }
     }
 }
 

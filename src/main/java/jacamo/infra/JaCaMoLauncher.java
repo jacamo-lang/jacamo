@@ -59,6 +59,19 @@ public class JaCaMoLauncher extends RunLocalMAS {
     public static String defaultProjectFileName = "default.jcm";
 
     public static void main(String[] args) throws JasonException {
+
+        for (int i=0; i<args.length; i++) {
+            String arg = args[i].trim();
+            if ("-h".equals(arg)) {
+                System.out.println("Usage jacamo-run <jcm-file> -v -h --debug --log-conf <log.properties file>");
+                System.exit(0);
+            }
+            if ("-v".equals(arg)) {
+                System.out.println(Config.get().getPresentation());
+                System.exit(0);
+            }
+        }
+
         logger = Logger.getLogger(JaCaMoLauncher.class.getName());
         JaCaMoLauncher r = new JaCaMoLauncher();
         runner = r;
@@ -225,6 +238,7 @@ public class JaCaMoLauncher extends RunLocalMAS {
         if (args.length > 0) {
             String la = "";
             for (String arg: args) {
+                arg = arg.trim();
                 if (la.equals("--deploy-hosts")) {
                     mapArgs.put("deploy-hosts", arg);                    
                 }

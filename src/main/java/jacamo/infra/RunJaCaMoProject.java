@@ -23,19 +23,31 @@ public class RunJaCaMoProject {
     static JaCaMoMASLauncherAnt launcher;
 
     // Run the parser
-    public static void main (String args[]) {
+    public static void main (String[] args) {
 
       String name;
       JaCaMoProjectParser parser;
-      JaCaMoProject project = new JaCaMoProject();
+      var project = new JaCaMoProject();
 
-      if (args.length == 0) {
+      for (int i=0; i<args.length; i++) {
+          String arg = args[i].trim();
+          if ("-h".equals(arg)) {
+              System.out.println("Usage jacamo <jcm-file> -v -h --debug --log-conf <log.properties file>");
+              System.exit(0);
+          }
+          if ("-v".equals(arg)) {
+            System.out.println(Config.get().getPresentation());
+            System.exit(0);
+          }
+        }
+
+        if (args.length == 0) {
           System.out.println(Config.get().getPresentation()+"\n");
           System.out.println("usage must be:");
           System.out.println("      java "+RunJaCaMoProject.class.getName()+" <JaCaMo Project File> [notrun]");
           return;
       } else {
-          name = args[0];
+          name = args[0].trim();
           System.err.println("reading from file " + name + " ..." );
           try {
               parser = new JaCaMoProjectParser(new java.io.FileInputStream(name));
@@ -69,7 +81,7 @@ public class RunJaCaMoProject {
 
           String runArgs = "";
           for (int i=1; i<args.length; i++) // do not include the name of the project
-              runArgs += args[i] + " ";
+              runArgs += args[i].trim() + " ";
           project.setRunArgs(runArgs);
           
           launcher = (JaCaMoMASLauncherAnt)project.getInfrastructureFactory().createMASLauncher();

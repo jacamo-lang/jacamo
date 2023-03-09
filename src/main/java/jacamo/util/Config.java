@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serial;
 import java.net.URL;
+import java.util.logging.Logger;
 
+import jacamo.infra.JaCaMoLauncher;
 import jacamo.infra.RunJaCaMoProject;
 import ora4mas.nopl.GroupBoard;
 
@@ -30,6 +32,8 @@ public class Config extends jason.util.Config {
     static {
         jason.util.Config.setClassFactory(Config.class.getName());
     }
+
+    Logger logger = Logger.getLogger(Config .class.getName());
 
     public static Config get() {
         return get(false);
@@ -242,30 +246,16 @@ public class Config extends jason.util.Config {
 
         if (jarFile == null || !checkJar(jarFile, fileInJar)) {
             
-            // try with $JACAMO_HOME
-            String jh = System.getenv().get("JACAMO_HOME");
-            if (jh != null) {
-                jarFile = findJarInDirectory(new File(jh+"/libs"), jarFilePrefix, jarEntry);
-                if (jarFile != null) {
-                    try {
-                        put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
-                        if (showFixMsgs)
-                            System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile + ", based on JACAMO_HOME variable: "+jh);
-                        return true;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
             // try to get by class loader
             try {
                 String fromLoader = getClassForClassLoaderTest(jarEntry).getProtectionDomain().getCodeSource().getLocation().toString();
                 if (fromLoader.startsWith("file:"))
                     fromLoader = fromLoader.substring(5);
                 if (new File(fromLoader).getName().startsWith(jarFilePrefix) && checkJar(fromLoader, fileInJar)) {
+                    var msg = "Configuration of '"+jarEntry+"' found at " + fromLoader+", based on class loader";
+                    logger.finer(msg);
                     if (showFixMsgs)
-                        System.out.println("Configuration of '"+jarEntry+"' found at " + fromLoader+", based on class loader");
+                        System.out.println(msg);
                     put(jarEntry, fromLoader);
                     return true;
                 }
@@ -274,12 +264,32 @@ public class Config extends jason.util.Config {
             // try to get from classpath
             jarFile = getJarFromClassPath(jarFilePrefix, fileInJar);
             if (checkJar(jarFile, fileInJar)) {
-                put(jarEntry, jarFile);
+                var msg = "Configuration of '"+jarEntry+"' found at " + jarFile+", based on classpath";
+                logger.finer(msg);
                 if (showFixMsgs)
-                    System.out.println("Configuration of '"+jarEntry+"' found at " + jarFile+", based on classpath");
+                    System.out.println(msg);
+                put(jarEntry, jarFile);
                 return true;
             }
-            
+
+            // try with $JACAMO_HOME
+            String jh = System.getenv().get("JACAMO_HOME");
+            if (jh != null) {
+                jarFile = findJarInDirectory(new File(jh+"/libs"), jarFilePrefix, jarEntry);
+                if (jarFile != null) {
+                    try {
+                        var msg = "Configuration of '"+jarEntry+"' found at " + jarFile + ", based on JACAMO_HOME variable: "+jh;
+                        logger.finer(msg);
+                        if (showFixMsgs)
+                            System.out.println(msg);
+                        put(jarEntry, new File(jarFile).getCanonicalFile().getAbsolutePath());
+                        return true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             super.tryToFixJarFileConf(jarEntry, jarFilePrefix);
         }
 

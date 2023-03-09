@@ -12,8 +12,10 @@ rm -rf .gradle
 zip -r ../npss.zip *
 cd ..
 
+#git checkout site
 #scp *.zip $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/nps
-#### ******** USE branch site
-#### - select branch site
-#### - merge from develop or master or ...
-#### - run script publish.sh
+cp *.zip ../../../../docs/nps
+
+git commit -m "new project script" ../../../../docs/nps/npss.zip
+git push
+

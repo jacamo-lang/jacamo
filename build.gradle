@@ -99,9 +99,9 @@ task copyJarsToBuild {
             filter {
                 String line -> line.replaceAll("JacamoREL=[0-9]+\\.[0-9]+", "JacamoREL="+project.version)
             }
-            filter {
-                String line -> line.replaceAll("JasonREL", file(configurations.compileClasspath.find { it.name.startsWith("jason-") }).name)
-            }
+//            filter {
+//                String line -> line.replaceAll("JasonREL", file(configurations.compileClasspath.find { it.name.startsWith("jason-") }).name)
+//            }
         }
     }
 }

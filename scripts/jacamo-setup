@@ -14,16 +14,16 @@ fi
 
 #echo JaCaMo home is $JACAMO_HOME
 
-JACAMO_JAR="$JACAMO_HOME/libs/jacamo-$JacamoREL.jar"
-JASON_JAR="$JACAMO_HOME/libs/jason-2.3-SNAPSHOT.jar"
-
-if [ ! -f "$JACAMO_JAR" ] ; then
-    echo JaCaMo.jar is not properly set!
-    echo Value is $JACAMO_JAR
-    JACAMO_JAR=`find $JACAMO_HOME/libs -name jacamo*.jar`
-    JASON_JAR=`find $JACAMO_HOME/libs  -name jason*.jar`
-    echo New value is $JACAMO_JAR
-fi
+#JACAMO_JAR="$JACAMO_HOME/libs/jacamo-$JacamoREL.jar"
+#JASON_JAR="$JACAMO_HOME/libs/jason-2.3.jar"
+#
+#if [ ! -f "$JACAMO_JAR" ] ; then
+#    echo JaCaMo.jar is not properly set!
+#    echo Value is $JACAMO_JAR
+#    JACAMO_JAR=`find $JACAMO_HOME/libs -name jacamo*.jar`
+#    JASON_JAR=`find $JACAMO_HOME/libs  -name jason*.jar`
+#    echo New value is $JACAMO_JAR
+#fi
 
 
 if [ -z "$JDK_HOME" ] ; then

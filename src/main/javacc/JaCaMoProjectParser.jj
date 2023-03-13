@@ -95,6 +95,8 @@ TOKEN : {
 |  <ORGPATH:     "org-path">
 |  <PLATFORM:    "platform">
 |  <DEBUG:       "debug">
+|  <PACKAGE:     "package">
+
 |  <RUNNING:     "running">
 
 
@@ -112,7 +114,6 @@ TOKEN : {
 
 |  <INST:         "institution">
 |  <WORKSPACES:   "workspaces">
-
 
 | <TK_TRUE:   "true">
 | <TK_FALSE:  "false">
@@ -166,7 +167,7 @@ TOKEN : {
 
 /* Configuration Grammar */
 
-JaCaMoProject parse(String directory) :           { Token masId; String f = null; ClassParameters cp; String h; Token id; boolean r;}
+JaCaMoProject parse(String directory) :           { Token masId; String f = null; ClassParameters cp; String h; Token id; boolean r; Token pkg; }
 {
   (<EOL>)*
 
@@ -201,6 +202,8 @@ JaCaMoProject parse(String directory) :           { Token masId; String f = null
         |  <JAVAPATH>       ":"  { project.getJavaSourcePaths().clearPaths(); } (LOOKAHEAD(4) f = fileName()              (<EOL>|",")+ { project.addJavaSourcePath(f);} ) +
         |  <PLATFORM>       ":"                                                         { project.resetPlatform(); }
                                  (LOOKAHEAD(4) cp = classDef()             (<EOL>|",")+ { project.addPlatformParameters(cp);} ) +
+        |  <USES> <PACKAGE> ":"                                                         { project.clearPackages(); }
+                                 (LOOKAHEAD(4) id = <ATOM> pkg = <STRING>  (<EOL>|",")+ { project.addPackage(id.image,pkg.image);} ) +
         |  <NODE> id = <ATOM>
                                  { r = false; }  [ <RUNNING> { r = true;}]
                                  { h = null; }   ["@" h = host() ]         (<EOL>|",")+ { project.addNodeHost(id.image,h,r); }

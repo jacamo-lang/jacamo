@@ -212,7 +212,9 @@ public class JaCaMoLauncher extends RunLocalMAS {
             
             if (mArgs.get("deploy-hosts") != null)
                 getJaCaMoProject().setDeployHosts((String)mArgs.get("deploy-hosts"));
-            
+
+            loadPackages();
+
             errorCode = 0;
 
         } catch (FileNotFoundException e1) {
@@ -274,7 +276,33 @@ public class JaCaMoLauncher extends RunLocalMAS {
             platforms.add(0,p);
         }
     }
-    
+
+    public void loadPackages() {
+        var pkgs = getJaCaMoProject().getPackages();
+        for (String k: pkgs.keySet()) {
+            var f = new File(pkgs.get(k));
+            if (f.exists()) {
+                Config.get().put(k, pkgs.get(k));
+                continue;
+            } else {
+                var args = pkgs.get(k).split(":");
+                if (args.length == 3) {
+                    f = new File(solveByGradle(args[0].trim(), args[1].trim(), args[2].trim()));
+                    if (f.exists()) {
+                        Config.get().put(k, pkgs.get(k));
+                        continue;
+                    }
+                }
+            }
+            logger.warning("the file for package '"+k+"' is not found at "+f);
+        }
+    }
+
+    protected String solveByGradle(String org, String pkg, String ver) {
+        System.out.println(org+pkg+ver);
+        return "";
+    }
+
     @Override
     public void finish(int deadline, boolean stopJVM, int exitValue) {     
         stopAgs(deadline); // stop the agents before shutting down the platforms

@@ -32,6 +32,7 @@ repositories {
 
 dependencies {
     implementation('org.jacamo:jacamo:<VERSION>')
+    <DEPENDENCIES>
 }
 
 sourceSets {

@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -280,27 +281,35 @@ public class JaCaMoLauncher extends RunLocalMAS {
     public void loadPackages() {
         var pkgs = getJaCaMoProject().getPackages();
         for (String k: pkgs.keySet()) {
+            var ok = false;
             var f = new File(pkgs.get(k));
             if (f.exists()) {
                 Config.get().put(k, pkgs.get(k));
-                continue;
+                ok = true;
             } else {
                 var args = pkgs.get(k).split(":");
                 if (args.length == 3) {
-                    f = new File(solveByGradle(args[0].trim(), args[1].trim(), args[2].trim()));
-                    if (f.exists()) {
-                        Config.get().put(k, pkgs.get(k));
-                        continue;
+                    // find package on classpath and fix Config (either gradle or ant should add the jar in the classpath before calling Launcher)
+                    StringTokenizer st = new StringTokenizer(System.getProperty("java.class.path"), File.pathSeparator);
+                    while (st.hasMoreTokens()) {
+                        var jar = st.nextToken();
+                        if (jar.endsWith(".jar")
+                                && jar.contains(args[0])
+                                && jar.contains(args[1])
+                                && jar.contains(args[2])
+                        ) {
+                            //System.out.println("solve package " + k + " with " + jar);
+                            Config.get().put(k, jar);
+                            ok = true;
+                            break;
+                        }
                     }
                 }
             }
-            logger.warning("the file for package '"+k+"' is not found at "+f);
+            if (!ok) {
+                logger.warning("the jar file for package '"+k+"' is not found (based on "+f+")");
+            }
         }
-    }
-
-    protected String solveByGradle(String org, String pkg, String ver) {
-        System.out.println(org+pkg+ver);
-        return "";
     }
 
     @Override

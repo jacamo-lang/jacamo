@@ -555,4 +555,13 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         packages.clear();
     }
 
+    public void movePackagesToClassPath() {
+        for (var p: packages.keySet()) {
+            var f = packages.get(p);
+            if (new File(f).exists()) {
+                addClassPath(f);
+            }
+        }
+    }
+
 }

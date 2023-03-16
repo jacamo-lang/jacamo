@@ -1,0 +1,65 @@
+# Creating JaCaMo Packages
+:toc: right
+:author: JaCaMo Team
+:date: February 2023
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:icons: font
+:prewrap!:
+
+= What You Will Build
+
+This document describes the steps to create a JaCaMo Package.
+
+A *JaCaMo Package* is a set of development artifacts (.asl files, java classes, xml files, …) that can be reused on other projects. 
+
+The package being developed is very simple: a hello world package that includes:
+
+- a GUI hello _artifact_ and 
+- an agent _plan_ to use this artifact.
+
+= What You Need
+
+* Java 17 or newer
+* A shell terminal
+* A text editor (Visual Studio Code, Notepad, ...)
+* GitHub account
+
+
+= Section 1
+
+a link to other doc xref:../programming-style/index.adoc[JaCaMo programming style for source code]
+
+a link to terminology: this xref:../terminology.adoc#agent[agent] is situated in an xref:../terminology.adoc#environment[environment]!
+
+=== source example
+
+[source,jacamoproject,linenums]
+.template.jcm
+----
+mas my1st_app {
+
+    agent alice
+    agent bob
+
+}
+----
+
+
+[source,jasonagent,linenums]
+.template.asl
+----
+!say_hello.   // initial goal
+
++!say_hello   // plan to achieve goal say_hello
+   <- .send(bob,tell,greeting("hello world")).
+
+// some usual includes for JaCaMo projects:
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
+{ include("$moiseJar/asl/org-obedient.asl") }
+----
+
+
+= What you have learnt
+

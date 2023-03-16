@@ -1,6 +1,6 @@
 .idea
 .DS_Store
-doc/api
+docs/api
 bin
 build
 APDescription.txt
@@ -12,7 +12,7 @@ MTPs-Main-Container.txt
 *~
 .gradle
 .settings
-doc/*.html
+docs/*.html
 
 *.class
 

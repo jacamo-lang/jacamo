@@ -8,6 +8,7 @@
 defaultTasks 'run'
 
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 version '1.0'
 group   'org.jacamo'
@@ -28,6 +29,8 @@ repositories {
     flatDir { dirs 'lib' }
 
     mavenCentral()
+    maven { url "https://jitpack.io" }
+
 }
 
 dependencies {
@@ -60,6 +63,32 @@ task run (type: JavaExec, dependsOn: 'classes') {
     args '<PROJECT-FILE>'
     // jvmArgs '-Xss15m'
     classpath sourceSets.main.runtimeClasspath
+}
+
+jar {
+    duplicatesStrategy 'exclude'
+
+    archiveBaseName = project.name
+
+    from (project.projectDir.absolutePath + '/src') {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.sai'
+        include '**/*.ptl'
+        include '**/*.jcm'
+        exclude 'test'
+    }
+    from (project.buildDir.absolutePath + '/classes') {
+        include '**/*'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
 }
 
 

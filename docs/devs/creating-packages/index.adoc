@@ -23,10 +23,63 @@ The package being developed is very simple: a hello world package that includes:
 * Java 17 or newer
 * A shell terminal
 * A text editor (Visual Studio Code, Notepad, ...)
-* GitHub account
+* GitHub account where the package will be published
 
 
-= Section 1
+= JaCaMo package
+
+
+1. Create a new project called `jcm-hello` into your GitHub account. Since my user name is `jomifred`, in the sequence, replace it by your user name.  
+
+1. Clone the project:
++
+----
+git clone https://github.com/jomifred/jcm-hello.git
+----
+
+1. Create a new JaCaMo application placing the files in the directory of the local copy of the GitHub repository:
++
+----
+wget -q http://jacamo-lang.github.io/jacamo/nps/npss.zip
+unzip npss.zip
+./gradlew -Dexec.args="jcm-hello --console"
+----
+
+1. Add files on Git
++
+----
+cd jcm-hello
+git add src gradle* log* *jcm build*
+----
+
+1. Create the Hello Artifact for the package
++
+Download the code of the artifact fom link:./GridDisplay.java[here] and place it at `src/env/display`.
++
+----
+cd src/env
+rm -rf example
+mkdir display
+cd display
+wget https://raw.githubusercontent.com/jacamo-lang/jacamo/packages/docs/devs/creating-packages/GridDisplay.java
+cd ../../..
+----
+
+1. Create the plan for the package
++
+Download the code of the plan fom link:./hello-grid.asl[here] and place it at `src/agt`.
++
+----
+cd src/agt
+wget 
+cd ../..
+----
+
+= 2. Publication
+
+= 3. Test
+
+Section 1
 
 a link to other doc xref:../programming-style/index.adoc[JaCaMo programming style for source code]
 

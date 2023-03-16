@@ -43,7 +43,7 @@ public class GridDisplay extends Artifact {
         private static int n = 0;
 
         public Display(String name) {
-            setTitle(".:: "+name+" console ::.");
+            setTitle(".:: "+name+" ::.");
 
             JPanel panel = new JPanel();
             setContentPane(panel);

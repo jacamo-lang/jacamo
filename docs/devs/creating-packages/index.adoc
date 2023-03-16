@@ -16,7 +16,7 @@ The package being developed along this document is very simple: a hello world pa
 - a GUI hello _artifact_ and 
 - an agent _plan_ to use this artifact.
 
-image:./figs/s1.png[release,300]
+image:./figs/gui.png[hello gui,300]
 
 = What You Need
 
@@ -131,7 +131,7 @@ git push --follow-tags
 
 Then go to your GitHub account and create a *release* (named `1.0` based on tag `1.0`).
 
-image:./figs/s1.png[release]
+image:./figs/s1.png[release,500]
 
 
 = 3. Using your package

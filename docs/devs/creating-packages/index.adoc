@@ -129,7 +129,10 @@ Push changes:
 git push --follow-tags
 ----
 
-Then go to you GitHub account and create a *release* (named `1.0` based on tag `1.0`).
+Then go to your GitHub account and create a *release* (named `1.0` based on tag `1.0`).
+
+image:./figs/s1.png[release]
+
 
 = 3. Using your package
 
@@ -173,7 +176,7 @@ Change `sample_agent.asl` to include the plan of the package and to use it:
 { include("$jacamo/templates/common-moise.asl") }
 ----
 
-Note the first include get the plan from the `hello` package, that is downloaded by gradle before the application starts. 
+Notice that the first include gets the plan from the `hello` package, that is downloaded by gradle before the application starts. 
 
 It is useful to look at the URL https://jitpack.io/com/github/jomifred/jcm-hello/1.0/build.log (replacing user name) to see the result of building the package from GitHub.
 

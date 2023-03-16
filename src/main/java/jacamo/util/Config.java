@@ -27,7 +27,9 @@ public class Config extends jason.util.Config {
     public static final String DOT_PATH       = "dotPath";
 
     public static final String JACAMO_JAR    = "jacamoJar";
+    public static final String JACAMO_PKG    = "jacamo";
     public static final String MOISE_JAR     = "moiseJar";
+    public static final String MOISE_PKG     = "moise";
 
     static {
         jason.util.Config.setClassFactory(Config.class.getName());
@@ -82,6 +84,18 @@ public class Config extends jason.util.Config {
     @Override
     public InputStream getDetaultResource(String templateName) throws IOException {
         return new URL("jar:file:"+getJaCaMoJar()+"!/templates/"+templateName).openStream();
+    }
+
+    public synchronized Object put(Object key, Object value) {
+        if (JACAMO_JAR.equals(key)) {
+            addPackage(JACAMO_PKG, new File((String)value));
+            addPackage(JACAMO_JAR, new File((String)value)); // for compatibility reasons
+        }
+        if (MOISE_JAR.equals(key)) {
+            addPackage(MOISE_PKG, new File((String)value));
+            addPackage(MOISE_JAR, new File((String)value));  // for compatibility reasons
+        }
+        return super.put(key, value);
     }
 
     @Override

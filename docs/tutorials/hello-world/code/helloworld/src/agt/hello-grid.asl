@@ -11,6 +11,6 @@
 +!print_d    : focused(jacamo,gui,ArtId) <- printChar(1,5,"d")[artifact_id(ArtId)]; .wait(700).
 +!print_excl : focused(jacamo,gui,ArtId) <- printChar(1,6,"!")[artifact_id(ArtId)]; .wait(700).
 
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+{ include("$moise/asl/org-obedient.asl") }

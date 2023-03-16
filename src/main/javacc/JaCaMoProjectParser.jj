@@ -203,7 +203,7 @@ JaCaMoProject parse(String directory) :           { Token masId; String f = null
         |  <PLATFORM>       ":"                                                         { project.resetPlatform(); }
                                  (LOOKAHEAD(4) cp = classDef()             (<EOL>|",")+ { project.addPlatformParameters(cp);} ) +
         |  <USES> <PACKAGE> ":"                                                         { project.clearPackages(); }
-                                 (LOOKAHEAD(4) id = <ATOM> pkg = <STRING>  (<EOL>|",")+ { project.addPackage(id.image,pkg.image);} ) +
+                                 (LOOKAHEAD(4) id = <ATOM> pkg = <STRING>  (<EOL>|",")+ { project.addPackage(id.image,pkg.image.substring(1,pkg.image.length()-1));} ) +
         |  <NODE> id = <ATOM>
                                  { r = false; }  [ <RUNNING> { r = true;}]
                                  { h = null; }   ["@" h = host() ]         (<EOL>|",")+ { project.addNodeHost(id.image,h,r); }

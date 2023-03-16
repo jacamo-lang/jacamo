@@ -9,6 +9,6 @@ mas unit_tests {
               "src/agt"
               "src/agt/inc"
               "src/test/jacamo/inc"
-              "$jacamoJar/test/jacamo/inc"
-              "$jasonJar/test/jason/inc"
+              "$jacamo/test/jacamo/inc"
+              "$jason/test/jason/inc"
 }

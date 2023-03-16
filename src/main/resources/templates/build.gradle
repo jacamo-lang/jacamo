@@ -106,11 +106,11 @@ task testJaCaMo {
             javaexec {
                 mainClass = 'jacamo.infra.JaCaMoLauncher'
                 if (gradle.startParameter.logLevel.toString().equals("DEBUG")) {
-                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-debug-logging.properties']
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-debug-logging.properties']
                 } else if (gradle.startParameter.logLevel.toString().equals("INFO")) {
-                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-info-logging.properties']
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-info-logging.properties']
                 } else {
-                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-lifecycle-logging.properties']
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-lifecycle-logging.properties']
                 }
                 classpath sourceSets.main.runtimeClasspath
 

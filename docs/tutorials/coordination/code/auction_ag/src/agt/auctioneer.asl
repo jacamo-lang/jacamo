@@ -12,6 +12,6 @@
       .print("Winner for ", Service, " is ",W," with ", V);
       .broadcast(tell, winner(Service,W)).
 
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+{ include("$moise/asl/org-obedient.asl") }

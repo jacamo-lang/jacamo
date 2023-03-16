@@ -162,7 +162,7 @@ public class JaCaMoLauncher extends RunLocalMAS {
                 URL file;
                 // test if the argument is an URL
                 try {
-                    projectFileName = new SourcePath().fixPath(projectFileName); // replace $jasonJar, if necessary
+                    projectFileName = new SourcePath().fixPath(projectFileName); // replace $jason, if necessary
                     file = new URL(projectFileName);
                     if (projectFileName.startsWith("jar")) {
                         urlPrefix = projectFileName.substring(0,projectFileName.indexOf("!")+1);
@@ -278,13 +278,14 @@ public class JaCaMoLauncher extends RunLocalMAS {
         }
     }
 
+    /** get packages from the project and add them into Config (map from pkg id -> file), used by .include */
     public void loadPackages() {
         var pkgs = getJaCaMoProject().getPackages();
         for (String k: pkgs.keySet()) {
             var ok = false;
             var f = new File(pkgs.get(k));
             if (f.exists()) {
-                Config.get().put(k, pkgs.get(k));
+                Config.get().addPackage(k, f);
                 ok = true;
             } else {
                 var args = pkgs.get(k).split(":");
@@ -299,9 +300,12 @@ public class JaCaMoLauncher extends RunLocalMAS {
                                 && jar.contains(args[2])
                         ) {
                             //System.out.println("solve package " + k + " with " + jar);
-                            Config.get().put(k, jar);
-                            ok = true;
-                            break;
+                            f = new File(jar);
+                            if (f.exists()) {
+                                Config.get().addPackage(k, f);
+                                ok = true;
+                                break;
+                            }
                         }
                     }
                 }

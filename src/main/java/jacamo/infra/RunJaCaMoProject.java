@@ -47,9 +47,9 @@ public class RunJaCaMoProject {
             System.out.println(Config.get().getPresentation());
             System.exit(0);
           }
-        }
+      }
 
-        if (args.length == 0) {
+      if (args.length == 0) {
           System.out.println(Config.get().getPresentation()+"\n");
           System.out.println("usage must be:");
           System.out.println("      java "+RunJaCaMoProject.class.getName()+" <JaCaMo Project File> [notrun]");

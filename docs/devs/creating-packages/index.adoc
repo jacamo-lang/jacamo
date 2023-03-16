@@ -9,14 +9,14 @@
 
 = What You Will Build
 
-This document describes the steps to create a JaCaMo Package.
+This document describes the steps to create a JaCaMo Package. A *JaCaMo Package* is a set of development artifacts (agent code, artifact classes, organisation specifications, …) that can be reused on other projects. 
 
-A *JaCaMo Package* is a set of development artifacts (.asl files, java classes, xml files, …) that can be reused on other projects. 
-
-The package being developed is very simple: a hello world package that includes:
+The package being developed along this document is very simple: a hello world package that includes:
 
 - a GUI hello _artifact_ and 
 - an agent _plan_ to use this artifact.
+
+image:./figs/s1.png[release,300]
 
 = What You Need
 

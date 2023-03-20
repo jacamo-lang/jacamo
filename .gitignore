@@ -1,6 +1,6 @@
 .idea
 .DS_Store
-doc/api
+docs/api
 bin
 build
 APDescription.txt

@@ -158,7 +158,7 @@ public class RunJaCaMoProject {
             if (toBeSolved.isEmpty())
                 return;
 
-            System.out.println("Using gradle to find packages "+toBeSolved);
+            System.out.println("Using gradle to find packages "+toBeSolved+"\nit may take a while....");
 
             // create build.gradle file to download dependencies
             var buildGradleFile = new File(directory.getAbsoluteFile()+"/build.gradle");

@@ -1,5 +1,3 @@
-#!/bin/bash
-# 
 # create JaCaMo application
 
 curl -LO http://jacamo.sourceforge.net/nps/np1.1.zip

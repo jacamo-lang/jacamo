@@ -1,9 +1,12 @@
 .DS_Store
-doc/api
+docs/api
 bin
 build
 APDescription.txt
 MTPs-Main-Container.txt
+
+.idea
+.vscode
 
 *.log
 .stop___MAS

@@ -16,7 +16,7 @@ The package being developed along this document is very simple: a hello world pa
 - an _artifact_, and
 - a library of agent _plans_.
 
-The artifact is used to display a message in a GUI as shown below. The library has just one plan that creates and uses this artifact.
+The artifact is used to display a message in a GUI as shown below. The library has just one plan that an agent can use to create and show messages on this artifact.
 
 image:./figs/gui.png[hello gui,300]
 
@@ -174,7 +174,7 @@ Change `sample_agent.asl` to include the plan of the package and to use it:
 
 !start.
 
-+!start <- !print_hello.                // ***  uses the package plan
++!start <- !print_hello.                 // ***  uses the package plan
 
 
 { include("$jacamo/templates/common-cartago.asl") }

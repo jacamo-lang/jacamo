@@ -9,12 +9,14 @@
 
 = What You Will Build
 
-This document describes the steps to create a JaCaMo Package. A *JaCaMo Package* is a set of development artifacts (agent code, artifact classes, organisation specifications, …) that can be reused on other projects. 
+This document describes the steps to create a JaCaMo Package. A *JaCaMo Package* is a set of development artifacts (agent code, artifact classes, organisation specifications, …) that can be reused by other projects. 
 
 The package being developed along this document is very simple: a hello world package that includes:
 
-- a GUI hello _artifact_ and 
-- an agent _plan_ to use this artifact.
+- an _artifact_, and
+- a library of agent _plans_.
+
+The artifact is used to display a message in a GUI as shown below. The library has just one plan that creates and uses this artifact.
 
 image:./figs/gui.png[hello gui,300]
 
@@ -26,7 +28,7 @@ image:./figs/gui.png[hello gui,300]
 * GitHub account where the package will be published
 
 
-= JaCaMo package
+= JaCaMo package development
 
 
 1. Create a new project called `jcm-hello` into your GitHub account. Since my user name is `jomifred`, in the sequence, replace it by your user name.  
@@ -52,9 +54,9 @@ cd jcm-hello
 git add gradle* log* build.gradle
 ----
 
-1. Create the Hello Artifact for the package
+1. Create the an artifact to show messages in a GUI
 +
-Download the code of the artifact fom link:./GridDisplay.java[here] and place it at `src/env/display`.
+Download the code of the artifact fom link:./GridDisplay.java[here] and place it at `src/env/display`. The following commands do that:
 +
 ----
 cd src/env
@@ -65,17 +67,19 @@ wget https://raw.githubusercontent.com/jacamo-lang/jacamo/packages/docs/devs/cre
 cd ../../..
 ----
 
-1. Create the plan for the package
+1. Create a library of agent plans
 +
-Download the code of the plan fom link:./hello-grid.asl[here] and place it at `src/agt`.
+We have a single plans in our library, download it fom link:./hello-grid.asl[here] and place it in file `src/agt/hello.asl`. The following commands do that:
 +
 ----
 cd src/agt
 wget https://raw.githubusercontent.com/jacamo-lang/jacamo/packages/docs/devs/creating-packages/hello-grid.asl
 cd ../..
 ----
++
+The plan of this library can be used to achieve the goal `print_hello`. If selected for execution, it creates and uses the artifact of this package.
 
-1. Test it by changing `src/agt/sample_agent.asl` to
+1. Test the library by changing `src/agt/sample_agent.asl` to
 +
 -----
 !start.
@@ -107,9 +111,9 @@ You should see a GUI screen printing the hello world message.
 git add src *jcm
 ----
 
-= 2. Publication
+= 2. Publication on GitHub
 
-Edit the `build.gradle` file changing the group attribute following your GitHub  account:
+To publish the package on GitHub, edit the file `build.gradle` changing the group attribute following your GitHub  account:
 
 ----
 group = 'com.github.jomifred'
@@ -134,7 +138,7 @@ Then go to your GitHub account and create a *release* (named `1.0` based on tag 
 image:./figs/s1.png[release,500]
 
 
-= 3. Using your package
+= 3. Using the package
 
 Create a new JaCaMo application:
 
@@ -166,17 +170,20 @@ mas test_hello {
 Change `sample_agent.asl` to include the plan of the package and to use it:
 
 ----
+{ include("$hello/agt/hello-grid.asl") } // *** include plans from the package
+
 !start.
 
-+!start <- !print_hello. 
++!start <- !print_hello.                // ***  uses the package plan
 
-{ include("$hello/agt/hello-grid.asl") }
 
 { include("$jacamo/templates/common-cartago.asl") }
 { include("$jacamo/templates/common-moise.asl") }
 ----
 
 Notice that the first include gets the plan from the `hello` package, that is downloaded by gradle before the application starts. 
+
+The plan to achieve `start` creates a sub-goal `!print_hello` that is then achieved by the included plan. This latter plan then creates the GUI artifact and shows the message.
 
 It is useful to look at the URL https://jitpack.io/com/github/jomifred/jcm-hello/1.0/build.log (replacing user name) to see the result of building the package from GitHub.
 

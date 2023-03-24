@@ -20,7 +20,7 @@ The artifact is used to display a message in a GUI as shown below. The library h
 
 image:./figs/gui.png[hello gui,300]
 
-(if you to transform an existing  JaCaMo project into a package, see xref:./based-on-existing-project.adoc[this doc]) after reading this one.
+NOTE: if you want to transform an existing  JaCaMo project into a package, see xref:./based-on-existing-project.adoc[this doc] after reading this one.
 
 = What You Need
 

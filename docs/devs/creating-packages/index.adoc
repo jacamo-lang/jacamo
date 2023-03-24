@@ -9,7 +9,7 @@
 
 = What You Will Build
 
-This document describes the steps to create a JaCaMo Package. A *JaCaMo Package* is a set of development artifacts (agent code, artifact classes, organisation specifications, …) that can be reused by other projects. 
+This document describes the steps to create a JaCaMo Package from scratch. A *JaCaMo Package* is a set of development artifacts (agent code, artifact classes, organisation specifications, …) that can be reused by other projects. 
 
 The package being developed along this document is very simple: a hello world package that includes:
 
@@ -19,6 +19,8 @@ The package being developed along this document is very simple: a hello world pa
 The artifact is used to display a message in a GUI as shown below. The library has just one plan that an agent can use to create and show messages on this artifact.
 
 image:./figs/gui.png[hello gui,300]
+
+(if you to transform an existing  JaCaMo project into a package, see xref:./based-on-existing-project.adoc[this doc]) after reading this one.
 
 = What You Need
 
@@ -111,7 +113,7 @@ You should see a GUI screen printing the hello world message.
 git add src *jcm
 ----
 
-= 2. Publication on GitHub
+= Publication on GitHub
 
 To publish the package on GitHub, edit the file `build.gradle` changing the group attribute following your GitHub  account:
 
@@ -138,7 +140,7 @@ Then go to your GitHub account and create a *release* (named `1.0` based on tag 
 image:./figs/s1.png[release,500]
 
 
-= 3. Using the package
+= Using the package
 
 Create a new JaCaMo application:
 

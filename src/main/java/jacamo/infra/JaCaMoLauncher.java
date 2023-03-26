@@ -1,27 +1,7 @@
 package jacamo.infra;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.JOptionPane;
-
 import jaca.CAgentArch;
-import jacamo.platform.Cartago;
-import jacamo.platform.EnvironmentWebInspector;
-import jacamo.platform.Jade;
-import jacamo.platform.Moise;
-import jacamo.platform.Platform;
-import jacamo.platform.Sai;
+import jacamo.platform.*;
 import jacamo.project.JaCaMoProject;
 import jacamo.project.parser.JaCaMoProjectParser;
 import jacamo.project.parser.ParseException;
@@ -35,11 +15,20 @@ import jason.infra.local.LocalAgArch;
 import jason.infra.local.RunLocalMAS;
 import jason.infra.repl.ReplAgGUI;
 import jason.mas2j.AgentParameters;
-import jason.runtime.MASConsoleGUI;
-import jason.runtime.MASConsoleLogHandler;
-import jason.runtime.RuntimeServicesFactory;
-import jason.runtime.Settings;
-import jason.runtime.SourcePath;
+import jason.runtime.*;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Runs MASProject using JaCaMo infrastructure.
@@ -98,6 +87,7 @@ public class JaCaMoLauncher extends RunLocalMAS {
 
     @Override
     public int init(String[] args) {
+        parseArgs(args);
         String projectFileName = null;
         if (RunLocalMAS.class.getResource("/"+defaultProjectFileName) != null) {
             projectFileName = defaultProjectFileName;
@@ -127,11 +117,9 @@ public class JaCaMoLauncher extends RunLocalMAS {
             Config.get().fix();             
         }
 
-        Map<String,Object> mArgs = parseArgs(args);
+        setupLogger((String)initArgs.get("log-conf"));
 
-        setupLogger((String)mArgs.get("log-conf"));
-
-        if ((boolean)(mArgs.getOrDefault("debug", false))) {
+        if ((boolean)(initArgs.getOrDefault("debug", false))) {
             debug = true;
             Logger.getLogger("").setLevel(Level.FINE);
         }
@@ -211,8 +199,8 @@ public class JaCaMoLauncher extends RunLocalMAS {
             RuntimeServicesFactory.get().registerDefaultAgArch(JaCaMoAgArch.class.getName());
             RuntimeServicesFactory.get().registerDefaultAgArch(CAgentArch.class.getName());
             
-            if (mArgs.get("deploy-hosts") != null)
-                getJaCaMoProject().setDeployHosts((String)mArgs.get("deploy-hosts"));
+            if (initArgs.get("deploy-hosts") != null)
+                getJaCaMoProject().setDeployHosts((String)initArgs.get("deploy-hosts"));
 
             loadPackages();
 
@@ -236,19 +224,18 @@ public class JaCaMoLauncher extends RunLocalMAS {
     }
     
     @Override
-    protected Map<String, Object> parseArgs(String[] args) {
-        Map<String, Object> mapArgs = super.parseArgs(args);
+    protected void parseArgs(String[] args) {
+        super.parseArgs(args);
         if (args.length > 0) {
             String la = "";
             for (String arg: args) {
                 arg = arg.trim();
                 if (la.equals("--deploy-hosts")) {
-                    mapArgs.put("deploy-hosts", arg);                    
+                    initArgs.put("deploy-hosts", arg);
                 }
                 la = arg;
             }
         }
-        return mapArgs;
     }
 
     void createCustomPlatforms() {

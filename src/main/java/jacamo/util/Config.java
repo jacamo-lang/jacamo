@@ -1,15 +1,14 @@
 package jacamo.util;
 
+import jacamo.infra.RunJaCaMoProject;
+import ora4mas.nopl.GroupBoard;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serial;
 import java.net.URL;
 import java.util.logging.Logger;
-
-import jacamo.infra.JaCaMoLauncher;
-import jacamo.infra.RunJaCaMoProject;
-import ora4mas.nopl.GroupBoard;
 
 /**
  * JaCaMo configuration

@@ -26,7 +26,7 @@ The first step is to create a new project named `helloworld`:
 Unix::
 +
 ----------------
-curl -s -O http://jacamo.sourceforge.net/nps/np1.1.zip
+curl -LO http://jacamo.sourceforge.net/nps/np1.1.zip
 unzip np1.1.zip
 ./gradlew --console=plain
 ----------------

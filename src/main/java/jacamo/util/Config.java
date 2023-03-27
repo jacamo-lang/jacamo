@@ -26,7 +26,9 @@ public class Config extends jason.util.Config {
     public static final String DOT_PATH       = "dotPath";
 
     public static final String JACAMO_JAR    = "jacamoJar";
+    public static final String JACAMO_PKG    = "jacamo";
     public static final String MOISE_JAR     = "moiseJar";
+    public static final String MOISE_PKG     = "moise";
 
     static {
         jason.util.Config.setClassFactory(Config.class.getName());
@@ -66,8 +68,8 @@ public class Config extends jason.util.Config {
                 if (getJaCaMoJar() != null && !getJaCaMoJar().equals(jarFile)) {
                     System.out.println("\n\n*** The jacamo.jar from classpath is different than jacamo.jar from configuration, consider to delete the configuration (file ~/.jacamo/user.properties or jacamo.properties).");
                     System.out.println("Classpath is\n   "+jarFile+
-                                     "\nConfig    is\n   "+getJaCaMoJar()+"\n\n");
-                }                
+                            "\nConfig    is\n   "+getJaCaMoJar()+"\n\n");
+                }
                 put(JACAMO_JAR, jarFile); // always prefer classpath jar
             }
         }
@@ -81,6 +83,18 @@ public class Config extends jason.util.Config {
     @Override
     public InputStream getDetaultResource(String templateName) throws IOException {
         return new URL("jar:file:"+getJaCaMoJar()+"!/templates/"+templateName).openStream();
+    }
+
+    public synchronized Object put(Object key, Object value) {
+        if (JACAMO_JAR.equals(key)) {
+            addPackage(JACAMO_PKG, new File((String)value));
+            addPackage(JACAMO_JAR, new File((String)value)); // for compatibility reasons
+        }
+        if (MOISE_JAR.equals(key)) {
+            addPackage(MOISE_PKG, new File((String)value));
+            addPackage(MOISE_JAR, new File((String)value));  // for compatibility reasons
+        }
+        return super.put(key, value);
     }
 
     @Override
@@ -123,8 +137,8 @@ public class Config extends jason.util.Config {
     }
 
     public String getPresentation() {
-        return "JaCaMo "+getJaCaMoVersion()+" built on "+getJaCaMoBuiltDate()+"\n"; 
-               //"     installed at "+getJaCaMoHome();
+        return "JaCaMo "+getJaCaMoVersion()+" built on "+getJaCaMoBuiltDate()+"\n";
+        //"     installed at "+getJaCaMoHome();
     }
 
     /**
@@ -141,9 +155,9 @@ public class Config extends jason.util.Config {
     }
 
     public String getJaCaMoJar() {
-        return getProperty(JACAMO_JAR);     
+        return getProperty(JACAMO_JAR);
     }
-    
+
     @Override
     public String getJasonJar() {
         String jj = super.getJasonJar();
@@ -171,7 +185,7 @@ public class Config extends jason.util.Config {
         tryToFixJarFileConf(JACAMO_JAR, "jacamo"); // this jar is required at runtime (e.g. for .include)
         tryToFixJarFileConf(MOISE_JAR,  "moise");  // this jar is required at runtime (e.g. for .include)
         super.fix();
-        
+
         if (getProperty(START_WEB_EI) == null) {
             put(START_WEB_EI, "true");
         }
@@ -194,7 +208,7 @@ public class Config extends jason.util.Config {
             }
         }
     }
-    
+
     @Override
     @SuppressWarnings("rawtypes")
     public Class getClassForClassLoaderTest(String jarEntry) {
@@ -208,7 +222,7 @@ public class Config extends jason.util.Config {
             } catch (Throwable e) {} // class not found
         return super.getClassForClassLoaderTest(jarEntry);
     }
-  
+
 
     @Override
     public String getJarFileForFixTest(String jarEntry) {
@@ -226,9 +240,9 @@ public class Config extends jason.util.Config {
     public String findJarInDirectory(File dir, String prefix, String jarEntry) {
         if (dir.isDirectory()) {
             for (File f: dir.listFiles()) {
-                if (f.getName().startsWith(prefix) && 
-                        f.getName().endsWith(".jar") && 
-                        !f.getName().endsWith("-sources.jar") && 
+                if (f.getName().startsWith(prefix) &&
+                        f.getName().endsWith(".jar") &&
+                        !f.getName().endsWith("-sources.jar") &&
                         !f.getName().endsWith("-javadoc.jar") &&
                         checkJar(f.getAbsolutePath(), getJarFileForFixTest(jarEntry))) {
                     return f.getAbsolutePath();
@@ -244,7 +258,7 @@ public class Config extends jason.util.Config {
         String fileInJar = getJarFileForFixTest(jarEntry);
 
         if (jarFile == null || !checkJar(jarFile, fileInJar)) {
-            
+
             // try to get by class loader
             try {
                 String fromLoader = getClassForClassLoaderTest(jarEntry).getProtectionDomain().getCodeSource().getLocation().toString();
@@ -259,7 +273,7 @@ public class Config extends jason.util.Config {
                     return true;
                 }
             } catch (Exception e) {}
-            
+
             // try to get from classpath
             jarFile = getJarFromClassPath(jarFilePrefix, fileInJar);
             if (checkJar(jarFile, fileInJar)) {
@@ -292,7 +306,7 @@ public class Config extends jason.util.Config {
             super.tryToFixJarFileConf(jarEntry, jarFilePrefix);
         }
 
-        
+
         // for moise.jar we need to fix based on jacamohome, since when running Config or ConfigGUI it is not in the classpath
         if (get(jarEntry) == null && getJaCaMoHome() != null) { // super didn't solve
             jarFile = findJarInDirectory(new File(getJaCaMoHome()+"/libs"), jarFilePrefix, jarEntry);
@@ -307,7 +321,7 @@ public class Config extends jason.util.Config {
                 }
             }
         }
-        
+
         return false;
     }
 
@@ -327,7 +341,7 @@ public class Config extends jason.util.Config {
         }
         return "?";
     }
-    
+
     public String getJaCaMoBuiltDate() {
         Package j = Package.getPackage("jacamo.util");
         if (j != null) {

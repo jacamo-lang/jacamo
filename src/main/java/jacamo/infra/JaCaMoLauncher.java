@@ -11,11 +11,12 @@ import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.directives.DirectiveProcessor;
 import jason.asSyntax.directives.Include;
-import jason.infra.local.LocalAgArch;
 import jason.infra.local.RunLocalMAS;
-import jason.infra.repl.ReplAgGUI;
 import jason.mas2j.AgentParameters;
-import jason.runtime.*;
+import jason.runtime.MASConsoleGUI;
+import jason.runtime.MASConsoleLogHandler;
+import jason.runtime.RuntimeServicesFactory;
+import jason.runtime.SourcePath;
 
 import javax.swing.*;
 import java.io.File;
@@ -66,8 +67,10 @@ public class JaCaMoLauncher extends RunLocalMAS {
         JaCaMoLauncher r = new JaCaMoLauncher();
         runner = r;
         RuntimeServicesFactory.set( new JaCaMoRuntimeServices(runner) );
-        r.registerMBean();
         r.init(args);
+        r.registerMBean();
+        r.registerInRMI();
+        r.registerWebMindInspector();
         r.create();
         r.start();
         r.waitEnd();
@@ -194,11 +197,7 @@ public class JaCaMoLauncher extends RunLocalMAS {
                     super.createButtons();
                 }
             }
-            
-            // register jacamo archs
-            RuntimeServicesFactory.get().registerDefaultAgArch(JaCaMoAgArch.class.getName());
-            RuntimeServicesFactory.get().registerDefaultAgArch(CAgentArch.class.getName());
-            
+
             if (initArgs.get("deploy-hosts") != null)
                 getJaCaMoProject().setDeployHosts((String)initArgs.get("deploy-hosts"));
 
@@ -340,7 +339,7 @@ public class JaCaMoLauncher extends RunLocalMAS {
     }
 
     @Override
-    protected void start() {       
+    public void start() {
         for (Platform p: platforms) {
             try {
                 p.start();
@@ -400,10 +399,6 @@ public class JaCaMoLauncher extends RunLocalMAS {
                     continue;
                 }*/
                 lags.add(ap);
-                /*ap.insertArchClass( // so that the user ag arch is the first arch in the chain
-                        new ClassParameters(CAgentArch.class.getName()),
-                        new ClassParameters(JaCaMoAgArch.class.getName()));*/
-    
                 // includes mind inspector
                 String debug = ap.getOption("debug");
                 if (debug != null) {
@@ -442,23 +437,23 @@ public class JaCaMoLauncher extends RunLocalMAS {
         }
     }
 
-    @Override
-    protected void createReplAg(String n) {
-        LocalAgArch agArch = new LocalAgArch();
-        try {
-            agArch.setAgName(n);
-            List<String> archs = new ArrayList<>();
-            archs.add(CAgentArch.class.getName());
-            archs.add(JaCaMoAgArch.class.getName());
-
-            agArch.createArchs(archs, ReplAgGUI.class.getName(), null, null, new Settings());
-            Thread agThread = new Thread(agArch);
-            agArch.setThread(agThread);
-            agThread.start();
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        addAg(agArch);
-    }
-
+//    @Override
+//    protected void createReplAg(String n) {
+//        LocalAgArch agArch = new LocalAgArch();
+//        try {
+//            agArch.setAgName(n);
+//            List<String> archs = new ArrayList<>();
+//            archs.add(CAgentArch.class.getName());
+//            archs.add(JaCaMoAgArch.class.getName());
+//
+//            agArch.createArchs(archs, ReplAgGUI.class.getName(), null, null, new Settings());
+//            Thread agThread = new Thread(agArch);
+//            agArch.setThread(agThread);
+//            agThread.start();
+//        } catch (Exception e1) {
+//            e1.printStackTrace();
+//        }
+//        addAg(agArch);
+//    }
+//
 }

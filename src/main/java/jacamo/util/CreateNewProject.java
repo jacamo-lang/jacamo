@@ -180,6 +180,7 @@ public class CreateNewProject {
 
                 
                 l = l.replace("<ORGANIZATION_NAME>", id);
+                l = l.replace("<DEPENDENCIES>", "");
 
                 if (consoleApp) {
                     l = l.replace("handlers = jason.runtime.MASConsoleLogHandler", "#handlers = jason.runtime.MASConsoleLogHandler");

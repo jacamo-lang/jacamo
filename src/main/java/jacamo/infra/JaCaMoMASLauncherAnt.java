@@ -58,6 +58,8 @@ public class JaCaMoMASLauncherAnt extends LocalMASLauncherAnt {
         if (runArgs != null)
             script = replace(script, "<RUN-ARGS>", runArgs);
 
+        script = replace(script, "<DEPENDENCIES>", ""); // remove it
+
         return super.replaceMarks(script, debug);
     }
 

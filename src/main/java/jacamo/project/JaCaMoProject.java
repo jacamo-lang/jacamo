@@ -48,6 +48,8 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
 
     protected String runArgs;
 
+    protected Map<String,String> packages = new HashMap<>();
+
     public JaCaMoProject() {
         // default asl-path
         addSourcePath(".");
@@ -536,6 +538,30 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
 
     public void setRunArgs(String runArgs) {
         this.runArgs = runArgs;
+    }
+
+    public void addPackage(String key, String value) {
+        if (value.startsWith("\"")) {
+            value = value.substring(1,value.length()-1);
+        }
+        packages.put(key, value);
+    }
+
+    public Map<String, String> getPackages() {
+        return packages;
+    }
+
+    public void clearPackages() {
+        packages.clear();
+    }
+
+    public void movePackagesToClassPath() {
+        for (var p: packages.keySet()) {
+            var f = packages.get(p);
+            if (new File(f).exists()) {
+                addClassPath(f);
+            }
+        }
     }
 
 }

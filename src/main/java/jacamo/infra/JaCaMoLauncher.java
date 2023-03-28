@@ -11,11 +11,12 @@ import jason.asSyntax.ASSyntax;
 import jason.asSyntax.Literal;
 import jason.asSyntax.directives.DirectiveProcessor;
 import jason.asSyntax.directives.Include;
-import jason.infra.local.LocalAgArch;
 import jason.infra.local.RunLocalMAS;
-import jason.infra.repl.ReplAgGUI;
 import jason.mas2j.AgentParameters;
-import jason.runtime.*;
+import jason.runtime.MASConsoleGUI;
+import jason.runtime.MASConsoleLogHandler;
+import jason.runtime.RuntimeServicesFactory;
+import jason.runtime.SourcePath;
 
 import javax.swing.*;
 import java.io.File;
@@ -25,6 +26,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,8 +67,10 @@ public class JaCaMoLauncher extends RunLocalMAS {
         JaCaMoLauncher r = new JaCaMoLauncher();
         runner = r;
         RuntimeServicesFactory.set( new JaCaMoRuntimeServices(runner) );
-        r.registerMBean();
         r.init(args);
+        r.registerMBean();
+        r.registerInRMI();
+        r.registerWebMindInspector();
         r.create();
         r.start();
         r.waitEnd();
@@ -149,7 +153,7 @@ public class JaCaMoLauncher extends RunLocalMAS {
                 URL file;
                 // test if the argument is an URL
                 try {
-                    projectFileName = new SourcePath().fixPath(projectFileName); // replace $jasonJar, if necessary
+                    projectFileName = new SourcePath().fixPath(projectFileName); // replace $jason, if necessary
                     file = new URL(projectFileName);
                     if (projectFileName.startsWith("jar")) {
                         urlPrefix = projectFileName.substring(0,projectFileName.indexOf("!")+1);
@@ -193,14 +197,12 @@ public class JaCaMoLauncher extends RunLocalMAS {
                     super.createButtons();
                 }
             }
-            
-            // register jacamo archs
-            RuntimeServicesFactory.get().registerDefaultAgArch(JaCaMoAgArch.class.getName());
-            RuntimeServicesFactory.get().registerDefaultAgArch(CAgentArch.class.getName());
-            
+
             if (initArgs.get("deploy-hosts") != null)
                 getJaCaMoProject().setDeployHosts((String)initArgs.get("deploy-hosts"));
-            
+
+            loadPackages();
+
             errorCode = 0;
 
         } catch (FileNotFoundException e1) {
@@ -261,7 +263,45 @@ public class JaCaMoLauncher extends RunLocalMAS {
             platforms.add(0,p);
         }
     }
-    
+
+    /** get packages from the project and add them into Config (map from pkg id -> file), used by .include */
+    public void loadPackages() {
+        var pkgs = getJaCaMoProject().getPackages();
+        for (String k: pkgs.keySet()) {
+            var ok = false;
+            var f = new File(pkgs.get(k));
+            if (f.exists()) {
+                Config.get().addPackage(k, f);
+                ok = true;
+            } else {
+                var args = pkgs.get(k).split(":");
+                if (args.length == 3) {
+                    // find package on classpath and fix Config (either gradle or ant should add the jar in the classpath before calling Launcher)
+                    StringTokenizer st = new StringTokenizer(System.getProperty("java.class.path"), File.pathSeparator);
+                    while (st.hasMoreTokens()) {
+                        var jar = st.nextToken();
+                        if (jar.endsWith(".jar")
+                                && jar.contains(args[0])
+                                && jar.contains(args[1])
+                                && jar.contains(args[2])
+                        ) {
+                            //System.out.println("solve package " + k + " with " + jar);
+                            f = new File(jar);
+                            if (f.exists()) {
+                                Config.get().addPackage(k, f);
+                                ok = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (!ok) {
+                logger.warning("the jar file for package '"+k+"' is not found (based on "+f+")");
+            }
+        }
+    }
+
     @Override
     public void finish(int deadline, boolean stopJVM, int exitValue) {     
         stopAgs(deadline); // stop the agents before shutting down the platforms
@@ -299,7 +339,7 @@ public class JaCaMoLauncher extends RunLocalMAS {
     }
 
     @Override
-    protected void start() {       
+    public void start() {
         for (Platform p: platforms) {
             try {
                 p.start();
@@ -359,10 +399,6 @@ public class JaCaMoLauncher extends RunLocalMAS {
                     continue;
                 }*/
                 lags.add(ap);
-                /*ap.insertArchClass( // so that the user ag arch is the first arch in the chain
-                        new ClassParameters(CAgentArch.class.getName()),
-                        new ClassParameters(JaCaMoAgArch.class.getName()));*/
-    
                 // includes mind inspector
                 String debug = ap.getOption("debug");
                 if (debug != null) {
@@ -401,23 +437,23 @@ public class JaCaMoLauncher extends RunLocalMAS {
         }
     }
 
-    @Override
-    protected void createReplAg(String n) {
-        LocalAgArch agArch = new LocalAgArch();
-        try {
-            agArch.setAgName(n);
-            List<String> archs = new ArrayList<>();
-            archs.add(CAgentArch.class.getName());
-            archs.add(JaCaMoAgArch.class.getName());
-
-            agArch.createArchs(archs, ReplAgGUI.class.getName(), null, null, new Settings());
-            Thread agThread = new Thread(agArch);
-            agArch.setThread(agThread);
-            agThread.start();
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        addAg(agArch);
-    }
-
+//    @Override
+//    protected void createReplAg(String n) {
+//        LocalAgArch agArch = new LocalAgArch();
+//        try {
+//            agArch.setAgName(n);
+//            List<String> archs = new ArrayList<>();
+//            archs.add(CAgentArch.class.getName());
+//            archs.add(JaCaMoAgArch.class.getName());
+//
+//            agArch.createArchs(archs, ReplAgGUI.class.getName(), null, null, new Settings());
+//            Thread agThread = new Thread(agArch);
+//            agArch.setThread(agThread);
+//            agThread.start();
+//        } catch (Exception e1) {
+//            e1.printStackTrace();
+//        }
+//        addAg(agArch);
+//    }
+//
 }

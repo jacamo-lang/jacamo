@@ -31,5 +31,5 @@ task_roles("Painting",         [painter]).
    <- joinWorkspace("ora4mas",_);
       +in_ora4mas.
 
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+{ include("$moise/asl/org-obedient.asl") }

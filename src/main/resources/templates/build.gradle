@@ -8,6 +8,7 @@
 defaultTasks 'run'
 
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 version '1.0'
 group   'org.jacamo'
@@ -28,10 +29,13 @@ repositories {
     flatDir { dirs 'lib' }
 
     mavenCentral()
+    maven { url "https://jitpack.io" }
+
 }
 
 dependencies {
     implementation('org.jacamo:jacamo:<VERSION>')
+    <DEPENDENCIES>
 }
 
 sourceSets {
@@ -59,6 +63,32 @@ task run (type: JavaExec, dependsOn: 'classes') {
     args '<PROJECT-FILE>'
     // jvmArgs '-Xss15m'
     classpath sourceSets.main.runtimeClasspath
+}
+
+jar {
+    duplicatesStrategy 'exclude'
+
+    archiveBaseName = project.name
+
+    from (project.projectDir.absolutePath + '/src') {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.sai'
+        include '**/*.ptl'
+        include '**/*.jcm'
+        exclude 'test'
+    }
+    from (project.buildDir.absolutePath + '/classes') {
+        include '**/*'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
 }
 
 
@@ -105,11 +135,11 @@ task testJaCaMo {
             javaexec {
                 mainClass = 'jacamo.infra.JaCaMoLauncher'
                 if (gradle.startParameter.logLevel.toString().equals("DEBUG")) {
-                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-debug-logging.properties']
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-debug-logging.properties']
                 } else if (gradle.startParameter.logLevel.toString().equals("INFO")) {
-                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-info-logging.properties']
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-info-logging.properties']
                 } else {
-                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-lifecycle-logging.properties']
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-lifecycle-logging.properties']
                 }
                 classpath sourceSets.main.runtimeClasspath
 

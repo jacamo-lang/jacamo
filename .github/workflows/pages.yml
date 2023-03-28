@@ -25,7 +25,7 @@ jobs:
         pdf_build: false
         # asciidoctor_params: --attribute=nofooter
         # adoc_file_ext: .ascii # default is .adoc
-        source_dir: docs/
+        source_dir: doc/
         # slides_build: true
         # pre_build:
         # post_build:

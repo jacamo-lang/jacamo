@@ -222,7 +222,7 @@ public class RunJaCaMoProject {
             sTBS += "implementation('" + s + "')\n";
 
         try {
-            BufferedReader in = new BufferedReader( new InputStreamReader( Config.get().getDetaultResource(source) ));
+            BufferedReader in = new BufferedReader( new InputStreamReader( Config.get().getDefaultResource(source) ));
             BufferedWriter out = new BufferedWriter(new FileWriter(target));
             String l = in.readLine();
             while (l != null) {

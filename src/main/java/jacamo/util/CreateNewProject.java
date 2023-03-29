@@ -156,7 +156,7 @@ public class CreateNewProject {
 
     void copyFile(String source, File target) {
         try {
-            BufferedReader in = new BufferedReader( new InputStreamReader( c.getDetaultResource(source) ));
+            BufferedReader in = new BufferedReader( new InputStreamReader( c.getDefaultResource(source) ));
             BufferedWriter out = new BufferedWriter(new FileWriter(target));
             String l = in.readLine();
             while (l != null) {

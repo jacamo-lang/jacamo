@@ -352,7 +352,7 @@ public class Config extends jason.util.Config {
 
     public static void main(String[] args) {
         showFixMsgs = true;
-        Config.get().fix(true);
+        Config.get(true);
         //Config.get().store();
     }
 }

@@ -81,7 +81,7 @@ public class Config extends jason.util.Config {
     }
 
     @Override
-    public InputStream getDetaultResource(String templateName) throws IOException {
+    public InputStream getDefaultResource(String templateName) throws IOException {
         return new URL("jar:file:"+getJaCaMoJar()+"!/templates/"+templateName).openStream();
     }
 
@@ -351,7 +351,8 @@ public class Config extends jason.util.Config {
     }
 
     public static void main(String[] args) {
-        Config.get().fix();
+        showFixMsgs = true;
+        Config.get().fix(true);
         //Config.get().store();
     }
 }

@@ -44,9 +44,10 @@ repositories {
 
 
 dependencies {
-    api('org.jason:jason:3.2-SNAPSHOT') {
+    api('io.github.jason-lang:jason-interpreter:3.2.1')
+    /* {
        exclude group: 'net.sf.ingenias', module: 'jade'
-    }
+    }*/
     api('org.jacamo:cartago:3.1') {  transitive = false  }
     api('org.jacamo:jaca:3.1') {  transitive = false  }
 
@@ -55,11 +56,11 @@ dependencies {
 
     api('org.jacamo:intmas:1.0.0')
     api('org.jacamo:sai:0.5.2') {  transitive = false  }
-    implementation('org.antlr:antlr4:4.8')
+    api('org.antlr:antlr4:4.8')
 
-    api('net.sf.ingenias:jade:4.3')
+    //api('net.sf.ingenias:jade:4.3')
 
-    implementation ('org.jacamo:jacamo-rest:0.7') {
+    api ('org.jacamo:jacamo-rest:0.7') {
          exclude group: 'org.jacamo', module: 'jacamo'
     }
 

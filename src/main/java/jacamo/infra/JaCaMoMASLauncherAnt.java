@@ -62,5 +62,4 @@ public class JaCaMoMASLauncherAnt extends LocalMASLauncherAnt {
 
         return super.replaceMarks(script, debug);
     }
-
 }

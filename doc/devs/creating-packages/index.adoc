@@ -1,0 +1,195 @@
+# Creating JaCaMo Packages
+:toc: right
+:author: JaCaMo Team
+:date: February 2023
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:icons: font
+:prewrap!:
+
+= What You Will Build
+
+This document describes the steps to create a JaCaMo Package from scratch. A *JaCaMo Package* is a set of development artifacts (agent code, artifact classes, organisation specifications, …) that can be reused by other projects. 
+
+The package being developed along this document is very simple: a hello world package that includes:
+
+- an _artifact_, and
+- a library of agent _plans_.
+
+The artifact is used to display a message in a GUI as shown below. The library has just one plan that an agent can use to create and show messages on this artifact.
+
+image:./figs/gui.png[hello gui,300]
+
+NOTE: if you want to transform an existing  JaCaMo project into a package, see xref:./based-on-existing-project.adoc[this doc] after reading this one.
+
+= What You Need
+
+* Java 17 or newer
+* A shell terminal
+* A text editor (Visual Studio Code, Notepad, ...)
+* GitHub account where the package will be published
+
+
+= JaCaMo package development
+
+
+1. Create a new project called `jcm-hello` into your GitHub account. Since my user name is `jomifred`, in the sequence, replace it by your user name.  
+
+1. Clone the project:
++
+----
+git clone https://github.com/jomifred/jcm-hello.git
+----
+
+1. Create a new JaCaMo application placing the files in the directory of the local copy of the GitHub repository:
++
+----
+wget -q http://jacamo-lang.github.io/jacamo/nps/npss.zip
+unzip npss.zip
+./gradlew -Dexec.args="jcm-hello --console" --refresh-dependencies
+----
+
+1. Add files on Git
++
+----
+cd jcm-hello
+git add gradle* log* build.gradle
+----
+
+1. Create the an artifact to show messages in a GUI
++
+Download the code of the artifact fom link:./GridDisplay.java[here] and place it at `src/env/display`. The following commands do that:
++
+----
+cd src/env
+rm -rf example
+mkdir display
+cd display
+wget https://raw.githubusercontent.com/jacamo-lang/jacamo/packages/docs/devs/creating-packages/GridDisplay.java
+cd ../../..
+----
+
+1. Create a library of agent plans
++
+We have a single plans in our library, download it fom link:./hello-grid.asl[here] and place it in file `src/agt/hello.asl`. The following commands do that:
++
+----
+cd src/agt
+wget https://raw.githubusercontent.com/jacamo-lang/jacamo/packages/docs/devs/creating-packages/hello-grid.asl
+cd ../..
+----
++
+The plan of this library can be used to achieve the goal `print_hello`. If selected for execution, it creates and uses the artifact of this package.
+
+1. Test the library by changing `src/agt/sample_agent.asl` to
++
+-----
+!start.
++!start <- !print_hello.
+
+{ include("hello-grid.asl") }
+{ include("$jacamo/templates/common-cartago.asl") }
+-----
++
+and `jcm-hello.jcm` to
++
+----
+mas jcm_hello {
+    agent bob: sample_agent.asl    
+}
+----
++
+and then running with
++
+----
+./gradlew
+----
++
+You should see a GUI screen printing the hello world message.
+
+1. Add new files into Git
++
+----
+git add src *jcm
+----
+
+= Publication on GitHub
+
+To publish the package on GitHub, edit the file `build.gradle` changing the group attribute following your GitHub  account:
+
+----
+group = 'com.github.jomifred'
+----
+
+Commit changes and create a tag with the package version:
+
+----
+git add build.gradle jcm_hello.jcm 
+git commit -m "first version of package hello"
+git tag -a 1.0 -m "version 1.0"
+----
+
+Push changes:
+
+----
+git push --follow-tags
+----
+
+Then go to your GitHub account and create a *release* (named `1.0` based on tag `1.0`).
+
+image:./figs/s1.png[release,500]
+
+
+= Using the package
+
+Create a new JaCaMo application:
+
+----
+wget -q http://jacamo-lang.github.io/jacamo/nps/npss.zip
+unzip npss.zip
+./gradlew -Dexec.args="test-hello --console"
+----
+
+Add the JaCaMo new package in `build.gradle` including the following dependency (remember to replace the user name):
+
+----
+implementation('com.github.jomifred:jcm-hello:1.0')    
+----
+
+Edit `test-hello.jcm` creating a package *alias* (so that we can use `hello` to refer to the new package):
+
+----
+mas test_hello {
+
+    agent bob: sample_agent.asl
+
+    uses package: hello "com.github.jomifred:jcm-hello:1.0"
+
+}
+
+----
+
+Change `sample_agent.asl` to include the plan of the package and to use it:
+
+----
+{ include("$hello/agt/hello-grid.asl") } // *** include plans from the package
+
+!start.
+
++!start <- !print_hello.                 // ***  uses the package plan
+
+
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+----
+
+Notice that the first include gets the plan from the `hello` package, that is downloaded by gradle before the application starts. 
+
+The plan to achieve `start` creates a sub-goal `!print_hello` that is then achieved by the included plan. This latter plan then creates the GUI artifact and shows the message.
+
+It is useful to look at the URL https://jitpack.io/com/github/jomifred/jcm-hello/1.0/build.log (replacing user name) to see the result of building the package from GitHub.
+
+
+= What you have learnt
+
+The basics of how to create a JaCaMo package and publish it on GitHub.

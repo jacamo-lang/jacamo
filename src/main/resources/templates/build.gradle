@@ -9,6 +9,7 @@ defaultTasks 'run'
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
+apply from: '.jcm-deps.gradle' // this file contains dependencies declared in the .jcm files
 
 version '1.0'
 group   'org.jacamo'
@@ -35,7 +36,6 @@ repositories {
 
 dependencies {
     implementation('org.jacamo:jacamo:<VERSION>')
-    <DEPENDENCIES>
 }
 
 sourceSets {
@@ -61,6 +61,13 @@ task run (type: JavaExec, dependsOn: 'classes') {
     }
     mainClass = 'jacamo.infra.JaCaMoLauncher'
     args '<PROJECT-FILE>'
+    // jvmArgs '-Xss15m'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task buildJCMDeps (type: JavaExec, dependsOn: 'classes') {
+    mainClass = 'jacamo.infra.RunJaCaMoProject'
+    args = ['<PROJECT-FILE>', '--deps']
     // jvmArgs '-Xss15m'
     classpath sourceSets.main.runtimeClasspath
 }

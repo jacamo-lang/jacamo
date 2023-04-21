@@ -152,6 +152,9 @@ public class CreateNewProject {
         
         copyFile("test.asl",       new File( path + "/src/test/agt/test-sample.asl"));
         copyFile("tests.jcm", new File( path + "/src/test/tests.jcm"));
+
+        copyFile("jcm-deps.gradle", new File( path + "/.jcm-deps.gradle"));
+        copyFile("settings.gradle", new File( path + "/settings.gradle"));
     }
 
     void copyFile(String source, File target) {

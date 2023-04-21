@@ -3,20 +3,32 @@ package jacamo.infra;
 import jacamo.project.JaCaMoProject;
 import jacamo.project.parser.JaCaMoProjectParser;
 import jacamo.util.Config;
+import jason.infra.MASLauncherInfraTier;
 import org.gradle.tooling.GradleConnector;
+import org.gradle.tooling.ProjectConnection;
+import org.gradle.tooling.model.eclipse.EclipseExternalDependency;
+import org.gradle.tooling.model.eclipse.EclipseProject;
 
 import java.io.*;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
- * Run a JaCaMo project with gradle
+ * Run a JaCaMo project using Ant
+ *
+ * parameters:
+ *    /JaCaMo Project File/ [Deployment File] [norun]
+ *
+ * "notrun" means that only the ant script will be create and the system will not start running
  *
  * @author jomi
  *
  */
-public class RunJaCaMoProject {
+public class RunJaCaMoProjectAnt {
 
-//    static JaCaMoMASLauncherAnt launcher;
+    static JaCaMoMASLauncherAnt launcher;
 
     // Run the parser
     public static void main (String[] args) {
@@ -24,7 +36,6 @@ public class RunJaCaMoProject {
       String name;
       JaCaMoProjectParser parser;
       var project = new JaCaMoProject();
-      var justDeps = false;
 
       for (int i=0; i<args.length; i++) {
           String arg = args[i].trim();
@@ -36,33 +47,30 @@ public class RunJaCaMoProject {
             System.out.println(Config.get().getPresentation());
             System.exit(0);
           }
-          if ("--deps".equals(arg)) {
-              justDeps = true;
-          }
       }
 
       if (args.length == 0) {
           System.out.println(Config.get().getPresentation()+"\n");
           System.out.println("usage must be:");
-          System.out.println("      java "+RunJaCaMoProject.class.getName()+" <JaCaMo Project File> [notrun]");
+          System.out.println("      java "+ RunJaCaMoProjectAnt.class.getName()+" <JaCaMo Project File> [notrun]");
           return;
       } else {
           name = args[0].trim();
           System.err.println("reading from file " + name + " ..." );
           try {
-              parser = new JaCaMoProjectParser(new java.io.FileInputStream(name));
-          } catch(java.io.FileNotFoundException e){
+              parser = new JaCaMoProjectParser(new FileInputStream(name));
+          } catch(FileNotFoundException e){
               System.err.println("file \"" + name + "\" not found.");
               return;
           }
       }
 
-//      boolean       nrunmas = args.length >= 2 && args[1].equals("notrun");
-//      if (!nrunmas) nrunmas = args.length >= 3 && args[2].equals("notrun");
+      boolean       nrunmas = args.length >= 2 && args[1].equals("notrun");
+      if (!nrunmas) nrunmas = args.length >= 3 && args[2].equals("notrun");
 
-//      String task = "run";
-//      if (args.length >= 2 && args[1].equals("jar"))
-//          task = "jar";
+      String task = "run";
+      if (args.length >= 2 && args[1].equals("jar"))
+          task = "jar";
 
       // parsing
       try {
@@ -84,63 +92,30 @@ public class RunJaCaMoProject {
               runArgs += args[i].trim() + " ";
           project.setRunArgs(runArgs);
 
-          buildDeps(project);
-          if (justDeps) {
-              System.out.println("JCM packages depencies updated at .jcm-deps.gradle");
+          solvePackagesByGradle(project);
+          project.movePackagesToClassPath();
+
+          launcher = (JaCaMoMASLauncherAnt)project.getInfrastructureFactory().createMASLauncher();
+          launcher.setProject(project);
+          launcher.writeScripts(false, false);
+          launcher.setTask(task);
+
+          if (nrunmas) {
+              System.out.println("To run your MAS, just type \"ant -f bin/"+file.getName().substring(0,file.getName().length()-3)+"xml\"");
           } else {
-              runByGradle(project);
+              new Thread(launcher, "MAS-Launcher").start();
           }
-
-//          solvePackagesByGradle(project);
-//          project.movePackagesToClassPath();
-
-//          launcher = (JaCaMoMASLauncherAnt)project.getInfrastructureFactory().createMASLauncher();
-//          launcher.setProject(project);
-//          launcher.writeScripts(false, false);
-//          launcher.setTask(task);
-
-//          if (nrunmas) {
-//              System.out.println("To run your MAS, just type \"ant -f bin/"+file.getName().substring(0,file.getName().length()-3)+"xml\"");
-//          } else {
-//              new Thread(launcher, "MAS-Launcher").start();
-//          }
       } catch(Exception e){
           System.err.println("parsing errors found... \n" + e);
       }
     }
 
-    public static void buildDeps(JaCaMoProject project) {
-        var directory = new File(project.getDirectory()); //new File("bin/gradle-tmp");
-        var jcmDepsFile = new File(directory.getAbsoluteFile()+"/.jcm-deps.gradle");
-        copyFile("jcm-deps.gradle", jcmDepsFile, project.getSocName(), project.getPackages().values());
+    public MASLauncherInfraTier getLauncher() {
+        return launcher;
     }
-
-    public static void runByGradle(JaCaMoProject project) {
-        var directory = new File(project.getDirectory()); //new File("bin/gradle-tmp");
-        var buildGradleFile = new File(directory.getAbsoluteFile()+"/build.gradle");
-        if (!buildGradleFile.exists()) {
-            System.out.println("no build.gradle exists... creating one");
-            copyFile("build.gradle", buildGradleFile, project.getSocName(), project.getPackages().values());
-        }
-        System.out.println("Starting gradle for "+project.getSocName());
-
-        var connection = GradleConnector
-                .newConnector()
-                .forProjectDirectory(directory)
-                .connect();
-        connection.newBuild()
-                .setStandardError(System.err)
-                .setStandardOutput(System.out)
-                .forTasks("run")
-                .run();
-    }
-
-//    public MASLauncherInfraTier getLauncher() {
-//        return launcher;
-//    }
 
     /** find packages using gradle and place them in the project class path */
-    /*public static void solvePackagesByGradle(JaCaMoProject project) {
+    public static void solvePackagesByGradle(JaCaMoProject project) {
         try {
             // find packages not solved
             var toBeSolved = getUnsolvedPackagesStrings(project);
@@ -226,9 +201,9 @@ public class RunJaCaMoProject {
         } catch (Exception e) {
             System.err.println("Error solving package with gradle"+e);
         }
-    }*/
+    }
 
-    /*private static Map<String,String> getUnsolvedPackagesStrings(JaCaMoProject project) {
+    private static Map<String,String> getUnsolvedPackagesStrings(JaCaMoProject project) {
         var toBeSolved = new HashMap<String,String>();
         for (var k: project.getPackages().keySet()) {
             var v = project.getPackages().get(k);
@@ -239,7 +214,7 @@ public class RunJaCaMoProject {
             }
         }
         return toBeSolved;
-    }*/
+    }
 
     public static void copyFile(String source, File target, String id, Collection<String> toBeSolved) {
         var sTBS = "";
@@ -265,4 +240,5 @@ public class RunJaCaMoProject {
             e.printStackTrace();
         }
     }
+
 }

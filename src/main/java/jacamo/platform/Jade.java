@@ -16,7 +16,7 @@ public class Jade extends DefaultPlatformImpl {
     public void init(String[] args) throws JasonException {
         rJADE = new RunJadeMAS();
         rJADE.createButtons();
-        rJADE.addInitArgs(args);
+        // REVISE rJADE.addInitArgs(args);
         if (rJADE.startContainer()) {
             logger.info("Jade Container started.");
         } else {

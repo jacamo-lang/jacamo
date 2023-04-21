@@ -193,20 +193,20 @@ public class Config extends jason.util.Config {
             put(START_WEB_OI, "true");
         }
 
-        if (get(ANT_LIB) == null || !checkAntLib(getAntLib())) {
-            try {
-                String jjar = getJaCaMoHome();
-                if (jjar != null) {
-                    String antlib = jjar + File.separator + "libs";
-                    if (checkAntLib(antlib)) {
-                        setAntLib(antlib);
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println("Error setting ant lib!");
-                e.printStackTrace();
-            }
-        }
+//        if (get(ANT_LIB) == null || !checkAntLib(getAntLib())) {
+//            try {
+//                String jjar = getJaCaMoHome();
+//                if (jjar != null) {
+//                    String antlib = jjar + File.separator + "libs";
+//                    if (checkAntLib(antlib)) {
+//                        setAntLib(antlib);
+//                    }
+//                }
+//            } catch (Exception e) {
+//                System.out.println("Error setting ant lib!");
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
@@ -325,14 +325,14 @@ public class Config extends jason.util.Config {
         return false;
     }
 
-    @Override
-    public String getAntLib() {
-        String al = super.getAntLib();
-        if (al == null) {
-            return getJaCaMoHome()+"/libs";
-        }
-        return al;
-    }
+//    @Override
+//    public String getAntLib() {
+//        String al = super.getAntLib();
+//        if (al == null) {
+//            return getJaCaMoHome()+"/libs";
+//        }
+//        return al;
+//    }
 
     public String getJaCaMoVersion() {
         Package j = Package.getPackage("jacamo.util");

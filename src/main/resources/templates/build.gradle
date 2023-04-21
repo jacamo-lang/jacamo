@@ -68,7 +68,6 @@ task run (type: JavaExec, dependsOn: 'classes') {
 task buildJCMDeps (type: JavaExec, dependsOn: 'classes') {
     mainClass = 'jacamo.infra.RunJaCaMoProject'
     args = ['<PROJECT-FILE>', '--deps']
-    // jvmArgs '-Xss15m'
     classpath sourceSets.main.runtimeClasspath
 }
 

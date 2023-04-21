@@ -150,13 +150,8 @@ unzip npss.zip
 ./gradlew -Dexec.args="test-hello --console"
 ----
 
-Add the JaCaMo new package in `build.gradle` including the following dependency (remember to replace the user name):
 
-----
-implementation('com.github.jomifred:jcm-hello:1.0')    
-----
-
-Edit `test-hello.jcm` creating a package *alias* (so that we can use `hello` to refer to the new package):
+Edit `test-hello.jcm` creating a package *alias* (so that we can use the identifiers `hello` to refer to the package):
 
 ----
 mas test_hello {
@@ -166,7 +161,6 @@ mas test_hello {
     uses package: hello "com.github.jomifred:jcm-hello:1.0"
 
 }
-
 ----
 
 Change `sample_agent.asl` to include the plan of the package and to use it:
@@ -186,6 +180,21 @@ Change `sample_agent.asl` to include the plan of the package and to use it:
 Notice that the first include gets the plan from the `hello` package, that is downloaded by gradle before the application starts. 
 
 The plan to achieve `start` creates a sub-goal `!print_hello` that is then achieved by the included plan. This latter plan then creates the GUI artifact and shows the message.
+
+You have to run the application in two steps:
+
+----
+./gradlew buildJCMDeps
+----
+
+and then
+
+----
+./gradlew run
+----
+
+The first step is necessary to update gradle dependencies (store in file `.jcm-deps.gradle`) from the JCM project. This step is necessary only when the list of JaCaMo packages changes.
+
 
 It is useful to look at the URL https://jitpack.io/com/github/jomifred/jcm-hello/1.0/build.log (replacing user name) to see the result of building the package from GitHub.
 

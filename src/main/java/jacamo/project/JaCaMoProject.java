@@ -1,31 +1,16 @@
 package jacamo.project;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.logging.Logger;
-
-import jacamo.infra.JaCaMoInfrastructureFactory;
 import jacamo.project.parser.JaCaMoProjectParser;
 import jacamo.project.parser.ParseException;
-import jason.JasonException;
-import jason.infra.InfrastructureFactory;
 import jason.mas2j.AgentParameters;
 import jason.mas2j.ClassParameters;
 import jason.mas2j.MAS2JProject;
 import jason.runtime.SourcePath;
+
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.logging.Logger;
 
 public class JaCaMoProject extends MAS2JProject implements Serializable {
 
@@ -148,10 +133,10 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     public void setupDefault() {
     }
 
-    @Override
-    public InfrastructureFactory getInfrastructureFactory() throws JasonException {
-        return new JaCaMoInfrastructureFactory();
-    }
+//    @Override
+//    public InfrastructureFactory getInfrastructureFactory() throws JasonException {
+//        return new JaCaMoInfrastructureFactory();
+//    }
 
     @Override
     public boolean isJade() {

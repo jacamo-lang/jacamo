@@ -121,20 +121,20 @@ public class Config extends jason.util.Config {
         return "jacamo";
     }*/
 
-    @Deprecated
-    public String getDotPath() {
-        String r = super.getProperty(DOT_PATH);
-        if (r == null)
-            r = "/opt/local/bin/dot";
-        if (new File(r).exists())
-            return r;
-        else {
-            r = "/usr/bin/dot";
-            if (new File(r).exists())
-                return r;
-        }
-        return null;
-    }
+//    @Deprecated
+//    public String getDotPath() {
+//        String r = super.getProperty(DOT_PATH);
+//        if (r == null)
+//            r = "/opt/local/bin/dot";
+//        if (new File(r).exists())
+//            return r;
+//        else {
+//            r = "/usr/bin/dot";
+//            if (new File(r).exists())
+//                return r;
+//        }
+//        return null;
+//    }
 
     public String getPresentation() {
         return "JaCaMo "+getJaCaMoVersion()+" built on "+getJaCaMoBuiltDate()+"\n";

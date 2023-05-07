@@ -44,7 +44,7 @@ repositories {
 
 
 dependencies {
-    api('io.github.jason-lang:jason-interpreter:3.3.0-SNAPSHOT')
+    api('io.github.jason-lang:jason-interpreter:3.2.1-SNAPSHOT')
     /* {
        exclude group: 'net.sf.ingenias', module: 'jade'
     }*/

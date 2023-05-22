@@ -37,7 +37,7 @@ Looking for in-depth knowledge on a particular JaCaMo dimension, you will find q
 
 *  link:jcm{outfilesuffix}[JaCaMo project: jcm files]
 *  link:debug{outfilesuffix}[Debugging in JaCaMo]
-*  Agent documentation: http://jason.sourceforge.net/doc[Jason]
+*  Agent documentation: http://jason-lang.github.io/jason/[Jason]
 *  Environment documentation: http://cartago.sf.net/doc[CArTaGo]
 *  Organisation documentation: http://moise.sourceforge.net/doc[Moise] & http://moise.sourceforge.net/doc/ora4mas[ORA4MAS]
 //*  link:agent-env{outfilesuffix}[Agent-Environment project: C4Jason]

@@ -1,12 +1,34 @@
 = JaCaMo Installation
 :toc: right
 
-ifdef::env-github[:outfilesuffix: .adoc]
-
 We have different options to start using JaCaMo: shell script commands, Gradle, Docker, ...
 
 The shell script option requires that you download and install JaCaMo in your machine.
 Since these options do not include an IDE, you can either import the project into an Eclipse/IntelliJ/.... workspace or use some text editor (we suggest VSCode).
+
+== GitHub codespace / GitPod
+
+With GitHub codespace or GitPod you can develop your MAS using only a browser.
+
+Requirements:
+
+- A GitHub account
+- A browser (Chrome and Safari works fine)
+
+Steps for GitPod:
+
+1. click on link:https://gitpod.io/#https://github.com/jacamo-lang/template[this link].
+
+2. Run the MAS with the command `./gradlew run` in the terminal.
+
+Steps for codespace:
+
+1. Go the link:https://github.com/jacamo-lang/template[JaCaMo Template Project]
+
+2. Click on "use this template" and then "open in a codespace":
+
+3. Run the MAS with the command `./gradlew run` in the terminal.
+
 
 == Gradle
 
@@ -23,13 +45,13 @@ NOTE: The first time you run takes longer since it downloads JaCaMo.
 Unix::
 +
 ----------------
-curl -LO http://jacamo.sourceforge.net/nps/np1.2.zip
+wget -q http://jacamo-lang.github.io/jacamo/nps/np1.2.zip
 unzip np1.2.zip
 ./gradlew --console=plain
 ----------------
 
 Windows::
-1. Download http://jacamo.sourceforge.net/nps/np1.2.zip
+1. Download wget -q http://jacamo-lang.github.io/jacamo/nps/np1.2.zip
 2. Unzip
 3. Run `gradlew.bat`
 
@@ -62,23 +84,6 @@ If you want to run a JaCaMo application that was not created with a `build.gradl
 To edit your code, any text editor can be used. VS Code has plugins for syntax highlight.
 
 
-== GitHub codespace
-
-With GitHub codespace you can develop your MAS using only a browser.
-
-Requirements:
-
-- A GitHub account
-- A browser (Chrome and Safari works fine)
-
-Steps:
-
-1. Go the link:https://github.com/jacamo-lang/template[JaCaMo Template Project]
-
-2. Click on "use this template" and then "open in a codespace":
-
-3. Run the MAS with the command `./gradlew run` in the terminal.
-
 
 == JaCaMo Command Line Interface
 
@@ -88,7 +93,7 @@ Requirements:
 
 - Java >= 17
 
-
+TBD
 
 // [cols="<1,<1,<2",options="header"]
 // |===

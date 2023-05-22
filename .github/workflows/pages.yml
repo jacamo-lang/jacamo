@@ -29,3 +29,4 @@ jobs:
         # slides_build: true
         # pre_build:
         # post_build:
+        post_build: 'find . -name readme.html -execdir cp readme.html index.html \;'

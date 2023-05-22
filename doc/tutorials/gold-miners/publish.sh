@@ -1,4 +1,9 @@
-asciidoctor readme.adoc
+#asciidoctor readme.adoc
+
+IMAGE=jomifred/adoc
+docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$PWD":/app "$IMAGE" asciidoctor -r /pygments_init.rb readme.adoc
+
+
 mv readme.html index.html
 
 rm -rf initial-gold-miners/.gradle

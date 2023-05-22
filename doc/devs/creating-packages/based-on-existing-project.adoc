@@ -1,0 +1,150 @@
+# Creating JaCaMo Packages from existing Project
+:toc: right
+:author: JaCaMo Team
+:date: March 2023
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:icons: font
+:prewrap!:
+
+= What You Will Build
+
+This document describes the steps to create a JaCaMo Package from an *existing* project.
+
+For more general information about packages, see xref:./index.adoc[this doc].
+
+= What You Need
+
+* Java 17 or newer
+* *JaCaMo >= 1.2*
+* A JaCaMo application 
+**  hosted on GitHub
+** with `build.gradle`. If your application hasn't a gradle script, copy one from  https://github.com/jacamo-lang/jacamo/blob/packages/src/main/resources/templates/build.gradle[here] and replace `<...>` by suitable values.
+
+= Configuring the Gradle Script
+
+Your project should build a jar file with all package components (.asl files, classes, ...). JaCaMo applications created after version  1.2 have the following task in the `build.gradle` for that:
+
+----
+jar {
+    duplicatesStrategy 'exclude'
+
+    archiveBaseName = project.name
+
+    from (project.projectDir.absolutePath + '/src') {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.sai'
+        include '**/*.ptl'
+        include '**/*.jcm'
+        exclude 'test'
+    }
+    from (project.buildDir.absolutePath + '/classes') {
+        include '**/*'
+    }
+}
+----
+
+Your `build.gradle` file should also have:
+
+----
+apply plugin: 'maven-publish'
+----
+
+and
+
+----
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+----
+
+The `group` in `build.gradle` should be set accordingly. For instance:
+
+----
+group = 'com.github.jomifred'
+----
+
+Your package will be *identified* by three parts: 
+
+[.text-center]
+<group>:<projec name>:<version>.
+
+
+NOTE: you find an example of `build.gradle` https://github.com/jomifred/jcm-hello/blob/main/build.gradle[here].
+
+When your `build.gradle` is edited, commit the changes on GitHub.
+
+
+= Publication on GitHub
+
+Then go to your GitHub account and create a *release* (for instance, named `1.0` based on tag `1.0`).
+
+image:./figs/s1.png[release,500]
+
+
+= Using the package
+
+Users of your package should change their `build.gradle` and `.jcm` files. 
+
+The `build.gradle` file should include JitPack in the list of repositories. JitPack is responsible for 'placing' your project from GitHub into a maven repository. 
+
+.build.gradle
+----
+...
+repositories {
+    ...
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    implementation('org.jacamo:jacamo:1.2')
+
+    implementation('<package identifier>')    
+}
+----
+
+NOTE: JaCaMo 1.2 creates Gradle files as above. So no need to  edit `build.gradle` for JaCaMo applications >= 1.2.
+
+If your package includes `.asl` files, the `.jcm` should add an _alias_ for the package identification.
+
+.user application jcm file
+----
+mas xxx {
+
+    ....
+
+    uses package: <alias> "<package identifier>"
+
+}
+----
+
+`<package identifier>` is something like `com.github.jomifred:jcm-hello:1.0` and `<alias>` is a word that will be used to include `.asl` files from your package into the user application. 
+
+The syntax for includes is:
+
+----
+{ include("$<alias>/<some package file>.asl") }
+----
+
+For instance:
+----
+{ include("$hello/agt/hello-grid.asl") }
+----
+where `hello` is the alias for the package `com.github.jomifred:jcm-hello:1.0`.
+
+When the application is executed
+
+1. gradle will ask JitPack for the package;
+1. JitPack will build the package (downloading a release of your project and running `./gradlew`); 
+1. gradle places the package (as a .jar file) in the classpath when running the user application. 
+
+So all classes from the package are handled as usual in gradle applications. 
+
+It is useful to look at the URL https://jitpack.io/com/github/jomifred/jcm-hello/1.0/build.log (replacing group, package and version) to see the result of building the package from GitHub (step 2 above).
+

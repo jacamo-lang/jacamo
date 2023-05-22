@@ -1,8 +1,14 @@
 mas unit_tests {
 
-    agent test_manager
+    agent test_manager {
+          goals:   create_tester_agents("./src/test/jacamo/agt",".*.asl")
+          beliefs: shutdown_delay(600)
+    }
 
-    asl-path: "src/test/jacamo/inc"
-              "$jacamoJar/test/jacamo/inc"
-              "$jasonJar/test/jason/inc"
+    asl-path: "."
+              "src/agt"
+              "src/agt/inc"
+              "src/test/jacamo/inc"
+              "$jacamo/test/jacamo/inc"
+              "$jason/test/jason/inc"
 }

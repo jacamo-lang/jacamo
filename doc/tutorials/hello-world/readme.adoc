@@ -8,8 +8,6 @@ JaCaMo Team
 
 :prewrap!:
 
-ifdef::env-github[:outfilesuffix: .adoc]
-
 == Introduction
 
 This programming tutorial illustrates some features of JaCaMo through
@@ -19,20 +17,20 @@ application that considers agents, environment and organisation.
 
 == Part I (new project)
 
-In this tutorial, Gradle+Atom is used as the IDE (see link:http://jacamo.sourceforge.net/doc/install.html[installation instructions]). You can however use either the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] or a  http://jacamo.sourceforge.net/tutorial/hello-world/shell-based{outfilesuffix}[shell command].
+In this tutorial, Gradle+VSCode is used as the IDE (see xref:../../install.adoc[installation instructions]). You can also take a look in the https://jacamo-lang.github.io/documentation/getting-started/readme.html[getting started] document to find more about crating JaCaMo projects.
 
 The first step is to create a new project named `helloworld`:
 
 Unix::
 +
 ----------------
-curl -s -O http://jacamo.sourceforge.net/nps/np1.1.zip
-unzip np1.1.zip
+wget -q http://jacamo-lang.github.io/jacamo/nps/np1.2.zip
+unzip np1.2.zip
 ./gradlew --console=plain
 ----------------
 
 Windows::
-1. Download http://jacamo.sourceforge.net/nps/np1.1.zip
+1. Download http://jacamo-lang.github.io/jacamo/nps/np1.2.zip
 2. Unzip
 3. Run `gradlew.bat`
 
@@ -40,7 +38,7 @@ When asked for the application identification, answer `helloworld`:
 
 ----
 > Task :run
-JaCaMo 1.1
+JaCaMo 1.2
 
 Enter the identification of the new application: helloworld
 Creating path /Users/jomi/tmp/helloworld
@@ -50,16 +48,13 @@ You can run your application with:
    ./gradlew -q --console=plain
 ----
 
-The file `helloworld.jcm` (the project file) describes the project and
-is be the main focus of this tutorial. By openning this file, you will
-have a screen like the following:
+The file `helloworld.jcm` (the project file) describes the project and is the main focus of this tutorial. By opening this file in VSCode, you will
+have screen like the following:
 
-image:./screens/atom-project.png[]
+image:./screens/vs-project.png[]
 
 Project files (with extension `.jcm`) allow us to define the agents, the
 environment and the organisation of our multi-agent application.
-
-NOTE: This tutorial uses JaCaMo 1.1.
 
 [[part-ii-agent]]
 == Part II (agent)
@@ -514,7 +509,5 @@ link:./solutions/e3e-version2.txt[here].
 You find
 
 * all the files of this tutorial link:./code/helloworld.zip[here].
-* more tutorials at http://jacamo.sourceforge.net[JaCaMo] and
-http://jason.sourceforge.net/wp/documents/[Jason] websites.
 
 '''''

@@ -8,9 +8,6 @@ JaCaMo Team
 :icons: font
 :prewrap!:
 
-ifdef::env-github[:outfilesuffix: .adoc]
-
-
 The configuration of a JaCaMo project is realised in a file with the `.jcm` suffix (jcm stands for JaCaMo).
 
 This file is composed of the following sections:

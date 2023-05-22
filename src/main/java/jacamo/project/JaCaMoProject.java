@@ -1,31 +1,16 @@
 package jacamo.project;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.logging.Logger;
-
-import jacamo.infra.JaCaMoInfrastructureFactory;
 import jacamo.project.parser.JaCaMoProjectParser;
 import jacamo.project.parser.ParseException;
-import jason.JasonException;
-import jason.infra.InfrastructureFactory;
 import jason.mas2j.AgentParameters;
 import jason.mas2j.ClassParameters;
 import jason.mas2j.MAS2JProject;
 import jason.runtime.SourcePath;
+
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.logging.Logger;
 
 public class JaCaMoProject extends MAS2JProject implements Serializable {
 
@@ -43,25 +28,25 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     protected SourcePath javaSourcePaths = new SourcePath();
 
     Map<String, String[]> platformParameters = new HashMap<>();
-    
+
     protected Properties deployHosts = new Properties();
-    
+
     protected String runArgs;
+
+    protected Map<String,String> packages = new HashMap<>();
 
     public JaCaMoProject() {
         // default asl-path
         addSourcePath(".");
         addSourcePath("src/agt");
         addSourcePath("src/agt/inc");
-        
-        addClassPath("lib");
-        
+
         // default org-path
         orgPaths.addPath(".");
         orgPaths.addPath("src/org");
-        
+
         // default java-path
-        javaSourcePaths.addPath(".");
+        javaSourcePaths.addPath("src");
         javaSourcePaths.addPath("src/env");
         javaSourcePaths.addPath("src/agt");
     }
@@ -91,7 +76,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         // import project
         try {
               if (! fileName.endsWith(".jcm")) fileName = fileName+".jcm";
-              
+
               if (! new File(fileName).exists()) fileName = directory+"/"+fileName.toString();
               JaCaMoProjectParser parser = new JaCaMoProjectParser(new FileReader(fileName) );
               importProject(parser.parse(directory));
@@ -146,10 +131,10 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     public void setupDefault() {
     }
 
-    @Override
-    public InfrastructureFactory getInfrastructureFactory() throws JasonException {
-        return new JaCaMoInfrastructureFactory();
-    }
+//    @Override
+//    public InfrastructureFactory getInfrastructureFactory() throws JasonException {
+//        return new JaCaMoInfrastructureFactory();
+//    }
 
     @Override
     public boolean isJade() {
@@ -301,11 +286,11 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         for (String pId: platformParameters.keySet()) {
             if (pId.contains(".")) {
                 l.add(pId);
-            }           
+            }
         }
         return l;
     }
-    
+
     public void resetPlatform() {
         platformParameters.clear();
     }
@@ -323,9 +308,9 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
     public Map<String,String[]> getPlatformParameters() {
         return platformParameters;
     }
-    
+
     private static String[] emptyStringArray = {};
-    
+
     public String[] getPlatformParameters(String p) {
         String a[] = platformParameters.get(p);
         if (a == null)
@@ -514,7 +499,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
 
         return s.toString();
     }
-    
+
     public void setDeployHosts(String fileName) {
         try {
             deployHosts.load(new FileInputStream(fileName));
@@ -522,7 +507,7 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
             e.printStackTrace();
         }
     }
-    
+
     public String getDeployHost(String id) {
         if (deployHosts != null && deployHosts.get(id) != null) {
             return deployHosts.get(id).toString();
@@ -536,6 +521,30 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
 
     public void setRunArgs(String runArgs) {
         this.runArgs = runArgs;
+    }
+
+    public void addPackage(String key, String value) {
+        if (value.startsWith("\"")) {
+            value = value.substring(1,value.length()-1);
+        }
+        packages.put(key, value);
+    }
+
+    public Map<String, String> getPackages() {
+        return packages;
+    }
+
+    public void clearPackages() {
+        packages.clear();
+    }
+
+    public void movePackagesToClassPath() {
+        for (var p: packages.keySet()) {
+            var f = packages.get(p);
+            if (new File(f).exists()) {
+                addClassPath(f);
+            }
+        }
     }
 
 }

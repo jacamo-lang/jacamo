@@ -1,0 +1,4 @@
+rootProject.name = 'jacamo'
+//includeBuild '../moise'
+includeBuild '../jason'
+

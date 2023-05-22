@@ -1,7 +1,6 @@
 #!/bin/bash
 
-source "`dirname "$0"`/jacamo-setup"
+P=`which "$0"`
+source "`dirname $P`/jacamo-setup"
 
-echo Creating new JaCaMo application: $1
-
-java -classpath "$JACAMO_HOME/libs/*" jacamo.util.CreateNewProject $1 --console
+java -classpath "$JACAMO_HOME/libs/*" jacamo.util.CreateNewProject $1 --console $2 $3

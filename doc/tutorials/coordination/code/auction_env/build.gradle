@@ -7,16 +7,9 @@
 defaultTasks 'run'
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 
 version '1.0'
 group   'org.jacamo'
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
-    }
-}
 
 repositories {
     mavenCentral()
@@ -25,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.jacamo',     name: 'jacamo' ,   version: '1.1-SNAPSHOT'
+    implementation group: 'org.jacamo',     name: 'jacamo' ,   version: '1.1'
 }
 
 sourceSets {
@@ -46,7 +39,7 @@ sourceSets {
 task run (type: JavaExec, dependsOn: 'classes') {
     description 'runs the application'
     group ' JaCaMo'
-    main = 'jacamo.infra.JaCaMoLauncher'
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
     args 'auction_env.jcm'
     classpath sourceSets.main.runtimeClasspath
 }

@@ -27,6 +27,7 @@ public class CreateNewProject {
     String id;
     static Config c = Config.get();
     boolean consoleApp = false;
+    boolean fromGradle = false;
 
     public CreateNewProject(File m) {
         main = m;
@@ -40,12 +41,25 @@ public class CreateNewProject {
 
     public static void main(String[] args) throws Exception {
         boolean consoleApp = false;
-        for (int i=0; i<args.length; i++)
-            if ("--console".equals(args[i])) 
+        boolean fromGradle = false;
+        for (int i=0; i<args.length; i++) {
+            String arg = args[i].trim();
+            if ("--console".equals(arg))
                 consoleApp = true;
-        
+            if ("--from-gradle".equals(arg))
+                fromGradle = true;
+            if ("-h".equals(arg)) {
+                System.out.println("Usage jacamo-new-project app-id --console --from-gradle -v -h");
+                System.exit(0);
+            }
+            if ("-v".equals(arg)) {
+                System.out.println(Config.get().getPresentation());
+                System.exit(0);
+            }
+        }
+
         String pId = null;
-        if (args.length == 0 || (args.length == 1 && consoleApp)) {
+        if (args.length == 0 || args[0].trim().startsWith("-")) {
             System.out.println(Config.get().getPresentation()+"\n");
             /*System.out.println("usage must be:");
             System.out.println("      java "+CreateNewProject.class.getName()+" <id of new application>");
@@ -69,7 +83,9 @@ public class CreateNewProject {
         }
 
         CreateNewProject p = new CreateNewProject(new File(pId));
+        System.out.println("Creating JaCaMo application "+pId);
         p.consoleApp = consoleApp;
+        p.fromGradle = fromGradle;
         p.createDirs();
         p.copyFiles();
         p.runGradleWrapper();
@@ -82,8 +98,10 @@ public class CreateNewProject {
         System.out.println("\n\nYou can run your application with:");
         System.out.println("   cd "+path);
         System.out.println("   ./gradlew -q --console=plain\n");
-        System.out.println("or (if you have JaCaMo scripts installed)");
-        System.out.println("   jacamo "+path+"/"+id+".jcm\n");
+        if (! fromGradle) {
+            System.out.println("or (if you have JaCaMo CLI installed)");
+            System.out.println("   jacamo " + path + "/" + id + ".jcm\n");
+        }
         //System.out.println("an Eclipse project can be created using");
         //System.out.println("   'Existing Gradle Project' from Eclipse menu File/Import\n");
         //System.out.println("or");
@@ -120,6 +138,7 @@ public class CreateNewProject {
         new File(path + "/src/env/example").mkdirs();
         new File(path + "/src/org").mkdirs();
         new File(path + "/src/int").mkdirs();
+        new File(path + "/src/test/agt").mkdirs();
     }
 
     void copyFiles() {
@@ -130,11 +149,17 @@ public class CreateNewProject {
         copyFile("CArtAgOartifact", f);
         copyFile("organization", new File( path + "/src/org/org.xml"));
         copyFile("build.gradle", new File( path + "/build.gradle"));
+        
+        copyFile("test.asl",       new File( path + "/src/test/agt/test-sample.asl"));
+        copyFile("tests.jcm", new File( path + "/src/test/tests.jcm"));
+
+        copyFile("jcm-deps.gradle", new File( path + "/.jcm-deps.gradle"));
+        copyFile("settings.gradle", new File( path + "/settings.gradle"));
     }
 
     void copyFile(String source, File target) {
         try {
-            BufferedReader in = new BufferedReader( new InputStreamReader( c.getDetaultResource(source) ));
+            BufferedReader in = new BufferedReader( new InputStreamReader( c.getDefaultResource(source) ));
             BufferedWriter out = new BufferedWriter(new FileWriter(target));
             String l = in.readLine();
             while (l != null) {
@@ -149,6 +174,7 @@ public class CreateNewProject {
 
                 l = l.replace("<DEFAULT_AGENT>", "agent bob: sample_agent.asl {\n      focus: w.c1 \n    }");
                 l = l.replace("<AG_NAME>", "sample_agent");
+                l = l.replace("<AG_NAME>", "sample_agent");
 
                 l = l.replace("<PCK>", "example");
                 l = l.replace("<ARTIFACT_NAME>", "Counter");
@@ -157,6 +183,7 @@ public class CreateNewProject {
 
                 
                 l = l.replace("<ORGANIZATION_NAME>", id);
+                l = l.replace("<DEPENDENCIES>", "");
 
                 if (consoleApp) {
                     l = l.replace("handlers = jason.runtime.MASConsoleLogHandler", "#handlers = jason.runtime.MASConsoleLogHandler");

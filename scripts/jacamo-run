@@ -1,7 +1,8 @@
 #!/bin/bash
 
-source "`dirname "$0"`/jacamo-setup"
+P=`which "$0"`
+source "`dirname $P`/jacamo-setup"
 
 # run a jacamo application
 
-java -classpath "$JACAMO_HOME/libs/*:bin/classes" jacamo.infra.JaCaMoLauncher $*
+java -classpath "$JACAMO_HOME/libs/*:bin/classes:build/classes/java/main" jacamo.infra.JaCaMoLauncher $*

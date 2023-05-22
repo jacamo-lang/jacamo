@@ -1,5 +1,5 @@
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
 
 /* application domain goals */
 +!wsecs[scheme(S)]  <- .print("writing sections for scheme ",S,"...").

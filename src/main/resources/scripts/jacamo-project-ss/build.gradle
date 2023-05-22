@@ -1,5 +1,4 @@
-/
-*
+/*
    Gradle build file to create new JaCaMo Applications
    based on JaCaMo SNAPSHOT version
 */
@@ -8,12 +7,6 @@ defaultTasks 'run'
 
 apply plugin: 'java'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
-    }
-}
-
 repositories {
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
     maven { url "https://repo.gradle.org/gradle/libs-releases" }
@@ -21,13 +14,13 @@ repositories {
 }
 
 dependencies {
-    implementation ('org.jacamo:jacamo:1.1-SNAPSHOT')
+    implementation ('org.jacamo:jacamo:1.2-SNAPSHOT')
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {
     description 'runs the application'
     standardInput = System.in
-    main = 'jacamo.util.CreateNewProject'
-    args System.getProperty("exec.args", "").split()
+    mainClass = 'jacamo.util.CreateNewProject'
+    args System.getProperty("exec.args", "").split()+' --from-gradle'
     classpath sourceSets.main.runtimeClasspath
 }

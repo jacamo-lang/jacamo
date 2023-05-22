@@ -1,4 +1,4 @@
-{ include("$jasonJar/test/jason/inc/test_assert.asl") }
+{ include("$jason/test/jason/inc/test_assert.asl") }
 
 !start.
 

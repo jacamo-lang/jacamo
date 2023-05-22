@@ -1,18 +1,42 @@
 = JaCaMo Installation
 :toc: right
 
-ifdef::env-github[:outfilesuffix: .adoc]
+We have different options to start using JaCaMo: shell script commands, Gradle, Docker, ...
 
-We have different options to start using JaCaMo: simple shell script commands, Gradle, eclipse or Docker.
+The shell script option requires that you download and install JaCaMo in your machine.
+Since these options do not include an IDE, you can either import the project into an Eclipse/IntelliJ/.... workspace or use some text editor (we suggest VSCode).
 
-Eclipse and shell script options require that you download and install JaCaMo in your machine.
-Since the shell script, Gradle, and Docker options do not include an IDE, you can either import the project into an Eclipse workspace (instructions are shown by the creation script) or use some text editor (we suggest Atom, see below).
+== GitHub codespace / GitPod
 
-== Gradle
+With GitHub codespace or GitPod you can develop your MAS using only a browser.
 
 Requirements:
 
-- Java >= 15
+- A GitHub account
+- A browser (Chrome and Safari works fine)
+
+Steps for GitPod:
+
+1. click on link:https://gitpod.io/#https://github.com/jacamo-lang/template[this link].
+
+2. Run the MAS with the command `./gradlew run` in the terminal.
+
+Steps for codespace:
+
+1. Go the link:https://github.com/jacamo-lang/template[JaCaMo Template Project]
+
+2. Click on "use this template" and then "open in a codespace":
+
+3. Run the MAS with the command `./gradlew run` in the terminal.
+
+
+== Gradle
+
+Gradle is a very simple way to develop JaCaMo application in your machine with minimal requirements.
+
+Requirements:
+
+- Java >= 17
 
 Follow the steps below to create a new application:
 
@@ -21,17 +45,17 @@ NOTE: The first time you run takes longer since it downloads JaCaMo.
 Unix::
 +
 ----------------
-curl -LO http://jacamo.sourceforge.net/nps/np1.1.zip
-unzip np1.1.zip
+wget -q http://jacamo-lang.github.io/jacamo/nps/np1.2.zip
+unzip np1.2.zip
 ./gradlew --console=plain
 ----------------
 
 Windows::
-1. Download http://jacamo.sourceforge.net/nps/np1.0.zip
+1. Download wget -q http://jacamo-lang.github.io/jacamo/nps/np1.2.zip
 2. Unzip
 3. Run `gradlew.bat`
 
-TIP: Instead of `np1.1.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
+TIP: Instead of `np1.2.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
 
 //https://curl.haxx.se[`curl`] is a program that simply downloads the `np07.zip` file from http://jacamo.sourceforge.net/nps/np07.zip.
 
@@ -40,7 +64,6 @@ You will be asked to enter the identification of the application and then instru
 Example of output:
 ----
 > Task :run
-JaCaMo 1.1 built on Wed Apr 06 19:16:53 BRT 2022
 
 Enter the identification of the new application: helloworld
 Creating path /Users/jomi/tmp/helloworld
@@ -49,7 +72,7 @@ You can run your application with:
    cd /Users/jomi/tmp/helloworld
    ./gradlew -q --console=plain
 
-or (if you have JaCaMo scripts installed)
+or (if you have JaCaMo CLI installed)
    jacamo helloworld.jcm
 ----
 
@@ -58,104 +81,41 @@ If you want to run a JaCaMo application that was not created with a `build.gradl
 - `<VERSION>` by the required JaCaMo release (e.g. `1.0`)
 - `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
 
-To edit your code, any text editor can be used. VS Code and Atom have plugins for syntax highlight.
-
-== Eclipse Plugin
-
-NOTE: this plugin is a bit outdated and not maintained anymore. But Eclipse can still be used to edit the Java part of a JaCaMo project (e.g., artifacts). If you have a JaCaMo project with a `build.gradle` file, it is simple to *import gradle project* in Eclipse.
-
-Requirements:
-
-- Java >= 15
-- Eclipse Java-EE or Committers >= Photon Release (4.8.0)
-
-To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create and run a new application.
-
-To include existing projects in your eclipse workspace, preferably use the option "file/import/import gradle project".
-
-image:./tutorials/hello-world/screens/p1.png[]
+To edit your code, any text editor can be used. VS Code has plugins for syntax highlight.
 
 
-== Shell commands scripts
+
+== JaCaMo Command Line Interface
+
+This option requires that you install JaCaMo CLI in your machine. JaCaMo CLI has features to create and manage JaCaMo projects.
 
 Requirements:
 
-- Java >= 15
+- Java >= 17
 
-To use scripts to create and run JaCaMo applications, you can either
-download JaCaMo from https://sourceforge.net/projects/jacamo/files[here]
-or https://github.com/jacamo-lang/jacamo[clone] from GitHub.
-To configure these scripts:
+TBD
 
-. Make sure you have `JACAMO_HOME` properly set (this variable points to a directory with  subdirectories `libs` and `scripts` of JaCaMo), then setup the `PATH`.
-In the case you have downloaded and unzipped JaCaMo into a local folder, say `/home/bob/jacamo`, the configuration is done by the following commands:
-
-    export JACAMO_HOME=/home/bob/jacamo
-    export PATH=$JACAMO_HOME/scripts:$PATH
-
-in the case you opted to clone JaCaMo from GitHub:
-
-    git clone https://github.com/jacamo-lang/jacamo.git
-    cd jacamo
-    ./gradlew config
-    export JACAMO_HOME=`pwd`/build
-    export PATH=$JACAMO_HOME/scripts:$PATH
-
-. Ensure you have `JAVA_HOME` properly set (this variable points to a Java Development Kit (JDK) directory), for instance:
-
-    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-15.0.2.jdk/Contents/Home
-
-Available scripts:
-
-. *Create* a new application identified by `helloworld` with
-+
-----
-jacamo-new-project ../somewhere/helloworld
-----
-Examples of agent, artifact and organization are placed in the `src` folder. If the application name is not informed, the user is asked to provide one. A second, optional, argument is `--console` and creates an application where the messages are printed in the console instead of opening the MAS Console GUI.
-
-
-. *Compile* and *run* an application with
-+
-    jacamo ../somewhere/helloworld/helloworld.jcm
-
-. *Run* an application with
-+
-    jacamo-run ../somewhere/helloworld/helloworld.jcm
-
-
-. To create a single jar file with all resources to run the application:
-+
-----
-jacamo-jar helloworld.jcm
-----
-that can be run by
-+
-----
-java -jar helloworld.jar
-----
-
-[cols="<1,<1,<2",options="header"]
-|===
-| Script | Arguments | Examples
-
-| jacamo-new-project  | [_application name_]
-
-   [, `--console`]
-|  `jacamo-new-project`
-
-   `jacamo-new-project helloworld`
-
-   `jacamo-new-project helloworld --console`
-
-| jacamo              | _application name_  |  `jacamo helloworld.jcm`
-
-| jacamo-run          | _application name_  |  `jacamo-run helloworld.jcm`
-
-| jacamo-jar          | _application name_  |  `jacamo-jar helloworld.jcm`
-
-|===
-
+// [cols="<1,<1,<2",options="header"]
+// |===
+// | Script | Arguments | Examples
+//
+// | jacamo-new-project  | [_application name_]
+//
+//    [, `--console`]
+// |  `jacamo-new-project`
+//
+//    `jacamo-new-project helloworld`
+//
+//    `jacamo-new-project helloworld --console`
+//
+// | jacamo              | _application name_  |  `jacamo helloworld.jcm`
+//
+// | jacamo-run          | _application name_  |  `jacamo-run helloworld.jcm`
+//
+// | jacamo-jar          | _application name_  |  `jacamo-jar helloworld.jcm`
+//
+// |===
+//
 
 == Docker
 
@@ -164,11 +124,3 @@ Requirements:
 - https://www.docker.com/[Docker]
 
 See link:https://github.com/jacamo-lang/docker[JaCaMo-Docker page] for instructions on how to create and run JaCaMo application using Docker images.
-
-== Atom
-
-For an IDE lighter than Eclipse, we recommend https://atom.io[Atom]. The following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].
-
-image:./tutorials/hello-world/screens/atom1.png[]
-
-image:./tutorials/hello-world/screens/atom2.png[]

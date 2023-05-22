@@ -1,1 +1,1 @@
-{ include("$moiseJar/asl/org-obedient.asl") } 
+{ include("$moise/asl/org-obedient.asl") }

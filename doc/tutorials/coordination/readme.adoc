@@ -7,8 +7,6 @@ JaCaMo Team
 :icons: font
 :prewrap!:
 
-ifdef::env-github[:outfilesuffix: .adoc]
-
 
 == Introduction
 
@@ -16,7 +14,7 @@ This programming tutorial illustrates different approaches to coordinate agents 
 
 During the tutorial we will develop many versions of a simple market place where an agent who wants to buy some product or service, announces its requirements, other agents bid, and the winner is then chosen. We will start with versions based on message exchange (part I), move to versions where a suitable environment is added (part II), and finish with an auction MAS based on organisation programming (part III). Although the coordination requirements for the market place application are quite simple, we can highlight the differences, advantages, limitations, .... of each coordination approach.
 
-We suppose you have already followed some more introductory tutorials as http://jacamo.sourceforge.net/tutorial/hello-world[hello world], http://jacamo.sourceforge.net/tutorial/gold-miners/[gold miners], and http://jason.sourceforge.net/mini-tutorial/hello-bdi/[BDI intro]. (The application developed in the hello world tutorial is used in some exercises of this tutorial.)
+We suppose you have already followed some more introductory tutorials as http://jacamo-lang.github.io/jacamo/tutorials/hello-world/readme.html[hello world].  (The application developed in the hello world tutorial is used in some exercises of this tutorial.)
 
 == Part I (message oriented coordination)
 
@@ -168,13 +166,13 @@ _Solution_: available link:./solutions/nb_msgs.txt[here].
 (All the code of the project for this part of the tutorial is available
 link:./code/auction_ag.zip[here].)
 
-e) You can use the Jade Platform as the agent communication platform by
-simply adding `platform: jade()` at the end of the project file
-(`auction_ag.jcm`). Test and use the Sniffer agent of the Jade platform
-to see and inspect the messages that are exchanged in the system.
-
-_Hint_: see the
-http://jason.sourceforge.net/mini-tutorial/jason-jade/[JADE Tutorial].
+// e) You can use the Jade Platform as the agent communication platform by
+// simply adding `platform: jade()` at the end of the project file
+// (`auction_ag.jcm`). Test and use the Sniffer agent of the Jade platform
+// to see and inspect the messages that are exchanged in the system.
+//
+// _Hint_: see the
+// http://jason.sourceforge.net/mini-tutorial/jason-jade/[JADE Tutorial].
 
 f) (*hard*) Develop a system where different agents propose different
 kinds of services, where some agents are interested in buying one set of
@@ -189,7 +187,7 @@ developed so far so that the system has Jason and Jade agents.
 
 h) (*hard*) Implement a version of the MAS as proposed in the JaCaMo
 hello world
-http://jacamo.sourceforge.net/tutorial/hello-world/[tutorial] where the
+http://jacamo-lang.github.io/jacamo/tutorials/hello-world/readme.html[tutorial] where the
 coordination required to print "hello world!" is implemented by message
 exchanges instead of an organisation. Considers two approaches:
 
@@ -378,7 +376,7 @@ for the system.
 
 f) (*hard* ) Implement a version of the MAS as proposed in the JaCaMo
 hello world
-http://jacamo.sourceforge.net/tutorial/hello-world/[tutorial] where the
+http://jacamo-lang.github.io/jacamo/tutorials/hello-world/readme.html[tutorial] where the
 coordination required to properly print "hello world!" is implemented by
 means of the environment (without organisation, but keeping the
 `GUIConsole` artifact).

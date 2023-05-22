@@ -41,8 +41,6 @@ public class JaCaMoProject extends MAS2JProject implements Serializable {
         addSourcePath("src/agt");
         addSourcePath("src/agt/inc");
 
-        addClassPath("lib");
-
         // default org-path
         orgPaths.addPath(".");
         orgPaths.addPath("src/org");

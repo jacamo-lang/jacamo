@@ -22,9 +22,6 @@ public class Config extends jason.util.Config {
 
     public static final String jacamoHomeProp = "JaCaMoHome";
 
-    @Deprecated
-    public static final String DOT_PATH       = "dotPath";
-
     public static final String JACAMO_JAR    = "jacamoJar";
     public static final String JACAMO_PKG    = "jacamo";
     public static final String MOISE_JAR     = "moiseJar";
@@ -66,7 +63,7 @@ public class Config extends jason.util.Config {
             String jarFile = getJarFromClassPath("jacamo", getJarFileForFixTest(JACAMO_JAR));
             if (checkJar(jarFile, getJarFileForFixTest(JACAMO_JAR))) {
                 if (getJaCaMoJar() != null && !getJaCaMoJar().equals(jarFile)) {
-                    System.out.println("\n\n*** The jacamo.jar from classpath is different than jacamo.jar from configuration, consider to delete the configuration (file ~/.jacamo/user.properties or jacamo.properties).");
+                    System.out.println("\n\n*** The jacamo.jar from classpath is different than jacamo.jar from configuration, consider to delete the configuration (file ~/.jacamo/user.properties or jacamo.properties or unset JACAMO_HOME).");
                     System.out.println("Classpath is\n   "+jarFile+
                             "\nConfig    is\n   "+getJaCaMoJar()+"\n\n");
                 }

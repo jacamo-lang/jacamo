@@ -99,7 +99,7 @@ public class CreateNewProject {
         System.out.println("   cd "+path);
         System.out.println("   ./gradlew -q --console=plain\n");
         if (! fromGradle) {
-            System.out.println("or (if you have JaCaMo scripts installed)");
+            System.out.println("or (if you have JaCaMo CLI installed)");
             System.out.println("   jacamo " + path + "/" + id + ".jcm\n");
         }
         //System.out.println("an Eclipse project can be created using");

@@ -8,8 +8,6 @@
 :icons: font
 :prewrap!:
 
-ifdef::env-github[:outfilesuffix: .adoc]
-
 == General
 
 === Why is the platform called JaCaMo?
@@ -17,10 +15,10 @@ The name of the platform comes from the two first letters of the name of each of
 
 === How to configure a JaCaMo application?
 The configuration of a JaCaMo program is realised in a file with the '.jcm' suffix (jcm stands for jacamo).
-Refer to link:jcm{outfilesuffix}[jcm documentation].
+Refer to xref:jcm.adoc[jcm documentation].
 
 === How to debug in JaCaMo
-Refer to link:debug{outfilesuffix}[debugging in JaCaMo]
+Refer to xref:debug.adoc[debugging in JaCaMo]
 
 // === How to make agents live in a JaCaMo system
 // Refer to link:faq-agent-in-mas.html[Agents in JaCaMo World]

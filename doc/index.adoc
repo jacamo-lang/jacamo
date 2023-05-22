@@ -6,28 +6,31 @@
 :icons: font
 :prewrap!:
 
-ifdef::env-github[:outfilesuffix: .adoc]
-
 This project aims to promote the MultiAgent Programming (MAP) approach by providing a suitable integration of tools and languages for programming the following dimensions: agents (http://jason.sf.net[Jason]), environment (http://cartago.sourceforge.net/[Cartago]), and organisation (http://moise.sf.net[Moise]).
+
+ifdef::env-github[]
+NOTE: Part of this documentation of is also available (and better rendered) at http://jacamo-lang.github.io/jacamo/.
+endif::[]
+
 
 == Getting Started Guides
 
 If you’re just getting to know JaCaMo or tackling programming your first multi-agent program, these guides are for you! All you need is a few minutes. The only prerequisites are a JaCaMo platform installed, a JDK and a text editor.
 
-* link:install{outfilesuffix}[Installation instructions]
-* link:tutorials/hello-world/readme{outfilesuffix}[Hello World with JaCaMo]
+* xref:install.adoc[Installation instructions]
+* xref:tutorials/hello-world/readme.adoc[Hello World with JaCaMo]
 
 == Tutorials
 
 With the following tutorials you will experience deeper, in-context explorations and practices of multi-agent oriented programming topics.
 // After the practice of these tutorials, you will be ready to implement real-world multiagent solutions.
 
-* link:tutorials/coordination/readme{outfilesuffix}[Different approaches to implement coordination using JaCaMo]
-* link:tutorials/gold-miners/readme{outfilesuffix}[Agent programming in a contest scenario (Gold Miners)]
+* xref:tutorials/coordination/readme.adoc[Different approaches to implement coordination using JaCaMo]
+* xref:tutorials/gold-miners/readme.adoc[Agent programming in a contest scenario (Gold Miners)]
 
 == JaCaMo FAQ
 
-*  link:faq{outfilesuffix}[JaCaMo FAQ]
+*  xref:faq.adoc[JaCaMo FAQ]
 
 == Didactical Material
 * link:tutorials/house-building/slides-practical.pdf[Building a house scenario (slides)] and link:tutorials/house-building/readme.txt[readme]
@@ -35,8 +38,8 @@ With the following tutorials you will experience deeper, in-context explorations
 == Reference Documentation
 Looking for in-depth knowledge on a particular JaCaMo dimension, you will find quick access to javadoc APIs and reference documentations
 
-*  link:jcm{outfilesuffix}[JaCaMo project: jcm files]
-*  link:debug{outfilesuffix}[Debugging in JaCaMo]
+*  xref:jcm.adoc[JaCaMo project: jcm files]
+*  xref:debug.adoc[Debugging in JaCaMo]
 *  Agent documentation: http://jason-lang.github.io/jason/[Jason]
 *  Environment documentation: http://cartago.sf.net/doc[CArTaGo]
 *  Organisation documentation: http://moise.sourceforge.net/doc[Moise] & http://moise.sourceforge.net/doc/ora4mas[ORA4MAS]

@@ -3,10 +3,10 @@
 
 ifdef::env-github[:outfilesuffix: .adoc]
 
-We have different options to start using JaCaMo: simple shell script commands, Gradle, eclipse or Docker.
+We have different options to start using JaCaMo: shell script commands, Gradle, or Docker.
 
-Eclipse and shell script options require that you download and install JaCaMo in your machine.
-Since the shell script, Gradle, and Docker options do not include an IDE, you can either import the project into an Eclipse workspace (instructions are shown by the creation script) or use some text editor (we suggest Atom, see below).
+The shell script option require that you download and install JaCaMo in your machine.
+Since these options do not include an IDE, you can either import the project into an Eclipse/IntelliJ/.... workspace or use some text editor (we suggest VSCode).
 
 == Gradle
 
@@ -21,17 +21,17 @@ NOTE: The first time you run takes longer since it downloads JaCaMo.
 Unix::
 +
 ----------------
-curl -LO http://jacamo.sourceforge.net/nps/np1.1.zip
-unzip np1.1.zip
+curl -LO http://jacamo.sourceforge.net/nps/np1.2.zip
+unzip np1.2.zip
 ./gradlew --console=plain
 ----------------
 
 Windows::
-1. Download http://jacamo.sourceforge.net/nps/np1.1.zip
+1. Download http://jacamo.sourceforge.net/nps/np1.2.zip
 2. Unzip
 3. Run `gradlew.bat`
 
-TIP: Instead of `np1.1.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
+TIP: Instead of `np1.2.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
 
 //https://curl.haxx.se[`curl`] is a program that simply downloads the `np07.zip` file from http://jacamo.sourceforge.net/nps/np07.zip.
 
@@ -40,7 +40,7 @@ You will be asked to enter the identification of the application and then instru
 Example of output:
 ----
 > Task :run
-JaCaMo 1.1 built on Wed Apr 06 19:16:53 BRT 2022
+JaCaMo 1.2 built on Wed Apr 06 19:16:53 BRT 2022
 
 Enter the identification of the new application: helloworld
 Creating path /Users/jomi/tmp/helloworld
@@ -58,29 +58,16 @@ If you want to run a JaCaMo application that was not created with a `build.gradl
 - `<VERSION>` by the required JaCaMo release (e.g. `1.0`)
 - `<PROJECT-FILE>` by your .jcm file (e.g. `hello.jcm`).
 
-To edit your code, any text editor can be used. VS Code and Atom have plugins for syntax highlight.
-
-== Eclipse Plugin
-
-NOTE: this plugin is a bit outdated and not maintained anymore. But Eclipse can still be used to edit the Java part of a JaCaMo project (e.g., artifacts). If you have a JaCaMo project with a `build.gradle` file, it is simple to *import gradle project* in Eclipse.
-
-Requirements:
-
-- Java >= 15
-- Eclipse Java-EE or Committers >= Photon Release (4.8.0)
-
-To get started, follow the http://jacamo.sourceforge.net/eclipseplugin/tutorial/[JaCaMo eclipse plugin] instructions until step 12. The steps 13 to 17 illustrate how to create and run a new application.
-
-To include existing projects in your eclipse workspace, preferably use the option "file/import/import gradle project".
-
-image:./tutorials/hello-world/screens/p1.png[]
+To edit your code, any text editor can be used. VS Code has plugins for syntax highlight.
 
 
-== Shell commands scripts
+== Codespace from template
+
+== JaCaMo Command Line Interface
 
 Requirements:
 
-- Java >= 15
+- Java >= 17
 
 To use scripts to create and run JaCaMo applications, you can either
 download JaCaMo from https://sourceforge.net/projects/jacamo/files[here]
@@ -164,11 +151,3 @@ Requirements:
 - https://www.docker.com/[Docker]
 
 See link:https://github.com/jacamo-lang/docker[JaCaMo-Docker page] for instructions on how to create and run JaCaMo application using Docker images.
-
-== Atom
-
-For an IDE lighter than Eclipse, we recommend https://atom.io[Atom]. The following packages provide syntax highlight for AgentSpeak (the Jason language) and JCM projects: https://atom.io/packages/language-jcm[language-jcm] and https://atom.io/packages/language-agentspeak[language-agentspeak].
-
-image:./tutorials/hello-world/screens/atom1.png[]
-
-image:./tutorials/hello-world/screens/atom2.png[]

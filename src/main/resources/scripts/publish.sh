@@ -2,9 +2,9 @@
 
 rm *.zip
 
-cd jacamo-project-1.1
+cd jacamo-project-1.2
 rm -rf .gradle
-zip -r ../np1.1.zip *
+zip -r ../np1.2.zip *
 cd ..
 
 cd jacamo-project-ss
@@ -14,11 +14,11 @@ cd ..
 
 #git checkout site
 #scp *.zip $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/nps
-cp *.zip ../../../../docs/nps
+cp *.zip ../../../../doc/nps
 
 #git commit -m "new project script" ../../../../docs/nps/np1.1.zip
 
-git add ../../../../docs/nps/npss.zip
-git commit -m "new project script" ../../../../docs/nps/npss.zip
+git add ../../../../doc/nps/npss.zip
+git commit -m "new project script" ../../../../doc/nps/npss.zip
 git push
 

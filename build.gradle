@@ -64,8 +64,6 @@ dependencies {
          exclude group: 'org.jacamo', module: 'jacamo'
     }
 
-    implementation('org.apache.ant:ant:1.10.5')
-    //implementation('org.gradle:gradle-tooling-api:7.6')
     api 'org.gradle:gradle-tooling-api:8.0.2'
 
     implementation('guru.nidi:graphviz-java:0.7.0')
@@ -146,7 +144,7 @@ jar {
         props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null)
     }*/
 }
-jar.dependsOn(copyJarsToBuild)
+//jar.dependsOn(copyJarsToBuild)
 
 clean {
     delete 'bin'

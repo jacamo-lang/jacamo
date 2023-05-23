@@ -54,7 +54,7 @@ public class JaCaMoLauncher extends RunLocalMAS {
         for (int i=0; i<args.length; i++) {
             String arg = args[i].trim();
             if ("-h".equals(arg)) {
-                System.out.println("Usage jacamo-run <jcm-file> -v -h --debug --log-conf <log.properties file>");
+                System.out.println("Usage jacamo <jcm-file> -v -h --debug --log-conf <log.properties file>");
                 System.exit(0);
             }
             if ("-v".equals(arg)) {

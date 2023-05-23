@@ -8,23 +8,18 @@
 defaultTasks 'run'
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 
 version '1.0'
 group   'org.jacamo'
 
 repositories {
     mavenCentral()
-
-    //maven { url "https://jade.tilab.com/maven/" }
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
     maven { url "https://repo.gradle.org/gradle/libs-releases" }
-
-    flatDir {  dirs 'lib'  }
 }
 
 dependencies {
-    implementation('org.jacamo:jacamo:1.1')
+    implementation('org.jacamo:jacamo:1.2')
 }
 
 sourceSets {
@@ -53,35 +48,4 @@ task run (type: JavaExec, dependsOn: 'classes') {
 clean {
     delete 'bin'
     delete 'build'
-}
-
-task uberJar(type: Jar, dependsOn: 'classes') {
-    group      ' JaCaMo'
-    description 'creates a single runnable jar file with all dependencies'
-    duplicatesStrategy 'exclude'
-
-    manifest {
-        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
-    }
-    archiveBaseName = 'jacamo-writing-paper' // the name must start with jacamo so that jacamo...jar is found in the classpath
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    from (project.projectDir.absolutePath) {
-        include '**/*.asl'
-        include '**/*.xml'
-        include '**/*.jcm'
-        include '**/*.sai'
-        include '*.properties'
-    }
-    from (project.buildDir.absolutePath + '/jcm') {
-        include '**/*'
-    }
-    with jar
-
-    doFirst {
-        copy {
-            from 'writing_paper.jcm'
-            rename 'writing_paper.jcm','default.jcm'
-            into project.buildDir.absolutePath + '/jcm'
-        }
-    }
 }

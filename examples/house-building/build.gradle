@@ -8,7 +8,6 @@
 defaultTasks 'run'
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 
 version '1.0'
 group   'org.jacamo'
@@ -20,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation('org.jacamo:jacamo:1.1')
+    implementation('org.jacamo:jacamo:1.2')
 }
 
 sourceSets {

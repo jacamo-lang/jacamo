@@ -34,7 +34,5 @@ mas gold_miners {
         artifact m3view: mining.MiningPlanet(1,2)
         artifact m4view: mining.MiningPlanet(1,3)
     }
-
-    class-path: lib                      // java class path
 }
 

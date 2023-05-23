@@ -49,7 +49,7 @@ task run (type: JavaExec, dependsOn: 'classes') {
 
 task buildJCMDeps (type: JavaExec, dependsOn: 'classes') {
     mainClass = 'jacamo.infra.RunJaCaMoProject'
-    args = ['<PROJECT-FILE>', '--deps']
+    args = ['auction.jcm', '--deps']
     classpath sourceSets.main.runtimeClasspath
 }
 

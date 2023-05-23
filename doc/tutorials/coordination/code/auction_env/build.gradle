@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.jacamo',     name: 'jacamo' ,   version: '1.1'
+    implementation group: 'org.jacamo',     name: 'jacamo' ,   version: '1.2'
 }
 
 sourceSets {
@@ -41,6 +41,12 @@ task run (type: JavaExec, dependsOn: 'classes') {
     group ' JaCaMo'
     mainClass = 'jacamo.infra.JaCaMoLauncher'
     args 'auction_env.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task buildJCMDeps (type: JavaExec, dependsOn: 'classes') {
+    mainClass = 'jacamo.infra.RunJaCaMoProject'
+    args = ['auction_env', '--deps']
     classpath sourceSets.main.runtimeClasspath
 }
 

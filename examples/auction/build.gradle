@@ -47,6 +47,12 @@ task run (type: JavaExec, dependsOn: 'classes') {
     classpath sourceSets.main.runtimeClasspath
 }
 
+task buildJCMDeps (type: JavaExec, dependsOn: 'classes') {
+    mainClass = 'jacamo.infra.RunJaCaMoProject'
+    args = ['<PROJECT-FILE>', '--deps']
+    classpath sourceSets.main.runtimeClasspath
+}
+
 clean {
     delete 'bin'
     delete 'build'

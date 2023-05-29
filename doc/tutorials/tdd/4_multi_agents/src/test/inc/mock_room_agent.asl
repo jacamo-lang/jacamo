@@ -30,6 +30,6 @@
     +preference(S,T);
     .findall(X,preference(_,X),L);
     /*Mock temperature with the average*/
-    +temperature(math.average(L));
+    +temperature(math.mean(L));
     }, self, begin);
 .

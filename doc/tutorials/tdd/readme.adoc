@@ -441,43 +441,48 @@ The artifact **device/HVAC** is not being instantiated, which means that the ext
 the main concern regards to the room agent functionalities, not the functionalities of other
 entities that it interacts with. To ensure this separation of concerns, the **mock** concept can be
 used. Here, the **mock** concept is used on the agent under test entity, i.e., we are replacing some
-agent's plans that calls external actions by plans that are mocking some behaviors. Notice that the
+agent plans that call external actions by plans that are mocking some behaviors. Notice that the
 order is very important since each plan is added on the beginning of the plans library of the agent.
 
 [source]
 ----
 @[test] 
-+!test_cool_until_temperature_dropping 
-	<-
-	.add_plan({
-	+!temperature(T): state("cooling")
-	<-
-	-state("cooling");
-	!temperature(T);
-	}, self, begin);
-    /*The next plan must be put on the very top of plans*/
-	.add_plan({
-	+!temperature(T): now_is_warmer_than(T) & temperature(C)
-	<-
-	if (not state("cooling")) {
-		+state("cooling");
-	}
-	!temperature(T);
-	}, self, begin);
++!test_cool_until_temperature_dropping
+    <-
+    .add_plan({ 
+    +!temperature(T):
+        state("cooling")
+        <-  
+        .log(warning,"Temperature achieved: ",T);
+        -state("cooling");
+        !temperature(T);
+    }, self, begin);
+    .add_plan({ 
+    +!temperature(T): 
+        now_is_warmer_than(T) &
+        temperature(C)
+        <-  
+        if (not state("cooling")) {
+            +state("cooling");
+            .log(warning,C," is too hot -> cooling until ",T);
+        }
+        !temperature(T);
+    }, self, begin);
 
-	-+temperature(15);
-	!!temperature(10);
-	.wait(50);
-	for ( .range(I,1,10) ) {
-		?temperature(C);
-		if (C > 10) {
-			!assert_true(state("cooling"));
-			-+temperature(C-1);
-		} else {
-			!assert_false(state("cooling"));
-		}
-	}
-	.drop_desire(temperature(10)).
+    -+temperature(15);
+    !!temperature(10);
+    .wait(50);
+    for ( .range(I,1,10) ) {
+        ?temperature(C);
+        if (C > 10) {
+            !assert_true(state("cooling"));
+            -+temperature(C-1);
+        } else {
+            !assert_false(state("cooling"));
+        }
+    }
+    .drop_desire(temperature(10));
+.
 ----
 
 Of course, as replacing entire plans is a dangerous technique: then, our tests are, to a great
@@ -487,7 +492,7 @@ mock these _interface plans_.
 
 The complete project is available link:./3_room_agent_with_artifact/[here].
 
-=== Multiple Agents and Agents
+=== Multiple Agents
 Finally, let us implement and test a simple Multi-Agent System (MAS). In the MAS, we have an
 additional _assistant agent_ that relays user preferences to the room agent. We will create the file 
 `src/agt/assistant.asl` for that. Accordingly, the code for the assistant agent is very simple:
@@ -540,7 +545,7 @@ sake of simplicity):
     +preference(S,T);
     .findall(X,preference(_,X),L);
     .drop_desire(temperature(_));
-    !temperature(math.average(L));
+    !temperature(math.mean(L));
 .
 ----
 
@@ -624,7 +629,7 @@ place this file in the `inc` folder (`src/test/inc`).
 	+preference(S,T);
 	.findall(X,preference(_,X),L);
 	/*Mock temperature with the average*/
-	+temperature(math.average(L));
+	+temperature(math.mean(L));
 	}, self, begin).
 ----
 

@@ -37,7 +37,7 @@ now_is_warmer_than(T) :- temperature(C) & C > T.
     +preference(S,T);
     .findall(X,preference(_,X),L);
     .drop_desire(temperature(_));
-    !temperature(math.average(L));
+    !temperature(math.mean(L));
 .
 
 { include("$jacamoJar/templates/common-cartago.asl") }

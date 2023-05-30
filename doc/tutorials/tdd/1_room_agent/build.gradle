@@ -14,6 +14,7 @@ group   'org.jacamo'
 
 
 repositories {
+    mavenCentral()
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
     maven { url "https://repo.gradle.org/gradle/libs-releases" }
 
@@ -21,8 +22,6 @@ repositories {
     //maven { url "https://jade.tilab.com/maven/" }
 
     flatDir { dirs 'lib' }
-
-    mavenCentral()
 }
 
 dependencies {

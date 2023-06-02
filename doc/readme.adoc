@@ -29,6 +29,8 @@ With the following tutorials you will experience deeper, in-context explorations
 
 * xref:tutorials/coordination/readme.adoc[Different approaches to implement coordination using JaCaMo]
 * xref:tutorials/gold-miners/readme.adoc[Agent programming in a contest scenario (Gold Miners)]
+* xref:tutorials/tdd/readme.adoc[Goal-Oriented Test-Driven for JaCaMo]
+
 
 == JaCaMo FAQ
 

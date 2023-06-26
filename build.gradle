@@ -13,7 +13,7 @@ defaultTasks 'jar'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version '1.2'
+version '1.2.1'
 group   'org.jacamo'
 
 java {
@@ -44,7 +44,7 @@ repositories {
 
 
 dependencies {
-    api('io.github.jason-lang:jason-interpreter:3.2.1')
+    api('io.github.jason-lang:jason-interpreter:3.2.2')
     /* {
        exclude group: 'net.sf.ingenias', module: 'jade'
     }*/

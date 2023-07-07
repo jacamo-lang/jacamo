@@ -107,7 +107,9 @@ task uberJar(type: Jar, dependsOn: 'classes') {
         attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
     }
     archiveBaseName = 'jacamo-<PROJECT_NAME>' // the name must start with jacamo so that jacamo...jar is found in the classpath
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    //from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) } }
+
     from (project.projectDir.absolutePath) {
         include '**/*.asl'
         include '**/*.xml'
@@ -126,7 +128,7 @@ task uberJar(type: Jar, dependsOn: 'classes') {
             from '<PROJECT-FILE>'
             rename '<PROJECT-FILE>','default.jcm'
             into project.buildDir.absolutePath + '/jcm'
-        }
+        }   
     }
 }
 

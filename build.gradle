@@ -13,7 +13,7 @@ defaultTasks 'jar'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version '1.2.1'
+version '1.2.2'
 group   'org.jacamo'
 
 java {

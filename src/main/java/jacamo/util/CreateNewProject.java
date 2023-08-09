@@ -49,7 +49,7 @@ public class CreateNewProject {
             if ("--from-gradle".equals(arg))
                 fromGradle = true;
             if ("-h".equals(arg)) {
-                System.out.println("Usage jacamo-new-project app-id --console --from-gradle -v -h");
+                System.out.println("Parameters: app-id --console --from-gradle -v -h");
                 System.exit(0);
             }
             if ("-v".equals(arg)) {

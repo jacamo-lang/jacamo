@@ -2,8 +2,9 @@
 
 == Version 1.2
 
-- uses Jason 3.2, Moise 1.0 and Cartago 3.1
+- uses Jason 3.2, Moise 1.0, SAI 0.5.3, and Cartago 3.1
 - uses Java 17
+- improved JaCaMo Command Line Interface (JaCaMo CLI)
 
 - `~/.jacamo` is not used anymore to store JaCaMo configuration. Configuration is discovered by classpath, `JACAMO_HOME`, or `jacamo.properties` in a project directory.
 

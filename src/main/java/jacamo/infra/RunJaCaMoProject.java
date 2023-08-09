@@ -29,7 +29,7 @@ public class RunJaCaMoProject {
       for (int i=0; i<args.length; i++) {
           String arg = args[i].trim();
           if ("-h".equals(arg)) {
-              System.out.println("Usage jacamo <jcm-file> -v -h --debug --log-conf <log.properties file>");
+              System.out.println("Usage jacamo <jcm-file> -v -h --debug --deps --log-conf <log.properties file>");
               System.exit(0);
           }
           if ("-v".equals(arg)) {
@@ -86,7 +86,7 @@ public class RunJaCaMoProject {
 
           buildDeps(project);
           if (justDeps) {
-              System.out.println("JCM packages depencies updated at .jcm-deps.gradle");
+              System.out.println("JCM packages dependencies updated at .jcm-deps.gradle");
           } else {
               runByGradle(project);
           }

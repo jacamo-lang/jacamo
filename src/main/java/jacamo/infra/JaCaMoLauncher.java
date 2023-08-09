@@ -54,7 +54,7 @@ public class JaCaMoLauncher extends RunLocalMAS {
         for (int i=0; i<args.length; i++) {
             String arg = args[i].trim();
             if ("-h".equals(arg)) {
-                System.out.println("Usage jacamo-run <jcm-file> -v -h --debug --log-conf <log.properties file>");
+                System.out.println("Usage jacamo <jcm-file> -v -h --debug --log-conf <log.properties file>");
                 System.exit(0);
             }
             if ("-v".equals(arg)) {
@@ -280,11 +280,7 @@ public class JaCaMoLauncher extends RunLocalMAS {
                     StringTokenizer st = new StringTokenizer(System.getProperty("java.class.path"), File.pathSeparator);
                     while (st.hasMoreTokens()) {
                         var jar = st.nextToken();
-                        if (jar.endsWith(".jar")
-                                && jar.contains(args[0])
-                                && jar.contains(args[1])
-                                && jar.contains(args[2])
-                        ) {
+                        if (testJarFileForPkg(jar, args)) {
                             //System.out.println("solve package " + k + " with " + jar);
                             f = new File(jar);
                             if (f.exists()) {
@@ -300,6 +296,19 @@ public class JaCaMoLauncher extends RunLocalMAS {
                 logger.warning("the jar file for package '"+k+"' is not found (based on "+f+")");
             }
         }
+    }
+
+    private boolean testJarFileForPkg(String jarFileName, String[] args) {
+        var pkgOrg = args[0];
+        // in case of maven local, the "." in org name is replaced by "/"
+        if (jarFileName.contains(".m2")) {
+            pkgOrg = pkgOrg.replaceAll("[.]", "/");
+        }
+        //System.out.println("test2 "+jarFileName+" for "+pkgOrg+":"+args[1]+":"+args[2]);
+        return jarFileName.endsWith(".jar")
+                && jarFileName.contains(pkgOrg)
+                && jarFileName.contains(args[1])
+                && jarFileName.contains(args[2]);
     }
 
     @Override

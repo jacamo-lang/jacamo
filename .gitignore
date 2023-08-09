@@ -8,6 +8,9 @@ APDescription.txt
 MTPs-Main-Container.txt
 .vscode
 
+.idea
+.vscode
+
 *.log
 .stop___MAS
 *~

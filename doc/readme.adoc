@@ -6,7 +6,9 @@
 :icons: font
 :prewrap!:
 
-This project aims to promote the MultiAgent Programming (MAP) approach by providing a suitable integration of tools and languages for programming the following dimensions: agents (http://jason.sf.net[Jason]), environment (http://cartago.sourceforge.net/[Cartago]), and organisation (http://moise.sf.net[Moise]).
+The JaCaMo project aims to promote the Multi-Agent Oriented Programming (MAOP) approach by providing a development platform that integrates tools and languages for programming the following dimensions of Multi-Agent Systems: agents, environment, and organisation.
+
+NOTE: See also the community project dedicated to https://jacamo-lang.github.io/documentation/[JaCaMo documentation] and the https://mitpress.mit.edu/9780262044578/[JaCaMo book].
 
 ifdef::env-github[]
 NOTE: Part of this documentation of is also available (and better rendered) at http://jacamo-lang.github.io/jacamo/.
@@ -27,6 +29,8 @@ With the following tutorials you will experience deeper, in-context explorations
 
 * xref:tutorials/coordination/readme.adoc[Different approaches to implement coordination using JaCaMo]
 * xref:tutorials/gold-miners/readme.adoc[Agent programming in a contest scenario (Gold Miners)]
+* xref:tutorials/tdd/readme.adoc[Goal-Oriented Test-Driven for JaCaMo]
+
 
 == JaCaMo FAQ
 

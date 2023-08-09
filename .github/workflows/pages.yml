@@ -4,7 +4,7 @@ name: GitHub Pages Publish
 # events but only for the master branch
 on:
   push:
-    branches: [ develop ]
+    branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -29,3 +29,4 @@ jobs:
         # slides_build: true
         # pre_build:
         # post_build:
+        post_build: 'find . -name readme.html -execdir cp readme.html index.html \;'

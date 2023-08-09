@@ -113,25 +113,6 @@ public class Config extends jason.util.Config {
         return "JaCaMo user configuration";
     }
 
-    /*@Override
-    protected String getEclipseInstallationDirectory() {
-        return "jacamo";
-    }*/
-
-//    @Deprecated
-//    public String getDotPath() {
-//        String r = super.getProperty(DOT_PATH);
-//        if (r == null)
-//            r = "/opt/local/bin/dot";
-//        if (new File(r).exists())
-//            return r;
-//        else {
-//            r = "/usr/bin/dot";
-//            if (new File(r).exists())
-//                return r;
-//        }
-//        return null;
-//    }
 
     public String getPresentation() {
         return "JaCaMo "+getJaCaMoVersion()+" built on "+getJaCaMoBuiltDate()+"\n";
@@ -189,21 +170,6 @@ public class Config extends jason.util.Config {
         if (getProperty(START_WEB_OI) == null) {
             put(START_WEB_OI, "true");
         }
-
-//        if (get(ANT_LIB) == null || !checkAntLib(getAntLib())) {
-//            try {
-//                String jjar = getJaCaMoHome();
-//                if (jjar != null) {
-//                    String antlib = jjar + File.separator + "libs";
-//                    if (checkAntLib(antlib)) {
-//                        setAntLib(antlib);
-//                    }
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Error setting ant lib!");
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     @Override
@@ -321,15 +287,6 @@ public class Config extends jason.util.Config {
 
         return false;
     }
-
-//    @Override
-//    public String getAntLib() {
-//        String al = super.getAntLib();
-//        if (al == null) {
-//            return getJaCaMoHome()+"/libs";
-//        }
-//        return al;
-//    }
 
     public String getJaCaMoVersion() {
         Package j = Package.getPackage("jacamo.util");

@@ -13,7 +13,7 @@ defaultTasks 'jar'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version '1.2'
+version '1.2.2'
 group   'org.jacamo'
 
 java {
@@ -44,7 +44,7 @@ repositories {
 
 
 dependencies {
-    api('io.github.jason-lang:jason-interpreter:3.2.1')
+    api('io.github.jason-lang:jason-interpreter:3.2.2')
     /* {
        exclude group: 'net.sf.ingenias', module: 'jade'
     }*/
@@ -64,8 +64,6 @@ dependencies {
          exclude group: 'org.jacamo', module: 'jacamo'
     }
 
-    implementation('org.apache.ant:ant:1.10.5')
-    //implementation('org.gradle:gradle-tooling-api:7.6')
     api 'org.gradle:gradle-tooling-api:8.0.2'
 
     implementation('guru.nidi:graphviz-java:0.7.0')
@@ -83,30 +81,30 @@ dependencies {
 }
 
 // copy dep jars and scritps into build directory
-task copyJarsToBuild {
-    inputs.files configurations.runtimeClasspath.files
-    inputs.dir   'scripts'
-    outputs.dir  'build/libs'
-    outputs.dir  'build/scripts'
-    doLast {
-        copy {
-            from configurations.runtimeClasspath
-            into 'build/libs'
-            //exclude '**/jason-2.0.jar'
-        }
-        copy {
-            from 'scripts'
-            into 'build/scripts'
-            include '**'
-            filter {
-                String line -> line.replaceAll("JacamoREL=[0-9]+\\.[0-9]+", "JacamoREL="+project.version)
-            }
+//task copyJarsToBuild {
+//    inputs.files configurations.runtimeClasspath.files
+//    inputs.dir   'scripts'
+//    outputs.dir  'build/libs'
+//    outputs.dir  'build/scripts'
+//    doLast {
+//        copy {
+//            from configurations.runtimeClasspath
+//            into 'build/libs'
+//            //exclude '**/jason-2.0.jar'
+//        }
+//        copy {
+//            from 'scripts'
+//            into 'build/scripts'
+//            include '**'
 //            filter {
-//                String line -> line.replaceAll("JasonREL", file(configurations.compileClasspath.find { it.name.startsWith("jason-") }).name)
+//                String line -> line.replaceAll("JacamoREL=[0-9]+\\.[0-9]+", "JacamoREL="+project.version)
 //            }
-        }
-    }
-}
+////            filter {
+////                String line -> line.replaceAll("JasonREL", file(configurations.compileClasspath.find { it.name.startsWith("jason-") }).name)
+////            }
+//        }
+//    }
+//}
 
 compileJavacc {
     inputDirectory = file('src/main/javacc')
@@ -146,7 +144,7 @@ jar {
         props.store(new File(project.buildDir.absolutePath +'/classes/main/jacamo.dist.properties').newWriter(), null)
     }*/
 }
-jar.dependsOn(copyJarsToBuild)
+//jar.dependsOn(copyJarsToBuild)
 
 clean {
     delete 'bin'
@@ -196,13 +194,17 @@ task config (dependsOn: 'jar') {
     }*/
 
     doLast {
+        copy {
+            from '../jacamo-cli/build/bin/jacamo'
+            into 'bin'
+        }
         println '------'
         println ''
         println 'you can set the JaCaMo home directory with the following command:'
         println '     export JACAMO_HOME='+project.buildDir.absolutePath
         println ''
         println 'and also change your PATH with:'
-        println '     export PATH=$JACAMO_HOME/scripts:$PATH'
+        println '     export PATH=$JACAMO_HOME/bin:$PATH'
         println ''
         println '-----'
     }
@@ -314,17 +316,21 @@ task copyRel {
             include 'doc/**'
         }
         copy {
-            from 'build/scripts'
-            into 'build/jacamo-'+project.version+'/scripts'
+            from '../jacamo-cli/build/bin/jacamo'
+            into 'build/jacamo-'+project.version+'/bin'
         }
-        copy {
-            duplicatesStrategy = 'include'
-            from 'build/libs'
-            from configurations.runtimeClasspath
-            into 'build/jacamo-'+project.version+'/libs'
-            include '**/*.jar'
-            //exclude '**/jason-2.0.jar'
-        }
+//        copy {
+//            from 'build/scripts'
+//            into 'build/jacamo-'+project.version+'/scripts'
+//        }
+//        copy {
+//            duplicatesStrategy = 'include'
+//            from 'build/libs'
+//            from configurations.runtimeClasspath
+//            into 'build/jacamo-'+project.version+'/libs'
+//            include '**/*.jar'
+//            //exclude '**/jason-2.0.jar'
+//        }
         copy {
             from docsDir
             into 'build/jacamo-'+project.version+'/doc'
@@ -333,14 +339,14 @@ task copyRel {
             from 'examples'
             into 'build/jacamo-'+project.version+'/examples'
         }
-        copy {
-            from 'demos'
-            into 'build/jacamo-'+project.version+'/demos'
-        }
-        copy {
-            from 'src/main/resources/templates'
-            into 'build/jacamo-'+project.version+'/src/templates'
-        }
+//        copy {
+//            from 'demos'
+//            into 'build/jacamo-'+project.version+'/demos'
+//        }
+//        copy {
+//            from 'src/main/resources/templates'
+//            into 'build/jacamo-'+project.version+'/src/templates'
+//        }
         delete fileTree('build/jacamo-'+project.version+'/doc')  { include '**/*.adoc', '**/Makefile', '**/publish.sh'  }
     }
 }
@@ -348,7 +354,7 @@ task copyRel {
 // creates a zip file for a release
 task zipRel(type: Zip, dependsOn: copyRel) {
     from 'build/jacamo-'+project.version
-    archiveBaseName = 'jacamo'
+    archiveBaseName = 'jacamo-bin'
 }
 
 task runauction (type: JavaExec, dependsOn: 'classes') {

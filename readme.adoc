@@ -20,29 +20,30 @@ Installation instructions and options for users are described xref:doc/install.a
 ----
 git clone https://github.com/jacamo-lang/jacamo.git
 cd jacamo
-./gradlew config // <1> <2>
+./gradlew build
 ----
-<1> the config task builds the jacamo jar, configure jacamo properties file, and place all jars in `build/libs`.
-<2> this task also prints out the commands to set up the `JACAMO_HOME` and `PATH` variables.
+// The build task builds the jacamo jar
+// , configure jacamo properties file, and place all jars in `build/libs`.
+//<2> this task also prints out the commands to set up the `JACAMO_HOME` and `PATH` variables.
 
-Examples can be run using the `jacamo` shell script, for example:
-
-	jacamo examples/house-building/house.jcm
-
-Other useful gradle tasks:
-
------
-gradle jar     // <1>
-gradle doc     // <2>
-gradle clean   // <3>
-gradle release // <4>
------
-<1> generates a new jacamo jar.
-<2> generates the javadoc and transforms asciidoc files into html (Docker must be running for the latter).
-<3> cleans all generated files.
-<4> produces a zip file in `build/distributions` to be distributed to users.
-
-An _eclipse_ project to change the JaCaMo implementation can be created form menu "File/Import/Existing Gradle Project".
+// Examples can be run using the `jacamo` shell script, for example:
+//
+// 	jacamo examples/house-building/house.jcm
+//
+// Other useful gradle tasks:
+//
+// -----
+// gradle jar     // <1>
+// gradle doc     // <2>
+// gradle clean   // <3>
+// gradle release // <4>
+// -----
+// <1> generates a new jacamo jar.
+// <2> generates the javadoc and transforms asciidoc files into html (Docker must be running for the latter).
+// <3> cleans all generated files.
+// <4> produces a zip file in `build/distributions` to be distributed to users.
+//
+// An _eclipse_ project to change the JaCaMo implementation can be created form menu "File/Import/Existing Gradle Project".
 
 The development of the main tools used by JaCaMo is also hosted on GitHub:
 

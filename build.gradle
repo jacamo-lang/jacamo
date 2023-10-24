@@ -55,8 +55,8 @@ dependencies {
     api('org.jacamo:npl:0.5')  {  transitive = false  }
 
     api('org.jacamo:intmas:1.0.0')
-    api('org.jacamo:sai:0.5.3') {  transitive = false  }
-    api('org.antlr:antlr4:4.8')
+    api('org.jacamo:sai:0.5.4-SNAPSHOT') {  transitive = false  }
+    api('org.antlr:antlr4:4.12.0')
 
     //api('net.sf.ingenias:jade:4.3')
 

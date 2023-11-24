@@ -16,33 +16,33 @@ import java.util.logging.Logger;
  * artifact that implements sanctions
  */
 public class Sanctioner extends Artifact {
-	protected Logger logger = Logger.getLogger(Sanctioner.class.getName());
+    protected Logger logger = Logger.getLogger(Sanctioner.class.getName());
 
-	// to listen normative events
-	@OPERATION
-	void listen(ArtifactId artId) {
-		try {
-			execLinkedOp(artId, "subscribeNormativeEvents", getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    // to listen normative events
+    @OPERATION
+    void listen(ArtifactId artId) {
+        try {
+            execLinkedOp(artId, "subscribeNormativeEvents", getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	@LINK
-	void normativeEvent(String event) {
-		//logger.info("new normative event: "+event);
-		try {
-			var evt = ASSyntax.parseLiteral(event);
-			if (evt.getFunctor().equals("sanction")) {
-				var sanction = (Literal)evt.getTerm(2);
-				if (sanction.getFunctor().equals("remove_from_systems")) {
-					logger.info("**** I am implementing sanction for "+sanction.getTerm(0)+" ****");
-				}
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-	}
+    @LINK
+    void normativeEvent(String event) {
+        //logger.info("new normative event: "+event);
+        try {
+            var evt = ASSyntax.parseLiteral(event);
+            if (evt.getFunctor().equals("sanction")) {
+                var sanction = (Literal)evt.getTerm(2);
+                if (sanction.getFunctor().equals("remove_from_systems")) {
+                    logger.info("**** I am implementing sanction for "+sanction.getTerm(0)+" ****");
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 

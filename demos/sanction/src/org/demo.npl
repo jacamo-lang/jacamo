@@ -1,0 +1,16 @@
+scope main {                               // definition of a scope of norms
+
+    // alice has 3 seconds to achieve b(0), or else, sanction s1
+    norm n1: vl(X) & X > 5
+       -> obligation(alice,n1, b(0), `now`+`3 seconds`)
+       if unfulfilled: s1(alice,X).
+
+    // bob has 2 seconds to (decide to) fine Alice, or else, sanction s2
+    // (value of c is provide by an external source)
+    sanction s1(A,X): c(Y) -> obligation(bob,true,fine(A,X*Y),`now`+`2 seconds`)
+       if unfulfilled: s2.
+
+    sanction s2 -> remove_from_systems(bob).
+    // remove_from_systems(bob) is a "regimented sanction", it is instrumented in the environment
+
+}

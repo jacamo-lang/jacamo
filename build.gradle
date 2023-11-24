@@ -13,7 +13,7 @@ defaultTasks 'jar'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version '1.2.2'
+version '1.3-SNAPSHOT'
 group   'org.jacamo'
 
 java {
@@ -51,7 +51,7 @@ dependencies {
     api('org.jacamo:cartago:3.1') {  transitive = false  }
     api('org.jacamo:jaca:3.1') {  transitive = false  }
 
-    api('org.jacamo:moise:1.0') {  transitive = false  }
+    api('org.jacamo:moise:1.1-SNAPSHOT') {  transitive = false  }
     api('org.jacamo:npl:0.5')  {  transitive = false  }
 
     api('org.jacamo:intmas:1.0.0')
@@ -184,7 +184,7 @@ clean {
     emptyDirs.reverseEach { it.delete() }
 }
 
-task config (dependsOn: 'jar') {
+//task config (dependsOn: 'jar') {
     /*main = 'jacamo.util.Config'
     classpath sourceSets.main.runtimeClasspath
     workingDir project.buildDir.absolutePath + '/libs'
@@ -193,7 +193,7 @@ task config (dependsOn: 'jar') {
         delete System.getProperty("user.home")+'/.jacamo'
     }*/
 
-    doLast {
+   /* doLast {
         copy {
             from '../jacamo-cli/build/bin/jacamo'
             into 'bin'
@@ -208,7 +208,7 @@ task config (dependsOn: 'jar') {
         println ''
         println '-----'
     }
-}
+}*/
 
 task javadocJar (type: Jar, dependsOn: javadoc) {
     archiveBaseName = 'jacamo'

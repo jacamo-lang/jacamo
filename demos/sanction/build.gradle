@@ -1,0 +1,203 @@
+/*
+   Project sanction
+
+   Gradle build file for JaCaMo Applications
+   November 24, 2023 - 12:30:45
+*/
+
+defaultTasks 'run'
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply from: '.jcm-deps.gradle' // this file contains dependencies declared in the .jcm files
+
+version '1.0'
+group   'org.jacamo'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases" }
+
+    //maven { url "http://jacamo.sourceforge.net/maven2" }
+    //maven { url "https://jade.tilab.com/maven/" }
+
+    flatDir { dirs 'lib' }
+
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+
+}
+
+dependencies {
+    implementation('org.jacamo:jacamo:1.3-SNAPSHOT')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/env'
+            srcDir 'src/agt'
+            srcDir 'src/org'
+            srcDir 'src/int'
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+}
+
+task run (type: JavaExec, dependsOn: 'classes') {
+    group       ' JaCaMo'
+    description 'runs the JaCaMo application'
+    doFirst {
+        mkdir 'log'
+    }
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
+    args 'sanction.jcm'
+    // jvmArgs '-Xss15m'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task buildJCMDeps (type: JavaExec, dependsOn: 'classes') {
+    mainClass = 'jacamo.infra.RunJaCaMoProject'
+    args = ['sanction.jcm', '--deps']
+    classpath sourceSets.main.runtimeClasspath
+}
+
+jar {
+    duplicatesStrategy 'exclude'
+
+    archiveBaseName = project.name
+
+    from (project.projectDir.absolutePath + '/src') {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.sai'
+        include '**/*.ptl'
+        include '**/*.jcm'
+        exclude 'test'
+    }
+    from (project.buildDir.absolutePath + '/classes') {
+        include '**/*'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+
+task uberJar(type: Jar, dependsOn: 'classes') {
+    group      ' JaCaMo'
+    description 'creates a single runnable jar file with all dependencies'
+    duplicatesStrategy 'exclude'
+
+    manifest {
+        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
+    }
+    archiveBaseName = 'jacamo-sanction' // the name must start with jacamo so that jacamo...jar is found in the classpath
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from (project.projectDir.absolutePath) {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.sai'
+        include '**/*.ptl'
+        include '**/*.jcm'
+        include '*.properties'
+    }
+    from (project.buildDir.absolutePath + '/jcm') {
+        include '**/*'
+    }
+    with jar
+
+    doFirst {
+        copy {
+            from 'sanction.jcm'
+            rename 'sanction.jcm','default.jcm'
+            into project.buildDir.absolutePath + '/jcm'
+        }
+    }
+}
+
+
+task testJaCaMo {
+    description 'runs JaCaMo unit tests'
+    def errorOnTests = false
+    outputs.upToDateWhen { false } // disable cache
+
+    doFirst {
+        try {
+            javaexec {
+                mainClass = 'jacamo.infra.JaCaMoLauncher'
+                if (gradle.startParameter.logLevel.toString().equals("DEBUG")) {
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-debug-logging.properties']
+                } else if (gradle.startParameter.logLevel.toString().equals("INFO")) {
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-info-logging.properties']
+                } else {
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-lifecycle-logging.properties']
+                }
+                classpath sourceSets.main.runtimeClasspath
+
+                errorOutput = new ByteArrayOutputStream()
+                standardOutput = new ByteArrayOutputStream()
+
+                ext.stdout = {
+                    return standardOutput.toString()
+                }
+                ext.errout = {
+                    return errorOutput.toString()
+                }
+            }
+        } catch (Exception e) {
+            errorOnTests = true
+        }
+    }
+
+    doLast {
+        def styler = 'black red green yellow blue magenta cyan white'
+            .split().toList().withIndex(30)
+            .collectEntries { key, val -> [(key) : { "\033[${val}m${it}\033[0m" }] }
+
+        def std = stdout()
+        std.splitEachLine('\n') { String line ->
+            line = line.replace("TESTING","${styler['yellow']('TESTING')}")
+            line = line.replace("PASSED","${styler['green']('PASSED')}")
+            line = line.replace("FAILED","${styler['red']('FAILED')}")
+            line = line.replace("TODO","${styler['magenta']('TODO')}")
+            line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
+            println line
+        }
+
+        def err = errout()
+        err.splitEachLine('\n') { String line ->
+            line = line.replace("TESTING","${styler['yellow']('TESTING')}")
+            line = line.replace("PASSED","${styler['green']('PASSED')}")
+            line = line.replace("FAILED","${styler['red']('FAILED')}")
+            line = line.replace("TODO","${styler['magenta']('TODO')}")
+            line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
+            println line
+        }
+
+        if (errorOnTests) {
+            throw new GradleException('JaCaMo unit tests: ERROR!')
+        }
+    }
+}
+tasks.test.finalizedBy testJaCaMo
+
+clean {
+    delete 'bin'
+    delete 'build'
+    delete 'log'
+}

@@ -25,6 +25,13 @@ This JaCaMo demo application illustrates the use of _sanctions_. It implements t
 6. In this case, the sanction is implemented (instrumented) in the environment. An artifact executes operation to realize  `remove_from_systems(bob)`.
 
 
-The specification of the application norms and sanctions are in file `src/org/demo.npl`.
+## Notes
+
+* The specification of the norms and sanctions are in file link:./src/org/demo.npl[demo.npl]
+
+* The application is executed by agent Karlos that:
+
+  -  Creates the artifact `NormativeBoard` responsible to compute obligations and sanctions based on the normative specification of `demo.npl`.
+  - Creates the artifact `Sanctioner` responsible to implement in the environment to brute consequences of sanctions.
 
 

@@ -52,7 +52,7 @@ To run the demo, execute `./gradlew` in the demo folder:
 [karlos] Unfulfilled obligation(bob,true,fine(alice,200),"2023-10-5 18:49:20")[created("2023-10-5 18:49:18"),norm(s1,[...]),sanction(s1,[...]),unfulfilled("2023-10-5 18:49:20")]
 [karlos] Sanction remove_from_systems(bob)[created("2023-10-5 18:49:20"),norm(s1,unfulfilled,s2),sanction(s2,[])] created for norm s1 that is unfulfilled
 
-[Sanctioner] **** I am implementing sanction for bob ****
+[Sanctioner] **** I am implementing the sanction for bob ****
 ```
 
 

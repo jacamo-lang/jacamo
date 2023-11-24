@@ -24,14 +24,39 @@ This JaCaMo demo application illustrates the use of _sanctions_. It implements t
 
 6. In this case, the sanction is implemented (instrumented) in the environment. An artifact executes operation to realize  `remove_from_systems(bob)`.
 
-
 ## Notes
 
 * The specification of the norms and sanctions are in file link:./src/org/demo.npl[demo.npl]
 
 * The application is executed by agent Karlos that:
 
-  -  Creates the artifact `NormativeBoard` responsible to compute obligations and sanctions based on the normative specification of `demo.npl`.
-  - Creates the artifact `Sanctioner` responsible to implement in the environment to brute consequences of sanctions.
+  -  Creates the artifact `NormativeBoard` that is responsible to compute obligations and sanctions based on the normative specification of `demo.npl`.
+  - Creates the artifact link:.src/env/police/Sanctioner.java[`Sanctioner`] that is responsible to implement in the environment to brute consequences of sanctions.
+  - Adds some facts that trigger norms.
+  - Monitors the normative events and prints some of them.
+
+* Since we are focused on the normative events, agents Alice and Bob do not exist in the application.
+
+* Two kinds of sanctions are conceived in the language:
+
+   - sanctions that produce obligations for an agent to decide how to proceed (sanction `s1` in this demo).
+   - sanctions that are _regimented_, they are implemented in the environment and there is no way to "scape" from its consequences (sanction `s2` in this demo). It mimics human sanctions like automatic fines produced by traffic light controllers.
+
+## Result of the execution
+
+To run the demo, execute `./gradlew` in the demo folder:
+
+```
+[karlos] Unfulfilled obligation(alice,(vl(20) & (20 > 5)),b(0),"2023-10-5 18:49:18")[created("2023-10-5 18:49:15"),norm(n1,[["X",20]]),unfulfilled("2023-10-5 18:49:18")]
+[karlos] Sanction obligation(bob,true,fine(alice,200),"now + 1 seconds"),sanction(s1,[...])] created for norm n1 that is unfulfilled
+[karlos] Unfulfilled obligation(bob,true,fine(alice,200),"2023-10-5 18:49:20")[created("2023-10-5 18:49:18"),norm(s1,[...]),sanction(s1,[...]),unfulfilled("2023-10-5 18:49:20")]
+[karlos] Sanction remove_from_systems(bob)[created("2023-10-5 18:49:20"),norm(s1,unfulfilled,s2),sanction(s2,[])] created for norm s1 that is unfulfilled
+
+[Sanctioner] **** I am implementing sanction for bob ****
+```
+
+
+image::./screen.png[]
+
 
 

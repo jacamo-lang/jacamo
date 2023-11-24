@@ -52,7 +52,7 @@ dependencies {
     api('org.jacamo:jaca:3.1') {  transitive = false  }
 
     api('org.jacamo:moise:1.1-SNAPSHOT') {  transitive = false  }
-    api('org.jacamo:npl:0.5')  {  transitive = false  }
+    api('org.jacamo:npl:0.6-SNAPSHOT')  {  transitive = false  }
 
     api('org.jacamo:intmas:1.0.0')
     api('org.jacamo:sai:0.5.4-SNAPSHOT') {  transitive = false  }

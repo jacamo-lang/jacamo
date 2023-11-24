@@ -31,7 +31,7 @@ This JaCaMo demo application illustrates the use of _sanctions_. It implements t
 * The application is executed by agent Karlos that:
 
   -  Creates the artifact `NormativeBoard` that is responsible to compute obligations and sanctions based on the normative specification of `demo.npl`.
-  - Creates the artifact link:.src/env/police/Sanctioner.java[`Sanctioner`] that is responsible to implement in the environment to brute consequences of sanctions.
+  - Creates the artifact link:./src/env/police/Sanctioner.java[`Sanctioner`] that is responsible to implement in the environment to brute consequences of sanctions.
   - Adds some facts that trigger norms.
   - Monitors the normative events and prints some of them.
 

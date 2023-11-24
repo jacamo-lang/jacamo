@@ -2,29 +2,46 @@
 
 package police;
 
-import cartago.*;
+import cartago.Artifact;
+import cartago.ArtifactId;
+import cartago.LINK;
+import cartago.OPERATION;
+import jason.asSyntax.ASSyntax;
+import jason.asSyntax.Literal;
+import jason.asSyntax.parser.ParseException;
+
+import java.util.logging.Logger;
 
 /**
  * artifact that implements sanctions
  */
 public class Sanctioner extends Artifact {
-	void init() {
-		defineObsProperty("count", 0);
+	protected Logger logger = Logger.getLogger(Sanctioner.class.getName());
+
+	// to listen normative events
+	@OPERATION
+	void listen(ArtifactId artId) {
+		try {
+			execLinkedOp(artId, "subscribeNormativeEvents", getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	@OPERATION
-	void inc() {
-		ObsProperty prop = getObsProperty("count");
-		prop.updateValue(prop.intValue()+1);
-		signal("tick");
-	}
-
-	@OPERATION
-	void inc_get(int inc, OpFeedbackParam<Integer> newValueArg) {
-		ObsProperty prop = getObsProperty("count");
-		int newValue = prop.intValue()+inc;
-		prop.updateValue(newValue);
-		newValueArg.set(newValue);
+	@LINK
+	void normativeEvent(String event) {
+		//logger.info("new normative event: "+event);
+		try {
+			var evt = ASSyntax.parseLiteral(event);
+			if (evt.getFunctor().equals("sanction")) {
+				var sanction = (Literal)evt.getTerm(2);
+				if (sanction.getFunctor().equals("remove_from_systems")) {
+					logger.info("**** I am implementing sanction for "+sanction.getTerm(0)+" ****");
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

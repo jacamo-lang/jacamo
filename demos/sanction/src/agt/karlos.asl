@@ -8,7 +8,7 @@
        addFact(vl(20)); // triggers the norm n1
        addFact(c(10));  // add condition for the application of sanction s1
        makeArtifact(ps1,"police.Sanctioner",[],SArt);
-       listen(AId); // ps1 get normative events (including sanctions) from nb1
+       listen(AId)[artifact_id(SArt)]; // ps1 get normative events (including sanctions) from nb1
        .wait(4000);
        removeFact(vl(20)); // norm n1 is not triggered anymore
        .

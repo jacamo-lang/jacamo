@@ -8,7 +8,7 @@
 
 The JaCaMo project aims to promote the Multi-Agent Oriented Programming (MAOP) approach by providing a development platform that integrates tools and languages for programming the following dimensions of Multi-Agent Systems: agents, environment, and organisation.
 
-NOTE: See also the community project dedicated to https://jacamo-lang.github.io/documentation/[JaCaMo documentation] and the https://mitpress.mit.edu/9780262044578/[JaCaMo book].
+NOTE: See also the community project dedicated to https://jacamo-lang.github.io/documentation/[JaCaMo documentation], the https://jacamo-lang.github.io[JaCaMo web site], and the https://mitpress.mit.edu/9780262044578/[JaCaMo book].
 
 ifdef::env-github[]
 NOTE: Part of this documentation of is also available (and better rendered) at http://jacamo-lang.github.io/jacamo/.
@@ -31,8 +31,6 @@ With the following tutorials you will experience deeper, in-context explorations
 * xref:tutorials/gold-miners/readme.adoc[Agent programming in a contest scenario (Gold Miners)]
 * xref:tutorials/tdd/readme.adoc[Goal-Oriented Test-Driven for JaCaMo]
 
-== Didactical Material
-* link:tutorials/house-building/slides-practical.pdf[Building a house scenario (slides)] and link:tutorials/house-building/readme.txt[readme]
 
 == Reference Documentation
 Looking for in-depth knowledge on a particular JaCaMo dimension, you will find quick access to javadoc APIs and reference documentations

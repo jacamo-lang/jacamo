@@ -31,11 +31,6 @@ With the following tutorials you will experience deeper, in-context explorations
 * xref:tutorials/gold-miners/readme.adoc[Agent programming in a contest scenario (Gold Miners)]
 * xref:tutorials/tdd/readme.adoc[Goal-Oriented Test-Driven for JaCaMo]
 
-
-== JaCaMo FAQ
-
-*  xref:faq.adoc[JaCaMo FAQ]
-
 == Didactical Material
 * link:tutorials/house-building/slides-practical.pdf[Building a house scenario (slides)] and link:tutorials/house-building/readme.txt[readme]
 

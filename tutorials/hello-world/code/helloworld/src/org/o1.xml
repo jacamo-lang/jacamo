@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="http://moise.sourceforge.net/xml/os.xsl" type="text/xsl" ?>
+
+<organisational-specification
+    id="o1"
+    os-version="0.8"
+
+    xmlns='http://moise.sourceforge.net/os'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:schemaLocation='http://moise.sourceforge.net/os
+                        http://moise.sourceforge.net/xml/os.xsd' >
+
+<structural-specification>
+
+<role-definitions>
+    <role id="rv" />
+    <role id="rl" />
+    <role id="rc" />
+    <role id="rs" />
+</role-definitions>
+
+<group-specification id="team">
+    <roles>
+        <role id="rv" min="1" max="1"/>
+        <role id="rl" min="1" max="1"/>
+        <role id="rc" min="1" max="1"/>
+        <role id="rs" min="1" max="1"/>
+    </roles>
+</group-specification>
+</structural-specification>
+
+<functional-specification>
+    <scheme id="hello_sch">
+        <goal id="print_hello">
+            <plan operator="sequence">
+                <goal id="print_h"    ttf="10 minutes" />
+                <goal id="print_e"    ttf="10 minutes" />
+                <goal id="print_l1"   ttf="10 minutes" />
+                <goal id="print_l2"   ttf="10 minutes" />
+                <goal id="print_o1"   ttf="10 minutes" />
+                <goal id="print_spc"  ttf="10 minutes" />
+                <goal id="print_w"    ttf="10 minutes" />
+                <goal id="print_o2"   ttf="10 minutes" />
+                <goal id="print_r"    ttf="10 minutes" />
+                <goal id="print_l3"   ttf="10 minutes" />
+                <goal id="print_d"    ttf="10 minutes" />
+                <goal id="print_excl" ttf="10 minutes" />
+            </plan>
+            
+            <!--  alternative  -->
+            <!-- plan operator="parallel">
+                <goal id="hello">
+                    <plan operator="sequence">
+                        <goal id="print_h"    ttf="10 minutes" />
+                        <goal id="print_e"    ttf="10 minutes" />
+                        <goal id="print_l1"   ttf="10 minutes" />
+                        <goal id="print_l2"   ttf="10 minutes" />
+                        <goal id="print_o1"   ttf="10 minutes" />
+                        <goal id="print_spc"  ttf="10 minutes" />
+                    </plan>
+                </goal>
+                <goal id="world">
+                    <plan operator="sequence">
+                        <goal id="print_w"    ttf="10 minutes" />
+                        <goal id="print_o2"   ttf="10 minutes" />
+                        <goal id="print_r"    ttf="10 minutes" />
+                        <goal id="print_l3"   ttf="10 minutes" />
+                        <goal id="print_d"    ttf="10 minutes" />
+                        <goal id="print_excl" ttf="10 minutes" />
+                    </plan>
+                </goal>
+            </plan -->
+        </goal>
+
+        <mission id="print_vowel" min="1" max="1">
+            <goal id="print_e"/>
+            <goal id="print_o1"/>
+            <goal id="print_o2"/>
+        </mission>
+        <mission id="print_l" min="1" max="1">
+            <goal id="print_l1"/>
+            <goal id="print_l2"/>
+            <goal id="print_l3"/>
+        </mission>
+        <mission id="print_consonant" min="1" max="1">
+            <goal id="print_h"/>
+            <goal id="print_w"/>
+            <goal id="print_r"/>
+            <goal id="print_d"/>
+        </mission>
+        <mission id="print_special_chars" min="1" max="1">
+            <goal id="print_spc"/>
+            <goal id="print_excl"/>
+        </mission>
+    </scheme>
+</functional-specification>
+
+<normative-specification>
+    <norm id="norm1" type="obligation" role="rv" mission="print_vowel"/>
+    <norm id="norm2" type="obligation" role="rl" mission="print_l"/>
+    <norm id="norm3" type="obligation" role="rc" mission="print_consonant"/>
+    <norm id="norm4" type="obligation" role="rs" mission="print_special_chars"/>
+</normative-specification>
+
+</organisational-specification>

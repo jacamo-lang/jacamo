@@ -48,6 +48,7 @@ sanction-rule sr2 -> sanction(bob,remove_from_systems).
    - sanctions that produce obligations for  agents (`sanction(A,fine(X))`).
    - sanctions that are handled by the environment (`sanction(bob,remove_from_systems)`). As illustrated in this demo, this implementation of sanctions lead to _regimented_ sanctions. Sanctions are instrumented in the environment and there is no way to "scape" from its consequences. It mimics human sanctions like automatic fines produced by traffic light controllers. However, sanctions may be also read by agents that decide how to proceed with the sanction. See the source code of agent Karlos to see how sanction can be perceived.
 
+
 ## Result of the execution
 
 To run the demo, execute `./gradlew` in the demo folder:
@@ -65,6 +66,25 @@ To run the demo, execute `./gradlew` in the demo folder:
 ```
 
 image::./screen.png[]
+
+## Agent with a Normative Engine
+
+By running `./gradlew runNAg`, agent link:../src/agt/bob.asl[Bob] is created. This agent runs the NPL engine internally. The facts are his beliefs. (no artifact is used.)
+
+Result of the execution:
+
+```
+[bob] *** loading norms from src/org/demo.npl
+
+[bob] Unfulfilled obligation(alice,(vl(20) & (20 > 5)),b(0),"2023-12-13 13:58:51")[created("2023-12-13 13:58:48"),norm(n1,[["X",20]]),unfulfilled("2023-12-13 13:58:51")]
+
+[bob] Sanction fine(20) for alice created from norm n1 that is unfulfilled
+
+[bob] Unfulfilled obligation(bob,true,apply_fine(alice,3000),"2023-12-13 13:58:53")[created("2023-12-13 13:58:51"),norm(n2,[["X",20],["A",alice],["C",150]]),unfulfilled("2023-12-13 13:58:53")]
+
+[bob] **** I am implementing the sanction for bob ****
+```
+
 
 
 

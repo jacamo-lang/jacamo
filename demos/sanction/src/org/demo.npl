@@ -7,7 +7,7 @@ scope main {                               // definition of a scope of norms
     sanction-rule sr1(Ag,Value) -> sanction(Ag,fine(Value)).
 
     // bob has 2 seconds to apply fine sanctions
-    // (value of C is provide by an external source)
+    // (value of C is provided by an external source)
     norm n2: sanction(A,fine(X)) & extra(C) -> obligation(bob,true,apply_fine(A,X*C),`2 seconds`)
        if unfulfilled: sr2.
 

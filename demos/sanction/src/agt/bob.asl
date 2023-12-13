@@ -6,7 +6,7 @@ extra(150).
 
 +unfulfilled(O) <- .print("Unfulfilled ",O).
 
-+sanction(Ag,remove_from_systems)[norm(NormId,Event)]
++sanction(Ag,remove_from_systems)
    <- .println("**** I am implementing the sanction for ",Ag," ****").
 
 +sanction(Ag,Sanction)[norm(NormId,Event)]

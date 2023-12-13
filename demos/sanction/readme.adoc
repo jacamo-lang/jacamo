@@ -69,7 +69,7 @@ image::./screen1.png[]
 
 ## Agent with a Normative Engine
 
-By running `./gradlew runNAg`, agent link:../src/agt/bob.asl[Bob] is created. This agent runs the NPL engine internally. The facts are his beliefs. (no artifact is used.)
+By running `./gradlew runNAg`, agent link:./src/agt/bob.asl[Bob] is created. This agent runs the NPL engine internally. The facts are his beliefs. (no artifact is used.)
 
 Result of the execution:
 

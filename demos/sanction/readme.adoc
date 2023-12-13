@@ -65,7 +65,7 @@ To run the demo, execute `./gradlew` in the demo folder:
 [Sanctioner] **** I am implementing the sanction for bob ****
 ```
 
-image::./screen.png[]
+image::./screen1.png[]
 
 ## Agent with a Normative Engine
 
@@ -84,6 +84,9 @@ Result of the execution:
 
 [bob] **** I am implementing the sanction for bob ****
 ```
+
+image::./screen2.png[]
+
 
 
 

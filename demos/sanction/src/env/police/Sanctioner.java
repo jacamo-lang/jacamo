@@ -34,9 +34,9 @@ public class Sanctioner extends Artifact {
         try {
             var evt = ASSyntax.parseLiteral(event);
             if (evt.getFunctor().equals("sanction")) {
-                var sanction = (Literal)evt.getTerm(2);
+                var sanction = (Literal)evt.getTerm(1);
                 if (sanction.getFunctor().equals("remove_from_systems")) {
-                    logger.info("**** I am implementing the sanction for "+sanction.getTerm(0)+" ****");
+                    logger.info("**** I am implementing the sanction for "+evt.getTerm(0)+" ****");
                 }
             }
         } catch (ParseException e) {

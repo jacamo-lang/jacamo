@@ -6,7 +6,7 @@
        debug(inspector_gui(on));
        load("src/org/demo.npl");
        addFact(vl(20)); // triggers the norm n1
-       addFact(c(10));  // add condition for the application of sanction s1
+       addFact(extra(10));  // add condition for the application of sanction s1
        makeArtifact(ps1,"police.Sanctioner",[],SArt);
        listen(AId)[artifact_id(SArt)]; // ps1 get normative events (including sanctions) from nb1
        .wait(4000);
@@ -14,7 +14,7 @@
        .
 
 +oblUnfulfilled(O) <- .print("Unfulfilled ",O).
-+sanction(NormId,Event,Sanction) <- .print("Sanction ",Sanction," created for norm ", NormId, " that is ",Event).
++sanction(NormId,Event,Ag,Sanction) <- .print("Sanction ",Sanction," for ",Ag," created from norm ", NormId, " that is ",Event).
 
 
 { include("$jacamo/templates/common-cartago.asl") }

@@ -69,7 +69,7 @@ dependencies {
     implementation('guru.nidi:graphviz-java:0.7.0')
     implementation('org.slf4j:slf4j-nop:1.7.30')
 
-    testImplementation('junit:junit:4.12')
+    testImplementation('junit:junit:4.13.1')
 
     // used in cartago web infrastructure
     implementation "io.vertx:vertx-core:3.7.0"
@@ -80,7 +80,7 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:2.9.8"
 }
 
-// copy dep jars and scritps into build directory
+// copy dep jars and scripts into build directory
 //task copyJarsToBuild {
 //    inputs.files configurations.runtimeClasspath.files
 //    inputs.dir   'scripts'

@@ -16,9 +16,9 @@ cd ..
 #scp *.zip $USERSF,jacamo@web.sf.net:/home/project-web/jacamo/htdocs/nps
 cp *.zip ../../../../doc/nps
 
-#git commit -m "new project script" ../../../../docs/nps/np1.1.zip
+#git commit -m "new project script" ../../../../docs/nps/np1.2.zip
 
-#git add ../../../../doc/nps/npss.zip
-#git commit -m "new project script" ../../../../doc/nps/npss.zip
-#git push
+git add ../../../../doc/nps/npss.zip
+git commit -m "new project script" ../../../../doc/nps/npss.zip
+git push
 

@@ -1,0 +1,39 @@
+/*
+
+ In the project, add:
+
+    agent exercise3b {
+        roles: participant in agrp
+    }
+
+*/
+
+
+// the usual plans of participant....
++!bid[scheme(Sch)]
+   <- ?goalArgument(Sch,auction,"Id",Id);
+      lookupArtifact(Id,AId);
+      focus(AId);
+      bid(math.random * 100 + 10)[artifact_id(AId)];
+   .
+
++winner(W) : .my_name(W) <- .print("I Won!").
+
+// a new plan that, as soon I am committed to a mission, commits to the mission mAuctioneer
++commitment(Ag,mParticipant,Sch)[artifact_id(Aid)] : .my_name(Ag)
+   <- commitMission(mAuctioneer)[artifact_id(Aid)].
+
+// Produced error:
+// [exercise3b] Could not finish intention: intention 31:
+//    +commitment(exercise3b,mParticipant,"sch_a1")[artifact_id(cobj_3) ...
+//  Trigger: +commitment(exercise3b,mParticipant,"sch_a1")...
+//      env_failure_reason(reason(fail(mission_cardinality(mAuctioneer,"sch_a1",2,1)))),
+//      error_msg("Error committing to mission mAuctioneer")...
+//
+// There is already an auctioneer (Mr. Bob) and the max cardinality of this mission is 1,
+// so the second agent trying to commit to this role fails.
+
+
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
+{ include("$jacamoJar/templates/org-obedient.asl") }

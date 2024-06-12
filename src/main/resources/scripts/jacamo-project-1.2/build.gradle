@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation ('org.jacamo:jacamo:1.2.2')
+    implementation ('org.jacamo:jacamo:1.2.3')
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {

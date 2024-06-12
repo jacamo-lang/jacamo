@@ -18,7 +18,7 @@ cp *.zip ../../../../doc/nps
 
 #git commit -m "new project script" ../../../../docs/nps/np1.1.zip
 
-#git add ../../../../doc/nps/npss.zip
-#git commit -m "new project script" ../../../../doc/nps/npss.zip
-#git push
+git add ../../../../doc/nps/npss.zip
+git commit -m "new project script" ../../../../doc/nps/npss.zip
+git push
 

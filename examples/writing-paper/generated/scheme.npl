@@ -1,0 +1,112 @@
+/*
+    This program was automatically generated from
+    the organisation specification 'writePaperSch'
+    on July 30, 2024 - 15:47:58
+
+    This is a MOISE tool, see more at http://moise.sourceforge.net
+
+*/
+
+scope scheme(writePaperSch) {
+
+   // ** Facts from OS
+
+   // mission_cardinality(mission id, min, max)
+   mission_cardinality(mColaborator,1,5).
+   mission_cardinality(mManager,1,1).
+   mission_cardinality(mBib,1,1).
+
+   // mission_role(mission id, role id)
+   mission_role(mManager,editor).
+   mission_role(mBib,writer).
+   mission_role(mColaborator,writer).
+
+   // mission_goal(mission id, goal id)
+   mission_goal(mColaborator,wsecs).
+   mission_goal(mManager,wconc).
+   mission_goal(mManager,wsectitles).
+   mission_goal(mManager,wtitle).
+   mission_goal(mManager,wp).
+   mission_goal(mManager,wabs).
+   mission_goal(mBib,wrefs).
+
+   // goal(missions, goal id, dependence (on goal statisfaction), type, #ags to satisfy, ttf)
+   goal([],sv,dep(and,[finish]),performance,0,`1 year`).
+   goal([mManager],wconc,dep(and,[wsecs]),performance,all,`1 day`).
+   goal([mManager],wsectitles,dep(and,[wabs]),performance,all,`1 day`).
+   goal([mManager],wtitle,dep(and,[]),performance,all,`1 day`).
+   goal([mBib],wrefs,dep(and,[wsecs]),performance,all,`1 hour`).
+   goal([],fdv,dep(and,[wsectitles]),performance,0,`1 year`).
+   goal([mManager],wp,dep(and,[sv]),performance,all,`5 seconds`).
+   goal([],finish,dep(and,[wconc, wrefs]),performance,0,`1 year`).
+   goal([mColaborator],wsecs,dep(and,[fdv]),performance,all,`7 days`).
+   goal([mManager],wabs,dep(and,[wtitle]),performance,all,`1 day`).
+   super_goal(wp, sv).
+   super_goal(finish, wconc).
+   super_goal(fdv, wsectitles).
+   super_goal(fdv, wtitle).
+   super_goal(finish, wrefs).
+   super_goal(wp, fdv).
+   super_goal(sv, finish).
+   super_goal(sv, wsecs).
+   super_goal(fdv, wabs).
+
+   // ** Rules
+   mplayers(M,S,V) :- .count(committed(_,M,S),V).
+   well_formed(S) :- 
+      (mission_accomplished(S,mColaborator) | not mission_accomplished(S,mColaborator) & mplayers(mColaborator,S,VmColaborator) & VmColaborator >= 1 & VmColaborator <= 5) &
+      (mission_accomplished(S,mManager) | not mission_accomplished(S,mManager) & mplayers(mManager,S,VmManager) & VmManager >= 1 & VmManager <= 1) &
+      (mission_accomplished(S,mBib) | not mission_accomplished(S,mBib) & mplayers(mBib,S,VmBib) & VmBib >= 1 & VmBib <= 1).
+   is_finished(S) :- satisfied(S,wp).
+   mission_accomplished(S,M) :- .findall(Goal, mission_goal(M,Goal), MissionGoals) & all_satisfied(S,MissionGoals).
+   all_satisfied(_,[]).
+   all_satisfied(S,[G|T]) :- satisfied(S,G) & all_satisfied(S,T).
+   any_satisfied(S,[G|_]) :- satisfied(S,G).
+   any_satisfied(S,[G|T]) :- not satisfied(S,G) & any_satisfied(S,T).
+
+   // enabled goals (i.e. dependence between goals)
+   enabled(S,G) :- goal(_, G,  dep(or,PCG), _, NP, _) & NP \== 0 & any_satisfied(S,PCG).
+   enabled(S,G) :- goal(_, G, dep(and,PCG), _, NP, _) & NP \== 0 & all_satisfied(S,PCG).
+   super_satisfied(S,G) :- super_goal(SG,G) & satisfied(S,SG).
+
+   // ** Norms
+
+   // --- Properties check ---
+   norm mission_left:  
+           leaved_mission(Agt,M,S) &
+           not mission_accomplished(S,M)
+        -> fail(mission_left(Agt,M,S)).
+   norm ach_not_enabled_goal:  
+           done(S,G,Agt) &
+           mission_goal(M,G) &
+           not mission_accomplished(S,M) &
+           not enabled(S,G)
+        -> fail(ach_not_enabled_goal(S,G,Agt)).
+   norm ach_not_committed_goal:  
+           done(S,G,Agt) &
+           .findall(M, mission_goal(M,G) &
+           (committed(Agt,M,S) | mission_accomplished(S,M)), [])
+        -> fail(ach_not_committed_goal(S,G,Agt)).
+   norm mission_permission:  
+           committed(Agt,M,S) &
+           not (mission_role(M,R) &
+           responsible(Gr,S) &
+           fplay(Agt,R,Gr))
+        -> fail(mission_permission(Agt,M,S)).
+   norm mission_cardinality:  
+           scheme_id(S) &
+           mission_cardinality(M,_,MMax) &
+           mplayers(M,S,MP) &
+           MP > MMax
+        -> fail(mission_cardinality(M,S,MP,MMax)).
+
+   // agents are obliged to fulfill their enabled goals
+   norm ngoal: 
+           committed(A,M,S) & mission_goal(M,G) & 
+           ((goal(_,G,_,achievement,_,D) & What = satisfied(S,G)) | 
+            (goal(_,G,_,performance,_,D) & What = done(S,G,A))) &
+           well_formed(S) & 
+           not satisfied(S,G) & 
+           not super_satisfied(S,G)
+        -> obligation(A,enabled(S,G),What,`now` + D).
+} // end of scheme writePaperSch

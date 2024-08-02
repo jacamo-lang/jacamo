@@ -10,7 +10,7 @@ Installation instructions for users that plan to create JaCaMo applications are 
 
 Documentation is available at the https://jacamo-lang.github.io/[JaCaMo web site].
 
-=== JaCaMo developers
+== JaCaMo developers
 
 Documentation is available xref:doc/readme.adoc[in the doc folder].
 

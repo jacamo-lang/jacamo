@@ -12,7 +12,7 @@ Documentation is available at the https://jacamo-lang.github.io/[JaCaMo web site
 
 == JaCaMo developers
 
-Documentation is available xref:doc/readme.adoc[here].
+Documentation is available xref:doc[here].
 
 To build the project from the sources:
 

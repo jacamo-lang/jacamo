@@ -1,4 +1,4 @@
-= JaCaMo Documentation
+= JaCaMo Doc
 :toc: right
 :author: JaCaMo Team
 :source-highlighter: coderay
@@ -6,9 +6,11 @@
 :icons: font
 :prewrap!:
 
+In this folder we have scripts and the source files for documents.
+
 The starting point for JaCaMo documentation is the https://jacamo-lang.github.io/[JaCaMo web site]. 
 
-We also have the project dedicated to produce guidelines for https://github.com/jacamo-lang/documentation/[writting documentation] and the https://mitpress.mit.edu/9780262044578/[JaCaMo book].
+We also have the repository dedicated to guidelines for https://github.com/jacamo-lang/documentation/[writing documentation].
 
 // ifdef::env-github[]
 // NOTE: Part of this documentation of is also available (and better rendered) at http://jacamo-lang.github.io/jacamo/.

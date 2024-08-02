@@ -6,43 +6,41 @@
 :icons: font
 :prewrap!:
 
-The JaCaMo project aims to promote the Multi-Agent Oriented Programming (MAOP) approach by providing a development platform that integrates tools and languages for programming the following dimensions of Multi-Agent Systems: agents, environment, and organisation.
-
-NOTE: See also the community project dedicated to https://github.com/jacamo-lang/documentation/[JaCaMo documentation], the https://jacamo-lang.github.io[JaCaMo web site], and the https://mitpress.mit.edu/9780262044578/[JaCaMo book].
+The starting point for JaCaMo documentation is the JaCaMo https://jacamo-lang.github.io/doc[JaCaMo web site]. We also have the community project dedicated to https://github.com/jacamo-lang/documentation/[documentation] and the https://mitpress.mit.edu/9780262044578/[JaCaMo book].
 
 ifdef::env-github[]
 NOTE: Part of this documentation of is also available (and better rendered) at http://jacamo-lang.github.io/jacamo/.
 endif::[]
 
 
-== Getting Started Guides
+// == Getting Started Guides
 
-If you’re just getting to know JaCaMo or tackling programming your first multi-agent program, these guides are for you! All you need is a few minutes. The only prerequisites are a JaCaMo platform installed, a JDK and a text editor.
+// If you’re just getting to know JaCaMo or tackling programming your first multi-agent program, these guides are for you! All you need is a few minutes. The only prerequisites are a JaCaMo platform installed, a JDK and a text editor.
 
-* xref:install.adoc[Installation instructions]
-* xref:tutorials/hello-world/readme.adoc[Hello World with JaCaMo]
+// * xref:install.adoc[Installation instructions]
+// * xref:tutorials/hello-world/readme.adoc[Hello World with JaCaMo]
 
-== Tutorials
+// == Tutorials
 
-With the following tutorials you will experience deeper, in-context explorations and practices of multi-agent oriented programming topics.
-// After the practice of these tutorials, you will be ready to implement real-world multiagent solutions.
+// With the following tutorials you will experience deeper, in-context explorations and practices of multi-agent oriented programming topics.
+// // After the practice of these tutorials, you will be ready to implement real-world multiagent solutions.
 
-* xref:tutorials/coordination/readme.adoc[Different approaches to implement coordination using JaCaMo]
-* xref:tutorials/gold-miners/readme.adoc[Agent programming in a contest scenario (Gold Miners)]
-* xref:tutorials/tdd/readme.adoc[Goal-Oriented Test-Driven for JaCaMo]
+// * xref:tutorials/coordination/readme.adoc[Different approaches to implement coordination using JaCaMo]
+// * xref:tutorials/gold-miners/readme.adoc[Agent programming in a contest scenario (Gold Miners)]
+// * xref:tutorials/tdd/readme.adoc[Goal-Oriented Test-Driven for JaCaMo]
 
 
-== Reference Documentation
-Looking for in-depth knowledge on a particular JaCaMo dimension, you will find quick access to javadoc APIs and reference documentations
+// == Reference Documentation
+// Looking for in-depth knowledge on a particular JaCaMo dimension, you will find quick access to javadoc APIs and reference documentations
 
-*  xref:jcm.adoc[JaCaMo project: jcm files]
-*  xref:debug.adoc[Debugging in JaCaMo]
-*  Agent documentation: http://jason-lang.github.io/jason/[Jason]
-*  Environment documentation: http://cartago.sf.net/doc[CArTaGo]
-*  Organisation documentation: http://moise.sourceforge.net/doc[Moise] & http://moise.sourceforge.net/doc/ora4mas[ORA4MAS]
-//*  link:agent-env{outfilesuffix}[Agent-Environment project: C4Jason]
-//*  link:org-env{outfilesuffix}[Organisation-Environment project: ORA4MAS]
-//*  link:jacandroid{outfilesuffix}[JaCaMo for Android]
-* link:http://jacamo.sourceforge.net/doc/api/index.html?overview-summary.html[JaCaMo API]
-* link:https://github.com/jacamo-lang/jacamo[GitHub]
-* link:https://github.com/jacamo-lang/jacamo/blob/master/doc/release-notes.adoc[Release Notes]
+// *  xref:jcm.adoc[JaCaMo project: jcm files]
+// *  xref:debug.adoc[Debugging in JaCaMo]
+// *  Agent documentation: http://jason-lang.github.io/jason/[Jason]
+// *  Environment documentation: http://cartago.sf.net/doc[CArTaGo]
+// *  Organisation documentation: http://moise.sourceforge.net/doc[Moise] & http://moise.sourceforge.net/doc/ora4mas[ORA4MAS]
+// //*  link:agent-env{outfilesuffix}[Agent-Environment project: C4Jason]
+// //*  link:org-env{outfilesuffix}[Organisation-Environment project: ORA4MAS]
+// //*  link:jacandroid{outfilesuffix}[JaCaMo for Android]
+// * link:http://jacamo.sourceforge.net/doc/api/index.html?overview-summary.html[JaCaMo API]
+// * link:https://github.com/jacamo-lang/jacamo[GitHub]
+// * link:https://github.com/jacamo-lang/jacamo/blob/master/doc/release-notes.adoc[Release Notes]

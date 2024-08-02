@@ -1,0 +1,32 @@
+/*
+
+ In the project, add:
+
+    agent exercise3a {
+        roles: participant in agrp
+    }
+
+*/
+
+
+// the usual plans of participant....
++!bid[scheme(Sch)]
+   <- ?goalArgument(Sch,auction,"Id",Id);
+      lookupArtifact(Id,AId);
+      focus(AId);
+      bid(math.random * 100 + 10)[artifact_id(AId)];
+      goalAchieved(decide)[artifact_name(Sch)];
+   .
+
+// Produced error:
+// No failure event was generated for
+//    +!bid[code(goalAchieved(decide)[artifact_name("sch_a1")]),...
+//    env_failure_reason(reason(fail(ach_not_committed_goal("sch_a1",decide,exercise3a)))),...
+//
+// i.e. the agent is not committed to the goal decide, so it can not set it as achieved
+
++winner(W) : .my_name(W) <- .print("I Won!").
+
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
+{ include("$jacamoJar/templates/org-obedient.asl") }

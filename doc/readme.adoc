@@ -6,7 +6,7 @@
 :icons: font
 :prewrap!:
 
-The starting point for JaCaMo documentation is the JaCaMo https://jacamo-lang.github.io/doc[JaCaMo web site]. We also have the community project dedicated to https://github.com/jacamo-lang/documentation/[documentation] and the https://mitpress.mit.edu/9780262044578/[JaCaMo book].
+The starting point for JaCaMo documentation is the https://jacamo-lang.github.io/[JaCaMo web site]. We also have the community project dedicated to https://github.com/jacamo-lang/documentation/[documentation] and the https://mitpress.mit.edu/9780262044578/[JaCaMo book].
 
 ifdef::env-github[]
 NOTE: Part of this documentation of is also available (and better rendered) at http://jacamo-lang.github.io/jacamo/.

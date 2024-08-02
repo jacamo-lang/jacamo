@@ -4,18 +4,17 @@
 
 The JaCaMo project aims to promote the Multi-Agent Oriented Programming (MAOP) approach by providing a development platform that integrates tools and languages for programming the following dimensions of Multi-Agent Systems: agents, environment, and organisation.
 
-== Documentation
+== JaCaMo users
 
-Most of the JaCaMo documentation is available xref:doc/readme.adoc[in the doc folder].
+Installation instructions for users that plan to create JaCaMo applications are described xref:doc/install.adoc[here].
 
-== Installation
+Documentation is available at the https://jacamo-lang.github.io/[JaCaMo web site].
 
+=== JaCaMo developers
 
-=== For JaCaMo users
+Documentation is available xref:doc/readme.adoc[in the doc folder].
 
-Installation instructions and options for users are described xref:doc/install.adoc[here].
-
-=== For JaCaMo developers
+To build the project from the sources:
 
 ----
 git clone https://github.com/jacamo-lang/jacamo.git
@@ -45,7 +44,7 @@ cd jacamo
 //
 // An _eclipse_ project to change the JaCaMo implementation can be created form menu "File/Import/Existing Gradle Project".
 
-The development of the main tools used by JaCaMo is also hosted on GitHub:
+JaCaMo is based on:
 
 - https://github.com/jason-lang/jason[Jason]
 - https://github.com/CArtAgO-lang/cartago[CArtAgO]

@@ -210,7 +210,7 @@ clean {
     }
 }*/
 
-task javadocJar (type: Jar, dependsOn: javadoc) {
+/*task javadocJar (type: Jar, dependsOn: javadoc) {
     archiveBaseName = 'jacamo'
     classifier = 'javadoc'
     from javadoc.destinationDir
@@ -222,15 +222,15 @@ task sourceJar (type : Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
     duplicatesStrategy = 'include'
-}
+}*/
 
 
 publishing {
     publications {
         maven(MavenPublication) {
             from components.java
-            artifact sourceJar
-            artifact javadocJar
+            //artifact sourceJar
+            //artifact javadocJar
 
             artifactId 'jacamo'
         }

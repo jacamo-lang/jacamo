@@ -6,9 +6,9 @@
     id="change_role"
     os-version="1.1"
 
-    xmlns='http://moise-lang.github.io/os'
+    xmlns='http://moise.sourceforge.net/os'
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-    xsi:schemaLocation='http://moise-lang.github.io/os
+    xsi:schemaLocation='http://moise.sourceforge.net/os
                         https://moise-lang.github.io/xml/os.xsd' >
 
 <structural-specification>

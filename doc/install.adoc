@@ -36,7 +36,7 @@ Gradle is a very simple way to develop JaCaMo application in your machine with m
 
 Requirements:
 
-- Java >= 17
+- Java >= 21
 
 Follow the steps below to create a new application:
 
@@ -90,7 +90,7 @@ This option requires that you install JaCaMo CLI in your machine. JaCaMo CLI has
 
 Requirements:
 
-- Java >= 17
+- Java >= 21
 
 Download a JaCaMo release from link:https://github.com/jacamo-lang/jacamo/releases[here] (download the file named `jacamo-bin-.....zip`) and decompress it. The zip file contains documentation, examples, and a sub-directory `bin` with the file *`jacamo`*. It is a unix executable file, if not, change its properties with `chmod +x jacamo`. Finally, link:https://www.computerhope.com/issues/ch000549.htm[adds the directory `bin` in your machine `PATH`] so that the command `jacamo` can be executed in a terminal.
 
@@ -104,6 +104,15 @@ and execute it with
 ```
 cd app1
 jacamo app1.jcm
+```
+
+Another usual option is to create an uber jar:
+
+```
+jacamo app create app2 --console
+cd app2
+jacamo app compile
+java -jar build/libs/jacamo-app2-1.0-all.jar
 ```
 
 More parameters for the `jacamo` command can be found https://github.com/jacamo-lang/jacamo-cli[here].

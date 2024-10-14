@@ -236,6 +236,8 @@ public class Config extends jason.util.Config {
                     return true;
                 }
             } catch (Exception e) {}
+            if (showFixMsgs)
+                System.out.println("Configuration of '"+jarEntry+"' NOT found, based on class loader");
 
             // try to get from classpath
             jarFile = getJarFromClassPath(jarFilePrefix, fileInJar);
@@ -247,6 +249,8 @@ public class Config extends jason.util.Config {
                 put(jarEntry, jarFile);
                 return true;
             }
+            if (showFixMsgs)
+                System.out.println("Configuration of '"+jarEntry+"' NOT found, based on class path: "+System.getProperty("java.class.path"));
 
             // try with $JACAMO_HOME
             String jh = System.getenv().get("JACAMO_HOME");
@@ -265,6 +269,8 @@ public class Config extends jason.util.Config {
                     }
                 }
             }
+            if (showFixMsgs)
+                System.out.println("Configuration of '"+jarEntry+"' NOT found, based on JACAMO_HOME="+jh);
 
             super.tryToFixJarFileConf(jarEntry, jarFilePrefix);
         }

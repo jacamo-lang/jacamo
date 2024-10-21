@@ -45,17 +45,17 @@ NOTE: The first time you run takes longer since it downloads JaCaMo.
 Unix::
 +
 ----------------
-wget -q http://jacamo-lang.github.io/jacamo/nps/np1.2.zip
-unzip np1.2.zip
+wget -q http://jacamo-lang.github.io/jacamo/nps/np1.3.zip
+unzip np1.3.zip
 ./gradlew --console=plain
 ----------------
 
 Windows::
-1. Download wget -q http://jacamo-lang.github.io/jacamo/nps/np1.2.zip
+1. Download wget -q http://jacamo-lang.github.io/jacamo/nps/np1.3.zip
 2. Unzip
 3. Run `gradlew.bat`
 
-TIP: Instead of `np1.2.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
+//TIP: Instead of `np1.2.zip` you can use `npss.zip` to create a JaCaMo application based on the current snapshot version.
 
 //https://curl.haxx.se[`curl`] is a program that simply downloads the `np07.zip` file from http://jacamo.sourceforge.net/nps/np07.zip.
 

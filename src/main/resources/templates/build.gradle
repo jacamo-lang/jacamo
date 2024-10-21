@@ -5,20 +5,18 @@
    <DATE>
 */
 
+plugins {
+    id 'com.gradleup.shadow' version '8.3.3'
+    id 'java'
+    id 'maven-publish'
+}
+
 defaultTasks 'run'
 
-apply plugin: 'java'
-apply plugin: 'maven-publish'
 apply from: '.jcm-deps.gradle' // this file contains dependencies declared in the .jcm files
 
 version '1.0'
 group   'org.jacamo'
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
 
 repositories {
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
@@ -87,6 +85,10 @@ jar {
     from (project.buildDir.absolutePath + '/classes') {
         include '**/*'
     }
+
+    manifest {
+        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
+    }
 }
 
 publishing {
@@ -97,36 +99,36 @@ publishing {
     }
 }
 
-
-task uberJar(type: Jar, dependsOn: 'classes') {
-    group      ' JaCaMo'
-    description 'creates a single runnable jar file with all dependencies'
-    duplicatesStrategy 'exclude'
-
-    manifest {
-        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
-    }
-    archiveBaseName = 'jacamo-<PROJECT_NAME>' // the name must start with jacamo so that jacamo...jar is found in the classpath
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    from (project.projectDir.absolutePath) {
-        include '**/*.asl'
-        include '**/*.xml'
-        include '**/*.sai'
-        include '**/*.ptl'
-        include '**/*.jcm'
-        include '*.properties'
-    }
-    from (project.buildDir.absolutePath + '/jcm') {
-        include '**/*'
-    }
-    with jar
-
+shadowJar {
     doFirst {
         copy {
             from '<PROJECT-FILE>'
             rename '<PROJECT-FILE>','default.jcm'
             into project.buildDir.absolutePath + '/jcm'
         }
+    }
+    archiveFileName = "jacamo-${project.name}-${project.version}-all.jar" // the name must start with jacamo so that jacamo...jar is found in the classpath
+    from (project.projectDir.absolutePath + '/src') {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.sai'
+        include '**/*.ptl'
+        include '**/*.jcm'
+        include '*.properties'
+        exclude 'test'
+    }
+    from (project.buildDir.absolutePath + '/classes') {
+        include '**/*'
+    }
+    from (project.buildDir.absolutePath + '/jcm') {
+        include '**/*'
+    }
+    from (project.projectDir.absolutePath + '/') {
+        include '*.properties'
+    }
+
+    doLast {
+        println("You can run your application with: java -jar build/libs/jacamo-${project.name}-${project.version}-all.jar")
     }
 }
 

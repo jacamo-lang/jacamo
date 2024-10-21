@@ -8,7 +8,7 @@
 
 In this folder we have scripts and the source files for documents.
 
-The starting point for JaCaMo documentation is the https://jacamo-lang.github.io/[JaCaMo web site]. 
+NOTE: See also the community project dedicated to https://github.com/jacamo-lang/documentation/[JaCaMo documentation], the https://jacamo-lang.github.io[JaCaMo web site], and the https://mitpress.mit.edu/9780262044578/[JaCaMo book].
 
 We also have the repository dedicated to guidelines for https://github.com/jacamo-lang/documentation/[writing documentation].
 

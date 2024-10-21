@@ -1,0 +1,9 @@
+// NPL running inside Bob
+
+mas nag {
+
+    agent bob {
+        ag-class: npl.NormativeAg("src/org/demo.npl")
+    }
+
+}

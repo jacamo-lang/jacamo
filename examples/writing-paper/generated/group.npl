@@ -1,0 +1,62 @@
+/*
+    This program was automatically generated from
+    the organisation specification 'wpgroup'
+    on July 30, 2024 - 15:48:54
+
+    This is a MOISE tool, see more at http://moise.sourceforge.net
+
+*/
+
+scope group(wpgroup) {
+
+   // ** Facts from OS
+   role_cardinality(editor,1,1).
+   role_cardinality(writer,1,5).
+
+   compatible(editor,writer,gr_inst).
+   compatible(writer,editor,gr_inst).
+
+   // ** Rules
+   rplayers(R,G,V)    :- .count(play(_,R,G),V).
+   well_formed(G) :-
+      rplayers(editor,G,Veditor) & Veditor >= 1 & Veditor <= 1 &
+      rplayers(writer,G,Vwriter) & Vwriter >= 1 & Vwriter <= 5 &
+      .findall(GInst, subgroup(GInst,_,G), ListSubgroups) & all_subgroups_well_formed(ListSubgroups).
+   all_subgroups_well_formed([]).
+   all_subgroups_well_formed([H|T]) :- subgroup_well_formed(H) & all_subgroups_well_formed(T).
+
+   // ** Properties check 
+   norm role_in_group:  
+           play(Agt,R,Gr) &
+           group_id(Gr) &
+           not role_cardinality(R,_,_)
+        -> fail(role_in_group(Agt,R,Gr)).
+   norm role_cardinality:  
+           group_id(Gr) &
+           role_cardinality(R,_,RMax) &
+           rplayers(R,Gr,RP) &
+           RP > RMax
+        -> fail(role_cardinality(R,Gr,RP,RMax)).
+   norm role_compatibility:  
+           play(Agt,R1,Gr) &
+           play(Agt,R2,Gr) &
+           group_id(Gr) &
+           R1 < R2 &
+           not fcompatible(R1,R2,gr_inst)
+        -> fail(role_compatibility(R1,R2,Gr)).
+   norm well_formed_responsible:  
+           responsible(Gr,S) &
+           not well_formed(Gr)
+        -> fail(well_formed_responsible(Gr)).
+   norm subgroup_in_group:  
+           group_id(Gr) &
+           subgroup(G,GT,Gr) &
+           not subgroup_cardinality(GT,_,_)
+        -> fail(subgroup_in_group(G,GT,Gr)).
+   norm subgroup_cardinality:  
+           group_id(Gr) &
+           subgroup_cardinality(SG,_,SGMax) &
+           .count(subgroup(_,SG,Gr),SGP) &
+           SGP > SGMax
+        -> fail(subgroup_cardinality(SG,Gr,SGP,SGMax)).
+} // end of group wpgroup

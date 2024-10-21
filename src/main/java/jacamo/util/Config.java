@@ -164,6 +164,10 @@ public class Config extends jason.util.Config {
         tryToFixJarFileConf(MOISE_JAR,  "moise");  // this jar is required at runtime (e.g. for .include)
         super.fix();
 
+        // if jacamo is ok, but moise isn't, try to set $moise as the same as $jacamo
+        if (getJaCaMoJar() != null && getProperty(MOISE_JAR) == null)
+            addPackage(MOISE_PKG, getPackage(JACAMO_PKG));
+
         if (getProperty(START_WEB_EI) == null) {
             put(START_WEB_EI, "true");
         }
@@ -236,6 +240,8 @@ public class Config extends jason.util.Config {
                     return true;
                 }
             } catch (Exception e) {}
+            if (showFixMsgs)
+                System.out.println("Configuration of '"+jarEntry+"' NOT found, based on class loader");
 
             // try to get from classpath
             jarFile = getJarFromClassPath(jarFilePrefix, fileInJar);
@@ -247,6 +253,8 @@ public class Config extends jason.util.Config {
                 put(jarEntry, jarFile);
                 return true;
             }
+            if (showFixMsgs)
+                System.out.println("Configuration of '"+jarEntry+"' NOT found, based on class path: "+System.getProperty("java.class.path"));
 
             // try with $JACAMO_HOME
             String jh = System.getenv().get("JACAMO_HOME");
@@ -265,6 +273,8 @@ public class Config extends jason.util.Config {
                     }
                 }
             }
+            if (showFixMsgs)
+                System.out.println("Configuration of '"+jarEntry+"' NOT found, based on JACAMO_HOME="+jh);
 
             super.tryToFixJarFileConf(jarEntry, jarFilePrefix);
         }

@@ -1,0 +1,16 @@
+norm n1: 
+   scheme_id(S) & 
+   responsible(Gr,S) & 
+   mplayers(mManager,S,V) & 
+   mission_cardinality(mManager,MMinCard,MMaxCard) & 
+   (V < MMaxCard) & 
+   fplay(A,editor,Gr) & 
+   not (mission_accomplished(S,mManager))
+-> permission(A,responsible(Gr,S),committed(A,mManager,S),(`now`+"1971-0-5 1:0:0")).
+
+
+norm n2: (scheme_id(S) & (responsible(Gr,S) & (mplayers(mBib,S,V) & (mission_cardinality(mBib,MMinCard,MMaxCard) & ((V < MMinCard) & (fplay(A,writer,Gr) & not (mission_accomplished(S,mBib)))))))) -> obligation(A,not (well_formed(S)),committed(A,mBib,S),(`now`+"1970-0-5 1:0:0")).
+
+norm pn3: (scheme_id(S) & (responsible(Gr,S) & (mplayers(mColaborator,S,V) & (mission_cardinality(mColaborator,MMinCard,MMaxCard) & ((V < MMaxCard) & ((V >= MMinCard) & (fplay(A,writer,Gr) & not (mission_accomplished(S,mColaborator))))))))) -> permission(A,responsible(Gr,S),committed(A,mColaborator,S),(`now`+"1970-0-5 1:0:0")).
+
+norm n3: (scheme_id(S) & (responsible(Gr,S) & (mplayers(mColaborator,S,V) & (mission_cardinality(mColaborator,MMinCard,MMaxCard) & ((V < MMinCard) & (fplay(A,writer,Gr) & not (mission_accomplished(S,mColaborator)))))))) -> obligation(A,not (well_formed(S)),committed(A,mColaborator,S),(`now`+"1970-0-5 1:0:0")).

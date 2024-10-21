@@ -54,9 +54,9 @@ mas auction_ag {
 --------------------------------------------------------------------------------
 +auction(service, D)[source(A)] <- .send(A,tell,bid(D, math.random * 100 + 10)).
 
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+{ include("$moise/templates/org-obedient.asl") }
 --------------------------------------------------------------------------------
 
 By this plan, each time the participant gets an event corresponding to
@@ -287,9 +287,9 @@ mas auction_env {
       ?best_bid(V);
       .print("Winner for ", S, " is ",W," with ", V).
 
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+{ include("$moise/templates/org-obedient.asl") }
 ------------------------------------------------------
 
 and the `participant.asl` is:
@@ -300,9 +300,9 @@ and the `participant.asl` is:
 
 +winner(W) : .my_name(W) <- .print("I Won!").
 
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+{ include("$moise/templates/org-obedient.asl") }
 --------------------------------------------------------
 
 Notice that operations and observable properties of the
@@ -497,9 +497,9 @@ changed to achieve organisational goals:
 
 +winner(W) : .my_name(W) <- .print("I Won!").
 
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+{ include("$moise/templates/org-obedient.asl") }
 ------
 
 *4.* The execution output is:

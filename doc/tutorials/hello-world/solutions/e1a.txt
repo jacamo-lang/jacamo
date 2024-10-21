@@ -7,6 +7,6 @@ msg(us,"Good morning").
 
 +!start : country(C) & msg(C,M) <- .print(M).
 
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+{ include("$moise/templates/org-obedient.asl") }

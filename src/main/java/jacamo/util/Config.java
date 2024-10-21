@@ -164,6 +164,10 @@ public class Config extends jason.util.Config {
         tryToFixJarFileConf(MOISE_JAR,  "moise");  // this jar is required at runtime (e.g. for .include)
         super.fix();
 
+        // if jacamo is ok, but moise isn't, try to set $moise as the same as $jacamo
+        if (getJaCaMoJar() != null && getProperty(MOISE_JAR) == null)
+            addPackage(MOISE_PKG, getPackage(JACAMO_PKG));
+
         if (getProperty(START_WEB_EI) == null) {
             put(START_WEB_EI, "true");
         }

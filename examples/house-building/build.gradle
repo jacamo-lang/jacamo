@@ -1,21 +1,35 @@
 /*
-   example: house building
+   Project house-building
 
-   Gradle build file for JaCaMo Application
-   September 27, 2018 - 15:33:36
+   Gradle build file for JaCaMo Applications
+   October 21, 2024 - 15:49:01
 */
+
+plugins {
+    id 'com.gradleup.shadow' version '8.3.3'
+    id 'java'
+    id 'maven-publish'
+}
 
 defaultTasks 'run'
 
-apply plugin: 'java'
+apply from: '.jcm-deps.gradle' // this file contains dependencies declared in the .jcm files
 
 version '1.0'
 group   'org.jacamo'
 
 repositories {
-    mavenCentral()
-    maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases" }
+
+    //maven { url "http://jacamo.sourceforge.net/maven2" }
+    //maven { url "https://jade.tilab.com/maven/" }
+
+    flatDir { dirs 'lib' }
+
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+
 }
 
 dependencies {
@@ -28,6 +42,8 @@ sourceSets {
             srcDir 'src/env'
             srcDir 'src/agt'
             srcDir 'src/org'
+            srcDir 'src/int'
+            srcDir 'src/java'
         }
         resources {
             srcDir 'src/resources'
@@ -36,21 +52,154 @@ sourceSets {
 }
 
 task run (type: JavaExec, dependsOn: 'classes') {
-    description 'runs the application'
-    group ' JaCaMo'
+    group       ' JaCaMo'
+    description 'runs the JaCaMo application'
+    doFirst {
+        mkdir 'log'
+    }
     mainClass = 'jacamo.infra.JaCaMoLauncher'
-    args 'house.jcm'
+    args 'house-building.jcm'
+    // jvmArgs '-Xss15m'
     classpath sourceSets.main.runtimeClasspath
 }
 
 task buildJCMDeps (type: JavaExec, dependsOn: 'classes') {
     mainClass = 'jacamo.infra.RunJaCaMoProject'
-    args = ['house.jcm', '--deps']
+    args = ['house-building.jcm', '--deps']
     classpath sourceSets.main.runtimeClasspath
 }
 
+jar {
+    duplicatesStrategy 'exclude'
+
+    archiveBaseName = project.name
+
+    from (project.projectDir.absolutePath + '/src') {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.sai'
+        include '**/*.ptl'
+        include '**/*.jcm'
+        exclude 'test'
+    }
+    from (project.buildDir.absolutePath + '/classes') {
+        include '**/*'
+    }
+
+    manifest {
+        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+shadowJar {
+    doFirst {
+        copy {
+            from 'house-building.jcm'
+            rename 'house-building.jcm','default.jcm'
+            into project.buildDir.absolutePath + '/jcm'
+        }
+    }
+    archiveFileName = "jacamo-${project.name}-${project.version}-all.jar" // the name must start with jacamo so that jacamo...jar is found in the classpath
+    from (project.projectDir.absolutePath + '/src') {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.sai'
+        include '**/*.ptl'
+        include '**/*.jcm'
+        include '*.properties'
+        exclude 'test'
+    }
+    from (project.buildDir.absolutePath + '/classes') {
+        include '**/*'
+    }
+    from (project.buildDir.absolutePath + '/jcm') {
+        include '**/*'
+    }
+    from (project.projectDir.absolutePath + '/') {
+        include '*.properties'
+    }
+
+    doLast {
+        println("You can run your application with: java -jar build/libs/jacamo-${project.name}-${project.version}-all.jar")
+    }
+}
+
+
+task testJaCaMo {
+    description 'runs JaCaMo unit tests'
+    def errorOnTests = false
+    outputs.upToDateWhen { false } // disable cache
+
+    doFirst {
+        try {
+            javaexec {
+                mainClass = 'jacamo.infra.JaCaMoLauncher'
+                if (gradle.startParameter.logLevel.toString().equals("DEBUG")) {
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-debug-logging.properties']
+                } else if (gradle.startParameter.logLevel.toString().equals("INFO")) {
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-info-logging.properties']
+                } else {
+                    args = ['src/test/tests.jcm', '--log-conf', '$jason/templates/console-lifecycle-logging.properties']
+                }
+                classpath sourceSets.main.runtimeClasspath
+
+                errorOutput = new ByteArrayOutputStream()
+                standardOutput = new ByteArrayOutputStream()
+
+                ext.stdout = {
+                    return standardOutput.toString()
+                }
+                ext.errout = {
+                    return errorOutput.toString()
+                }
+            }
+        } catch (Exception e) {
+            errorOnTests = true
+        }
+    }
+
+    doLast {
+        def styler = 'black red green yellow blue magenta cyan white'
+            .split().toList().withIndex(30)
+            .collectEntries { key, val -> [(key) : { "\033[${val}m${it}\033[0m" }] }
+
+        def std = stdout()
+        std.splitEachLine('\n') { String line ->
+            line = line.replace("TESTING","${styler['yellow']('TESTING')}")
+            line = line.replace("PASSED","${styler['green']('PASSED')}")
+            line = line.replace("FAILED","${styler['red']('FAILED')}")
+            line = line.replace("TODO","${styler['magenta']('TODO')}")
+            line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
+            println line
+        }
+
+        def err = errout()
+        err.splitEachLine('\n') { String line ->
+            line = line.replace("TESTING","${styler['yellow']('TESTING')}")
+            line = line.replace("PASSED","${styler['green']('PASSED')}")
+            line = line.replace("FAILED","${styler['red']('FAILED')}")
+            line = line.replace("TODO","${styler['magenta']('TODO')}")
+            line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
+            println line
+        }
+
+        if (errorOnTests) {
+            throw new GradleException('JaCaMo unit tests: ERROR!')
+        }
+    }
+}
+tasks.test.finalizedBy testJaCaMo
 
 clean {
     delete 'bin'
     delete 'build'
+    delete 'log'
 }

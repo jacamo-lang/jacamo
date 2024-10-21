@@ -84,9 +84,9 @@ has the format `bib( <service description>, <price>)`.
       .broadcast(tell, winner(Service,W)).
 
 
-{ include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }
-{ include("$jacamoJar/templates/org-obedient.asl") }
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+{ include("$moise/templates/org-obedient.asl") }
 ------
 <1> `L` is a list of all bids, e.g. `[b(77.7,alice), b(91.7,giacomo), ...]`
 <2> all 4 expected bids have been received, announce the winner

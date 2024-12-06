@@ -88,12 +88,22 @@ To edit your code, any text editor can be used. VS Code has plugins for syntax h
 
 This option requires that you install JaCaMo CLI in your machine. JaCaMo CLI has features to create and manage JaCaMo projects.
 
+APT Package - for Debian, Ubuntu, Mint, and derivates (by link:https://github.com/chon-group/dpkg-jacamo[Chon])::
+To install execute the following commands in a terminal:
+----------------
+echo "deb [trusted=yes] http://packages.chon.group/ chonos main" | sudo tee /etc/apt/sources.list.d/chonos.list 
+sudo apt update
+sudo apt install jacamo-cli
+----------------
+
+Others::
 Requirements:
 
 - Java >= 21
 
 Download a JaCaMo release from link:https://github.com/jacamo-lang/jacamo/releases[here] (download the file named `jacamo-bin-.....zip`) and decompress it. The zip file contains documentation, examples, and a sub-directory `bin` with the file *`jacamo`*. It is a unix executable file, if not, change its properties with `chmod +x jacamo`. Finally, link:https://www.computerhope.com/issues/ch000549.htm[adds the directory `bin` in your machine `PATH`] so that the command `jacamo` can be executed in a terminal.
 
+Hello World::
 In a terminal, you can create a new application named `app1` with the command
 
 ```

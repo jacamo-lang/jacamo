@@ -88,6 +88,15 @@ To edit your code, any text editor can be used. VS Code has plugins for syntax h
 
 This option requires that you install JaCaMo CLI in your machine. JaCaMo CLI has features to create and manage JaCaMo projects.
 
+link:https://github.com/chon-group/dpkg-jacamo[JaCaMo CLI APT Package] - for Debian, Ubuntu, Mint, and derivates::
+To install execute the following commands in a terminal:
+----------------
+echo "deb [trusted=yes] http://packages.chon.group/ chonos main" | sudo tee /etc/apt/sources.list.d/chonos.list 
+sudo apt update
+sudo apt install jacamo-cli
+----------------
+
+Others::
 Requirements:
 
 - Java >= 21

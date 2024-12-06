@@ -1,0 +1,16 @@
+    // in the .jcm project:
+    agent francois : hello.asl {
+        beliefs: message("Bonjour")
+    }
+    agent maria    : hello.asl {
+        beliefs: message("Bom dia")
+    }
+    agent giacomo  : hello.asl {
+        beliefs: message("Buon giorno")
+    }
+    agent alice    : hello.asl {
+        beliefs: message("Good morning")
+    }
+    agent bob : hello2.asl {
+        beliefs: country(us)
+    }

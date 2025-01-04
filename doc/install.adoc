@@ -88,13 +88,23 @@ To edit your code, any text editor can be used. VS Code has plugins for syntax h
 
 This option requires that you install JaCaMo CLI in your machine. JaCaMo CLI has features to create and manage JaCaMo projects.
 
-APT Package - for Debian, Ubuntu, Mint, and derivates (by link:https://github.com/chon-group/dpkg-jacamo[Chon])::
+For Debian, Ubuntu, Mint, and derivates (APT Package by link:https://github.com/chon-group/dpkg-jacamo[Chon])::
 To install execute the following commands in a terminal:
 ----------------
 echo "deb [trusted=yes] http://packages.chon.group/ chonos main" | sudo tee /etc/apt/sources.list.d/chonos.list 
 sudo apt update
 sudo apt install jacamo-cli
 ----------------
+
+For Windows (Installer by link:https://github.com/chon-group/win-jacamo[Chon])::
+To install, download the link:https://packages.chon.group/windows/jacamo-cli/[jacamo-installer-file] and proceed with the instalation, like below:
+
+
+[cols="3*^", options="header"]
+|===
+|image:https://raw.githubusercontent.com/chon-group/win-jacamo/main/.imgs/install01.png[] |image:https://raw.githubusercontent.com/chon-group/win-jacamo/main/.imgs/install02.png[] |image:https://raw.githubusercontent.com/chon-group/win-jacamo/main/.imgs/install03.png[] 
+|image:https://raw.githubusercontent.com/chon-group/win-jacamo/main/.imgs/install04.png[] |image:https://raw.githubusercontent.com/chon-group/win-jacamo/main/.imgs/install05.png[] |image:https://raw.githubusercontent.com/chon-group/win-jacamo/main/.imgs/install06.png[] 
+|===
 
 Others::
 Requirements:

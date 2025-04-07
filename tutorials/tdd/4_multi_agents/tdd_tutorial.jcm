@@ -1,0 +1,87 @@
+/*
+    tdd
+    ---------------------------
+
+    JaCaMo Project File
+
+    This file defines the initial state of the MAS (initial agents, environment, organisation, ....)
+
+    (see jacamo/doc/jcm.html for more information about what can be defined in this file)
+*/
+
+mas tdd {
+    agent room_agent {
+        focus: room.hvac
+    }
+
+    agent tims_assistant : assistant.asl {
+        beliefs: preferred_temperature(22)
+                 recipient_agent(room_agent)
+        goals: send_preference
+    }
+
+    agent clebers_assistant : assistant.asl {
+        beliefs: preferred_temperature(23)
+                 recipient_agent(room_agent)
+        goals: send_preference
+    }
+
+    workspace room {
+        artifact hvac: devices.HVAC(25)
+    }
+
+}
+
+/*
+
+<agents>    ::= <agent>*
+<agent>     ::= agent <name> [ : <source> ] { <parameter>* }
+<parameter> ::= <id> : <value> ( (, | EOL) <value> ) *
+<id>        ::= beliefs | goals |
+                debug | verbose |
+                ag-class | ag-arch | ag-bb-class | myparameter |
+                instances |
+                join | focus | roles
+
+agent bob : participant.asl { // if source is omitted, bob.asl will be used by default
+
+      // initial beliefs
+      beliefs:     p("this is a condition",15000)
+                   friend(alice)
+      // initial goals
+      goals:       start, go(home)
+
+      // debug options
+      debug:       mindinspector(gui(2000,html,history))   // starts the mind inspector for the agent
+      // verbose level: 0 (only agent output), 1 (agent+jason output), 2 (agent+jason+debug output)
+      verbose:     2
+
+      // customisation classes
+      ag-class:    tt.MyAgClass
+      ag-arch:     myp.myArch1
+                   mypk.MyCustomAgArch
+      ag-bb-class: my.Bb
+
+      // user application parameter, used for instance by user custom architectures
+      myparameter: "this is an appl parameter"
+
+      // 5 bobs (called bob1, bob2, ... bob5) will be created.
+      // You can also list the names of the agents. Default value is 1.
+      instances:   5
+
+      // join the workspace w2 (w2 should be defined in environment section)
+      join:        w2
+
+      // focus on artifact a1 in workspace w1 (a1 should be defined in environment section)
+      focus:       w1.a1
+                   ns::w1.a2      // focus on w1.a2 and place observable properties in namespace ns
+
+      // adopt the role r1 in group g2 and role r2 in group g3 (g2, g3, o1 should be defined in organisation section)
+      roles:       r1 in g2, r2 in o1.g3
+}
+
+ * MAS custom_BB {
+    infrastructure: Centralised
+    agents:
+        a beliefBaseClass jason.bb.TextPersistentBB;
+ */

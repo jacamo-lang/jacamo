@@ -1,0 +1,35 @@
+mas helloworld_europe {
+
+    agent francois : hello.asl {
+        beliefs: message("Bonjour")
+        focus: france.gui
+        focus: italy.gui
+        focus: jacamo.gui
+    }
+    agent giacomo  : hello.asl {
+        beliefs: message("Buon giorno")
+        focus: italy.gui
+        focus: jacamo.gui
+    }
+
+    workspace jacamo {
+        artifact gui: display.GUIConsole("common")
+    }
+    workspace france {
+        artifact gui: display.GUIConsole("France")
+    }
+    workspace italy {
+        artifact gui: display.GUIConsole("Italy")
+    }
+
+    organisation hello_org: o1.xml {
+        group jacamo_team: team {
+            responsible-for: hello_eng
+            players: francois rv,
+                     giacomo  rc
+        }
+        scheme hello_eng: hello_sch
+    }
+
+    //platform: cartago("infrastructure")
+}

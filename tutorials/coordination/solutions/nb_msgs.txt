@@ -1,0 +1,6 @@
+For each auction, p messages for the announce + p messages to indicate the winner + p bid messages for each participant.
+
+        a * (2p + p^2)
+
+E.g. 10 auctions with 100 participants, 10*(2*100 + 99*100) = 100 K messages!
+

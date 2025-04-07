@@ -1,0 +1,14 @@
+ // the plan for original goal
++!print_h[scheme(hello_eng)]
+   <- ?focused(jacamo,gui,ArtId);
+      printMsg("H")[artifact_id(ArtId)];
+      .wait(700).
+
+// the plan for goals of the new scheme
++!print_h[scheme(YOUR_SCHEME_ID_HERE)]
+   <- ?focused(YOUR_WORKSPACE_HERE, YOUR_ART_NAME_HERE,ArtId);
+       printMsg("H")[artifact_id(ArtId)];
+      .wait(700).
+
+// ... similar for the other goals
+

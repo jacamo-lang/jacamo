@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="author" content="Use of the JaCaMo Platform">
+<title>Hello JaCaMo and Multi-Agent World</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment the following line when using as a custom stylesheet */
+/* @import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700"; */
+html{font-family:sans-serif;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+b,strong{font-weight:bold}
+abbr{font-size:.9em}
+abbr[title]{cursor:help;border-bottom:1px dotted #dddddf;text-decoration:none}
+dfn{font-style:italic}
+hr{height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type=checkbox],input[type=radio]{padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,::before,::after{box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;line-height:1;position:relative;cursor:auto;-moz-tab-size:4;-o-tab-size:4;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.square{list-style-type:square}
+ul.circle ul:not([class]),ul.disc ul:not([class]),ul.square ul:not([class]){list-style:inherit}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:1px solid #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,.2),inset 0 0 0 .1em #fff;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin:0 auto;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border:1px solid #e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:hsla(0,0%,100%,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details{margin-left:1.25rem}
+details>summary{cursor:pointer;display:block;position:relative;line-height:1.6;margin-bottom:.625rem;outline:none;-webkit-tap-highlight-color:transparent}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";border:solid transparent;border-left:solid;border-width:.3em 0 .3em .5em;position:absolute;top:.5em;left:-1.25rem;transform:translateX(15%)}
+details[open]>summary::before{border:solid transparent;border-top:solid;border-width:.5em .3em 0;transform:translateY(15%)}
+details>summary::after{content:"";width:1.25rem;height:1em;position:absolute;top:.3em;left:-1.25rem}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class=paragraph]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border:1px solid #e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;border-radius:4px}
+.sidebarblock{border:1px solid #dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;border-radius:4px}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:first-child,.sidebarblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child,.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class=highlight],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos,pre.pygments .linenos{border-right:1px solid;opacity:.35;padding-right:.5em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+pre.pygments span.linenos{display:inline-block;margin-right:.75em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans-serif;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;font-size:.85rem;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all>*>tr,table.stripes-odd>*>tr:nth-of-type(odd),table.stripes-even>*>tr:nth-of-type(even),table.stripes-hover>*>tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+li>p:empty:only-child::before{content:"";display:inline-block}
+ul.checklist>li>p:first-child{margin-left:-1em}
+ul.checklist>li>p:first-child>.fa-square-o:first-child,ul.checklist>li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist>li>p:first-child>input[type=checkbox]:first-child{margin-right:.25em}
+ul.inline{display:flex;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:4px solid #fff;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt,summary{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,td.hdlist1,span.alt,summary{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]{border-bottom:1px dotted}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media amzn-kf8,print{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<style>
+pre.pygments .hll { background-color: #ffffcc }
+pre.pygments { background: #f8f8f8; }
+pre.pygments .tok-c { color: #3D7B7B; font-style: italic } /* Comment */
+pre.pygments .tok-err { border: 1px solid #FF0000 } /* Error */
+pre.pygments .tok-k { color: #008000; font-weight: bold } /* Keyword */
+pre.pygments .tok-o { color: #666666 } /* Operator */
+pre.pygments .tok-ch { color: #3D7B7B; font-style: italic } /* Comment.Hashbang */
+pre.pygments .tok-cm { color: #3D7B7B; font-style: italic } /* Comment.Multiline */
+pre.pygments .tok-cp { color: #9C6500 } /* Comment.Preproc */
+pre.pygments .tok-cpf { color: #3D7B7B; font-style: italic } /* Comment.PreprocFile */
+pre.pygments .tok-c1 { color: #3D7B7B; font-style: italic } /* Comment.Single */
+pre.pygments .tok-cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
+pre.pygments .tok-gd { color: #A00000 } /* Generic.Deleted */
+pre.pygments .tok-ge { font-style: italic } /* Generic.Emph */
+pre.pygments .tok-ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+pre.pygments .tok-gr { color: #E40000 } /* Generic.Error */
+pre.pygments .tok-gh { color: #000080; font-weight: bold } /* Generic.Heading */
+pre.pygments .tok-gi { color: #008400 } /* Generic.Inserted */
+pre.pygments .tok-go { color: #717171 } /* Generic.Output */
+pre.pygments .tok-gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+pre.pygments .tok-gs { font-weight: bold } /* Generic.Strong */
+pre.pygments .tok-gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+pre.pygments .tok-gt { color: #0044DD } /* Generic.Traceback */
+pre.pygments .tok-kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+pre.pygments .tok-kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+pre.pygments .tok-kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+pre.pygments .tok-kp { color: #008000 } /* Keyword.Pseudo */
+pre.pygments .tok-kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+pre.pygments .tok-kt { color: #B00040 } /* Keyword.Type */
+pre.pygments .tok-m { color: #666666 } /* Literal.Number */
+pre.pygments .tok-s { color: #BA2121 } /* Literal.String */
+pre.pygments .tok-na { color: #687822 } /* Name.Attribute */
+pre.pygments .tok-nb { color: #008000 } /* Name.Builtin */
+pre.pygments .tok-nc { color: #0000FF; font-weight: bold } /* Name.Class */
+pre.pygments .tok-no { color: #880000 } /* Name.Constant */
+pre.pygments .tok-nd { color: #AA22FF } /* Name.Decorator */
+pre.pygments .tok-ni { color: #717171; font-weight: bold } /* Name.Entity */
+pre.pygments .tok-ne { color: #CB3F38; font-weight: bold } /* Name.Exception */
+pre.pygments .tok-nf { color: #0000FF } /* Name.Function */
+pre.pygments .tok-nl { color: #767600 } /* Name.Label */
+pre.pygments .tok-nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+pre.pygments .tok-nt { color: #008000; font-weight: bold } /* Name.Tag */
+pre.pygments .tok-nv { color: #19177C } /* Name.Variable */
+pre.pygments .tok-ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+pre.pygments .tok-w { color: #bbbbbb } /* Text.Whitespace */
+pre.pygments .tok-mb { color: #666666 } /* Literal.Number.Bin */
+pre.pygments .tok-mf { color: #666666 } /* Literal.Number.Float */
+pre.pygments .tok-mh { color: #666666 } /* Literal.Number.Hex */
+pre.pygments .tok-mi { color: #666666 } /* Literal.Number.Integer */
+pre.pygments .tok-mo { color: #666666 } /* Literal.Number.Oct */
+pre.pygments .tok-sa { color: #BA2121 } /* Literal.String.Affix */
+pre.pygments .tok-sb { color: #BA2121 } /* Literal.String.Backtick */
+pre.pygments .tok-sc { color: #BA2121 } /* Literal.String.Char */
+pre.pygments .tok-dl { color: #BA2121 } /* Literal.String.Delimiter */
+pre.pygments .tok-sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+pre.pygments .tok-s2 { color: #BA2121 } /* Literal.String.Double */
+pre.pygments .tok-se { color: #AA5D1F; font-weight: bold } /* Literal.String.Escape */
+pre.pygments .tok-sh { color: #BA2121 } /* Literal.String.Heredoc */
+pre.pygments .tok-si { color: #A45A77; font-weight: bold } /* Literal.String.Interpol */
+pre.pygments .tok-sx { color: #008000 } /* Literal.String.Other */
+pre.pygments .tok-sr { color: #A45A77 } /* Literal.String.Regex */
+pre.pygments .tok-s1 { color: #BA2121 } /* Literal.String.Single */
+pre.pygments .tok-ss { color: #19177C } /* Literal.String.Symbol */
+pre.pygments .tok-bp { color: #008000 } /* Name.Builtin.Pseudo */
+pre.pygments .tok-fm { color: #0000FF } /* Name.Function.Magic */
+pre.pygments .tok-vc { color: #19177C } /* Name.Variable.Class */
+pre.pygments .tok-vg { color: #19177C } /* Name.Variable.Global */
+pre.pygments .tok-vi { color: #19177C } /* Name.Variable.Instance */
+pre.pygments .tok-vm { color: #19177C } /* Name.Variable.Magic */
+pre.pygments .tok-il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body class="article toc2 toc-right">
+<div id="header">
+<h1>Hello JaCaMo and Multi-Agent World</h1>
+<div class="details">
+<span id="author" class="author">Use of the JaCaMo Platform</span><br>
+<span id="revdate">JaCaMo Team</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_part_i_new_project">Part I (new project)</a></li>
+<li><a href="#part-ii-agent">Part II (agent)</a>
+<ul class="sectlevel2">
+<li><a href="#exercises">Exercises</a></li>
+</ul>
+</li>
+<li><a href="#part-iii-environment">Part III (environment)</a>
+<ul class="sectlevel2">
+<li><a href="#_exercises">Exercises</a></li>
+</ul>
+</li>
+<li><a href="#part-iv-organisation">Part IV (organisation)</a>
+<ul class="sectlevel2">
+<li><a href="#_exercises_2">Exercises</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This programming tutorial illustrates some features of JaCaMo through
+the development and refinement of a kind of (sophisticated) <em>Hello World</em>
+application that considers agents, environment and organisation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_part_i_new_project">Part I (new project)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this tutorial, Gradle+VSCode is used as the IDE (see <a href="../../install.html">installation instructions</a>). You can also take a look in the <a href="https://jacamo-lang.github.io/documentation/getting-started/readme.html">getting started</a> document to find more about crating JaCaMo projects.</p>
+</div>
+<div class="paragraph">
+<p>The first step is to create a new project named <code>helloworld</code>:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Unix</dt>
+<dd>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">wget -q http://jacamo-lang.github.io/jacamo/nps/np1.3.zip
+unzip np1.3.zip
+./gradlew --console=plain</pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1">Windows</dt>
+<dd>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download <a href="http://jacamo-lang.github.io/jacamo/nps/np1.3.zip" class="bare">http://jacamo-lang.github.io/jacamo/nps/np1.3.zip</a></p>
+</li>
+<li>
+<p>Unzip</p>
+</li>
+<li>
+<p>Run <code>gradlew.bat</code></p>
+</li>
+</ol>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>When asked for the application identification, answer <code>helloworld</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">&gt; Task :run
+JaCaMo 1.3.0
+
+Enter the identification of the new application: helloworld
+Creating path /Users/jomi/tmp/helloworld
+
+You can run your application with:
+   cd /Users/jomi/tmp/helloworld
+   ./gradlew -q --console=plain</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The file <code>helloworld.jcm</code> (the project file) describes the project and is the main focus of this tutorial. By opening this file in VSCode, you will
+have screen like the following:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./screens/vs-project.png" alt="vs project"></span></p>
+</div>
+<div class="paragraph">
+<p>Project files (with extension <code>.jcm</code>) allow us to define the agents, the
+environment and the organisation of our multi-agent application.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="part-ii-agent">Part II (agent)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Our initial application will have four agents that will print different
+hello world messages. The source code for all of them will be the same
+(a Jason <code>.asl</code> file), but they will have different names and different
+initial beliefs.</p>
+</div>
+<div class="paragraph">
+<p><strong>1.</strong> To add the four agents, in the project file, replace
+<code>agent sample_agent</code> by:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jacamoproject"><span></span>    agent francois : hello.asl {
+        beliefs: message(&quot;Bonjour&quot;)
+    }
+    agent maria    : hello.asl {
+        beliefs: message(&quot;Bom dia&quot;)
+    }
+    agent giacomo  : hello.asl {
+        beliefs: message(&quot;Buon giorno&quot;)
+    }
+    agent alice    : hello.asl {
+        beliefs: message(&quot;Good morning&quot;)
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The four agents (named <code>francois</code>, <code>maria</code>, <code>giacomo</code>, and <code>alice</code>)
+share the same program file <code>hello.asl</code>, that does not exist yet (it
+will be created in the following step). As can be seen in this project
+file, each agent will have an initial belief <code>message("xxxxx")</code>
+corresponding to the message that it should use to say hello.</p>
+</div>
+<div class="paragraph">
+<p><strong>2.</strong> To create a new agent type select <code>src/agt/sample_agent.asl</code> and then rename it to <code>hello.asl</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>3.</strong> Our initial agents will be obedient to everything their organisation asks for! Thus, uncomment the last line in the file <code>hello.asl</code>. In order to take into account the belief <code>message</code>, the plan to achieve the goal <code>!start</code> has to be improved as shown below:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./screens/atom-code1.png" alt="atom code1"></span></p>
+</div>
+<div class="paragraph">
+<p>The plan in line 11 on the picture can be read by the agent as "whenever
+I have the goal <code>!start</code> and I believe in <code>message(X)</code>, I will achieve
+this goal by doing <code>.print(X)</code>. <code>X</code> is a variable that gets value by
+matching <code>message(X)</code> with some agent&#8217;s belief. If the agent belief is
+<code>message("Bom dia")</code>, the value of <code>X</code> will be "Bom dia".</p>
+</div>
+<div class="paragraph">
+<p>If the plan in line 11 cannot be used (because the agent does not
+believe in <code>message(X)</code>), then the plan in line 12 is used.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+the order of the plans for achieving goal <code>start</code> is important. If
+you place plan of line 12 before the one in line 11, this latter will
+never be executed!
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>4.</strong> You can now run the application</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">   ./gradlew</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>the result should be the following in
+the <code>MAS Console</code> of the project:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./screens/r1.png" alt="r1"></span></p>
+</div>
+<div class="paragraph">
+<p>You can use the mind inspector (<a href="http://localhost:3272" class="bare">http://localhost:3272</a>) to see mental
+state of the agents when clicking on the agent&#8217;s name:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./screens/mi1.png" alt="mi1" width="70%"></span></p>
+</div>
+<div class="sect2">
+<h3 id="exercises">Exercises</h3>
+<div class="paragraph">
+<p><strong>a)</strong> Create a new type of agent (called <code>hello2.asl</code>) with the following
+initial code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jasonagent"><span></span>msg(fr,&quot;Bonjour&quot;).
+msg(br,&quot;Bom dia&quot;).
+msg(it,&quot;Buon giorno&quot;).
+msg(us,&quot;Good morning&quot;).
+
+!start.
+
+{ include(&quot;$jacamo/templates/common-cartago.asl&quot;) }
+{ include(&quot;$jacamo/templates/common-moise.asl&quot;) }
+{ include(&quot;$moise/templates/org-obedient.asl&quot;) }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Change the .jcm project so that the agent gets an initial belief
+<code>country(&#8230;&#8203;..)</code>. This belief defines the agent&#8217;s country (e.g.
+<code>country(it)</code>). In the jason code of the agent, write a plan for
+achieving the goal <code>start</code> that considers the <code>country</code> belief and the
+<code>msg</code> predicates defined in the code above.</p>
+</div>
+<div class="paragraph">
+<p><em>Hint</em>: in the plan&#8217;s context (what follows <code>:</code>) you can use the
+operator <code>&amp;</code> to write a conjunction of two predicates (e.g.
+<code>belief(X) &amp; X &gt; 10</code>).</p>
+</div>
+<div class="paragraph">
+<p><em>Solution</em>: available <a href="./solutions/e1a.txt">here</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>b)</strong> Add a new agent (called <code>bob</code>) in the application based on this new
+agent type, that will join the system composed of <code>alice</code>, <code>francois</code>,
+<code>giocamo</code> and <code>maria</code>.</p>
+</div>
+<div class="paragraph">
+<p><em>Solution</em>: available <a href="./solutions/e1b.txt">here</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="part-iii-environment">Part III (environment)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The environment of this application is quite simple, it has a graphical
+display artifact where agents can print messages and perceive the number
+of already printed messages. The artifact has thus one observable
+property (<code>numMsg</code>) and one operation (<code>printMsg(String)</code>). Initially
+all agents will share the same display artifact and latter we will have
+displays in several countries.</p>
+</div>
+<div class="paragraph">
+<p><strong>1.</strong> To create the display artifact, select <code>src/env/tools/Counter.java</code> and rename it to  <code>src/env/display/GUIConsole.java</code>. Then replace the default code of GUIConsole by the Java code available <a href="./code/helloworld/src/env/display/GUIConsole.java">here</a>. Identify in the Java source code where the observable properties and operations are declared.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./screens/atom-code2.png" alt="atom code2"></span></p>
+</div>
+<div class="paragraph">
+<p><strong>2.</strong> Add this artifact in the project by including the following lines in the .jcm project:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jacamoproject"><span></span>    workspace jacamo {
+        artifact gui: display.GUIConsole(&quot;common&quot;)
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above lines create an instance of the display artifact and named it
+<code>gui</code>. This artifact will be placed in a workspace identified by
+<code>jacamo</code>.</p>
+</div>
+<div class="paragraph">
+<p><strong>3.</strong> In order to perceive this artifact, the agents need to focus on it.
+This is why we add for each agent a <code>focus</code> instruction focusing on the
+artifact <code>gui</code> in the workspace <code>jacamo</code>:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./screens/atom-code3.png" alt="atom code3"></span></p>
+</div>
+<div class="paragraph">
+<p>In the agent source code (file <code>hello.asl</code>), replace the <code>.print</code> action
+by <code>printMsg</code> which is the name of the operation provided by the <code>gui</code>
+artifact. The agent will thus use the artifact operation instead of the
+Jason MAS Console.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jasonagent"><span></span>+!start : message(X) &lt;- printMsg(X).</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+any action corresponding to the call of an operation on an artifact
+doesn&#8217;t start with a <code>.</code>. The actions preceded by a <code>.</code> as <code>.print</code> are
+Jason internal actions.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>4.</strong> The result of the execution should be:</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./screens/r2.png" alt="r2" width="60%"></span></p>
+</div>
+<div class="paragraph">
+<p><strong>5.</strong> Instead of having a shared display artifact, we will now create one
+display artifact for each country. Since artifacts are inside
+workspaces, we will also create a workspace for each
+country.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup> The following new lines for the
+project file (.jcm) will create the workspaces and artifacts:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jacamoproject"><span></span>    workspace france {
+        artifact gui: display.GUIConsole(&quot;France&quot;)
+    }
+
+    workspace italy {
+        artifact gui: display.GUIConsole(&quot;Italy&quot;)
+    }
+
+    workspace brazil {
+        artifact gui: display.GUIConsole(&quot;Brazil&quot;)
+    }
+
+    workspace usa {
+        artifact gui: display.GUIConsole(&quot;USA&quot;)
+    }</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+the name of the artifact should be unique in one workspace, but we
+can have the same name in different workspaces. For instance the name
+<code>gui</code> of the artifact <code>display.GUIConsole</code> is the same in all workspaces.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>6.</strong> In order to perceive the artifacts (by focusing on them), the
+agents should be placed in their proper workspace. This is why we add
+the <code>join</code> instruction in the project file as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jacamoproject"><span></span>    agent francois : hello.asl {
+        beliefs: message(&quot;Bonjour&quot;)
+        join:  france
+        focus: france.gui
+    }
+    agent maria    : hello.asl {
+        beliefs: message(&quot;Bom dia&quot;)
+        focus: brazil.gui          // we can avoid the explicit join (as in francois) since the focus in JCM files implies a join
+    }
+    agent giacomo  : hello.asl {
+        beliefs: message(&quot;Buon giorno&quot;)
+        focus: italy.gui
+    }
+    agent alice    : hello.asl {
+        beliefs: message(&quot;Good morning&quot;)
+        focus: usa.gui
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>7.</strong> The result of the execution should be:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./screens/r3.png" alt="r3" width="70%">
+</div>
+</div>
+<div class="paragraph">
+<p>You can use the workspace inspector (<a href="http://localhost:3273" class="bare">http://localhost:3273</a>) to see the current state of the environment (clicking on each or artifact allows to inspect its observable properties):</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./screens/wi.png" alt="wi" width="70%">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>8.</strong> What happens in case an agent joined two workspaces as below? (remind that focusing on an artifact implies joining the workspace hosting this artifact)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jacamoproject"><span></span>    agent francois : hello.asl {
+    	beliefs: message(&quot;Bonjour&quot;)
+    	focus: france.gui
+    	focus: italy.gui
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The message is shown in an undetermined console! Two alternatives are proposed to solve it:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>we want that the message goes to the french console&#8201;&#8212;&#8201;this solution is detailed in <a href="#step9">step 9</a>.</p>
+</li>
+<li>
+<p>we want that the message is shown in all consoles the agent is focusing&#8201;&#8212;&#8201;<a href="#step10">step 10</a>.</p>
+</li>
+</ul>
+</div>
+<div id="step9" class="paragraph">
+<p><strong>9.</strong> Create a new source code for <code>francois</code>: copy <code>hello.asl</code> to <code>hf.asl</code> and change the source code for <code>francois</code> in its <code>agent</code> declaration to take this into account.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jacamoproject"><span></span>    agent francois : hf.asl {
+    	beliefs: message(&quot;Bonjour&quot;)
+    	focus: france.gui
+    	focus: italy.gui
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>hf.asl</code>, change the plan for achieving the goal <code>start</code> to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jasonagent"><span></span>+!start : message(X)
+   &lt;- ?focused(france, gui, ArtId);
+      printMsg(X)[artifact_id(ArtId)].</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This plan consults (by the operator <code>?</code>) the belief base of the agent for the artifact id corresponding to the artifact named <code>gui</code> in workspace <code>france</code> <sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>. Then this id is used as an annotation for the action <code>printMsg</code>, defining the exact artifact where this operation will be executed.</p>
+</div>
+<div id="step10" class="paragraph">
+<p><strong>10.</strong> To print a message in all console artifacts named "gui", change the plan for achieving the goal <code>start</code> to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jasonagent"><span></span>+!start : message(X)
+   &lt;- for ( focused(_,gui,ArtId) ) {
+          printMsg(X)[artifact_id(ArtId)]
+      }.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This plan can be read as "for each answer for the query <code>focused(_,gui,ArtId)</code>, print a message using the value of variable <code>ArtId</code> as the target artifact". The <code>_</code> means "any thing". Each iteration of the loop will have <code>ArtId</code> assigned to a different value.</p>
+</div>
+<div class="sect2">
+<h3 id="_exercises">Exercises</h3>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Place your agent <code>bob</code> in the right workspace or in many workspaces
+and change his code so that it prints the messages in all consoles he
+knows.</p>
+</li>
+<li>
+<p>Change one workspace by adding a second GUIConsole with a different
+name and focus some agents on this new artifact.</p>
+</li>
+<li>
+<p>Using the mind inspector, try to understand the reasons of all the
+beliefs of the agent <code>francois</code>.</p>
+</li>
+<li>
+<p>(<strong>hard</strong>) Instead of using the artifact name, as in the
+<a href="#step10">step 10</a>, select the artifact ids by the name of the Java class used to
+create the artifact (<code>display.GUIConsole</code> in our case).</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><em>Hint</em>: In the mind inspector, take a closer look at the annotations
+of beliefs <code>numMsg</code> by clicking on [&#8230;&#8203;].</p>
+</div>
+<div class="paragraph">
+<p><em>Solution</em>: available <a href="./code/helloworld/src/agt/hf.asl">here</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="part-iv-organisation">Part IV (organisation)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We will change our example so that the printing of "Hello World" will be
+a coordinated task for our four agents: each agent will print one
+character of the message. For instance, <code>francois</code> will print the "H",
+<code>maria</code> the "e", <code>giacomo</code> the "l", and so on. Notice that it is very
+important that they coordinate for the task, for instance, <code>maria</code>
+should print the "e" only after <code>francois</code> has printed the
+"H".<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup></p>
+</div>
+<div class="paragraph">
+<p>One way to coordinate the execution of joint taks is by mean of an organisation.  In JaCaMo the organisation is programmed based on the Moise model, where groups, roles, missions, goals, global plans, and schemes are defined. Our organisation has one global goal <code>print_hello</code> that is decomposed into several sub-goals, one for each letter. The sub-goals have to be achieved in sequence, so that the message will be printed correctly.</p>
+</div>
+<div class="paragraph">
+<p>These goals are distributed to the agents by means of <em>missions</em> (a set of goals an agent can commit to). The following missions are proposed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>print_vowel</code>: the agent responsible for this mission will print the vowels of the message.</p>
+</li>
+<li>
+<p><code>print_l</code>: the mission to print the character <code>l</code>.</p>
+</li>
+<li>
+<p><code>print_consonant</code>: the mission to print the remaining consonants.</p>
+</li>
+<li>
+<p><code>print_special_chars</code>: the mission to print spaces and exclamation marks.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The combination of goals, plans and missions is called a /social scheme/ in Moise. In our example, the social scheme is identified by <code>hello_sch</code>. The following diagram, in Moise notation, represents the social scheme:<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./code/os-fs.png" alt="os fs" width="90%">
+</div>
+</div>
+<div class="paragraph">
+<p>Before committing to the missions, the agents have to play roles in the group responsible for the social scheme. In this tutorial, we simply have defined a group with roles corresponding to the above missions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rv</code>: the agent playing this role is obliged to commit to the mission <code>print_vowel</code>.</p>
+</li>
+<li>
+<p><code>rl</code>: the role obliged to commit to the mission <code>print_l</code>.</p>
+</li>
+<li>
+<p><code>rc</code>: the role obliged to commit to the mission <code>print_consonant</code>.</p>
+</li>
+<li>
+<p><code>rs</code>: the role obliged to commit to the mission <code>print_special_chars</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In Moise notation:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./code/os-ss.png" alt="os ss" width="70%">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>1.</strong> To create an organisational specification, select <code>src/org/org.xml</code> and rename it to <code>o1.xml</code>. Open <code>o1.xml</code> and replace its content by this <a href="./code/helloworld/src/org/o1.xml">file</a>. It contains an XML representation of the above specification. Try to identify the roles, missions, and schemes in the file.</p>
+</div>
+<div class="paragraph">
+<p><strong>2.</strong> Based on this specification, the following code in the project file (<code>helloworld.jcm</code>) will create an organisation entity (i.e. agents within an organisation) where <code>francois</code> will play role <code>rv</code>, <code>maria</code> the role <code>rl</code>, <code>giacomo</code> the role <code>rc</code>, <code>alice</code> the role <code>rs</code> in the group <code>jacamo_team</code> which is of type <code>team</code>. This group is responsible for executing the social scheme <code>hello_eng</code> of type <code>hello_sch</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jacamoproject"><span></span>    organisation hello_org: o1.xml {     // the organisational entity is hello_org from spec o1.xml
+    	group jacamo_team: team {          // instance group (jacamo_team) from spec team
+    		responsible-for: hello_eng       // that will be responsible for the execution of scheme hello_sch (defined below)
+    		players: francois rv,            // the roles of the agents in this group
+    		         maria    rl,
+    		         giacomo  rc,
+    		         alice    rs
+    	}
+    	scheme hello_eng: hello_sch        // instance scheme (hello_eng) from spec hello_sch
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>3.</strong> On the agents side, we need to include in their code plans so that they are capable to achieve their organisational goals and fulfil their duties. Change <code>hello.asl</code> to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jasonagent"><span></span>+!print_h    : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;H&quot;)[artifact_id(ArtId)]; .wait(700).
++!print_e    : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;e&quot;)[artifact_id(ArtId)]; .wait(700).
++!print_l1   : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;l&quot;)[artifact_id(ArtId)]; .wait(700).
++!print_l2   : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;l&quot;)[artifact_id(ArtId)]; .wait(700).
++!print_l3   : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;l&quot;)[artifact_id(ArtId)]; .wait(700).
++!print_spc  : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot; &quot;)[artifact_id(ArtId)]; .wait(700).
++!print_w    : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;W&quot;)[artifact_id(ArtId)]; .wait(700).
++!print_o1   : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;o&quot;)[artifact_id(ArtId)]; .wait(700).
++!print_o2   : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;o&quot;)[artifact_id(ArtId)]; .wait(700).
++!print_r    : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;r&quot;)[artifact_id(ArtId)]; .wait(700).
++!print_d    : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;d&quot;)[artifact_id(ArtId)]; .wait(700).
++!print_excl : focused(jacamo,gui,ArtId) &lt;- printMsg(&quot;!&quot;)[artifact_id(ArtId)]; .wait(700).
+
+{ include(&quot;$jacamo/templates/common-cartago.asl&quot;) }
+{ include(&quot;$jacamo/templates/common-moise.asl&quot;) }
+{ include(&quot;$moise/asl/org-obedient.asl&quot;) }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As we can easily see, each organisational goal is achieved by a Jason plan. The plan discovers the artifact id of the common console and prints the corresponding letter there.  There is no more a <code>start</code> initial goal. All agent&#8217;s goals come from the roles they play in the organisation. It is also the organisation that controls when those goals could be achieved, and thus coordinate the agent&#8217;s actions as defined in the scheme.</p>
+</div>
+<div class="paragraph">
+<p>Briefly, the agent has a role as defined in the project file (the <code>organisation/group</code> entry). By playing a role in the group <code>jacamo_team</code> (the group responsible for the scheme <code>hello_eng</code>), the agent is obliged to commit to the corresponding mission. Since it is  obedient (it includes "org-obedient.asl"), it commits to the mission. As soon as the mission goals become enabled in the scheme, the agent is obliged to achieve them. Once obliged, the Jason plans are used to achieve the goals.</p>
+</div>
+<div class="paragraph">
+<p>Finally, the agents need to focus on the common artifact <code>gui</code> in the <code>jacamo</code> workspace as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jacamoproject"><span></span>    ...
+    agent francois : hello.asl {
+    	beliefs: message(&quot;Bonjour&quot;)
+    	focus: france.gui
+    	focus: italy.gui
+    	focus: jacamo.gui
+    }
+    agent maria    : hello.asl {
+    	beliefs: message(&quot;Bom dia&quot;)
+    	focus: brazil.gui
+    	focus: jacamo.gui
+    }
+    agent giacomo  : hello.asl {
+    	beliefs: message(&quot;Buon giorno&quot;)
+    	focus: italy.gui
+    	focus: jacamo.gui
+    }
+    agent alice    : hello.asl {
+    	beliefs: message(&quot;Good morning&quot;)
+    	focus: usa.gui
+    	focus: jacamo.gui
+    }
+
+    workspace jacamo {
+    	artifact gui: display.GUIConsole(&quot;common&quot;)
+    }
+    ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The complete project file is available <a href="./code/helloworld/helloworld.jcm">here</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>4.</strong> The result of the execution should be:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./screens/r4.png" alt="r4" width="60%">
+</div>
+</div>
+<div class="paragraph">
+<p>(the characters appears as expected!)</p>
+</div>
+<div class="paragraph">
+<p>You can use the Moise web interface to inspect the organisation at <a href="http://localhost:3271" class="bare">http://localhost:3271</a>) (by clicking on each of the groups, roles, schemes, etc you can inspect each of the elements of the organisation):</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./screens/oi3.png" alt="oi3" width="90%">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./screens/oi4.png" alt="oi4" width="100%">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_exercises_2">Exercises</h3>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Assign a role to your <code>bob</code> agent.</p>
+</li>
+<li>
+<p>Assign two roles to <code>bob</code>.</p>
+</li>
+<li>
+<p>In the file <code>o1.xml</code>, replace <code>&lt;plan operator="sequence"&gt;</code> by
+<code>&lt;plan operator="parallel"&gt;</code> and notice the difference in the execution.</p>
+</li>
+<li>
+<p>Keeping the same group and roles, create another scheme (goals,
+plans, and missions) to print another message. Extend also the agent
+code to handle the new goals.</p>
+</li>
+<li>
+<p>(<strong>hard</strong>) Create another <code>GUIConsole</code> instance to be used to print
+the message of the scheme you have developed in the previous exercise.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><em>Hint</em>: The organisational goals are annotated with the scheme that
+has produced it. For instance, a plan like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="jasonagent"><span></span>+!print_h[scheme(S)]   &lt;- ....</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>will have in the variable <code>S</code> the scheme identifier (e.g. <code>hello_eng</code>).
+The value of this variable can be used to select the proper console.</p>
+</div>
+<div class="paragraph">
+<p><em>Solutions</em>: available <a href="./solutions/e3e.txt">here</a> and
+<a href="./solutions/e3e-version2.txt">here</a>.</p>
+</div>
+<hr>
+<div class="paragraph">
+<p>You find</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>all the files of this tutorial <a href="./code/helloworld.zip">here</a>.</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. In this simple example, we decided to have only one artifact by workspace&#8201;&#8212;&#8201;this decision is based on the objective of this tutorial. Of course, workspaces can contain several artifacts and we could also group artifacts in less workspaces.
+</div>
+<div class="footnote" id="_footnotedef_2">
+<a href="#_footnoteref_2">2</a>. Every JaCaMo agent has beliefs like <code>focused</code> (as you can see at <a href="http://localhost:3272" class="bare">http://localhost:3272</a>) that store the artifact id of the artifacts the agent is focusing on (as defined in its <code>agent</code> declaration).
+</div>
+<div class="footnote" id="_footnotedef_3">
+<a href="#_footnoteref_3">3</a>. Imagine how to code this coordination of decentralised processes in your preferred language.
+</div>
+<div class="footnote" id="_footnotedef_4">
+<a href="#_footnoteref_4">4</a>. Some goals could initially seem strange, like <code>print_l1</code>, <code>print_l2</code>, and <code>print_l3</code>. However, we really need 3 goals for the "l"s, because they represent different tasks from the coordination point of view, they should be executed at different moments.
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2025-04-07 17:45:11 UTC
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+mas auction_ag {
+
+    agent bob: timeout_auctioneer.asl
+
+    agent alice   : participant.asl
+    agent maria   : participant.asl
+    agent francois: participant.asl
+    agent giacomo : winner_participant2.asl
+
+    //platform: jade()
+}
+

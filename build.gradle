@@ -13,7 +13,7 @@ defaultTasks 'jar'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 
-version '1.3.0'
+version '1.3.1-SNAPSHOT'
 group   'org.jacamo'
 
 java {
@@ -34,7 +34,6 @@ sourceSets {
 repositories {
     mavenCentral()
 
-    //maven { url "http://jacamo.sourceforge.net/maven2/" }
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
     maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     //maven { url "https://jade.tilab.com/maven/" }
@@ -60,7 +59,7 @@ dependencies {
 
     //api('net.sf.ingenias:jade:4.3')
 
-    api ('org.jacamo:jacamo-rest:0.7') {
+    api ('org.jacamo:jacamo-rest:0.9-SNAPSHOT') {
          exclude group: 'org.jacamo', module: 'jacamo'
     }
 
@@ -239,6 +238,8 @@ publishing {
 
 
 task publishMavenGitHub(dependsOn: [ 'build', 'publishToMavenLocal']) {
+  group = "publishing"
+
   doLast {
     def wdir = System.getProperty("user.home")+'/.m2/repository/org/jacamo/jacamo'
     def rdir = '../jacamo-mvn-repo'

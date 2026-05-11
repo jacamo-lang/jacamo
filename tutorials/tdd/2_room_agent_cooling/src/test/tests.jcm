@@ -1,0 +1,17 @@
+// project used to run the test manager agent
+
+
+mas tests {
+
+    agent test_manager {
+          goals:   create_tester_agents("./src/test/agt",".*.asl")
+          beliefs: shutdown_delay(600)
+    }
+
+    asl-path: "."
+              "src/agt"
+              "src/agt/inc"
+              "src/test/agt"
+              "src/test/inc"
+              "$jasonJar/test/jason/inc"
+}

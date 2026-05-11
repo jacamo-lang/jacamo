@@ -1,0 +1,77 @@
+/*
+   Application Hello World
+
+   Gradle build file for JaCaMo Application
+*/
+
+defaultTasks 'grid'
+
+apply plugin: 'java'
+
+version '1.0'
+group   'org.jacamo'
+
+repositories {
+    mavenCentral()
+    maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases" }
+}
+
+dependencies {
+    implementation group: 'org.jacamo',     name: 'jacamo' ,   version: '1.2'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/env'
+            srcDir 'src/agt'
+            srcDir 'src/org'
+            srcDir 'src/int'
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+}
+
+task run (type: JavaExec, dependsOn: 'classes') {
+    description 'runs the Hello World application based on organisation'
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
+    args 'helloworld.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task grid (type: JavaExec, dependsOn: 'classes') {
+    description 'the environment has a improved display'
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
+    args 'helloworld-grid.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task europe (type: JavaExec, dependsOn: 'classes') {
+    description 'runs part of the application on host europe'
+    group ' JaCaMo'
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
+    args 'europe.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task america (type: JavaExec, dependsOn: 'classes') {
+    description 'runs part of the application on host america'
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
+    args 'america.jcm'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+task buildJCMDeps (type: JavaExec, dependsOn: 'classes') {
+    mainClass = 'jacamo.infra.RunJaCaMoProject'
+    args = ['helloworld.jcm', '--deps']
+    classpath sourceSets.main.runtimeClasspath
+}
+
+clean {
+    delete 'bin'
+    delete 'build'
+}

@@ -23,7 +23,7 @@ A central entity to this scenario is the [Node-RED](https://nodered.org/), an in
 ## Steps to execute
 
 ```
-docker-compose up
+docker compose up
 ```
 
 It starts the NodeRed and the JaCaMo application, both based on available Docker images. The sources of the JaCaMo application are placed in the folder `app_jacamo`.

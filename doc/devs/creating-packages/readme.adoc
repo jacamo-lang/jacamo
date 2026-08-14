@@ -24,7 +24,7 @@ NOTE: if you want to transform an existing  JaCaMo project into a package, see x
 
 = What You Need
 
-* Java 17 or newer
+* Java 21 or newer
 * A shell terminal
 * A text editor (Visual Studio Code, Notepad, ...)
 * GitHub account where the package will be published
@@ -33,7 +33,7 @@ NOTE: if you want to transform an existing  JaCaMo project into a package, see x
 = JaCaMo package development
 
 
-1. Create a new project called `jcm-hello` into your GitHub account. Since my user name is `jomifred`, in the sequence, replace it by your user name.  
+1. Create a new empty project called `jcm-hello` into your GitHub account. Since my user name is `jomifred`, in the sequence, replace it by your user name.  
 
 1. Clone the project:
 +
@@ -44,8 +44,8 @@ git clone https://github.com/jomifred/jcm-hello.git
 1. Create a new JaCaMo application placing the files in the directory of the local copy of the GitHub repository:
 +
 ----
-wget -q http://jacamo-lang.github.io/jacamo/nps/npss.zip
-unzip npss.zip
+wget -q http://jacamo-lang.github.io/jacamo/nps/np1.3.zip
+unzip np1.3.zip
 ./gradlew -Dexec.args="jcm-hello --console" --refresh-dependencies
 ----
 
@@ -56,7 +56,7 @@ cd jcm-hello
 git add gradle* log* build.gradle
 ----
 
-1. Create the an artifact to show messages in a GUI
+1. Create an artifact to show messages in a GUI
 +
 Download the code of the artifact fom link:./GridDisplay.java[here] and place it at `src/env/display`. The following commands do that:
 +
@@ -145,8 +145,8 @@ image:./figs/s1.png[release,500]
 Create a new JaCaMo application:
 
 ----
-wget -q http://jacamo-lang.github.io/jacamo/nps/npss.zip
-unzip npss.zip
+wget -q http://jacamo-lang.github.io/jacamo/nps/np1.3.zip
+unzip np1.3.zip
 ./gradlew -Dexec.args="test-hello --console"
 ----
 

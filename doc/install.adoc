@@ -6,20 +6,14 @@ We have different options to start using JaCaMo: shell script commands, Gradle, 
 The shell script option requires that you download and install JaCaMo in your machine.
 Since these options do not include an IDE, you can either import the project into an Eclipse/IntelliJ/.... workspace or use some text editor (we suggest VSCode).
 
-== GitHub codespace / GitPod
+== GitHub codespace
 
-With GitHub codespace or GitPod you can develop your MAS using only a browser.
+With GitHub codespace you can develop your MAS using only a browser.
 
 Requirements:
 
 - A GitHub account
 - A browser (Chrome and Safari works fine)
-
-Steps for GitPod:
-
-1. click on link:https://gitpod.io/#https://github.com/jacamo-lang/template[this link].
-
-2. Run the MAS with the command `./gradlew run` in the terminal.
 
 Steps for codespace:
 

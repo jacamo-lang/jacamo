@@ -3,7 +3,7 @@
 rm *.zip
 
 cd jacamo-project-1.3
-rm -rf .gradle
+rm -rf .gradle build 
 zip -r ../np1.3.zip *
 cd ..
 

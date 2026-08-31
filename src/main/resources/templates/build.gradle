@@ -11,6 +11,12 @@ plugins {
     id 'maven-publish'
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 defaultTasks 'run'
 
 apply from: '.jcm-deps.gradle' // this file contains dependencies declared in the .jcm files

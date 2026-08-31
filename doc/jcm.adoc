@@ -140,7 +140,7 @@ workspace w1 {
 <sid>           ::= debug | owner
 ------
 
-=== Example of organisations configuration
+=== Example of organisation configuration
 
 [source,jacamoproject]
 ------
@@ -171,6 +171,22 @@ organisation o1 : os.xml {   // os.xml is the file with the organisational speci
     scheme s1 : wpscheme
 }
 ------
+
+=== Example of Institution configuration (Count-As rules)
+
+[source,jacamoproject]
+------
+   institution bh:constitutive.sai { // the .sai file contains the count-as rules
+       workspaces: wsp_auction // the source of brute facts
+   }
+ 
+ 
+   organisation ora4mas : house-os.xml {
+       situated: bh // the organisation is situated in the institution bh
+    }
+------
+
+An running example is https://github.com/artificial-institutions/sai/tree/master/examples/house_building_sai_nopl[here].
 
 == Execution configuration
 

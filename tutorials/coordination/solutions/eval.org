@@ -1,0 +1,39 @@
+#+TITLE:    Comparison of the different solutions for coordination
+#+AUTHOR:   Jason Team
+#+EMAIL:
+
+
+Some comparison criteria:
+     - what is the basic coordination mechanism?
+     - is the coordination inside or outside the agents? Inside => to change the protocol, the code of all agents need to be changed
+     - what does the agent need to know before to participate? (language, architecture)?
+     - how to find other agents?
+     - is the protocol explicitly described somewhere for the agents to "learn" the protocol?
+     - is it centralized?
+     - what is the performance?
+
+| oriented to  | mechanism                   | coordination | requirements | acquaintances | explicit protocol | centralized | performance                       |
+|--------------+-----------------------------+--------------+--------------+---------------+-------------------+-------------+-----------------------------------|
+| agent        | ACL - simple                | inside       | ACL          | YP            | no                | no          | /2p + p^2/ messages[fn:3]         |
+| environment  | action/perception - simpler | mixed[fn:2]  | Cartago      | YP            | no                | no[fn:1]    | /2+p/ actions + /p^2/ perceptions |
+| organization | schemes - complex           | outside      | Moise        | by roles      | yes               | no[fn:1]    | idem env                          |
+|              |                             |              |              |               |                   |             | + org actions + org perception    |
+|              |                             |              |              |               |                   |             |                                   |
+
+
+Remark: the organization is better for open systems, however it costs something (complexity of the application and performance).
+
+ACL = Agent Communication Language
+YP  = Yellow pages
+
+p   = number of participants
+
+
+
+[fn:1] several artifacts, one for each auction
+[fn:2] the agents still need to know *when* to bid, but some rules of the protocol can be externalized in the artifact
+[fn:3] /p/ announce messages, /p/ winner messages (so /2p/), /p/ bids to all participants (so /p^2/)
+
+
+-------
+

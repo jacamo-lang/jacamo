@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>OEOP Tutorial @ EASSS 2011</title>
+<!-- 2016-06-08 Wed 19:31 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="JaCaMo Team" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../jcm.css" />
+
+<script type="text/javascript" src="http://orgmode.org/org-info.js">
+/**
+ *
+ * @source: http://orgmode.org/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in http://orgmode.org/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in http://orgmode.org/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "3");
+org_html_manager.set("LINK_HOME", "");
+org_html_manager.set("LINK_UP", "");
+org_html_manager.set("LOCAL_TOC", "0");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "1");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "showall");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">OEOP Tutorial @ EASSS 2011</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Part I Programming Agent &amp; Environment</a>
+<ul>
+<li><a href="#sec-1-1">Exercise 1(a)</a></li>
+<li><a href="#sec-1-2">Exercise 1(b)</a></li>
+<li><a href="#sec-1-3">Exercise 2</a>
+<ul>
+<li><a href="#sec-1-3-1"><b>Things to try</b></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-2">Part II Programming Agent &amp; Organisation</a>
+<ul>
+<li><a href="#sec-2-1">Exercise 1(a)</a></li>
+<li><a href="#sec-2-2">Homework 1</a></li>
+<li><a href="#sec-2-3">Homework 2</a>
+<ul>
+<li><a href="#sec-2-3-1"><b>Things to try</b></a></li>
+</ul>
+</li>
+<li><a href="#sec-2-4">Homework 3</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Part I Programming Agent &amp; Environment</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Exercise 1(a)</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Edit <code>src/java/tools/AuctionArt.java</code> and change the <code>init</code> method to:
+</p>
+
+<pre class="example">
+@OPERATION public void init(String taskDs, int maxValue)  {
+    // observable properties
+    defineObsProperty("task",          taskDs);
+    defineObsProperty("maxValue",      maxValue);
+    defineObsProperty("currentBid",    maxValue);
+    defineObsProperty("currentWinner", "no_winner");
+    defineObsProperty("state",         "open");     /***** add this line *****/
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Exercise 1(b)</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+In the AuctionArt, add the following <b>operation</b>
+</p>
+
+<pre class="example">
+@OPERATION public void clearAuction() {
+    getObsProperty("state").updateValue("closed");
+}
+</pre>
+
+<p>
+and change the bid operation as follows:
+</p>
+<pre class="example">
+@OPERATION public void bid(double bidValue) {
+    if (getObsProperty("state").getValue().equals("closed")) {
+        return;
+    }
+    ....
+</pre>
+
+<p>
+Since agents don't know when the auction finishes, it could be nice
+if they only bid if the auction is still open. For that change the
+context of the plans to verify the state of the auction. For
+instance, companyA's code becomes:
+</p>
+
+<pre class="example">
++currentBid(V)[artifact_id(Art)]        // there is a new value for current bid
+   : not i_am_winning(Art)  &amp;           // I am not the current winner
+     my_price(P) &amp; P &lt; V &amp;              // I can offer a better bid
+     state("open")[artifact_id(Art)]    // the acution is still open /**** this line ****/
+  &lt;- bid( P ).                          // place my bid offering a cheaper service
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Exercise 2</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+In <code>giacamo.asl</code>, after showing the winners, close the auctions:
+</p>
+<pre class="example">
++!show_winners
+  &lt;- for ( currentWinner(Ag)[artifact_id(ArtId)] ) {
+        ?currentBid(Price)[artifact_id(ArtId)]; // check the current bid
+        ?task(Task)[artifact_id(ArtId)];          // and the task it is for
+        .print("Winner of task ", Task," is ", Ag, " for ", Price);
+        clearAuction[artifact_id(ArtId)]             /**** add this line ****/
+     }.
+</pre>
+</div>
+
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><b>Things to try</b></h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ol class="org-ol">
+<li>After running the system, click on Jason Debug to open the mind
+inspector. Then select giacomo and check the new observable
+property.
+
+
+<div class="figure">
+<p><img src="screens/s1.png" alt="s1.png" />
+</p>
+</div>
+</li>
+
+<li>To create an agent that tries to bid when the auction is
+closed. You can change the code of companyD for that:
+</li>
+</ol>
+<pre class="example">
+...
+!discover_art("auction_for_ElectricalSystem").
+!discover_art("auction_for_Painting").
+
+!bid_later.                           /*** from here ***/
+
++!bid_later
+   &lt;- .wait(20000);
+      ?task(S)[artifact_id(Art)];
+      .print("** bid 1 for ",S);
+      bid( 1 )[artifact_id(Art)].
+                                     /*** to here ***/
+
++task(S)[artifact_id(Art)]
+...
+</pre>
+
+<p>
+You will note that the currentValue of the auction is not
+changed. But, no error is produced in the action. To fail the
+action, change the operation to:
+</p>
+
+<pre class="example">
+@OPERATION public void bid(double bidValue) {
+    if (getObsProperty("state").getValue().equals("closed")) {
+        failed("auction closed!");        /**** this line fails the action ****/
+        return;
+    }
+    ...
+</pre>
+
+<p>
+In the Jason side, you can catch that error adding the plan:
+</p>
+<pre class="example">
+-!bid_later[error_msg(Msg)]
+  &lt;- .print("Failed to bid due to: ",Msg).
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Part II Programming Agent &amp; Organisation</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Exercise 1(a)</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Change the lines:
+</p>
+<pre class="example">
+&lt;goal id="site_prepared"    ttf="20 minutes" ds="prepare the site for the next tasks"/&gt;
+&lt;goal id="floors_laid"      ttf="25 minutes" /&gt;
+</pre>
+
+<p>
+To:
+</p>
+<pre class="example">
+&lt;goal id="site_and_floor"&gt;
+  &lt;plan operator="parallel"&gt;
+     &lt;goal id="site_prepared"    ttf="20 minutes" ds="prepare the site for the next tasks"/&gt;
+     &lt;goal id="floors_laid"      ttf="25 minutes" /&gt;
+  &lt;/plan&gt;
+&lt;/goal&gt;
+</pre>
+
+<p>
+During the execution, you will note that the order these goals are
+achieved may interleave. To better observe that, change the code to
+achieve the goals (<code>org_goals.asl</code>) as follows and observe the order of
+achievement in the execution.
+</p>
+
+<pre class="example">
++!site_prepared      // the goal (introduced by the organisational obligation)
+  &lt;- .wait(3000);   // **** this line: delay the achievement of the goal ****
+     prepareSite. // simulation of the action (in GUI artifact)
+
++!floors_laid                   &lt;- .wait(3000); layFloors.
+.....
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Homework 1</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+In the code of Giacomo, add the following line:
+</p>
+
+<pre class="example">
+makeArtifact("hsh_group","ora4mas.nopl.GroupBoard",["src/house-os.xml", house_group ],GrArtId);
+adoptRole(house_owner)[artifact_id(GrArtId)];
+adoptRole(roofer)[artifact_id(GrArtId)];                   /**** add this line ****/
+focus(GrArtId);
+</pre>
+
+<p>
+The operation <code>adoptRole</code> fails since the roles are not compatible.
+</p>
+
+<p>
+<b>Obs.</b>: the current version of ORA4MAS doesn't control if the agent
+adopting the role is the one that was supposed to. In our application,
+if an agent adopts all companies' role, even without winning auctions,
+no error will be produced.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Homework 2</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+The following code changes the way companyD achieves the goal <code>site_prepared</code>
+</p>
+
+<pre class="example">
+...
++!site_prepared &lt;-
+   .wait(10000);
+   .print("I don't want to do that!");
+   .fail.
+
+{ include("org_code.asl") }
+{ include("org_goals.asl") }
+</pre>
+</div>
+
+<div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1"><b>Things to try</b></h4>
+<div class="outline-text-4" id="text-2-3-1">
+<ol class="org-ol">
+<li>See the normative state of the scheme when the agent doesn't fulfil the goal:
+
+
+<div class="figure">
+<p><img src="screens/s2.png" alt="s2.png" />
+</p>
+</div>
+
+<p>
+(you can reduce the TTF for the goal <code>site_prepared</code> in the
+organisational specification to easily see what happens after TTF).
+</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">Homework 3</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Giacomo can create new intention to handle the case of some goal being
+unfulfilled by plans like the following:
+</p>
+
+<pre class="example">
+// signal produced by organisational artifacts
++oblUnfulfilled( obligation(Ag,Reason,Goal, Deadline) )
+   &lt;- .print("We cannot trust on ",Ag,", it will be punished!");
+      .kill_agent(Ag).
+</pre>
+
+<p>
+Normative state after deadline (note the obligation's state change):
+</p>
+
+
+<div class="figure">
+<p><img src="screens/s3.png" alt="s3.png" />
+</p>
+</div>
+
+<p>
+Example of the result of the execution:
+</p>
+
+<pre class="example">
+...
+[companyD9] I don't want to do that!
+[companyD9] No failure event was generated for +!site_prepared[scheme("bhsch"),source(self)]
+[giacomo] We cannot trust on companyD9, it will be punished!
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: July 2011</p>
+<p class="author">Author: JaCaMo Team</p>
+<p class="email">Email: <a href="mailto:http://jacamo.sf.net">http://jacamo.sf.net</a></p>
+<p class="date">Created: 2016-06-08 Wed 19:31</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.4.51.2 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

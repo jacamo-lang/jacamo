@@ -1,0 +1,40 @@
+/*
+
+    JaCaMo Project File
+    for Hello World tutorial
+
+    This file defines the initial state of the MAS
+    (initial agents, environment, organisation, ....)
+
+*/
+
+mas helloworld {
+
+    agent francois : hello-grid.asl {
+        focus: jacamo.gui
+    }
+    agent maria    : hello-grid.asl {
+        focus: jacamo.gui
+    }
+    agent giacomo  : hello-grid.asl {
+        focus: jacamo.gui
+    }
+    agent alice    : hello-grid.asl {
+        focus: jacamo.gui
+    }
+
+    workspace jacamo {
+        artifact gui: display.GridDisplay("common")
+    }
+
+    organisation hello_org: o1.xml {       // the organisational entity is hello_org from spec o1.xml
+        group jacamo_team: team {          // instance group (jacamo_team) from spec team
+            responsible-for: hello_eng     // that will be responsible for the execution of scheme hello_sch (defined below)
+            players: francois rv,          // the roles of the agents in this group
+                     maria    rl,
+                     giacomo  rc,
+                     alice    rs
+        }
+        scheme hello_eng: hello_sch       // instance scheme (hello_eng) from spec hello_sch
+    }
+}

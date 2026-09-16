@@ -1,0 +1,16 @@
+Add into the project file:
+
+    agent exercise3c : participant.asl {
+        roles: participant in agrp
+               auctioneer  in agrp
+    }
+
+The execution produces the following error:
+
+...
+normative failure, details: fail(role_cardinality(auctioneer,"agrp",2,1))
+    at npl.NPLInterpreter.verifyNorms(NPLInterpreter.java:250)
+
+...
+
+There could not be two auctioneers, as defined in the role carnality.

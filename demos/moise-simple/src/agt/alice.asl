@@ -62,12 +62,11 @@ for that, 3 roles are defined:
       addNorm(obligation,r3,e);
 
       adoptRole(r2); // alice adopts role r2, which is obliged to commit to goals b and d
-
    .
 
-// plans for the tasks alocated to alice (b and d)
+// plans for the tasks allocated to alice (b and d)
 
-+!b <- .wait(1000); .print("doing goal b"); .wait(1000). // triggered by obligation based on the commitment to g1
++!b <- .wait(1000); .print("doing goal b"); .wait(1000). // triggered by obligation of role r2
 +!d <- .print("doing goal d");  .wait(1000).
 
 /*+goalState(s1,g2,_,_,satisfied)

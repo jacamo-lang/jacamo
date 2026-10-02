@@ -1,0 +1,15 @@
+/*
+    this demo illustrates Moise Simple
+
+    for coordination, using commitment of agents to goals and norms
+
+    see alice.asl for more details
+*/
+
+mas demo_moise_simple {
+
+    agent alice
+    agent bob
+    agent tom
+
+}

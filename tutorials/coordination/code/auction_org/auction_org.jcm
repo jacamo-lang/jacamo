@@ -1,0 +1,19 @@
+mas auction_org {
+
+    agent bob     : auctioneer.asl
+
+    agent alice   : participant.asl
+    agent maria   : participant.asl
+    agent francois: participant.asl
+    agent giacomo : participant.asl
+
+    organisation aorg : auction-os.xml {
+        group agrp : auctionGroup {
+            players: bob      auctioneer
+                     alice    participant
+                     maria    participant
+                     francois participant
+                     giacomo  participant
+        }
+    }
+}

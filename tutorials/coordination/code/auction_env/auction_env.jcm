@@ -1,0 +1,32 @@
+/*
+
+    JaCaMo Project File
+
+    Auction example using Environment (AuctionArtifact)
+
+*/
+
+mas auction_env {
+
+    agent bob     : auctioneer.asl {
+        goals: start(a1,"flight_ticket(paris,athens,15/12/2015)")
+               start(a2,"flight_ticket(athens,paris,18/12/2015)")
+    }
+
+    agent alice   : participant.asl
+    agent maria   : participant.asl
+    agent francois: participant.asl
+    agent giacomo : participant.asl
+
+    workspace market_place {
+        agents: bob, alice, maria, francois, giacomo // these agents will join the workspace
+
+        /* // the artifact is now created by bob on demand (one for each start goal)
+        artifact auction1 : auction_env.AuctionArtifact() {
+            focused-by: bob, alice, maria, francois, giacomo
+        }
+        */
+    }
+
+    //platform: jade()
+}

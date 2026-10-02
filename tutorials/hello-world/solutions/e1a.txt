@@ -1,0 +1,12 @@
+msg(fr,"bonjour").
+msg(br,"bom dia").
+msg(it,"Buon giorno").
+msg(us,"Good morning").
+
+!start.
+
++!start : country(C) & msg(C,M) <- .print(M).
+
+{ include("$jacamo/templates/common-cartago.asl") }
+{ include("$jacamo/templates/common-moise.asl") }
+{ include("$moise/templates/org-obedient.asl") }

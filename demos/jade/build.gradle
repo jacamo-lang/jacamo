@@ -1,5 +1,5 @@
 /*
-   example: writting paper
+   example: writing paper
 
    Gradle build file for JaCaMo Application
    September 27, 2018 - 15:33:36
@@ -18,7 +18,6 @@ repositories {
 
     maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
     maven { url "https://repo.gradle.org/gradle/libs-releases" }
-
 }
 
 dependencies {

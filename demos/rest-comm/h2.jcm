@@ -8,8 +8,6 @@ mas bob_mas {
 
     agent bob
 
-
     platform: jacamo.rest.JCMRest("--connect http://localhost:8080 --rest-port 8081")
-    //platform: jade("-container -host localhost -container-name c2")
 
 }

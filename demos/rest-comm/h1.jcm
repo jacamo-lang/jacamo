@@ -9,5 +9,4 @@ mas alice_mas {
     }
 
     platform: jacamo.rest.JCMRest("--rest-port 8080")
-    //platform: jade("-gui -sniffer")
 }

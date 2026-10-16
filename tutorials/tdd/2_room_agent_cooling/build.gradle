@@ -1,0 +1,163 @@
+/*
+   Project tdd_tutorial
+
+   Gradle build file for JaCaMo Applications
+   September 02, 2022 - 21:06:39
+*/
+
+defaultTasks 'run'
+
+apply plugin: 'java'
+
+version '1.0'
+group   'org.jacamo'
+
+
+repositories {
+    mavenCentral()
+    maven { url "https://raw.githubusercontent.com/jacamo-lang/mvn-repo/master" }
+    maven { url "https://repo.gradle.org/gradle/libs-releases" }
+
+    //maven { url "http://jacamo.sourceforge.net/maven2" }
+    //maven { url "https://jade.tilab.com/maven/" }
+
+    flatDir { dirs 'lib' }
+}
+
+dependencies {
+    implementation('org.jacamo:jacamo:1.2-SNAPSHOT')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/env'
+            srcDir 'src/agt'
+            srcDir 'src/org'
+            srcDir 'src/int'
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+}
+
+task run (type: JavaExec, dependsOn: 'classes') {
+    group       ' JaCaMo'
+    description 'runs the JaCaMo application'
+    doFirst {
+        mkdir 'log'
+    }
+    mainClass = 'jacamo.infra.JaCaMoLauncher'
+    args 'tdd_tutorial.jcm'
+    // jvmArgs '-Xss15m'
+    classpath sourceSets.main.runtimeClasspath
+}
+
+
+task uberJar(type: Jar, dependsOn: 'classes') {
+    group      ' JaCaMo'
+    description 'creates a single runnable jar file with all dependencies'
+    duplicatesStrategy 'exclude'
+
+    manifest {
+        attributes 'Main-Class': 'jacamo.infra.JaCaMoLauncher'
+    }
+    archiveBaseName = 'jacamo-tdd_tutorial' // the name must start with jacamo so that jacamo...jar is found in the classpath
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from (project.projectDir.absolutePath) {
+        include '**/*.asl'
+        include '**/*.xml'
+        include '**/*.sai'
+        include '**/*.ptl'
+        include '**/*.jcm'
+        include '*.properties'
+    }
+    from (project.buildDir.absolutePath + '/jcm') {
+        include '**/*'
+    }
+    with jar
+
+    doFirst {
+        copy {
+            from 'tdd_tutorial.jcm'
+            rename 'tdd_tutorial.jcm','default.jcm'
+            into project.buildDir.absolutePath + '/jcm'
+        }
+    }
+}
+
+
+task testJaCaMo {
+    description 'runs JaCaMo tests'
+    def errorOnTests = false
+    outputs.upToDateWhen { false } // disable cache
+    def tempOut = new ByteArrayOutputStream()
+    def tempErr = new ByteArrayOutputStream()
+
+    doFirst {
+        try {
+            javaexec {
+                main = 'jacamo.infra.JaCaMoLauncher'
+                if (gradle.startParameter.logLevel.toString().equals("DEBUG")) {
+                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-debug-logging.properties']
+                } else if (gradle.startParameter.logLevel.toString().equals("INFO")) {
+                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-info-logging.properties']
+                } else {
+                    args = ['src/test/tests.jcm', '--log-conf', '$jasonJar/templates/console-lifecycle-logging.properties']
+                }
+                classpath sourceSets.main.runtimeClasspath
+
+                standardOutput = new org.apache.tools.ant.util.TeeOutputStream(System.out, tempOut);
+                errorOutput = new org.apache.tools.ant.util.TeeOutputStream(System.err, tempErr);
+                
+                ext.stdout = {
+                    return tempOut.toString()
+                }
+                ext.errout = {
+                    return tempErr.toString()
+                }                
+            }
+        } catch (Exception e) {
+            errorOnTests = true
+        }
+    }
+
+    doLast {
+        def styler = 'black red green yellow blue magenta cyan white'
+            .split().toList().withIndex(30)
+            .collectEntries { key, val -> [(key) : { "\033[${val}m${it}\033[0m" }] }
+
+        def std = stdout()
+        std.splitEachLine('\n') { String line ->
+            line = line.replace("TESTING","${styler['yellow']('TESTING')}")
+            line = line.replace("PASSED","${styler['green']('PASSED')}")
+            line = line.replace("FAILED","${styler['red']('FAILED')}")
+            line = line.replace("TODO","${styler['magenta']('TODO')}")
+            line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
+            println line
+        }
+        
+        def err = errout()
+        err.splitEachLine('\n') { String line ->
+            line = line.replace("TESTING","${styler['yellow']('TESTING')}")
+            line = line.replace("PASSED","${styler['green']('PASSED')}")
+            line = line.replace("FAILED","${styler['red']('FAILED')}")
+            line = line.replace("TODO","${styler['magenta']('TODO')}")
+            line = line.replace("LAUNCHING","${styler['blue']('LAUNCHING')}")
+            println line
+        }
+
+        if (errorOnTests) {
+            throw new GradleException('JaCaMo tests: ERROR!')
+        }
+    }
+}
+tasks.test.finalizedBy testJaCaMo
+
+clean {
+    delete 'bin'
+    delete 'build'
+    delete 'log'
+}
